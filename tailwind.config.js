@@ -11,8 +11,13 @@ export default {
       button_hover: '#004aad',
       m_background: '#d9d9d9',
       underline: '#333333'
-    },},
+    },
+    fontFamily: {
+      sans: ['Roboto', 'sans-serif'],
+    },
   },
-  plugins: [],
+},
+plugins: [],
 }
+
 
