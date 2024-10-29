@@ -9,3 +9,15 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+
+@layer utilities {
+  .store_box {
+    @apply border-underline h-[540px] w-[340px] rounded-lg border border-opacity-20 bg-white shadow-xl;
+  }
+}
+
+@layer utilities {
+  .social_button {
+    @apply h-[60px] w-[620px] text-xl font-medium;
+  }
+}
