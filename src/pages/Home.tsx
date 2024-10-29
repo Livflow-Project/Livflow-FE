@@ -1,3 +1,4 @@
+import Footer from '../components/Layout/Footer';
 import Start_Btn from '../components/Start_Btn';
 
 const Home = () => {
@@ -5,6 +6,7 @@ const Home = () => {
     <>
       <div className='bg-slate-600'>Home</div>
       <Start_Btn />
+      <Footer />
     </>
   );
 };
