@@ -12,7 +12,7 @@ const Login = () => {
       </Link>
       <div className='flex flex-col items-center justify-center gap-5'>
         <button
-          className='text-main h-[60px] w-[620px] text-xl font-medium'
+          className='text-main social_button'
           style={{
             backgroundImage: `url(${Kakao})`,
           }}
@@ -20,7 +20,7 @@ const Login = () => {
           카카오 로그인
         </button>
         <button
-          className='h-[60px] w-[620px] text-xl font-medium text-white'
+          className='social_button text-white'
           style={{
             backgroundImage: `url(${Naver})`,
           }}
@@ -28,7 +28,7 @@ const Login = () => {
           네이버 로그인
         </button>
         <button
-          className='text-main h-[60px] w-[620px] text-xl font-medium text-opacity-50 shadow-md'
+          className='text-main social_button text-opacity-50 shadow-md'
           style={{
             backgroundImage: `url(${Google})`,
           }}
