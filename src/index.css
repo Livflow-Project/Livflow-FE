@@ -21,3 +21,9 @@ body {
     @apply h-[60px] w-[620px] text-xl font-medium;
   }
 }
+
+@layer utilities {
+  .choice_button {
+    @apply bg-button hover:bg-button_hover h-[34px] w-[96px] self-center rounded-2xl text-xl text-white;
+  }
+}
