@@ -1,10 +1,11 @@
 import Map_Icon from '../assets/Map_Icon.svg';
+import PieChart from './PieChart';
 import Store_Icon from '../assets/Store_Icon.svg';
 
 const My_Store = () => {
   return (
     <div className='store_box'>
-      <div className='border-underline border-b border-opacity-20 p-[22px]'>
+      <div className='border-underline border-b border-opacity-20 p-[20px]'>
         <ul className='flex flex-col gap-6'>
           <li className='flex items-center justify-between'>
             <img src={Store_Icon} alt='상점 아이콘' className='w-[30px]' />
@@ -27,7 +28,7 @@ const My_Store = () => {
         </ul>
       </div>
       <div
-        className='flex flex-col items-center justify-between px-[17px] pb-[40px] pt-[17px]'
+        className='flex flex-col items-center justify-between p-[20px]'
         style={{ height: 'calc(100% - 128px)' }}
       >
         <div className='flex w-[100%] justify-between'>
@@ -38,8 +39,11 @@ const My_Store = () => {
             수입
           </button>
         </div>
-        <div className='text-caption text-xl font-medium'>
+        {/* <div className='text-caption text-xl font-medium'>
           입력된 지출이 없습니다.
+        </div> */}
+        <div className='h-full max-h-[270px]'>
+          <PieChart />
         </div>
         <button className='choice_button'>선택</button>
       </div>
