@@ -23,6 +23,30 @@ body {
 }
 
 @layer utilities {
+  .soft_TcolorSet {
+    @apply text-primary/50 hover:text-primary_hover;
+  }
+}
+
+@layer utilities {
+  .deep_TcolorSet {
+    @apply text-primary hover:text-primary_hover;
+  }
+}
+
+@layer utilities {
+  .soft_BcolorSet {
+    @apply bg-button/50 hover:bg-button_hover;
+  }
+}
+
+@layer utilities {
+  .deep_BcolorSet {
+    @apply bg-button hover:bg-button_hover;
+  }
+}
+
+@layer utilities {
   .choice_button {
     @apply bg-button hover:bg-button_hover h-[34px] w-[96px] self-center rounded-2xl text-xl text-white;
   }
@@ -31,5 +55,12 @@ body {
 @layer utilities {
   .delete_button {
     @apply bg-red/70 hover:bg-red h-[34px] w-[96px] self-center rounded-2xl text-xl text-white;
+  }
+}
+
+@layer utilities {
+  .no_hover {
+    pointer-events: none;
+    @apply text-gray-400/50;
   }
 }
