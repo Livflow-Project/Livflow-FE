@@ -78,7 +78,7 @@ const Add_Store = () => {
                     >
                       스토어 이름
                     </label>
-                    <span className='absolute -right-1.5 -top-1 text-red-500'>
+                    <span className='text-red absolute -right-1.5 -top-1'>
                       *
                     </span>
                   </div>
