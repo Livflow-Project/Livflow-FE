@@ -1,6 +1,5 @@
 import Add_Store from '../components/Add_Store';
 import My_Store from '../components/My_Store';
-import { useState } from 'react';
 import useUsers_Store from '../Store/useUsers_Store';
 
 const Store = () => {
@@ -19,7 +18,7 @@ const Store = () => {
           </span>
           {stores.length !== 0 ? (
             <button
-              className='text-red text-lg'
+              className='text-red text-lg hover:font-semibold'
               onClick={handleDeleteModeToggle}
             >
               {isDeleteMode ? '취소하기' : '삭제하기'}
