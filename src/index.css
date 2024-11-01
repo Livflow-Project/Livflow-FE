@@ -27,3 +27,9 @@ body {
     @apply bg-button hover:bg-button_hover h-[34px] w-[96px] self-center rounded-2xl text-xl text-white;
   }
 }
+
+@layer utilities {
+  .delete_button {
+    @apply bg-red/70 hover:bg-red h-[34px] w-[96px] self-center rounded-2xl text-xl text-white;
+  }
+}
