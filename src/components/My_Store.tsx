@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import Map_Icon from '../assets/Map_Icon.svg';
 import Store_Icon from '../assets/Store_Icon.svg';
 import Use_Chart from './Use_Chart';
+import { twMerge } from 'tailwind-merge';
 import useUsers_Store from '../Store/useUsers_Store';
 
 interface MyStoreProps {
@@ -32,13 +33,16 @@ const My_Store: React.FC<MyStoreProps> = ({
     const updatedData = { id, name, address };
 
     if (type === 'name' && name !== initialName) {
-      updateStore(updatedData);
+      updateStore({ ...updatedData, address: initialAddress });
     } else if (type === 'address' && address !== initialAddress) {
-      updateStore(updatedData);
+      updateStore({ ...updatedData, name: initialName });
     }
 
-    setIsEditingName(false);
-    setIsEditingAddress(false);
+    if (type === 'name') {
+      setIsEditingName(false);
+    } else if (type === 'address') {
+      setIsEditingAddress(false);
+    }
   };
 
   const handleKeyDown = (
@@ -81,11 +85,15 @@ const My_Store: React.FC<MyStoreProps> = ({
               </span>
             )}
             <button
-              className='text-button/50 hover:text-button_hover text-[13px] outline-none hover:font-bold'
+              className={twMerge(
+                'text-[13px] outline-none hover:font-bold',
+                isDeleteMode ? 'no_hover' : 'soft_TcolorSet'
+              )}
               onClick={() => {
                 if (isEditingName) handleUpdate('name');
                 else handleEditButtonClick('name');
               }}
+              disabled={isDeleteMode}
             >
               {isEditingName ? '완료' : '수정'}
             </button>
@@ -107,11 +115,15 @@ const My_Store: React.FC<MyStoreProps> = ({
               </span>
             )}
             <button
-              className='text-button/50 hover:text-button_hover text-[13px] outline-none hover:font-bold'
+              className={twMerge(
+                'text-[13px] outline-none hover:font-bold',
+                isDeleteMode ? 'no_hover' : 'soft_TcolorSet'
+              )}
               onClick={() => {
                 if (isEditingAddress) handleUpdate('address');
                 else handleEditButtonClick('address');
               }}
+              disabled={isDeleteMode}
             >
               {isEditingAddress ? '완료' : '수정'}
             </button>
