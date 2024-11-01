@@ -21,7 +21,7 @@ const Add_Store = () => {
     e.preventDefault();
 
     if (name.trim() === '') {
-      toast.warn('이름은 필수 입력 요소입니다.', {
+      toast.warn('스토어 이름은 필수 입력 요소입니다.', {
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
