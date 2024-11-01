@@ -81,7 +81,10 @@ const My_Store: React.FC<MyStoreProps> = ({
             )}
             <button
               className='text-button/50 hover:text-button_hover text-[13px] outline-none hover:font-bold'
-              onClick={() => handleEditButtonClick('name')}
+              onClick={() => {
+                if (isEditingName) handleUpdate('name');
+                else handleEditButtonClick('name');
+              }}
             >
               {isEditingName ? '완료' : '수정'}
             </button>
@@ -104,7 +107,10 @@ const My_Store: React.FC<MyStoreProps> = ({
             )}
             <button
               className='text-button/50 hover:text-button_hover text-[13px] outline-none hover:font-bold'
-              onClick={() => handleEditButtonClick('address')}
+              onClick={() => {
+                if (isEditingAddress) handleUpdate('address');
+                else handleEditButtonClick('address');
+              }}
             >
               {isEditingAddress ? '완료' : '수정'}
             </button>
