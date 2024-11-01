@@ -11,23 +11,21 @@ const Store = () => {
 
   return (
     <div className='flex h-[calc(100vh-75px)] flex-col items-center justify-center bg-white'>
-      <div className='max-w-[1116px]'>
-        <div className='mb-10 flex items-end justify-between'>
+      <div className='w-full max-w-[1116px]'>
+        <div className='mb-10 flex w-full max-w-[340px] items-end justify-between'>
           <span className='text-caption text-3xl font-semibold'>
             전체 스토어 ({stores.length})
           </span>
-          {stores.length !== 0 ? (
+          {stores.length !== 0 && (
             <button
               className='text-red text-lg hover:font-semibold'
               onClick={handleDeleteModeToggle}
             >
               {isDeleteMode ? '취소하기' : '삭제하기'}
             </button>
-          ) : (
-            ''
           )}
         </div>
-        <div className='flex items-center gap-12'>
+        <div className='flex items-start gap-12'>
           <Add_Store />
           {stores.map((store, index) => (
             <My_Store
