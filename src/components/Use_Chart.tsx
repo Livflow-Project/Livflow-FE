@@ -28,23 +28,42 @@ const Use_Chart: React.FC<Use_ChartProps> = ({ id, isDeleteMode }) => {
     >
       <div className='flex w-[100%] justify-between'>
         <button
-          className={`text-xl font-semibold ${isExpenseSelected ? 'text-primary' : 'text-primary/50 hover:text-primary'}`}
+          className={twMerge(
+            'text-xl font-semibold',
+            isDeleteMode
+              ? 'no_hover'
+              : isExpenseSelected
+                ? 'text-primary'
+                : 'soft_TcolorSet'
+          )}
           onClick={() => handleToggle('expense')}
         >
           지출
         </button>
         <button
-          className={`text-xl font-semibold ${!isExpenseSelected ? 'text-primary' : 'text-primary/50 hover:text-primary'}`}
+          className={twMerge(
+            'text-xl font-semibold',
+            isDeleteMode
+              ? 'no_hover'
+              : !isExpenseSelected
+                ? 'text-primary'
+                : 'soft_TcolorSet'
+          )}
           onClick={() => handleToggle('income')}
         >
           수입
         </button>
       </div>
-      <div className='text-caption max-h-[270px] text-xl font-medium'>
-        {/* <PieChart /> */}
-        {isExpenseSelected
+      <div
+        className={twMerge(
+          'text-caption max-h-[270px] text-xl font-medium',
+          isDeleteMode ? 'opacity-50' : ''
+        )}
+      >
+        <PieChart />
+        {/* {isExpenseSelected
           ? '입력된 지출이 없습니다.'
-          : '입력된 수입이 없습니다.'}
+          : '입력된 수입이 없습니다.'} */}
       </div>
       <button
         className={twMerge(isDeleteMode ? 'delete_button' : 'choice_button')}
