@@ -1,20 +1,22 @@
 import { useRef, useState } from 'react';
 
 import Map_Icon from '../assets/Map_Icon.svg';
-import PieChart from './PieChart';
 import Store_Icon from '../assets/Store_Icon.svg';
+import Use_Chart from './Use_Chart';
 import useUsers_Store from '../Store/useUsers_Store';
 
 interface MyStoreProps {
   id: number;
   name: string;
   address?: string;
+  isDeleteMode: boolean;
 }
 
 const My_Store: React.FC<MyStoreProps> = ({
   id,
   name: initialName,
   address: initialAddress,
+  isDeleteMode,
 }) => {
   const [name, setName] = useState(initialName);
   const [address, setAddress] = useState(initialAddress);
@@ -35,7 +37,6 @@ const My_Store: React.FC<MyStoreProps> = ({
       updateStore(updatedData);
     }
 
-    // 편집 모드 종료
     setIsEditingName(false);
     setIsEditingAddress(false);
   };
@@ -117,23 +118,7 @@ const My_Store: React.FC<MyStoreProps> = ({
           </li>
         </ul>
       </div>
-      <div
-        className='flex flex-col items-center justify-between p-[20px]'
-        style={{ height: 'calc(100% - 128px)' }}
-      >
-        <div className='flex w-[100%] justify-between'>
-          <button className='text-primary/50 hover:text-primary text-xl font-semibold'>
-            지출
-          </button>
-          <button className='text-primary/50 hover:text-primary text-xl font-semibold'>
-            수입
-          </button>
-        </div>
-        <div className='h-full max-h-[270px]'>
-          <PieChart />
-        </div>
-        <button className='choice_button'>선택</button>
-      </div>
+      <Use_Chart id={id} isDeleteMode={isDeleteMode} />
     </div>
   );
 };
