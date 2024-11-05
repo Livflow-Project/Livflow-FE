@@ -60,7 +60,7 @@ const Use_Chart: React.FC<Use_ChartProps> = ({ id, isDeleteMode }) => {
           isDeleteMode ? 'opacity-50' : ''
         )}
       >
-        <PieChart />
+        <PieChart selectedType={isExpenseSelected ? 'expense' : 'income'} />
         {/* {isExpenseSelected
           ? '입력된 지출이 없습니다.'
           : '입력된 수입이 없습니다.'} */}
