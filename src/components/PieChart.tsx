@@ -1,8 +1,12 @@
 import Chart, { TooltipItem } from 'chart.js/auto';
 import { useEffect, useRef } from 'react';
 
-const PieChart = () => {
-  const chartRef = useRef<HTMLCanvasElement | null>(null); // canvas 요소 타입 설정
+interface PieChartProps {
+  selectedType: 'expense' | 'income';
+}
+
+const PieChart: React.FC<PieChartProps> = ({ selectedType }) => {
+  const chartRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     if (!chartRef.current) return;
@@ -11,21 +15,34 @@ const PieChart = () => {
 
     if (!ctx) return;
 
-    const data = {
-      labels: ['생활용품', '간식', '식재료'],
-      datasets: [
-        {
-          label: ' ',
-          data: [3000, 5000, 1000],
-          backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)',
-          ],
-          hoverOffset: 5,
-        },
-      ],
-    };
+    const data =
+      selectedType === 'expense'
+        ? {
+            labels: ['생활용품', '간식', '식재료'],
+            datasets: [
+              {
+                label: ' ',
+                data: [3000, 5000, 1000],
+                backgroundColor: [
+                  'rgb(255, 99, 132)',
+                  'rgb(54, 162, 235)',
+                  'rgb(255, 205, 86)',
+                ],
+                hoverOffset: 5,
+              },
+            ],
+          }
+        : {
+            labels: ['알바', '앱태크'],
+            datasets: [
+              {
+                label: ' ',
+                data: [30000, 5000],
+                backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)'],
+                hoverOffset: 5,
+              },
+            ],
+          };
 
     const chartInstance = new Chart(ctx, {
       type: 'pie',
@@ -51,7 +68,7 @@ const PieChart = () => {
     return () => {
       chartInstance.destroy();
     };
-  }, []);
+  }, [selectedType]);
 
   return <canvas ref={chartRef}></canvas>;
 };
