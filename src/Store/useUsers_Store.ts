@@ -21,10 +21,7 @@ const useUsers_Store = create<StoreState>((set) => ({
 
   addStore: (store) =>
     set((state) => {
-      const newId =
-        state.stores.length > 0
-          ? Math.max(...state.stores.map((s) => s.id)) + 1
-          : 1;
+      const newId = Date.now();
 
       return {
         stores: [...state.stores, { ...store, id: newId }],
@@ -42,12 +39,9 @@ const useUsers_Store = create<StoreState>((set) => ({
   deleteStore: (id) =>
     set((state) => {
       const updatedStores = state.stores.filter((store) => store.id !== id);
-      const isDeleteMode =
-        updatedStores.length > 0 ? state.isDeleteMode : false;
 
       return {
         stores: updatedStores,
-        isDeleteMode,
       };
     }),
 
