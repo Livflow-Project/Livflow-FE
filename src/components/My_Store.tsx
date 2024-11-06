@@ -25,6 +25,7 @@ const My_Store: React.FC<MyStoreProps> = ({
   const [isEditingAddress, setIsEditingAddress] = useState(false);
 
   const updateStore = useUsers_Store((state) => state.updateStore);
+  const deleteStore = useUsers_Store((state) => state.deleteStore);
 
   const nameInputRef = useRef<HTMLInputElement>(null);
   const addressInputRef = useRef<HTMLInputElement>(null);
@@ -64,9 +65,13 @@ const My_Store: React.FC<MyStoreProps> = ({
     }
   };
 
+  const handleDelete = () => {
+    deleteStore(id);
+  };
+
   return (
     <div className='store_box'>
-      <div className='border-underline border-b border-opacity-20 p-[20px]'>
+      <div className='border-b border-underline border-opacity-20 p-[20px]'>
         <ul className='flex flex-col gap-6'>
           <li className='flex items-center justify-between'>
             <img src={Store_Icon} alt='상점 아이콘' className='w-[30px]' />
@@ -77,10 +82,10 @@ const My_Store: React.FC<MyStoreProps> = ({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 onKeyDown={(e) => handleKeyDown(e, 'name')}
-                className='text-main border-b border-gray-300 text-center text-[17px] font-semibold outline-none'
+                className='border-b border-gray-300 text-center text-[17px] font-semibold text-main outline-none'
               />
             ) : (
-              <span className='text-main w-[200px] truncate text-center text-[17px] font-semibold'>
+              <span className='w-[200px] truncate text-center text-[17px] font-semibold text-main'>
                 {name}
               </span>
             )}
@@ -107,10 +112,10 @@ const My_Store: React.FC<MyStoreProps> = ({
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 onKeyDown={(e) => handleKeyDown(e, 'address')}
-                className='text-main border-b border-gray-300 text-center text-[17px] font-semibold outline-none'
+                className='border-b border-gray-300 text-center text-[17px] font-semibold text-main outline-none'
               />
             ) : (
-              <span className='text-main w-[200px] truncate text-center text-[17px] font-semibold'>
+              <span className='w-[200px] truncate text-center text-[17px] font-semibold text-main'>
                 {address}
               </span>
             )}
@@ -130,7 +135,18 @@ const My_Store: React.FC<MyStoreProps> = ({
           </li>
         </ul>
       </div>
-      <Use_Chart id={id} isDeleteMode={isDeleteMode} />
+      <div
+        className='flex flex-col items-center justify-between p-[20px]'
+        style={{ height: 'calc(100% - 128px)' }}
+      >
+        <Use_Chart isDeleteMode={isDeleteMode} />
+        <button
+          className={twMerge(isDeleteMode ? 'delete_button' : 'choice_button')}
+          onClick={isDeleteMode ? handleDelete : undefined}
+        >
+          {isDeleteMode ? '삭제' : '선택'}
+        </button>
+      </div>
     </div>
   );
 };
