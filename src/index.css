@@ -10,9 +10,30 @@ body {
   box-sizing: border-box;
 }
 
+/* 네비게이션 화살표 색상 커스텀 */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #333333 !important;
+  top: 40% !important;
+}
+
+/* 페이지네이션 색상 커스텀 */
+.swiper-pagination-bullet {
+  background: #004aad !important;
+  opacity: 0.5 !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+/* 활성화된 페이지네이션 색상 */
+.swiper-pagination-bullet-active {
+  background: #004aad !important;
+  opacity: 1 !important;
+}
+
 @layer utilities {
   .store_box {
-    @apply border-underline h-[540px] w-[340px] rounded-lg border border-opacity-20 bg-white shadow-xl;
+    @apply h-[540px] w-[340px] rounded-lg border border-underline border-opacity-20 bg-white shadow-xl;
   }
 }
 
@@ -48,13 +69,13 @@ body {
 
 @layer utilities {
   .choice_button {
-    @apply bg-button hover:bg-button_hover h-[34px] w-[96px] self-center rounded-2xl text-xl text-white;
+    @apply h-[34px] w-[96px] self-center rounded-2xl bg-button text-xl text-white hover:bg-button_hover;
   }
 }
 
 @layer utilities {
   .delete_button {
-    @apply bg-red/70 hover:bg-red h-[34px] w-[96px] self-center rounded-2xl text-xl text-white;
+    @apply h-[34px] w-[96px] self-center rounded-2xl bg-red/70 text-xl text-white hover:bg-red;
   }
 }
 
