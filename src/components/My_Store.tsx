@@ -4,7 +4,8 @@ import Map_Icon from '../assets/Map_Icon.svg';
 import Store_Icon from '../assets/Store_Icon.svg';
 import Use_Chart from './Use_Chart';
 import { twMerge } from 'tailwind-merge';
-import useUsers_Store from '../Store/useUsers_Store';
+import { useNavigate } from 'react-router-dom';
+import useUsers_Store from '../store/useUsers_Store';
 
 interface MyStoreProps {
   id: number;
@@ -26,6 +27,8 @@ const My_Store: React.FC<MyStoreProps> = ({
 
   const updateStore = useUsers_Store((state) => state.updateStore);
   const deleteStore = useUsers_Store((state) => state.deleteStore);
+
+  const navigate = useNavigate();
 
   const nameInputRef = useRef<HTMLInputElement>(null);
   const addressInputRef = useRef<HTMLInputElement>(null);
@@ -58,15 +61,21 @@ const My_Store: React.FC<MyStoreProps> = ({
   const handleEditButtonClick = (type: 'name' | 'address') => {
     if (type === 'name') {
       setIsEditingName(true);
-      setTimeout(() => nameInputRef.current?.focus(), 0);
+      // setTimeout(() => nameInputRef.current?.focus(), 0);
+      requestAnimationFrame(() => nameInputRef.current?.focus());
     } else if (type === 'address') {
       setIsEditingAddress(true);
-      setTimeout(() => addressInputRef.current?.focus(), 0);
+      // setTimeout(() => addressInputRef.current?.focus(), 0);
+      requestAnimationFrame(() => addressInputRef.current?.focus());
     }
   };
 
   const handleDelete = () => {
     deleteStore(id);
+  };
+
+  const handleSelect = () => {
+    navigate(`/store/${id}`);
   };
 
   return (
@@ -142,7 +151,7 @@ const My_Store: React.FC<MyStoreProps> = ({
         <Use_Chart isDeleteMode={isDeleteMode} />
         <button
           className={twMerge(isDeleteMode ? 'delete_button' : 'choice_button')}
-          onClick={isDeleteMode ? handleDelete : undefined}
+          onClick={isDeleteMode ? handleDelete : handleSelect}
         >
           {isDeleteMode ? '삭제' : '선택'}
         </button>
