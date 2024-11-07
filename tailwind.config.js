@@ -13,9 +13,10 @@ export default {
       underline: '#333333',
       red: '#D10000',
       green: '#00C016',
+      background: '#E4F0FF'
     },
     fontFamily: {
-      sans: ['Roboto', 'sans-serif'],
+      sans: ['Pretendard','Roboto', 'sans-serif'],
     },
   },
 },
