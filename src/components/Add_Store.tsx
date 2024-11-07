@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import Store_Icon from '../assets/Store_Icon.svg';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
-import useUsers_Store from '../Store/useUsers_Store';
+import useUsers_Store from '../store/useUsers_Store';
 
 const Add_Store = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

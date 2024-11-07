@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import Add_Store from '../components/Add_Store';
 import My_Store from '../components/My_Store';
-import useUsers_Store from '../Store/useUsers_Store';
+import useUsers_Store from '../store/useUsers_Store';
 
 const Store = () => {
   const { stores, isDeleteMode, toggleDeleteMode } = useUsers_Store();

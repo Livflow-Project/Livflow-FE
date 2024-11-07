@@ -1,4 +1,4 @@
-import Footer from '../components/Layout/Footer';
+import Footer from '../components/layout/Footer';
 import Start_Btn from '../components/Start_Btn';
 
 const Home = () => {
