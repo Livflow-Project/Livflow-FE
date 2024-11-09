@@ -2,11 +2,11 @@ import PieChart from './PieChart';
 import { twMerge } from 'tailwind-merge';
 import { useState } from 'react';
 
-interface Use_ChartProps {
+interface UseChartProps {
   isDeleteMode: boolean;
 }
 
-const Use_Chart: React.FC<Use_ChartProps> = ({ isDeleteMode }) => {
+const UseChart: React.FC<UseChartProps> = ({ isDeleteMode }) => {
   const [isExpenseSelected, setIsExpenseSelected] = useState(true);
 
   const handleToggle = (type: 'expense' | 'income') => {
@@ -58,4 +58,4 @@ const Use_Chart: React.FC<Use_ChartProps> = ({ isDeleteMode }) => {
   );
 };
 
-export default Use_Chart;
+export default UseChart;

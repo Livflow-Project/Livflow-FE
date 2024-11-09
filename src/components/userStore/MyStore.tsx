@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react';
 
-import Map_Icon from '../assets/Map_Icon.svg';
-import Store_Icon from '../assets/Store_Icon.svg';
+import Map_Icon from '../../assets/Map_Icon.svg';
+import Store_Icon from '../../assets/Store_Icon.svg';
 import Use_Chart from './Use_Chart';
 import { twMerge } from 'tailwind-merge';
 import { useNavigate } from 'react-router-dom';
-import useUsers_Store from '../store/useUsers_Store';
+import useUsers_Store from '../../store/useUsersStore';
 
 interface MyStoreProps {
   id: number;
@@ -14,7 +14,7 @@ interface MyStoreProps {
   isDeleteMode: boolean;
 }
 
-const My_Store: React.FC<MyStoreProps> = ({
+const MyStore: React.FC<MyStoreProps> = ({
   id,
   name: initialName,
   address: initialAddress,
@@ -160,4 +160,4 @@ const My_Store: React.FC<MyStoreProps> = ({
   );
 };
 
-export default My_Store;
+export default MyStore;
