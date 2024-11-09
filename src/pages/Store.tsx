@@ -3,12 +3,20 @@ import 'swiper/swiper-bundle.css';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import Add_Store from '../components/Add_Store';
-import My_Store from '../components/My_Store';
-import useUsers_Store from '../store/useUsers_Store';
+import AddStore from '../components/userStore/AddStore';
+import AddStoreModal from '../components/modal/AddStoreModal';
+import MyStore from '../components/userStore/MyStore';
+import { useState } from 'react';
+import useUsers_Store from '../store/useUsersStore';
 
 const Store = () => {
   const { stores, isDeleteMode, toggleDeleteMode } = useUsers_Store();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleToggleModal = () => {
+    setIsModalOpen((prev) => !prev);
+  };
 
   const handleDeleteModeToggle = () => {
     toggleDeleteMode();
@@ -38,9 +46,9 @@ const Store = () => {
         >
           <SwiperSlide className='h-full px-[60px]'>
             <div className='flex items-start justify-start gap-[30px]'>
-              <Add_Store />
+              <AddStore onOpenModal={handleToggleModal} />
               {stores.slice(0, 2).map((store) => (
-                <My_Store
+                <MyStore
                   key={store.id}
                   id={store.id}
                   name={store.name}
@@ -61,7 +69,7 @@ const Store = () => {
                   <SwiperSlide key={index} className='h-full px-[60px]'>
                     <div className='flex items-start justify-start gap-[30px]'>
                       {stores.slice(startIdx, startIdx + 3).map((store) => (
-                        <My_Store
+                        <MyStore
                           key={store.id}
                           id={store.id}
                           name={store.name}
@@ -76,6 +84,8 @@ const Store = () => {
             )}
         </Swiper>
       </div>
+
+      {isModalOpen && <AddStoreModal onClose={handleToggleModal} />}
     </div>
   );
 };
