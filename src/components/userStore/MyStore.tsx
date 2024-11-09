@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 
 import Map_Icon from '../../assets/Map_Icon.svg';
 import Store_Icon from '../../assets/Store_Icon.svg';
-import Use_Chart from './Use_Chart';
+import UseChart from './UseChart';
 import { twMerge } from 'tailwind-merge';
 import { useNavigate } from 'react-router-dom';
 import useUsers_Store from '../../store/useUsersStore';
@@ -148,7 +148,7 @@ const MyStore: React.FC<MyStoreProps> = ({
         className='flex flex-col items-center justify-between p-[20px]'
         style={{ height: 'calc(100% - 128px)' }}
       >
-        <Use_Chart isDeleteMode={isDeleteMode} />
+        <UseChart isDeleteMode={isDeleteMode} />
         <button
           className={twMerge(isDeleteMode ? 'delete_button' : 'choice_button')}
           onClick={isDeleteMode ? handleDelete : handleSelect}
