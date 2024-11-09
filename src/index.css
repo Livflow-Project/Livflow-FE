@@ -57,7 +57,7 @@ body {
 
 @layer utilities {
   .soft_BcolorSet {
-    @apply bg-button/50 hover:bg-button_hover;
+    @apply h-[45px] rounded-3xl bg-button/70 text-[18px] font-semibold text-white hover:bg-button_hover;
   }
 }
 
