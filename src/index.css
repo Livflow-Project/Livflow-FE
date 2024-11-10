@@ -38,6 +38,12 @@ body {
 }
 
 @layer utilities {
+  .button_gap {
+    @apply flex items-center justify-center gap-28;
+  }
+}
+
+@layer utilities {
   .social_button {
     @apply h-[60px] w-[620px] text-xl font-medium;
   }
@@ -76,6 +82,24 @@ body {
 @layer utilities {
   .delete_button {
     @apply h-[34px] w-[96px] self-center rounded-2xl bg-red/70 text-xl text-white hover:bg-red;
+  }
+}
+
+@layer utilities {
+  .modal_div {
+    @apply rounded-xl bg-white p-[40px] text-center shadow-lg;
+  }
+}
+
+@layer utilities {
+  .input_label {
+    @apply text-xl font-medium text-main;
+  }
+}
+
+@layer utilities {
+  .input_box {
+    @apply h-[42px] w-[60%] rounded-lg border px-3 py-2;
   }
 }
 
