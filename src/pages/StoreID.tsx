@@ -1,6 +1,17 @@
 import Calender from '../components/calendar/Calender';
+import { useParams } from 'react-router-dom';
 
 const StoreID = () => {
+  const { id } = useParams<{ id: string }>();
+
+  if (!id) {
+    return (
+      <div className='flex h-[calc(100vh-75px)] items-center justify-center text-2xl font-semibold text-main'>
+        상점의 가계부 정보를 찾을 수 없습니다. 이전 페이지로 이동해주세요.
+      </div>
+    );
+  }
+
   return (
     <div className='flex h-[calc(100vh-75px)] flex-col justify-between p-[45px]'>
       <ul className='flex flex-col items-end gap-4'>
@@ -19,7 +30,7 @@ const StoreID = () => {
           </nav>
         </div>
         <div className='h-[calc(100%-55px)] w-full bg-background'>
-          <Calender />
+          <Calender storeId={parseInt(id)} />
         </div>
       </div>
     </div>
