@@ -1,4 +1,4 @@
-import './calendar.css';
+import './Calendar.css';
 
 import { CalendarEvent, Transaction } from '../../types/calendar';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
@@ -11,15 +11,23 @@ import koLocale from '@fullcalendar/core/locales/ko';
 import listPlugin from '@fullcalendar/list';
 import useCalendarStore from '../../store/useCalendarStore';
 
-const Calender = () => {
+interface CalendarProps {
+  storeId: number;
+}
+
+const Calender: React.FC<CalendarProps> = ({ storeId }) => {
   const calendarRef = useRef<FullCalendar | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const { transactions, addTransaction } = useCalendarStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const events: CalendarEvent[] = Object.keys(transactions).map((date) => ({
-    start: date,
-  }));
+  const storeTransactions = transactions[storeId] || {};
+
+  const events: CalendarEvent[] = Object.keys(storeTransactions).map(
+    (date) => ({
+      start: date,
+    })
+  );
 
   const handleDateClick = (info: DateClickArg) => {
     setSelectedDate(info.dateStr);
@@ -27,7 +35,7 @@ const Calender = () => {
 
   const handleAddTransaction = (transaction: Transaction) => {
     if (selectedDate) {
-      addTransaction(selectedDate, transaction);
+      addTransaction(storeId, selectedDate, transaction);
     }
   };
 
@@ -48,7 +56,7 @@ const Calender = () => {
   return (
     <div className='flex h-full items-center justify-between px-[35px] py-[30px]'>
       <div className='relative h-full w-[58%] overflow-hidden rounded-xl bg-white p-5'>
-        <div className='absolute right-5 top-[27px] flex items-center justify-end gap-6'>
+        <div className='absolute right-5 top-[25px] flex items-center justify-end gap-6'>
           <div className='flex items-center gap-2'>
             <span className='text-red'>●</span>
             <span className='text-lg font-medium text-main'>지출</span>
@@ -84,10 +92,10 @@ const Calender = () => {
           titleFormat={{ month: 'long' }}
           eventContent={(eventInfo) => (
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              {transactions[eventInfo.event.startStr]?.some(
+              {storeTransactions[eventInfo.event.startStr]?.some(
                 (t) => t.type === 'expense'
               ) && <span className='text-red'>●</span>}
-              {transactions[eventInfo.event.startStr]?.some(
+              {storeTransactions[eventInfo.event.startStr]?.some(
                 (t) => t.type === 'income'
               ) && <span className='text-green'>●</span>}
             </div>
@@ -106,27 +114,30 @@ const Calender = () => {
           <span className='text-xl font-semibold text-main'>지출 / 수입</span>
         </div>
 
-        {selectedDate && transactions[selectedDate]?.length > 0 ? (
-          transactions[selectedDate].map((transaction, index) => (
-            <div key={index} className='flex justify-center py-2 w-fulls'>
-              <span>{transaction.item}</span>
-              <span>{transaction.details}</span>
-              <span
-                className={
-                  transaction.type === 'expense' ? 'text-red' : 'text-green'
-                }
-              >
-                {transaction.type === 'expense'
-                  ? `-${transaction.amount}`
-                  : `+${transaction.amount}`}
-              </span>
+        {/* 선택된 날짜의 트랜잭션 목록 표시 */}
+        <div className='flex flex-col'>
+          {selectedDate && storeTransactions[selectedDate]?.length > 0 ? (
+            storeTransactions[selectedDate].map((transaction, index) => (
+              <div key={index} className='flex justify-center py-2 w-fulls'>
+                <span>{transaction.item}</span>
+                <span>{transaction.details}</span>
+                <span
+                  className={
+                    transaction.type === 'expense' ? 'text-red' : 'text-green'
+                  }
+                >
+                  {transaction.type === 'expense'
+                    ? `-${transaction.amount}`
+                    : `+${transaction.amount}`}
+                </span>
+              </div>
+            ))
+          ) : (
+            <div className='text-2xl text-main'>
+              입력된 지출 / 수입이 없습니다.
             </div>
-          ))
-        ) : (
-          <div className='text-2xl text-main'>
-            입력된 지출 / 수입이 없습니다.
-          </div>
-        )}
+          )}
+        </div>
 
         <div className='flex w-full items-center justify-between px-[25px] pb-[25px]'>
           <button
