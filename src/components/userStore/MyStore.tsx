@@ -61,11 +61,9 @@ const MyStore: React.FC<MyStoreProps> = ({
   const handleEditButtonClick = (type: 'name' | 'address') => {
     if (type === 'name') {
       setIsEditingName(true);
-      // setTimeout(() => nameInputRef.current?.focus(), 0);
       requestAnimationFrame(() => nameInputRef.current?.focus());
     } else if (type === 'address') {
       setIsEditingAddress(true);
-      // setTimeout(() => addressInputRef.current?.focus(), 0);
       requestAnimationFrame(() => addressInputRef.current?.focus());
     }
   };

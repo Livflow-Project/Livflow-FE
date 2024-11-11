@@ -57,7 +57,7 @@ const PieChart: React.FC<PieChartProps> = ({ selectedType }) => {
             callbacks: {
               label: (tooltipItem: TooltipItem<'pie'>) => {
                 const value = tooltipItem.raw as number;
-                return ` : ${value.toLocaleString()}`; // 포맷팅
+                return ` : ${value.toLocaleString()}`;
               },
             },
           },
