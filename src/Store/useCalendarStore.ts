@@ -1,35 +1,46 @@
 import { Transaction } from '../types/calendar';
 import { create } from 'zustand';
 
-// 상태 인터페이스 정의
 interface useCalendarStoreState {
-  transactions: Record<string, Transaction[]>; // 날짜별 지출/수입 저장할 객체
-  addTransaction: (date: string, transaction: Transaction) => void;
-  removeTransaction: (date: string, index: number) => void;
+  transactions: Record<number, Record<string, Transaction[]>>;
+  addTransaction: (
+    storeId: number,
+    date: string,
+    transaction: Transaction
+  ) => void;
+  removeTransaction: (storeId: number, date: string, index: number) => void;
 }
 
 const useCalendarStore = create<useCalendarStoreState>((set) => ({
   transactions: {},
 
-  addTransaction: (date, transaction) =>
+  addTransaction: (storeId, date, transaction) =>
     set((state) => {
-      const currentDateTransactions = state.transactions[date] || [];
+      const storeTransactions = state.transactions[storeId] || {};
+      const currentDateTransactions = storeTransactions[date] || [];
       return {
         transactions: {
           ...state.transactions,
-          [date]: [...currentDateTransactions, transaction],
+          [storeId]: {
+            ...storeTransactions,
+            [date]: [...currentDateTransactions, transaction],
+          },
         },
       };
     }),
 
-  removeTransaction: (date, index) =>
+  removeTransaction: (storeId, date, index) =>
     set((state) => {
+      const storeTransactions = state.transactions[storeId] || {};
       const updatedDateTransactions =
-        state.transactions[date]?.filter((_, i) => i !== index) || [];
+        storeTransactions[date]?.filter((_, i) => i !== index) || [];
       return {
         transactions: {
           ...state.transactions,
-          [date]: updatedDateTransactions,
+          [storeId]: {
+            ...storeTransactions,
+            [date]: updatedDateTransactions,
+          },
         },
       };
     }),
