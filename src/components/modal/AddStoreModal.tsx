@@ -50,19 +50,13 @@ const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
       className='fixed inset-0 z-50 flex items-center justify-center bg-m_background/70'
       onClick={handleBackdropClick}
     >
-      <div
-        className='w-[520px] rounded-xl bg-white p-[40px] text-center shadow-lg'
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className='modal_div w-[520px]' onClick={(e) => e.stopPropagation()}>
         <form className='flex flex-col gap-7' onSubmit={handleSubmit}>
           <ul className='flex flex-col gap-4'>
             <li className='flex items-center justify-between'>
               <div className='relative flex items-center gap-2'>
                 <img src={Store_Icon} alt='상점 이미지' />
-                <label
-                  htmlFor='store_name'
-                  className='text-xl font-medium text-main'
-                >
+                <label htmlFor='store_name' className='input_label'>
                   스토어 이름
                 </label>
                 <span className='absolute -right-1.5 -top-1 text-red'>*</span>
@@ -73,16 +67,13 @@ const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder='이름을 입력해 주세요.'
-                className='w-[60%] rounded-lg border px-3 py-2'
+                className='input_box'
               />
             </li>
             <li className='flex items-center justify-between'>
               <div className='flex items-center gap-2'>
                 <img src={Map_Icon} alt='주소 이미지' />
-                <label
-                  htmlFor='store_address'
-                  className='text-xl font-medium text-main'
-                >
+                <label htmlFor='store_address' className='input_label'>
                   주소
                 </label>
               </div>
@@ -92,15 +83,15 @@ const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder='주소를 입력해 주세요.'
-                className='w-[60%] rounded-lg border px-3 py-2'
+                className='input_box'
               />
             </li>
           </ul>
 
-          <div className='flex justify-between px-14'>
+          <div className='button_gap'>
             <button
               type='button'
-              onClick={onClose} // 취소 버튼 클릭 시 onClose 호출
+              onClick={onClose}
               className='choice_button opacity-70'
             >
               취소
