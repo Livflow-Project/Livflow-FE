@@ -32,6 +32,7 @@
 /* 몇일 자리 중앙 정렬 */
 .fc-daygrid-day-top {
   justify-content: center;
+  align-items: center;
 }
 
 /* 월~일 텍스트 설정 */
@@ -42,19 +43,17 @@
 
 /* 몇일 텍스트 설정 */
 .fc-daygrid-day-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   font-size: 22px;
   font-weight: 400;
-}
-
-/* 날짜 셀을 위쪽 중앙에 정렬 */
-.fc-day {
-  /* display: flex; */
-  /* align-items: center; */
-  /* justify-content: center; */
+  width: 54px;
+  height: 54px;
 }
 
 .fc-daygrid-day {
-  /* width: 135px; */
   height: 90px;
 }
 
@@ -67,11 +66,11 @@
   background-color: white !important;
 }
 
-/* 날짜 텍스트가 상단에 위치하도록 조정 */
-/* .fc-day-number {
-  display: block;
-  margin-top: 5px;
-} */
+.selected-date {
+  background-color: #336ebd;
+  border-radius: 50%;
+  color: white;
+}
 
 /* 좌우 화살표 */
 .fc .fc-button {
