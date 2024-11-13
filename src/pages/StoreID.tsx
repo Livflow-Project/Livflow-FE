@@ -1,8 +1,13 @@
+import { Link, useParams } from 'react-router-dom';
+
 import Calender from '../components/calendar/Calender';
-import { useParams } from 'react-router-dom';
+import useUsers_Store from '../store/useUsersStore';
 
 const StoreID = () => {
   const { id } = useParams<{ id: string }>();
+  const { stores } = useUsers_Store();
+
+  const store = stores.find((store) => store.id === parseInt(id || ''));
 
   if (!id) {
     return (
@@ -14,10 +19,16 @@ const StoreID = () => {
 
   return (
     <div className='flex h-[calc(100vh-75px)] flex-col justify-between p-[45px]'>
-      <ul className='flex flex-col items-end gap-4'>
-        <li className='text-2xl font-semibold text-main'>해당 스토어 이름</li>
-        <li className='text-[15px] font-medium text-main'>해당 스토어 주소</li>
-      </ul>
+      <Link to='/store'>
+        <ul className='flex flex-col items-end gap-4'>
+          <li className='text-2xl font-semibold text-main'>
+            {store?.name || '이름 정보 없음'}
+          </li>
+          <li className='text-[15px] font-medium text-main'>
+            {store?.address || '주소 정보 없음'}
+          </li>
+        </ul>
+      </Link>
       <div className='h-[calc(100%-70px)]'>
         <div className='flex items-center justify-start gap-3'>
           <nav className='flex h-[55px] w-[135px] items-center justify-center rounded-tl-[10px] rounded-tr-[10px] bg-background'>
