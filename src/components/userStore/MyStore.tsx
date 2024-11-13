@@ -146,7 +146,7 @@ const MyStore: React.FC<MyStoreProps> = ({
         className='flex flex-col items-center justify-between p-[20px]'
         style={{ height: 'calc(100% - 128px)' }}
       >
-        <UseChart isDeleteMode={isDeleteMode} />
+        <UseChart isDeleteMode={isDeleteMode} id={id} />
         <button
           className={twMerge(isDeleteMode ? 'delete_button' : 'choice_button')}
           onClick={isDeleteMode ? handleDelete : handleSelect}
