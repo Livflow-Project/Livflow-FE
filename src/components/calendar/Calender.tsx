@@ -135,13 +135,13 @@ const Calender: React.FC<CalendarProps> = ({ storeId }) => {
       <div className='flex h-full w-[40%] flex-col items-center rounded-xl bg-white/50'>
         {/* 선택된 날짜가 없고 트랜잭션도 없을 때 */}
         {!selectedDate && Object.keys(storeTransactions).length === 0 ? (
-          <div className='w-full my-auto text-2xl text-center text-main'>
+          <div className='my-auto w-full text-center text-2xl text-main'>
             <span>입력된 지출 / 수입이 없습니다.</span>
           </div>
         ) : !selectedDate && Object.keys(storeTransactions).length > 0 ? (
           // 선택된 날짜는 없지만 트랜잭션이 있을 때
           <>
-            <div className='flex items-center w-full h-full justify-evenly'>
+            <div className='flex h-full w-full items-center justify-evenly'>
               <div className='flex w-[40%] flex-col items-center justify-center'>
                 <span>총 지출</span>
                 <PieChart
@@ -211,7 +211,7 @@ const Calender: React.FC<CalendarProps> = ({ storeId }) => {
               </span>
             </div>
 
-            <div className='flex flex-col w-full h-full gap-2'>
+            <div className='h- flex h-[calc(100%-130px)] w-full flex-col gap-2'>
               {selectedDate && storeTransactions[selectedDate]?.length > 0 ? (
                 storeTransactions[selectedDate].map((transaction, index) => (
                   <div
@@ -240,7 +240,7 @@ const Calender: React.FC<CalendarProps> = ({ storeId }) => {
                 ))
               ) : (
                 // 날짜는 선택했으나 트랜잭션이 없을 때 메시지 표시
-                <div className='w-full my-auto text-2xl text-center text-main'>
+                <div className='my-auto w-full text-center text-2xl text-main'>
                   입력된 지출 / 수입이 없습니다.
                 </div>
               )}
