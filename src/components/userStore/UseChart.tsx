@@ -1,13 +1,26 @@
 import PieChart from './PieChart';
 import { twMerge } from 'tailwind-merge';
+import useCalendarStore from '../../store/useCalendarStore';
 import { useState } from 'react';
 
 interface UseChartProps {
+  id: number;
   isDeleteMode: boolean;
 }
 
-const UseChart: React.FC<UseChartProps> = ({ isDeleteMode }) => {
+const UseChart: React.FC<UseChartProps> = ({ id, isDeleteMode }) => {
   const [isExpenseSelected, setIsExpenseSelected] = useState(true);
+
+  const { monthlyTotals } = useCalendarStore();
+
+  const monthKey = new Date().toISOString().slice(0, 7);
+  const totalsForMonth = monthlyTotals[id]?.[monthKey];
+
+  const expenseCategories = totalsForMonth?.categories.expense || {};
+  const incomeCategories = totalsForMonth?.categories.income || {};
+
+  const isExpenseEmpty = Object.keys(expenseCategories).length === 0;
+  const isIncomeEmpty = Object.keys(incomeCategories).length === 0;
 
   const handleToggle = (type: 'expense' | 'income') => {
     setIsExpenseSelected(type === 'expense');
@@ -49,10 +62,17 @@ const UseChart: React.FC<UseChartProps> = ({ isDeleteMode }) => {
           isDeleteMode ? 'opacity-50' : ''
         )}
       >
-        <PieChart selectedType={isExpenseSelected ? 'expense' : 'income'} />
-        {/* {isExpenseSelected
-          ? '입력된 지출이 없습니다.'
-          : '입력된 수입이 없습니다.'} */}
+        {isExpenseSelected ? (
+          isExpenseEmpty ? (
+            <div className='text-center'>입력된 지출이 없습니다.</div>
+          ) : (
+            <PieChart selectedType='expense' categories={expenseCategories} />
+          )
+        ) : isIncomeEmpty ? (
+          <div className='text-center'>입력된 수입이 없습니다.</div>
+        ) : (
+          <PieChart selectedType='income' categories={incomeCategories} />
+        )}
       </div>
     </>
   );
