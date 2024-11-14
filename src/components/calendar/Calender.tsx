@@ -144,50 +144,62 @@ const Calender: React.FC<CalendarProps> = ({ storeId }) => {
           <>
             <div className='flex h-full w-full items-center justify-evenly'>
               <div className='flex w-[40%] flex-col items-center justify-center'>
-                <span>총 지출</span>
-                <PieChart
-                  selectedType='expense'
-                  categories={totalsForMonth.categories.expense}
-                />
-                {/* 수입 카테고리들 중 가장큰 수입 최대 5순위까지 카테고리 */}
-                <ul>
-                  <li></li>
-                  <li>
-                    <span>합계</span>
-                    <span>- {totalsForMonth.expense.toLocaleString()}원</span>
-                  </li>
-                </ul>
+                {Object.keys(totalsForMonth.categories.expense).length === 0 ? (
+                  <p className='text-sx text-caption'>
+                    입력된 지출이 없습니다.
+                  </p>
+                ) : (
+                  <>
+                    <span>총 지출</span>
+                    <PieChart
+                      selectedType='expense'
+                      categories={totalsForMonth.categories.expense}
+                    />
+                    {/* 수입 카테고리들 중 가장큰 수입 최대 5순위까지 카테고리 */}
+                    <ul>
+                      <li></li>
+                      <li>
+                        <span>합계</span>
+                        <span>
+                          - {totalsForMonth.expense.toLocaleString()}원
+                        </span>
+                      </li>
+                    </ul>
+                  </>
+                )}
               </div>
+
               <div className='h-[80%] w-[1px] bg-underline/50'></div>
+
               <div className='flex w-[40%] flex-col items-center justify-center'>
-                <span>총 지출</span>
-                <PieChart
-                  selectedType='expense'
-                  categories={totalsForMonth.categories.income}
-                />
-                {/* 수입 카테고리들 중 가장큰 수입 최대 5순위까지 카테고리 */}
-                <ul>
-                  <li></li>
-                  <li>
-                    <span>합계</span>
-                    <span>+ {totalsForMonth.income.toLocaleString()}원</span>
-                  </li>
-                </ul>
+                {Object.keys(totalsForMonth.categories.income).length === 0 ? (
+                  <p className='text-sx text-caption'>
+                    입력된 수입이 없습니다.
+                  </p>
+                ) : (
+                  <>
+                    <span>총 수입</span>
+                    <PieChart
+                      selectedType='expense'
+                      categories={totalsForMonth.categories.income}
+                    />
+                    {/* 수입 카테고리들 중 가장큰 수입 최대 5순위까지 카테고리 */}
+                    <ul>
+                      <li></li>
+                      <li>
+                        <span>합계</span>
+                        <span>
+                          + {totalsForMonth.income.toLocaleString()}원
+                        </span>
+                      </li>
+                    </ul>
+                  </>
+                )}
               </div>
             </div>
 
-            {/* 지출 차트 */}
-            {/* <PieChart
-                selectedType='expense'
-                categories={totalsForMonth.categories.expense}
-              /> */}
-            {/* 수입 차트 */}
-            {/* <PieChart
-                selectedType='income'
-                categories={totalsForMonth.categories.income}
-              /> */}
             {/* 총 합계 표시 */}
-            <div className='text-center'>
+            <div className='flex h-[65px] items-center justify-center'>
               <p>
                 총 합계 :{' '}
                 {(
