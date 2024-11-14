@@ -65,6 +65,7 @@ const CalendarModal = ({ onClose, onSubmit }: CalendarModalProps) => {
               <label className='input_label'>카테고리</label>
               <span className='absolute -right-1.5 -top-2 text-red'>*</span>
             </div>
+
             <select
               value={transaction.item}
               onChange={(e) =>
@@ -92,7 +93,11 @@ const CalendarModal = ({ onClose, onSubmit }: CalendarModalProps) => {
             </select>
           </li>
           <li className='flex items-center justify-between'>
-            <span className='input_label'>지출 / 수입</span>
+            <div className='relative flex items-center gap-2'>
+              <span className='input_label'>지출 / 수입</span>
+              <span className='absolute -right-1.5 -top-2 text-red'>*</span>
+            </div>
+
             <div className='flex h-[42px] w-[60%] items-center justify-around'>
               <label className='flex items-center'>
                 <input
@@ -147,7 +152,11 @@ const CalendarModal = ({ onClose, onSubmit }: CalendarModalProps) => {
             />
           </li>
           <li className='flex items-center justify-between'>
-            <label className='input_label'>상세정보</label>
+            <div className='relative flex items-center gap-2'>
+              <label className='input_label'>상세정보</label>
+              <span className='absolute -right-1.5 -top-2 text-red'>*</span>
+            </div>
+
             <input
               type='text'
               value={transaction.details}
@@ -158,19 +167,19 @@ const CalendarModal = ({ onClose, onSubmit }: CalendarModalProps) => {
               className='input_box'
             />
           </li>
-          <li className='button_gap'>
-            <button
-              type='button'
-              onClick={onClose}
-              className='choice_button opacity-70'
-            >
-              취소
-            </button>
-            <button type='submit' className='choice_button'>
-              완료
-            </button>
-          </li>
         </ul>
+        <div className='button_gap'>
+          <button
+            type='button'
+            onClick={onClose}
+            className='choice_button opacity-70'
+          >
+            취소
+          </button>
+          <button type='submit' className='choice_button'>
+            완료
+          </button>
+        </div>
       </form>
     </div>
   );
