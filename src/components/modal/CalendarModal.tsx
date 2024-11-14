@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { Transaction } from '../../types/calendar';
 import { useState } from 'react';
 
@@ -15,14 +16,37 @@ const CalendarModal = ({ onClose, onSubmit }: CalendarModalProps) => {
     amount: 0,
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (
+      !transaction.item ||
+      transaction.amount === 0 ||
+      transaction.details.trim() === ''
+    ) {
+      toast.warn('빈칸 없이 모두 입력해주세요.', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+      return;
+    }
+
     onSubmit(transaction);
+
     onClose();
+    toast.dismiss();
   };
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
+      toast.dismiss();
     }
   };
 
@@ -31,7 +55,10 @@ const CalendarModal = ({ onClose, onSubmit }: CalendarModalProps) => {
       className='fixed inset-0 z-50 flex items-center justify-center bg-m_background/70'
       onClick={handleBackdropClick}
     >
-      <div className='modal_div flex w-[500px] flex-col gap-7'>
+      <form
+        onSubmit={handleSubmit}
+        className='modal_div flex w-[500px] flex-col gap-7'
+      >
         <ul className='flex flex-col gap-4'>
           <li className='flex items-center justify-between'>
             <div className='relative flex items-center gap-2'>
@@ -79,7 +106,7 @@ const CalendarModal = ({ onClose, onSubmit }: CalendarModalProps) => {
                       type: e.target.value as 'expense' | 'income',
                     })
                   }
-                  className='w-5 h-5'
+                  className='h-5 w-5'
                 />
                 <span className='ml-2 text-lg text-main'>지출</span>
               </label>
@@ -95,7 +122,7 @@ const CalendarModal = ({ onClose, onSubmit }: CalendarModalProps) => {
                       type: e.target.value as 'expense' | 'income',
                     })
                   }
-                  className='w-5 h-5'
+                  className='h-5 w-5'
                 />
                 <span className='ml-2 text-lg text-main'>수입</span>
               </label>
@@ -131,21 +158,20 @@ const CalendarModal = ({ onClose, onSubmit }: CalendarModalProps) => {
               className='input_box'
             />
           </li>
+          <li className='button_gap'>
+            <button
+              type='button'
+              onClick={onClose}
+              className='choice_button opacity-70'
+            >
+              취소
+            </button>
+            <button type='submit' className='choice_button'>
+              완료
+            </button>
+          </li>
         </ul>
-
-        <div className='button_gap'>
-          <button
-            type='button'
-            onClick={onClose}
-            className='choice_button opacity-70'
-          >
-            취소
-          </button>
-          <button onClick={handleSubmit} className='choice_button'>
-            완료
-          </button>
-        </div>
-      </div>
+      </form>
     </div>
   );
 };

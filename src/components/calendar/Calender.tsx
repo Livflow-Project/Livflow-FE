@@ -12,6 +12,7 @@ import koLocale from '@fullcalendar/core/locales/ko';
 import listPlugin from '@fullcalendar/list';
 import { twMerge } from 'tailwind-merge';
 import useCalendarStore from '../../store/useCalendarStore';
+import { toast } from 'react-toastify';
 
 interface CalendarProps {
   storeId: number;
@@ -265,7 +266,10 @@ const Calender: React.FC<CalendarProps> = ({ storeId }) => {
       {/* 모달 컴포넌트 */}
       {isModalOpen && (
         <CalendarModal
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => {
+            setIsModalOpen(false);
+            toast.dismiss();
+          }}
           onSubmit={handleAddTransaction}
           selectedDate={selectedDate}
         />

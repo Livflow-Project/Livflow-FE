@@ -20,7 +20,7 @@ const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
     if (name.trim() === '') {
       toast.warn('스토어 이름은 필수 입력 요소입니다.', {
         position: 'top-center',
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
