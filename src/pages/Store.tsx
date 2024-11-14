@@ -8,6 +8,7 @@ import AddStoreModal from '../components/modal/AddStoreModal';
 import MyStore from '../components/userStore/MyStore';
 import { useState } from 'react';
 import useUsers_Store from '../store/useUsersStore';
+import { toast } from 'react-toastify';
 
 const Store = () => {
   const { stores, isDeleteMode, toggleDeleteMode } = useUsers_Store();
@@ -16,6 +17,7 @@ const Store = () => {
 
   const handleToggleModal = () => {
     setIsModalOpen((prev) => !prev);
+    toast.dismiss();
   };
 
   const handleDeleteModeToggle = () => {

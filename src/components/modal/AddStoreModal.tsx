@@ -37,11 +37,13 @@ const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
     setAddress('');
 
     onClose();
+    toast.dismiss();
   };
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
+      toast.dismiss();
     }
   };
 
