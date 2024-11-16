@@ -9,7 +9,7 @@ const StoreID = () => {
 
   const store = stores.find((store) => store.id === parseInt(id || ''));
 
-  if (!id) {
+  if (!id || !store) {
     return (
       <div className='flex h-[calc(100vh-75px)] items-center justify-center text-2xl font-semibold text-main'>
         상점의 가계부 정보를 찾을 수 없습니다. 이전 페이지로 이동해주세요.
@@ -35,9 +35,7 @@ const StoreID = () => {
             <span className='text-[22px] font-normal text-main'>가계부</span>
           </nav>
           <nav className='flex h-[55px] w-[135px] items-center justify-center rounded-tl-[10px] rounded-tr-[10px] bg-background/60'>
-            <span className='text-[22px] font-normal text-main/60'>
-              원가계산
-            </span>
+            <span className='text-[22px] font-normal text-main/60'>재료</span>
           </nav>
         </div>
         <div className='h-[calc(100%-55px)] w-full bg-background'>
