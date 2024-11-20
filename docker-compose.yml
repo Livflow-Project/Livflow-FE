@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .  # 현재 디렉토리를 빌드 컨텍스트로 사용
+      dockerfile: Dockerfile  # 사용할 Dockerfile 지정
+    container_name: fc01  # 컨테이너 이름
+    ports:
+      - "5000:80"  # 로컬 머신의 5000번 포트를 컨테이너의 80번 포트에 매핑
+    volumes:
+      - ./dist:/app/static  # 빌드 결과물(dist)을 Nginx의 정적 파일 경로에 매핑
