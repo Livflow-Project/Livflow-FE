@@ -65,5 +65,5 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/joo/front-end-coffee
-            echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose -f docker-compose.yml restart frontend-nginx
+            cd /home/joo/Front-end-coffee
+            echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose restart frontend-nginx
