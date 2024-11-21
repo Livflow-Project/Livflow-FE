@@ -11,7 +11,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import koLocale from '@fullcalendar/core/locales/ko';
 import listPlugin from '@fullcalendar/list';
 import { twMerge } from 'tailwind-merge';
-import useCalendarStore from '../../store/useCalendarStore';
+import useCalendarStore from '../../Store/useCalendarStore';
 import { toast } from 'react-toastify';
 
 interface CalendarProps {
