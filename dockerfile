@@ -23,7 +23,7 @@ FROM nginx:1.23-alpine
 COPY --from=0 /app/dist /usr/share/nginx/html
 
 # Nginx 기본 설정 덮어쓰기 (필요시)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Nginx 컨테이너 포트 노출
 EXPOSE 80
