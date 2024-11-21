@@ -264,7 +264,7 @@ const Calender: React.FC<CalendarProps> = ({ storeId }) => {
 
             <div className='h- flex h-[calc(100%-130px)] w-full flex-col gap-2'>
               {selectedDate && storeTransactions[selectedDate]?.length > 0 ? (
-                storeTransactions[selectedDate].map((transaction, index) => (
+                storeTransactions[selectedDate].map((transaction: Transaction, index: number) => (
                   <div
                     key={index}
                     className='flex h-[45px] w-full items-center border-b border-underline/30 text-center'
