@@ -7,7 +7,7 @@ import AddStore from '../components/userStore/AddStore';
 import AddStoreModal from '../components/modal/AddStoreModal';
 import MyStore from '../components/userStore/MyStore';
 import { useState } from 'react';
-import useUsers_Store from '../store/useUsersStore';
+import useUsers_Store from '../Store/useUsersStore';
 import { toast } from 'react-toastify';
 
 const Store = () => {

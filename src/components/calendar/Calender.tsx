@@ -122,10 +122,10 @@ const Calender: React.FC<CalendarProps> = ({ storeId }) => {
           eventContent={(eventInfo) => (
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
               {storeTransactions[eventInfo.event.startStr]?.some(
-                (t) => t.type === 'expense'
+                (t: Transaction) => t.type === 'expense'
               ) && <span className='text-red'>●</span>}
               {storeTransactions[eventInfo.event.startStr]?.some(
-                (t) => t.type === 'income'
+                (t: Transaction) => t.type === 'income'
               ) && <span className='text-green'>●</span>}
             </div>
           )}

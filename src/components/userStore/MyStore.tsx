@@ -5,7 +5,7 @@ import Store_Icon from '../../assets/Store_Icon.svg';
 import UseChart from './UseChart';
 import { twMerge } from 'tailwind-merge';
 import { useNavigate } from 'react-router-dom';
-import useUsers_Store from '../../store/useUsersStore';
+import useUsers_Store from '../../Store/useUsersStore';
 
 interface MyStoreProps {
   id: number;

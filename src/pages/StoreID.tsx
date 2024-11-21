@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 
 import Calender from '../components/calendar/Calender';
-import useUsers_Store from '../store/useUsersStore';
+import useUsers_Store from '../Store/useUsersStore';
 
 const StoreID = () => {
   const { id } = useParams<{ id: string }>();
