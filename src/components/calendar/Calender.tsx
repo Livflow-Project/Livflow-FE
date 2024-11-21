@@ -1,4 +1,4 @@
-import './Calendar.css';
+import './calendar.css';
 
 import { CalendarEvent, Transaction } from '../../types/calendar';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
