@@ -46,15 +46,15 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/joo/front-end-coffee
+            cd /home/joo/Front-end-coffee
             git config pull.rebase false
             git pull origin main
             # 빌드 결과물을 dist로 복사
             rm -rf /home/joo/front-end-coffee/dist
             cp -r ./dist /home/joo/front-end-coffee/dist
             # Docker Compose로 컨테이너 재시작
-            echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose -f docker-compose.yml down
-            echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose -f docker-compose.yml up -d --build
+            echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose down
+            echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose up -d --build
 
       # 6. Nginx 서비스 재시작
       - name: Restart Nginx
