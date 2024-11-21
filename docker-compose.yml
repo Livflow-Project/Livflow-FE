@@ -22,4 +22,4 @@ services:
       - ./dist:/usr/share/nginx/html  # 정적 파일 제공
       - ./nginx.conf:/etc/nginx/conf.d/default.conf  # Nginx 설정 파일 매핑
       - /etc/letsencrypt:/etc/letsencrypt  # SSL 인증서 경로
-      - /var/www/certbot:/var/www/certbot  # Certbot 경로
+      - ./certbot:/var/www/certbot # Certbot 경로
