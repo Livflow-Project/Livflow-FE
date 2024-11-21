@@ -17,7 +17,8 @@ services:
     ports:
       - "5000:80"  # 로컬 5000번 포트를 컨테이너의 80번 포트에 매핑
     volumes:
-      - ./dist:/usr/share/nginx/html  # 정적 파일 제공
-      - ./nginx.conf:/etc/nginx/nginx.conf  # Nginx 설정 파일 매핑
-      - /etc/letsencrypt:/etc/letsencrypt  # SSL 인증서 경로
-      - ./certbot:/var/www/certbot # Certbot 경로
+      - ./dist:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt/archive/livflow.co.kr/fullchain2.pem:/etc/letsencrypt/live/livflow.co.kr/fullchain.pem
+      - /etc/letsencrypt/archive/livflow.co.kr/privkey2.pem:/etc/letsencrypt/live/livflow.co.kr/privkey.pem
+      - ./certbot:/var/www/certbot
