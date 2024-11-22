@@ -49,11 +49,9 @@ jobs:
             cd /home/joo/Front-end-coffee
             git config pull.rebase false
             git pull origin main
-            # 빌드 결과물을 dist로 복사
-            rm -rf /home/joo/front-end-coffee/dist
-            cp -r ./dist /home/joo/front-end-coffee/dist
-            # Docker Compose로 컨테이너 재시작
-            echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose down
+            
+            # 기존 볼륨과 컨테이너 제거 후 재시작
+            echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose down -v
             echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose up -d --build
 
       # 6. Nginx 서비스 재시작
