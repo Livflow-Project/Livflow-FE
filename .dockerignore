@@ -15,7 +15,7 @@ Dockerfile
 docker-compose.yml
 
 # 빌드 결과물
-dist
+
 build
 .cache
 
