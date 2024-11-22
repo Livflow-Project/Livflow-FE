@@ -13,8 +13,17 @@ RUN npm install
 # 프로젝트 소스 코드 복사
 COPY . .
 
-# Vite로 빌드
-RUN npm run build
+# TypeScript 컴파일 상태 확인
+RUN npm run tsc --dry-run || echo "TypeScript check failed"
+
+# 현재 디렉토리 상태 확인
+RUN ls -la
+
+# Vite로 빌드 (TypeScript 컴파일 포함)
+RUN npm run build || exit 1
+
+# 빌드 후 dist 디렉토리 확인
+RUN ls -la dist || echo "dist directory not found"
 
 # Nginx로 정적 파일 제공
 FROM nginx:1.23-alpine
