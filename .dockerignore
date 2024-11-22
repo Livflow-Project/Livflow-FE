@@ -1,0 +1,24 @@
+# Node.js 관련
+node_modules
+npm-debug.log
+
+# 환경 설정 파일
+.env
+*.env
+
+# Git 관련
+.git
+.gitignore
+
+# Docker 관련
+Dockerfile
+docker-compose.yml
+
+# 빌드 결과물
+dist
+build
+.cache
+
+# 시스템 파일
+.DS_Store
+Thumbs.db
