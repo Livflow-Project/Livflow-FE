@@ -5,7 +5,7 @@ services:
   frontend:
     build:
       context: .  # 현재 디렉토리를 빌드 컨텍스트로 사용
-      dockerfile: Dockerfile  # 사용할 Dockerfile 지정
+      dockerfile: dockerfile  # 사용할 Dockerfile 지정
     container_name: frontend-container  # 컨테이너 이름
     volumes:
       - ./dist:/usr/share/nginx/html  # Nginx 컨테이너에서 제공할 빌드 결과물 경로에 매핑
