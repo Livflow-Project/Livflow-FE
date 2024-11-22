@@ -24,3 +24,6 @@ services:
       - /etc/letsencrypt/archive/livflow.co.kr/fullchain2.pem:/etc/letsencrypt/live/livflow.co.kr/fullchain.pem
       - /etc/letsencrypt/archive/livflow.co.kr/privkey2.pem:/etc/letsencrypt/live/livflow.co.kr/privkey.pem
       - ./certbot:/var/www/certbot
+
+volumes:
+  build_volume: 
