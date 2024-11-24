@@ -10,7 +10,7 @@ services:
     volumes:
       - build_volume:/usr/share/nginx/html  # Nginx 컨테이너에서 제공할 빌드 결과물 경로에 매핑
       - /etc/letsencrypt:/etc/letsencrypt:ro
-
+#./dist:
       
   # Nginx 컨테이너
   frontend-nginx:
@@ -27,4 +27,9 @@ services:
       - ./certbot:/var/www/certbot
 
 volumes:
-  build_volume: 
+  build_volume:
+    driver: local
+    driver_opts:
+      type: "none"
+      device: "./dist"  # 빌드된 정적 파일들이 있는 경로를 지정
+      o: "bind"
