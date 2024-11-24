@@ -17,7 +17,7 @@ services:
     image: nginx:1.23-alpine  # Nginx 이미지 사용
     container_name: frontend-nginx  # Nginx 컨테이너 이름
     ports:
-      - "80:80"
+      #- "80:80"
       - "443:443"  
     volumes:
       - build_volume:/usr/share/nginx/html
