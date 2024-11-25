@@ -8,7 +8,7 @@ services:
       dockerfile: dockerfile  # 사용할 Dockerfile 지정
     container_name: frontend-container  # 컨테이너 이름
     volumes:
-      #- build_volume:/usr/share/nginx/html  # Nginx 컨테이너에서 제공할 빌드 결과물 경로에 매핑
+      - build_volume:/usr/share/nginx/html  # Nginx 컨테이너에서 제공할 빌드 결과물 경로에 매핑
       - /etc/letsencrypt:/etc/letsencrypt:ro
 #./dist:
       
@@ -20,7 +20,7 @@ services:
       - "80:80"
       - "443:443"  
     volumes:
-      #- build_volume:/usr/share/nginx/html
+      - build_volume:/usr/share/nginx/html
       - ./nginx.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt/archive/livflow.co.kr/fullchain2.pem:/etc/letsencrypt/live/livflow.co.kr/fullchain.pem
       - /etc/letsencrypt/archive/livflow.co.kr/privkey2.pem:/etc/letsencrypt/live/livflow.co.kr/privkey.pem
