@@ -25,6 +25,9 @@ RUN npm run build || exit 1
 # 빌드 후 dist 디렉토리 확인
 RUN ls -la dist || echo "dist directory not found"
 
+# /app/public에 파일이 있는지 확인
+RUN ls -la /app/public || echo "public directory not found"
+
 # Nginx로 정적 파일 제공
 FROM nginx:1.23-alpine
 
@@ -34,10 +37,8 @@ RUN rm /etc/nginx/conf.d/default.conf
 # 빌드된 파일 복사
 COPY --from=0 /app/dist /usr/share/nginx/html
 
-# /public 폴더 복사
-RUN mkdir /usr/share/nginx/html/public
-COPY --from=0 /app/public/LogoWhale.svg /usr/share/nginx/html/public/LogoWhale.svg
-COPY --from=0 /app/public/LogoText.svg /usr/share/nginx/html/public/LogoText.svg
+# /public 폴더 전체를 복사
+COPY --from=0 /app/public /usr/share/nginx/html/public
 
 # 사용자 정의 Nginx 설정 파일 복사
 COPY nginx.conf /etc/nginx/nginx.conf
