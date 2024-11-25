@@ -34,6 +34,11 @@ RUN rm /etc/nginx/conf.d/default.conf
 # 빌드된 파일 복사
 COPY --from=0 /app/dist /usr/share/nginx/html
 
+# /public 폴더 복사
+RUN mkdir /usr/share/nginx/html/public
+COPY --from=0 /app/public/LogoWhale.svg /usr/share/nginx/html/public/LogoWhale.svg
+COPY --from=0 /app/public/LogoText.svg /usr/share/nginx/html/public/LogoText.svg
+
 # 사용자 정의 Nginx 설정 파일 복사
 COPY nginx.conf /etc/nginx/nginx.conf
 
