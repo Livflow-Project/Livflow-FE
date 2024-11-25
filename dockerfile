@@ -26,7 +26,7 @@ RUN npm run build || exit 1
 RUN ls -la dist || echo "dist directory not found"
 
 # /app/public에 파일이 있는지 확인
-RUN ls -la /app/public || echo "public directory not found"
+RUN ls -la /app/public && echo "public directory exists" || echo "public directory not found"
 
 # Nginx로 정적 파일 제공
 FROM nginx:1.23-alpine
