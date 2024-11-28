@@ -2,11 +2,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { Route, Routes } from 'react-router-dom';
 
-import Home from './pages/home';
-import Layout from './layout/layout';
-import Login from './pages/login';
-import Store from './pages/store';
-import StoreId from './pages/storeId';
+import Home from './pages/Home';
+import Layout from './layout/Layout';
+import Login from './pages/Login';
+import Store from './pages/Store';
+import StoreId from './pages/StoreId';
 import { ToastContainer } from 'react-toastify';
 
 const App = () => {
