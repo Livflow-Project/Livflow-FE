@@ -1,8 +1,8 @@
-import Map_Icon from '../../assets/Map_Icon.svg';
-import Store_Icon from '../../assets/Store_Icon.svg';
+import { mapIcon, storeIcon } from '@/assets/assets';
+
 import { toast } from 'react-toastify';
 import { useState } from 'react';
-import useUsersStore from '../../Store/useUsersStore';
+import useUsersStore from '@/store/useUsersStore';
 
 interface AddStoreModalProps {
   onClose: () => void;
@@ -57,7 +57,7 @@ const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
           <ul className='flex flex-col gap-4'>
             <li className='flex items-center justify-between'>
               <div className='relative flex items-center gap-2'>
-                <img src={Store_Icon} alt='상점 이미지' />
+                <img src={storeIcon} alt='상점 이미지' />
                 <label htmlFor='store_name' className='input_label'>
                   스토어 이름
                 </label>
@@ -74,7 +74,7 @@ const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
             </li>
             <li className='flex items-center justify-between'>
               <div className='flex items-center gap-2'>
-                <img src={Map_Icon} alt='주소 이미지' />
+                <img src={mapIcon} alt='주소 이미지' />
                 <label htmlFor='store_address' className='input_label'>
                   주소
                 </label>

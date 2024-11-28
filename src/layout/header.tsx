@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Logo from '/public/Logo.svg';
+import { logo } from '@/assets/assets';
 
 const Header = () => {
   return (
@@ -7,7 +7,7 @@ const Header = () => {
       <div className='flex items-center justify-between'>
         <div className='flex items-center'>
           <Link to='/'>
-            <img src={Logo} alt='Livflow 로고' className='mr-28 h-[70px]' />
+            <img src={logo} alt='Livflow 로고' className='mr-28 h-[70px]' />
           </Link>
           <div className='flex items-center gap-20'>
             <Link to=''>

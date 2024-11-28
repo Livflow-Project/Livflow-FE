@@ -6,7 +6,7 @@ interface PieChartProps {
   categories: Record<string, number>;
 }
 
-const PieChart: React.FC<PieChartProps> = ({ selectedType, categories }) => {
+const PieChart = ({ selectedType, categories }: PieChartProps) => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {

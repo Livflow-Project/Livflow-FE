@@ -15,7 +15,7 @@ interface StoreState {
   toggleDeleteMode: () => void;
 }
 
-const useUsers_Store = create<StoreState>((set) => ({
+const useUsersStore = create<StoreState>((set) => ({
   stores: [],
   isDeleteMode: false,
 
@@ -51,4 +51,4 @@ const useUsers_Store = create<StoreState>((set) => ({
     })),
 }));
 
-export default useUsers_Store;
+export default useUsersStore;

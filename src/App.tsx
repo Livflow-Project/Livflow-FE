@@ -2,11 +2,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { Route, Routes } from 'react-router-dom';
 
-import Home from './pages/Home';
-import Layout from './components/Layout/Layout';
-import Login from './pages/Login';
-import Store from './pages/Store';
-import StoreID from './pages/StoreID';
+import Home from './pages/home';
+import Layout from './layout/layout';
+import Login from './pages/login';
+import Store from './pages/store';
+import StoreId from './pages/storeId';
 import { ToastContainer } from 'react-toastify';
 
 const App = () => {
@@ -18,7 +18,7 @@ const App = () => {
         <Route element={<Layout />}>
           <Route path='/' element={<Home />} />
           <Route path='/store' element={<Store />} />
-          <Route path='/store/:id' element={<StoreID />} />
+          <Route path='/store/:id' element={<StoreId />} />
         </Route>
 
         <Route path='/login' element={<Login />} />

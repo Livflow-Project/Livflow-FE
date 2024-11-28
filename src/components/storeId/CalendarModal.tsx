@@ -1,5 +1,5 @@
+import { Transaction } from '@/types/calendarType';
 import { toast } from 'react-toastify';
-import { Transaction } from '../../types/calendar';
 import { useState } from 'react';
 
 type CalendarModalProps = {

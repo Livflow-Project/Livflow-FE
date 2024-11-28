@@ -1,18 +1,18 @@
 import './calendar.css';
 
-import { CalendarEvent, Transaction } from '../../types/calendar';
+import { CalendarEvent, Transaction } from '@/types/calendarType';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { useRef, useState } from 'react';
 
-import CalendarModal from '../modal/CalendarModal';
+import CalendarModal from '../CalendarModal';
 import FullCalendar from '@fullcalendar/react';
-import PieChart from '../userStore/PieChart';
+import PieChart from '@/components/common/PieChart';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import koLocale from '@fullcalendar/core/locales/ko';
 import listPlugin from '@fullcalendar/list';
-import { twMerge } from 'tailwind-merge';
-import useCalendarStore from '../../Store/useCalendarStore';
 import { toast } from 'react-toastify';
+import { twMerge } from 'tailwind-merge';
+import useCalendarStore from '@/store/useCalendarStore';
 
 interface CalendarProps {
   storeId: number;
@@ -264,31 +264,33 @@ const Calender: React.FC<CalendarProps> = ({ storeId }) => {
 
             <div className='h- flex h-[calc(100%-130px)] w-full flex-col gap-2'>
               {selectedDate && storeTransactions[selectedDate]?.length > 0 ? (
-                storeTransactions[selectedDate].map((transaction: Transaction, index: number) => (
-                  <div
-                    key={index}
-                    className='flex h-[45px] w-full items-center border-b border-underline/30 text-center'
-                  >
-                    <span className='w-[30%] text-lg font-normal'>
-                      {transaction.item}
-                    </span>
-                    <span className='w-[40%] text-lg font-normal'>
-                      {transaction.details}
-                    </span>
-                    <span
-                      className={twMerge(
-                        'w-[30%] text-lg font-normal',
-                        transaction.type === 'expense'
-                          ? 'text-red'
-                          : 'text-green'
-                      )}
+                storeTransactions[selectedDate].map(
+                  (transaction: Transaction, index: number) => (
+                    <div
+                      key={index}
+                      className='flex h-[45px] w-full items-center border-b border-underline/30 text-center'
                     >
-                      {transaction.type === 'expense'
-                        ? `- ${transaction.amount}`
-                        : `+ ${transaction.amount}`}
-                    </span>
-                  </div>
-                ))
+                      <span className='w-[30%] text-lg font-normal'>
+                        {transaction.item}
+                      </span>
+                      <span className='w-[40%] text-lg font-normal'>
+                        {transaction.details}
+                      </span>
+                      <span
+                        className={twMerge(
+                          'w-[30%] text-lg font-normal',
+                          transaction.type === 'expense'
+                            ? 'text-red'
+                            : 'text-green'
+                        )}
+                      >
+                        {transaction.type === 'expense'
+                          ? `- ${transaction.amount}`
+                          : `+ ${transaction.amount}`}
+                      </span>
+                    </div>
+                  )
+                )
               ) : (
                 // 날짜는 선택했으나 트랜잭션이 없을 때 메시지 표시
                 <div className='my-auto w-full text-center text-2xl text-main'>

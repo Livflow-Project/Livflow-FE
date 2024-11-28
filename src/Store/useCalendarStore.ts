@@ -1,4 +1,4 @@
-import { Transaction } from '../types/calendar';
+import { Transaction } from '@/types/calendarType';
 import { create } from 'zustand';
 
 interface useCalendarStoreState {

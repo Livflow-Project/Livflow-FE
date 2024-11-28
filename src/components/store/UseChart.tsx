@@ -1,6 +1,6 @@
-import PieChart from './PieChart';
+import PieChart from '../common/PieChart';
 import { twMerge } from 'tailwind-merge';
-import useCalendarStore from '../../Store/useCalendarStore';
+import useCalendarStore from '@/store/useCalendarStore';
 import { useState } from 'react';
 
 interface UseChartProps {
@@ -8,7 +8,7 @@ interface UseChartProps {
   isDeleteMode: boolean;
 }
 
-const UseChart: React.FC<UseChartProps> = ({ id, isDeleteMode }) => {
+const UseChart = ({ id, isDeleteMode }: UseChartProps) => {
   const [isExpenseSelected, setIsExpenseSelected] = useState(true);
 
   const { monthlyTotals } = useCalendarStore();

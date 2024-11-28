@@ -3,15 +3,15 @@ import 'swiper/swiper-bundle.css';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import AddStore from '../components/userStore/AddStore';
-import AddStoreModal from '../components/modal/AddStoreModal';
-import MyStore from '../components/userStore/MyStore';
-import { useState } from 'react';
-import useUsers_Store from '../Store/useUsersStore';
+import AddStore from '@/components/store/AddStore';
+import AddStoreModal from '@/components/store/modal/AddStoreModal';
+import MyStore from '@/components/store/MyStore';
 import { toast } from 'react-toastify';
+import { useState } from 'react';
+import useUsersStore from '@/store/useUsersStore';
 
 const Store = () => {
-  const { stores, isDeleteMode, toggleDeleteMode } = useUsers_Store();
+  const { stores, isDeleteMode, toggleDeleteMode } = useUsersStore();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 

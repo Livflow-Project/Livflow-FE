@@ -1,11 +1,10 @@
+import { mapIcon, storeIcon } from '@/assets/assets';
 import { useRef, useState } from 'react';
 
-import Map_Icon from '../../assets/Map_Icon.svg';
-import Store_Icon from '../../assets/Store_Icon.svg';
 import UseChart from './UseChart';
 import { twMerge } from 'tailwind-merge';
 import { useNavigate } from 'react-router-dom';
-import useUsers_Store from '../../Store/useUsersStore';
+import useUsersStore from '@/store/useUsersStore';
 
 interface MyStoreProps {
   id: number;
@@ -14,19 +13,19 @@ interface MyStoreProps {
   isDeleteMode: boolean;
 }
 
-const MyStore: React.FC<MyStoreProps> = ({
+const MyStore = ({
   id,
   name: initialName,
   address: initialAddress,
   isDeleteMode,
-}) => {
+}: MyStoreProps) => {
   const [name, setName] = useState(initialName);
   const [address, setAddress] = useState(initialAddress);
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
 
-  const updateStore = useUsers_Store((state) => state.updateStore);
-  const deleteStore = useUsers_Store((state) => state.deleteStore);
+  const updateStore = useUsersStore((state) => state.updateStore);
+  const deleteStore = useUsersStore((state) => state.deleteStore);
 
   const navigate = useNavigate();
 
@@ -81,7 +80,7 @@ const MyStore: React.FC<MyStoreProps> = ({
       <div className='border-b border-underline border-opacity-20 p-[20px]'>
         <ul className='flex flex-col gap-6'>
           <li className='flex items-center justify-between'>
-            <img src={Store_Icon} alt='상점 아이콘' className='w-[30px]' />
+            <img src={storeIcon} alt='상점 아이콘' className='w-[30px]' />
             {isEditingName ? (
               <input
                 ref={nameInputRef}
@@ -111,7 +110,7 @@ const MyStore: React.FC<MyStoreProps> = ({
             </button>
           </li>
           <li className='flex items-center justify-between'>
-            <img src={Map_Icon} alt='주소 아이콘' className='w-[30px]' />
+            <img src={mapIcon} alt='주소 아이콘' className='w-[30px]' />
             {isEditingAddress ? (
               <input
                 ref={addressInputRef}
