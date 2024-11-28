@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import UseChart from './UseChart';
 import { twMerge } from 'tailwind-merge';
 import { useNavigate } from 'react-router-dom';
-import useUsersStore from '@/store/useUsersStore';
+import useUsersStore from '@/store/useUsersStore.ts';
 
 interface MyStoreProps {
   id: number;

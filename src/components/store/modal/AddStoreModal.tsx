@@ -2,7 +2,7 @@ import { mapIcon, storeIcon } from '@/assets/assets';
 
 import { toast } from 'react-toastify';
 import { useState } from 'react';
-import useUsersStore from '@/store/useUsersStore';
+import useUsersStore from '@/store/useUsersStore.ts';
 
 interface AddStoreModalProps {
   onClose: () => void;

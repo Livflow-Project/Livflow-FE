@@ -8,7 +8,7 @@ import AddStoreModal from '@/components/store/modal/AddStoreModal';
 import MyStore from '@/components/store/MyStore';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
-import useUsersStore from '@/store/useUsersStore';
+import useUsersStore from '@/store/useUsersStore.ts';
 
 const Store = () => {
   const { stores, isDeleteMode, toggleDeleteMode } = useUsersStore();
