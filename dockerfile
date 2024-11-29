@@ -24,12 +24,15 @@ RUN npm run build || exit 1
 
 # 빌드 후 dist 디렉토리 확인
 RUN ls -la dist || echo "dist directory not found"
+RUN ls -la dist/public
+
 
 # Nginx로 정적 파일 제공
 FROM nginx:1.23-alpine
 
-# 빌드된 파일 복사
+# 기존 복사 부분을 다음과 같이 변경
 COPY --from=0 /app/dist /usr/share/nginx/html
+COPY --from=0 /app/dist/public /usr/share/nginx/html/public
 
 # 사용자 정의 Nginx 설정 파일 복사
 COPY nginx.conf /etc/nginx/nginx.conf
