@@ -26,10 +26,10 @@ services:
       - /etc/letsencrypt/archive/livflow.co.kr/privkey2.pem:/etc/letsencrypt/live/livflow.co.kr/privkey.pem
       - ./certbot:/var/www/certbot
 
-volumes:
-  build_volume:
-    driver: local
-    driver_opts:
-      type: "none"
-      device: "./dist"  # 빌드된 정적 파일들이 있는 경로를 지정
-      o: "bind"
+# volumes:
+#   build_volume:
+#     driver: local
+#     driver_opts:
+#       type: "none"
+#       device: "./dist"  # 빌드된 정적 파일들이 있는 경로를 지정
+#       o: "bind"
