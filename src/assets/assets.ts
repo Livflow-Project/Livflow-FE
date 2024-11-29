@@ -8,8 +8,10 @@ import naver from './login/naver.svg';
 import plusButton from './store/plusButton.svg';
 import rightArrow from './home/rightArrow.svg';
 import storeIcon from './store/storeIcon.svg';
+import test from './home/test.svg';
 
 export {
+  test,
   google,
   kakao,
   naver,
