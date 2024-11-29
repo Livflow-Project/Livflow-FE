@@ -54,10 +54,10 @@ jobs:
             echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose down -v
             echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose up -d --build
             # /usr/share/nginx/html/public 디렉터리 생성 및 파일 복사
-            # echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker exec frontend-nginx /bin/sh -c "
-            #   mkdir -p /usr/share/nginx/html/public && 
-            #   cp /usr/share/nginx/html/*.svg /usr/share/nginx/html/public/
-            # "
+            echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker exec frontend-nginx /bin/sh -c "
+              mkdir -p /usr/share/nginx/html/public && 
+              cp /usr/share/nginx/html/*.svg /usr/share/nginx/html/public/
+            "
 
       # 6. Nginx 서비스 재시작
       - name: Restart Nginx
