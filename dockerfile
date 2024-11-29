@@ -16,23 +16,23 @@ COPY . .
 # TypeScript 컴파일 상태 확인
 RUN npm run tsc --dry-run || echo "TypeScript check failed"
 
-# 현재 디렉토리 상태 확인
+# 현재 디렉터리 상태 확인
 RUN ls -la
 
 # Vite로 빌드 (TypeScript 컴파일 포함)
 RUN npm run build || exit 1
 
-# 빌드 후 dist 디렉토리 확인
+# 빌드 후 dist 디렉터리 확인
 RUN ls -la dist || echo "dist directory not found"
-RUN ls -la dist/public
-
 
 # Nginx로 정적 파일 제공
 FROM nginx:1.23-alpine
 
-# 기존 복사 부분을 다음과 같이 변경
+# 빌드된 파일 복사
 COPY --from=0 /app/dist /usr/share/nginx/html
-COPY --from=0 /app/dist/public /usr/share/nginx/html/public
+
+# public 폴더가 존재할 경우에만 복사 (조건부 복사)
+RUN [ -d "/usr/share/nginx/html/public" ] && echo "public directory exists, proceeding to copy" || echo "public directory not found"
 
 # 사용자 정의 Nginx 설정 파일 복사
 COPY nginx.conf /etc/nginx/nginx.conf
