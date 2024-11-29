@@ -24,7 +24,7 @@ const Login = () => {
         <img src={logo} alt='Livflow 로고 이미지' className='w-[500px]' />
       </Link>
       <div className='flex flex-col items-center justify-center gap-5'>
-        {socialButtons.map((button) => (
+        {socialButtons.map((button: any) => (
           <img src={button.src} alt={button.alt} />
         ))}
       </div>

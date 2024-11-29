@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import UseChart from './UseChart';
 import { twMerge } from 'tailwind-merge';
 import { useNavigate } from 'react-router-dom';
-import useUsersStore from '@/store/useUsersStore.ts';
+import useUsersStore from '@/store/useUsersStore';
 
 interface MyStoreProps {
   id: number;
@@ -24,8 +24,8 @@ const MyStore = ({
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
 
-  const updateStore = useUsersStore((state) => state.updateStore);
-  const deleteStore = useUsersStore((state) => state.deleteStore);
+  const updateStore = useUsersStore((state: any) => state.updateStore);
+  const deleteStore = useUsersStore((state: any) => state.deleteStore);
 
   const navigate = useNavigate();
 

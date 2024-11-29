@@ -1,13 +1,13 @@
 import { Link, useParams } from 'react-router-dom';
 
 import Calender from '@/components/storeId/calendar/Calender';
-import useUsers_Store from '@/store/useUsersStore.ts';
+import useUsersStore from '@/store/useUsersStore';
 
 const StoreId = () => {
   const { id } = useParams<{ id: string }>();
-  const { stores } = useUsers_Store();
+  const { stores } = useUsersStore();
 
-  const store = stores.find((store) => store.id === parseInt(id || ''));
+  const store = stores.find((store: any) => store.id === parseInt(id || ''));
 
   if (!id || !store) {
     return (

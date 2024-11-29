@@ -34,7 +34,7 @@ const Calender: React.FC<CalendarProps> = ({ storeId }) => {
   const totalsForMonth = monthlyTotals[storeId]?.[monthKey];
 
   const events: CalendarEvent[] = Object.keys(storeTransactions).map(
-    (date) => ({
+    (date: any) => ({
       start: date,
     })
   );

@@ -8,7 +8,7 @@ import AddStoreModal from '@/components/store/modal/AddStoreModal';
 import MyStore from '@/components/store/MyStore';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
-import useUsersStore from '@/store/useUsersStore.ts';
+import useUsersStore from '@/store/useUsersStore';
 
 const Store = () => {
   const { stores, isDeleteMode, toggleDeleteMode } = useUsersStore();
@@ -49,7 +49,7 @@ const Store = () => {
           <SwiperSlide className='h-full px-[60px]'>
             <div className='flex items-start justify-start gap-[30px]'>
               <AddStore onOpenModal={handleToggleModal} />
-              {stores.slice(0, 2).map((store) => (
+              {stores.slice(0, 2).map((store: any) => (
                 <MyStore
                   key={store.id}
                   id={store.id}
@@ -70,15 +70,17 @@ const Store = () => {
                 return (
                   <SwiperSlide key={index} className='h-full px-[60px]'>
                     <div className='flex items-start justify-start gap-[30px]'>
-                      {stores.slice(startIdx, startIdx + 3).map((store) => (
-                        <MyStore
-                          key={store.id}
-                          id={store.id}
-                          name={store.name}
-                          address={store.address}
-                          isDeleteMode={isDeleteMode}
-                        />
-                      ))}
+                      {stores
+                        .slice(startIdx, startIdx + 3)
+                        .map((store: any) => (
+                          <MyStore
+                            key={store.id}
+                            id={store.id}
+                            name={store.name}
+                            address={store.address}
+                            isDeleteMode={isDeleteMode}
+                          />
+                        ))}
                     </div>
                   </SwiperSlide>
                 );

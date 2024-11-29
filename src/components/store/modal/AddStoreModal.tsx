@@ -12,7 +12,7 @@ const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
 
-  const addStore = useUsersStore((state) => state.addStore);
+  const addStore = useUsersStore((state: any) => state.addStore);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
