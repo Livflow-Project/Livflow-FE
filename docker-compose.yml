@@ -1,35 +1,22 @@
 version: '3.8'
 
 services:
-  # 프론트엔드 빌드 서비스
   frontend:
     build:
-      context: .  # 현재 디렉토리를 빌드 컨텍스트로 사용
-      dockerfile: dockerfile  # 사용할 Dockerfile 지정
-    container_name: frontend-container  # 컨테이너 이름
+      context: .
+      dockerfile: dockerfile
+    container_name: frontend-container
     volumes:
-      #- build_volume:/usr/share/nginx/html  # Nginx 컨테이너에서 제공할 빌드 결과물 경로에 매핑
       - /etc/letsencrypt:/etc/letsencrypt:ro
-#./dist:
-      
-  # Nginx 컨테이너
+
   frontend-nginx:
-    image: nginx:1.23-alpine  # Nginx 이미지 사용
-    container_name: frontend-nginx  # Nginx 컨테이너 이름
+    image: nginx:1.23-alpine
+    container_name: frontend-nginx
     ports:
       - "80:80"
-      - "443:443"  
+      - "443:443"
     volumes:
-     # - build_volume:/usr/share/nginx/html
       - ./nginx.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt/archive/livflow.co.kr/fullchain2.pem:/etc/letsencrypt/live/livflow.co.kr/fullchain.pem
       - /etc/letsencrypt/archive/livflow.co.kr/privkey2.pem:/etc/letsencrypt/live/livflow.co.kr/privkey.pem
       - ./certbot:/var/www/certbot
-
-# volumes:
-#   build_volume:
-#     driver: local
-#     driver_opts:
-#       type: "none"
-#       device: "./dist"  # 빌드된 정적 파일들이 있는 경로를 지정
-#       o: "bind"
