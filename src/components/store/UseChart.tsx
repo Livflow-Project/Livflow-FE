@@ -1,6 +1,6 @@
 import PieChart from '../common/PieChart';
 import { twMerge } from 'tailwind-merge';
-import useCalendarStore from '@/store/useCalendarStore';
+import useCalendarStore from '@/stores/useCalendarStore';
 import { useState } from 'react';
 
 interface UseChartProps {

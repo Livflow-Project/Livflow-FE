@@ -12,7 +12,7 @@ import koLocale from '@fullcalendar/core/locales/ko';
 import listPlugin from '@fullcalendar/list';
 import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
-import useCalendarStore from '@/store/useCalendarStore';
+import useCalendarStore from '@/stores/useCalendarStore';
 
 interface CalendarProps {
   storeId: number;
