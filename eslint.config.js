@@ -61,11 +61,11 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true }
       ],
-      "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": ["warn", {
-      "varsIgnorePattern": "^_",
-      "argsIgnorePattern": "^_",
-      "ignoreRestSiblings": true
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['warn', {
+      'varsIgnorePattern': '^_',
+      'argsIgnorePattern': '^_',
+      'ignoreRestSiblings': true
       }],
       'eqeqeq': ['error', 'always'],
       'tailwindcss/classnames-order': 'warn',
