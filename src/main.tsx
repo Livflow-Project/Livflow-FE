@@ -7,6 +7,11 @@ import { createRoot } from 'react-dom/client';
 
 const queryClient = new QueryClient();
 
+if (import.meta.env.DEV) {
+  const { worker } = await import('./mocks/browser');
+  worker.start();
+}
+
 createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
     <App />
