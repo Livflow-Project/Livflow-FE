@@ -8,12 +8,15 @@ import AddStoreModal from '@/components/store/modal/AddStoreModal';
 import MyStore from '@/components/store/MyStore';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
-import useUsersStore from '@/stores/useUsersStore';
+import { useStoreQuery } from '@/api/store/store.hooks';
 
 const Store = () => {
-  const { stores, isDeleteMode, toggleDeleteMode } = useUsersStore();
-
+  const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // React Query 훅 사용
+  const { useGetAllStores } = useStoreQuery();
+  const { data, isLoading } = useGetAllStores();
 
   const handleToggleModal = () => {
     setIsModalOpen((prev) => !prev);
@@ -21,17 +24,26 @@ const Store = () => {
   };
 
   const handleDeleteModeToggle = () => {
-    toggleDeleteMode();
+    setIsDeleteMode((prev) => !prev);
   };
+
+  if (isLoading) {
+    return <div>로딩중...</div>;
+  }
+
+  // data가 없거나 배열이 아닌 경우를 처리
+  if (!data) {
+    return <div>데이터를 불러올 수 없습니다.</div>;
+  }
 
   return (
     <div className='flex h-[calc(100vh-75px)] flex-col items-center justify-center bg-white'>
       <div className='w-full max-w-[1200px]'>
         <div className='mb-10 flex w-[400px] items-end justify-between pl-[60px]'>
           <span className='text-3xl font-semibold text-caption'>
-            전체 스토어 ({stores.length})
+            전체 스토어 ({data.length})
           </span>
-          {stores.length !== 0 && (
+          {data.length !== 0 && (
             <button
               className='text-lg text-red hover:font-semibold'
               onClick={handleDeleteModeToggle}
@@ -49,38 +61,31 @@ const Store = () => {
           <SwiperSlide className='h-full px-[60px]'>
             <div className='flex items-start justify-start gap-[30px]'>
               <AddStore onOpenModal={handleToggleModal} />
-              {stores.slice(0, 2).map((store: any) => (
+              {data.slice(0, 2).map((store: StoreResponse) => (
                 <MyStore
-                  key={store.id}
-                  id={store.id}
-                  name={store.name}
-                  address={store.address}
+                  key={store.store_id}
+                  storeInfo={store}
                   isDeleteMode={isDeleteMode}
                 />
               ))}
             </div>
           </SwiperSlide>
 
-          {/* stores.length가 3 이상일 때 나머지 스토어들을 3개씩 묶어서 슬라이드로 표시 */}
-          {stores.length >= 3 &&
+          {/* data.length가 3 이상일 때 나머지 스토어들을 3개씩 묶어서 슬라이드로 표시 */}
+          {data.length >= 3 &&
             Array.from(
-              { length: Math.ceil((stores.length - 2) / 3) },
+              { length: Math.ceil((data.length - 2) / 3) },
               (_, index) => {
                 const startIdx = 2 + index * 3;
                 return (
                   <SwiperSlide key={index} className='h-full px-[60px]'>
                     <div className='flex items-start justify-start gap-[30px]'>
-                      {stores
-                        .slice(startIdx, startIdx + 3)
-                        .map((store: any) => (
-                          <MyStore
-                            key={store.id}
-                            id={store.id}
-                            name={store.name}
-                            address={store.address}
-                            isDeleteMode={isDeleteMode}
-                          />
-                        ))}
+                      {data.slice(startIdx, startIdx + 3).map((store: any) => (
+                        <MyStore
+                          storeInfo={store}
+                          isDeleteMode={isDeleteMode}
+                        />
+                      ))}
                     </div>
                   </SwiperSlide>
                 );

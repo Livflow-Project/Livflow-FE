@@ -1,50 +1,41 @@
 import { mapIcon, storeIcon } from '@/assets/assets';
 import { useRef, useState } from 'react';
 
+import EditableInput from './EditableInput';
 import UseChart from './UseChart';
+import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 import { useNavigate } from 'react-router-dom';
-import useUsersStore from '@/stores/useUsersStore';
+import { useStoreQuery } from '@/api/store/store.hooks';
 
-interface MyStoreProps {
-  id: number;
-  name: string;
-  address?: string;
+type MyStoreProps = {
+  storeInfo: StoreResponse;
   isDeleteMode: boolean;
-}
+};
 
-const MyStore = ({
-  id,
-  name: initialName,
-  address: initialAddress,
-  isDeleteMode,
-}: MyStoreProps) => {
-  const [name, setName] = useState(initialName);
-  const [address, setAddress] = useState(initialAddress);
+const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
+  const [name, setName] = useState(storeInfo.name);
+  const [address, setAddress] = useState(storeInfo.address || '');
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
 
-  const updateStore = useUsersStore((state: any) => state.updateStore);
-  const deleteStore = useUsersStore((state: any) => state.deleteStore);
-
   const navigate = useNavigate();
+
+  // React Query 훅 사용
+  const { useUpdateStore, useDeleteStore } = useStoreQuery();
+  const updateStoreMutation = useUpdateStore();
+  const deleteStoreMutation = useDeleteStore();
 
   const nameInputRef = useRef<HTMLInputElement>(null);
   const addressInputRef = useRef<HTMLInputElement>(null);
 
-  const handleUpdate = (type: 'name' | 'address') => {
-    const updatedData = { id, name, address };
-
-    if (type === 'name' && name !== initialName) {
-      updateStore({ ...updatedData, address: initialAddress });
-    } else if (type === 'address' && address !== initialAddress) {
-      updateStore({ ...updatedData, name: initialName });
-    }
-
+  const handleEditButtonClick = (type: 'name' | 'address') => {
     if (type === 'name') {
-      setIsEditingName(false);
+      setIsEditingName(true);
+      requestAnimationFrame(() => nameInputRef.current?.focus());
     } else if (type === 'address') {
-      setIsEditingAddress(false);
+      setIsEditingAddress(true);
+      requestAnimationFrame(() => addressInputRef.current?.focus());
     }
   };
 
@@ -57,92 +48,86 @@ const MyStore = ({
     }
   };
 
-  const handleEditButtonClick = (type: 'name' | 'address') => {
-    if (type === 'name') {
-      setIsEditingName(true);
-      requestAnimationFrame(() => nameInputRef.current?.focus());
-    } else if (type === 'address') {
-      setIsEditingAddress(true);
-      requestAnimationFrame(() => addressInputRef.current?.focus());
+  const handleUpdate = (type: 'name' | 'address') => {
+    if (type === 'name' && !name.trim()) {
+      toast.warn('스토어 이름은 필수 입력 요소입니다.', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+      return;
     }
+
+    const updates: StoreRequestParams = {
+      name: type === 'name' ? name : storeInfo.name,
+      address: type === 'address' ? address : storeInfo.address,
+    };
+
+    updateStoreMutation.mutate(
+      { id: storeInfo.store_id, storeInfo: updates },
+      {
+        onSuccess: () => {
+          if (type === 'name') setIsEditingName(false);
+          if (type === 'address') setIsEditingAddress(false);
+
+          toast.dismiss();
+        },
+      }
+    );
   };
 
   const handleDelete = () => {
-    deleteStore(id);
+    deleteStoreMutation.mutate(storeInfo.store_id, {
+      onSuccess: () => {
+        // 삭제 후 필요한 처리
+      },
+    });
   };
 
   const handleSelect = () => {
-    navigate(`/store/${id}`);
+    navigate(`/store/${storeInfo.store_id}`);
   };
 
   return (
     <div className='store_box'>
       <div className='border-b border-underline border-opacity-20 p-[20px]'>
         <ul className='flex flex-col gap-6'>
-          <li className='flex items-center justify-between'>
-            <img src={storeIcon} alt='상점 아이콘' className='w-[30px]' />
-            {isEditingName ? (
-              <input
-                ref={nameInputRef}
-                type='text'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                onKeyDown={(e) => handleKeyDown(e, 'name')}
-                className='border-b border-gray-300 text-center text-[17px] font-semibold text-main outline-none'
-              />
-            ) : (
-              <span className='w-[200px] truncate text-center text-[17px] font-semibold text-main'>
-                {name}
-              </span>
-            )}
-            <button
-              className={twMerge(
-                'text-[13px] outline-none hover:font-bold',
-                isDeleteMode ? 'no_hover' : 'soft_TcolorSet'
-              )}
-              onClick={() => {
-                if (isEditingName) handleUpdate('name');
-                else handleEditButtonClick('name');
-              }}
-              disabled={isDeleteMode}
-            >
-              {isEditingName ? '완료' : '수정'}
-            </button>
-          </li>
-          <li className='flex items-center justify-between'>
-            <img src={mapIcon} alt='주소 아이콘' className='w-[30px]' />
-            {isEditingAddress ? (
-              <input
-                ref={addressInputRef}
-                type='text'
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                onKeyDown={(e) => handleKeyDown(e, 'address')}
-                className='border-b border-gray-300 text-center text-[17px] font-semibold text-main outline-none'
-              />
-            ) : (
-              <span className='w-[200px] truncate text-center text-[17px] font-semibold text-main'>
-                {address}
-              </span>
-            )}
-            <button
-              className={twMerge(
-                'text-[13px] outline-none hover:font-bold',
-                isDeleteMode ? 'no_hover' : 'soft_TcolorSet'
-              )}
-              onClick={() => {
-                if (isEditingAddress) handleUpdate('address');
-                else handleEditButtonClick('address');
-              }}
-              disabled={isDeleteMode}
-            >
-              {isEditingAddress ? '완료' : '수정'}
-            </button>
-          </li>
+          <EditableInput
+            isEditing={isEditingName}
+            value={name}
+            onChange={setName}
+            onKeyDown={(e) => handleKeyDown(e, 'name')}
+            onEditClick={() => handleEditButtonClick('name')}
+            onUpdate={() => handleUpdate('name')}
+            inputRef={nameInputRef}
+            isDeleteMode={isDeleteMode}
+            icon={storeIcon}
+            iconAlt='상점 아이콘'
+            isRequired={true}
+          />
+
+          <EditableInput
+            isEditing={isEditingAddress}
+            value={address}
+            onChange={setAddress}
+            onKeyDown={(e) => handleKeyDown(e, 'address')}
+            onEditClick={() => handleEditButtonClick('address')}
+            onUpdate={() => handleUpdate('address')}
+            inputRef={addressInputRef}
+            isDeleteMode={isDeleteMode}
+            icon={mapIcon}
+            iconAlt='주소 아이콘'
+          />
         </ul>
       </div>
       <div className='flex h-[calc(100%-128px)] flex-col items-center justify-between p-[20px]'>
-        <UseChart isDeleteMode={isDeleteMode} id={id} />
+        <UseChart isDeleteMode={isDeleteMode} chartInfo={storeInfo.chart} />
+
         <button
           className={twMerge(isDeleteMode ? 'delete_button' : 'choice_button')}
           onClick={isDeleteMode ? handleDelete : handleSelect}
