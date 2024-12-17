@@ -89,32 +89,36 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
     <div className='store_box'>
       <div className='border-b border-underline border-opacity-20 p-[20px]'>
         <ul className='flex flex-col gap-6'>
-          <EditableInput
-            isEditing={isEditingName}
-            value={name}
-            onChange={setName}
-            onKeyDown={(e) => handleKeyDown(e, 'name')}
-            onEditClick={() => handleEditButtonClick('name')}
-            onUpdate={() => handleUpdate('name')}
-            inputRef={nameInputRef}
-            isDeleteMode={isDeleteMode}
-            icon={storeIcon}
-            iconAlt='상점 아이콘'
-            isRequired={true}
-          />
+          <li className='flex items-center justify-between'>
+            <EditableInput
+              isEditing={isEditingName}
+              value={name}
+              onChange={setName}
+              onKeyDown={(e) => handleKeyDown(e, 'name')}
+              onEditClick={() => handleEditButtonClick('name')}
+              onUpdate={() => handleUpdate('name')}
+              inputRef={nameInputRef}
+              isDeleteMode={isDeleteMode}
+              icon={storeIcon}
+              iconAlt='상점 아이콘'
+              isRequired={true}
+            />
+          </li>
 
-          <EditableInput
-            isEditing={isEditingAddress}
-            value={address}
-            onChange={setAddress}
-            onKeyDown={(e) => handleKeyDown(e, 'address')}
-            onEditClick={() => handleEditButtonClick('address')}
-            onUpdate={() => handleUpdate('address')}
-            inputRef={addressInputRef}
-            isDeleteMode={isDeleteMode}
-            icon={mapIcon}
-            iconAlt='주소 아이콘'
-          />
+          <li className='flex items-center justify-between'>
+            <EditableInput
+              isEditing={isEditingAddress}
+              value={address}
+              onChange={setAddress}
+              onKeyDown={(e) => handleKeyDown(e, 'address')}
+              onEditClick={() => handleEditButtonClick('address')}
+              onUpdate={() => handleUpdate('address')}
+              inputRef={addressInputRef}
+              isDeleteMode={isDeleteMode}
+              icon={mapIcon}
+              iconAlt='주소 아이콘'
+            />
+          </li>
         </ul>
       </div>
 
