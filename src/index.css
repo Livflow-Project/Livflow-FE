@@ -41,7 +41,7 @@ body {
 
 @layer utilities {
   .store_box {
-    @apply h-[540px] w-[340px] rounded-lg border border-underline border-opacity-20 bg-white shadow-xl;
+    @apply h-[560px] w-[340px] rounded-lg border border-underline border-opacity-20 bg-white shadow-xl;
   }
 }
 
