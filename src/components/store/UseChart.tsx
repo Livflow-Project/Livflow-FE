@@ -1,30 +1,16 @@
 import PieChart from '../common/PieChart';
 import { twMerge } from 'tailwind-merge';
-import useCalendarStore from '@/stores/useCalendarStore';
 import { useState } from 'react';
 
-interface UseChartProps {
-  id: number;
+type UseChartProps = {
+  chartInfo?: StoreResponse['chart'];
   isDeleteMode: boolean;
-}
+};
 
-const UseChart = ({ id, isDeleteMode }: UseChartProps) => {
-  const [isExpenseSelected, setIsExpenseSelected] = useState(true);
-
-  const { monthlyTotals } = useCalendarStore();
-
-  const monthKey = new Date().toISOString().slice(0, 7);
-  const totalsForMonth = monthlyTotals[id]?.[monthKey];
-
-  const expenseCategories = totalsForMonth?.categories.expense || {};
-  const incomeCategories = totalsForMonth?.categories.income || {};
-
-  const isExpenseEmpty = Object.keys(expenseCategories).length === 0;
-  const isIncomeEmpty = Object.keys(incomeCategories).length === 0;
-
-  const handleToggle = (type: 'expense' | 'income') => {
-    setIsExpenseSelected(type === 'expense');
-  };
+const UseChart = ({ chartInfo, isDeleteMode }: UseChartProps) => {
+  const [selectedType, setSelectedType] = useState<'expense' | 'income'>(
+    'expense'
+  );
 
   return (
     <>
@@ -34,44 +20,41 @@ const UseChart = ({ id, isDeleteMode }: UseChartProps) => {
             'text-xl font-semibold',
             isDeleteMode
               ? 'no_hover'
-              : isExpenseSelected
+              : selectedType === 'expense'
                 ? 'text-primary'
                 : 'soft_TcolorSet'
           )}
-          onClick={() => handleToggle('expense')}
+          onClick={() => setSelectedType('expense')}
         >
           지출
         </button>
+
         <button
           className={twMerge(
             'text-xl font-semibold',
             isDeleteMode
               ? 'no_hover'
-              : !isExpenseSelected
+              : selectedType === 'income'
                 ? 'text-primary'
                 : 'soft_TcolorSet'
           )}
-          onClick={() => handleToggle('income')}
+          onClick={() => setSelectedType('income')}
         >
           수입
         </button>
       </div>
-      <div
-        className={twMerge(
-          'max-h-[270px] text-xl font-medium text-caption',
-          isDeleteMode ? 'opacity-50' : ''
-        )}
-      >
-        {isExpenseSelected ? (
-          isExpenseEmpty ? (
-            <div className='text-center'>입력된 지출이 없습니다.</div>
+
+      <div className={isDeleteMode ? 'opacity-50' : ''}>
+        {selectedType === 'expense' ? (
+          chartInfo?.expense && chartInfo.expense.length > 0 ? (
+            <PieChart selectedType='expense' categories={chartInfo.expense} />
           ) : (
-            <PieChart selectedType='expense' categories={expenseCategories} />
+            <div className='text-center'>입력된 지출이 없습니다.</div>
           )
-        ) : isIncomeEmpty ? (
-          <div className='text-center'>입력된 수입이 없습니다.</div>
+        ) : chartInfo?.income && chartInfo.income.length > 0 ? (
+          <PieChart selectedType='income' categories={chartInfo.income} />
         ) : (
-          <PieChart selectedType='income' categories={incomeCategories} />
+          <div className='text-center'>입력된 수입이 없습니다.</div>
         )}
       </div>
     </>

@@ -1,28 +1,30 @@
 import Chart, { TooltipItem } from 'chart.js/auto';
 import { useEffect, useRef } from 'react';
 
-interface PieChartProps {
-  selectedType?: 'expense' | 'income';
-  categories: Record<string, number>;
-}
+type PieChartProps = {
+  selectedType: 'expense' | 'income';
+  categories?: Category[];
+};
 
 const PieChart = ({ selectedType, categories }: PieChartProps) => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
 
+  const labels = categories?.map((item) => item.category) || [];
+  const dataValues = categories?.map((item) => item.cost) || [];
+
   useEffect(() => {
     if (!chartRef.current) return;
+    if (!categories || categories.length === 0) {
+      return;
+    }
 
     const ctx = chartRef.current.getContext('2d');
     if (!ctx) return;
-
-    const labels = Object.keys(categories);
-    const dataValues = Object.values(categories);
 
     const data = {
       labels,
       datasets: [
         {
-          label: selectedType === 'expense' ? '지출' : '수입',
           data: dataValues,
           backgroundColor: [
             'rgb(255, 99, 132)',
@@ -59,7 +61,7 @@ const PieChart = ({ selectedType, categories }: PieChartProps) => {
     return () => {
       chartInstance.destroy();
     };
-  }, [categories]);
+  }, [categories, selectedType]);
 
   return <canvas ref={chartRef}></canvas>;
 };
