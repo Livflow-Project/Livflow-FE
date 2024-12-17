@@ -2,7 +2,7 @@ import { mapIcon, storeIcon } from '@/assets/assets';
 
 import { toast } from 'react-toastify';
 import { useState } from 'react';
-import useUsersStore from '@/stores/useUsersStore';
+import { useStoreQuery } from '@/api/store/store.hooks';
 
 interface AddStoreModalProps {
   onClose: () => void;
@@ -12,9 +12,10 @@ const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
 
-  const addStore = useUsersStore((state: any) => state.addStore);
+  const { useCreateStore } = useStoreQuery();
+  const createStoreMutation = useCreateStore();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (name.trim() === '') {
@@ -31,13 +32,28 @@ const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
       return;
     }
 
-    addStore({ name, address });
+    try {
+      await createStoreMutation.mutateAsync({
+        name,
+        address,
+      });
 
-    setName('');
-    setAddress('');
-
-    onClose();
-    toast.dismiss();
+      setName('');
+      setAddress('');
+      onClose();
+      toast.dismiss();
+    } catch (error) {
+      toast.error('스토어 생성에 실패했습니다.', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    }
   };
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -72,6 +88,7 @@ const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
                 className='input_box'
               />
             </li>
+
             <li className='flex items-center justify-between'>
               <div className='flex items-center gap-2'>
                 <img src={mapIcon} alt='주소 이미지' />
