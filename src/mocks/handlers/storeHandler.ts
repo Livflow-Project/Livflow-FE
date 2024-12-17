@@ -1,16 +1,18 @@
 import { HttpResponse, http } from 'msw';
 
-type Category = {
-  category: string;
-  cost: number;
-};
-
 type StoreResponse = {
   store_id: number;
   name: string;
   address?: string;
-  expense: Category[];
-  income: Category[];
+  chart: {
+    expense: Category[];
+    income: Category[];
+  };
+};
+
+type Category = {
+  category: string;
+  cost: number;
 };
 
 const MOCK_TEACHER_PROFILE: StoreResponse[] = [
@@ -22,31 +24,33 @@ const MOCK_TEACHER_PROFILE: StoreResponse[] = [
     // 스토어 주소 (선택)
     address: '스토어 주소',
     // 해당 달에 있는 카테고리별 총 지출
-    expense: [
-      {
-        category: '교통비',
-        // 카테고리가 교통비인 지출의 총 합
-        cost: 1500,
-      },
-      {
-        category: '저축',
-        // 카테고리가 저축인 지출의 총 합
-        cost: 20000,
-      },
-    ],
-    // 해당 달에 있는 카테고리별 총 수입
-    income: [
-      {
-        category: '용돈',
-        // 카테고리가 용돈인 수입의 총 합
-        cost: 50000,
-      },
-      {
-        category: '주식',
-        // 카테고리가 주식인 수입의 총 합
-        cost: 2000,
-      },
-    ],
+    chart: {
+      expense: [
+        {
+          category: '교통비',
+          // 카테고리가 교통비인 지출의 총 합
+          cost: 1500,
+        },
+        {
+          category: '저축',
+          // 카테고리가 저축인 지출의 총 합
+          cost: 20000,
+        },
+      ],
+      // 해당 달에 있는 카테고리별 총 수입
+      income: [
+        {
+          category: '용돈',
+          // 카테고리가 용돈인 수입의 총 합
+          cost: 50000,
+        },
+        {
+          category: '주식',
+          // 카테고리가 주식인 수입의 총 합
+          cost: 2000,
+        },
+      ],
+    },
   },
   {
     // 스토어 아이디
@@ -56,31 +60,33 @@ const MOCK_TEACHER_PROFILE: StoreResponse[] = [
     // 스토어 주소 (선택)
     address: '스토어 주소',
     // 해당 달에 있는 카테고리별 총 지출
-    expense: [
-      {
-        category: '외식',
-        // 카테고리가 외식인 지출의 총 합
-        cost: 17000,
-      },
-      {
-        category: '주식',
-        // 카테고리가 주식인 지출의 총 합
-        cost: 20000,
-      },
-    ],
-    // 해당 달에 있는 카테고리별 총 수입
-    income: [
-      {
-        category: '용돈',
-        // 카테고리가 용돈인 수입의 총 합
-        cost: 30000,
-      },
-      {
-        category: '알바',
-        // 카테고리가 알바인 수입의 총 합
-        cost: 70000,
-      },
-    ],
+    chart: {
+      expense: [
+        {
+          category: '외식',
+          // 카테고리가 외식인 지출의 총 합
+          cost: 17000,
+        },
+        {
+          category: '주식',
+          // 카테고리가 주식인 지출의 총 합
+          cost: 20000,
+        },
+      ],
+      // 해당 달에 있는 카테고리별 총 수입
+      income: [
+        {
+          category: '용돈',
+          // 카테고리가 용돈인 수입의 총 합
+          cost: 30000,
+        },
+        {
+          category: '알바',
+          // 카테고리가 알바인 수입의 총 합
+          cost: 70000,
+        },
+      ],
+    },
   },
 ];
 
