@@ -1,4 +1,5 @@
 import { mapIcon, storeIcon } from '@/assets/assets';
+import { showErrorToast, showWarnToast } from '@/utils/toast';
 
 import { toast } from 'react-toastify';
 import { useState } from 'react';
@@ -19,16 +20,7 @@ const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
     e.preventDefault();
 
     if (name.trim() === '') {
-      toast.warn('스토어 이름은 필수 입력 요소입니다.', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      showWarnToast('스토어 이름은 필수 입력 요소입니다.');
       return;
     }
 
@@ -43,16 +35,7 @@ const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
       onClose();
       toast.dismiss();
     } catch (error) {
-      toast.error('스토어 생성에 실패했습니다.', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      showErrorToast('스토어 생성에 실패했습니다.');
     }
   };
 

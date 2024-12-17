@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 
 import EditableInput from './EditableInput';
 import UseChart from './UseChart';
+import { showWarnToast } from '@/utils/toast';
 import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 import { useNavigate } from 'react-router-dom';
@@ -50,16 +51,7 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
 
   const handleUpdate = (type: 'name' | 'address') => {
     if (type === 'name' && !name.trim()) {
-      toast.warn('스토어 이름은 필수 입력 요소입니다.', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      showWarnToast('스토어 이름은 필수 입력 요소입니다.');
       return;
     }
 
@@ -125,6 +117,7 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
           />
         </ul>
       </div>
+
       <div className='flex h-[calc(100%-128px)] flex-col items-center justify-between p-[20px]'>
         <UseChart isDeleteMode={isDeleteMode} chartInfo={storeInfo.chart} />
 

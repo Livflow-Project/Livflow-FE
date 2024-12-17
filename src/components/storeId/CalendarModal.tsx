@@ -1,4 +1,5 @@
 import { Transaction } from '@/types/calendarType';
+import { showWarnToast } from '@/utils/toast';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 
@@ -24,16 +25,7 @@ const CalendarModal = ({ onClose, onSubmit }: CalendarModalProps) => {
       transaction.amount === 0 ||
       transaction.details.trim() === ''
     ) {
-      toast.warn('빈칸 없이 모두 입력해주세요.', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      showWarnToast('빈칸 없이 모두 입력해주세요.');
       return;
     }
 
