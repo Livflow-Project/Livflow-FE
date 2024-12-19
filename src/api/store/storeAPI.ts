@@ -6,8 +6,8 @@ export const storeAPI = {
     return response.data;
   },
 
-  getStoreAPI: async (params: string) => {
-    const response = await axiosInstance.get(`/stores/stores/${params}`);
+  getStoreAPI: async (id: number) => {
+    const response = await axiosInstance.get(`/stores/stores/${id}`);
     return response.data;
   },
 

@@ -19,7 +19,7 @@ export const useStoreQuery = () => {
   };
 
   // 특정 스토어 조회
-  const useGetStore = (id: string) => {
+  const useGetStore = (id: number) => {
     return useQuery({
       queryKey: ['store', id],
       queryFn: () => storeAPI.getStoreAPI(id),
