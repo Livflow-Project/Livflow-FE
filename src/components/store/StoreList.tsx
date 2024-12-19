@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import AddStore from '@/components/store/AddStore';
 import MyStore from '@/components/store/MyStore';
+import { useCallback } from 'react';
 
 type StoreListProps = {
   stores: StoreResponse[];
@@ -18,23 +19,26 @@ const STORES_PER_PAGE = {
 };
 
 const StoreList = ({ stores, onToggleModal, isDeleteMode }: StoreListProps) => {
-  const renderFirstSlide = () => (
-    <SwiperSlide className='h-full px-[60px]'>
-      <div className='flex items-start justify-start gap-[30px]'>
-        <AddStore onOpenModal={onToggleModal} />
+  const renderFirstSlide = useCallback(
+    () => (
+      <SwiperSlide className='h-full px-[60px]'>
+        <div className='flex items-start justify-start gap-[30px]'>
+          <AddStore onOpenModal={onToggleModal} />
 
-        {stores.slice(0, STORES_PER_PAGE.FIRST_PAGE).map((store) => (
-          <MyStore
-            key={store.store_id}
-            storeInfo={store}
-            isDeleteMode={isDeleteMode}
-          />
-        ))}
-      </div>
-    </SwiperSlide>
+          {stores.slice(0, STORES_PER_PAGE.FIRST_PAGE).map((store) => (
+            <MyStore
+              key={store.store_id}
+              storeInfo={store}
+              isDeleteMode={isDeleteMode}
+            />
+          ))}
+        </div>
+      </SwiperSlide>
+    ),
+    [stores, isDeleteMode, onToggleModal]
   );
 
-  const renderRemainingSlides = () => {
+  const renderRemainingSlides = useCallback(() => {
     const remainingStoresCount = stores.length - STORES_PER_PAGE.FIRST_PAGE;
     const slidesCount = Math.ceil(
       remainingStoresCount / STORES_PER_PAGE.OTHER_PAGES
@@ -62,7 +66,7 @@ const StoreList = ({ stores, onToggleModal, isDeleteMode }: StoreListProps) => {
         </SwiperSlide>
       );
     });
-  };
+  }, [stores, isDeleteMode]);
 
   return (
     <Swiper
