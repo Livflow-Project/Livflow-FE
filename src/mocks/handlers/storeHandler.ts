@@ -10,12 +10,12 @@ type StoreResponse = {
   };
 };
 
-type Category = {
+export type Category = {
   category: string;
   cost: number;
 };
 
-const MOCK_TEACHER_PROFILE: StoreResponse[] = [
+const MOCK_STORE: StoreResponse[] = [
   {
     // 스토어 아이디
     store_id: 1,
@@ -90,7 +90,7 @@ const MOCK_TEACHER_PROFILE: StoreResponse[] = [
   },
 ];
 
-let stores: StoreResponse[] = [...MOCK_TEACHER_PROFILE];
+let stores: StoreResponse[] = [...MOCK_STORE];
 
 export const storeHandler = [
   // 모든 상점 조회
