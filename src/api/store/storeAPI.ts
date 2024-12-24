@@ -6,11 +6,6 @@ export const storeAPI = {
     return response.data;
   },
 
-  getStoreAPI: async (id: number) => {
-    const response = await axiosInstance.get(`/stores/stores/${id}`);
-    return response.data;
-  },
-
   postStoreAPI: async (NewstoreInfo: StoreRequestParams) => {
     const response = await axiosInstance.post(`/stores/stores`, NewstoreInfo);
     return response.data;

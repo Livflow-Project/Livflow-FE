@@ -2,10 +2,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { storeAPI } from './storeAPI';
 
-interface StoreRequestParams {
+type StoreRequestParams = {
   name: string;
   address?: string;
-}
+};
 
 export const useStoreQuery = () => {
   const queryClient = useQueryClient();
@@ -15,14 +15,6 @@ export const useStoreQuery = () => {
     return useQuery({
       queryKey: ['stores'],
       queryFn: storeAPI.getAllStoresAPI,
-    });
-  };
-
-  // 특정 스토어 조회
-  const useGetStore = (id: number) => {
-    return useQuery({
-      queryKey: ['store', id],
-      queryFn: () => storeAPI.getStoreAPI(id),
     });
   };
 
@@ -68,7 +60,6 @@ export const useStoreQuery = () => {
 
   return {
     useGetAllStores,
-    useGetStore,
     useCreateStore,
     useUpdateStore,
     useDeleteStore,
