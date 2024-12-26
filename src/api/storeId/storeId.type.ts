@@ -1,4 +1,6 @@
-type StoreIDResponse = {
+import { Category } from '../store/store.type';
+
+export type StoreIDResponse = {
   store_id: number;
   name: string;
   address?: string;
@@ -9,17 +11,17 @@ type StoreIDResponse = {
   date_info: DayInfo[];
 };
 
-type DayInfo = {
+export type DayInfo = {
   day: number;
   day_info: DayTransaction;
 };
 
-type DayTransaction = {
+export type DayTransaction = {
   expense: DayDetailTransaction[];
   income: DayDetailTransaction[];
 };
 
-type DayDetailTransaction = {
+export type DayDetailTransaction = {
   category: string;
   detail: string;
   cost: number;

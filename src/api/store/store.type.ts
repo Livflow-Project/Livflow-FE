@@ -1,16 +1,16 @@
-type StoreResponse = {
+export type StoreResponse = {
   store_id: number;
   name: string;
   address?: string;
   chart: { expense: Category[]; income: Category[] };
 };
 
-type Category = {
+export type Category = {
   category: string;
   cost: number;
 };
 
-type StoreRequestParams = {
+export type StoreRequestParams = {
   name: string;
   address?: string;
 };
