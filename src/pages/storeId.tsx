@@ -1,15 +1,23 @@
 import { Link, useParams } from 'react-router-dom';
 
 import Calender from '@/components/storeId/calendar/Calender';
-import useUsersStore from '@/stores/useUsersStore';
+import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
 const StoreId = () => {
   const { id } = useParams<{ id: string }>();
-  const { stores } = useUsersStore();
+  const { useGetStore } = useStoreIdQuery();
 
-  const store = stores.find((store: any) => store.id === parseInt(id || ''));
+  const { data, isLoading, isError } = useGetStore(parseInt(id || '0'));
 
-  if (!id || !store) {
+  if (isLoading) {
+    return (
+      <div className='flex h-[calc(100vh-75px)] items-center justify-center text-2xl font-semibold text-main'>
+        로딩 중...
+      </div>
+    );
+  }
+
+  if (isError || !id || !data) {
     return (
       <div className='flex h-[calc(100vh-75px)] items-center justify-center text-2xl font-semibold text-main'>
         상점의 가계부 정보를 찾을 수 없습니다. 이전 페이지로 이동해주세요.
@@ -22,10 +30,10 @@ const StoreId = () => {
       <Link to='/store'>
         <ul className='flex flex-col items-end gap-4'>
           <li className='text-2xl font-semibold text-main'>
-            {store?.name || '이름 정보 없음'}
+            {data.name || '이름 정보 없음'}
           </li>
           <li className='text-[15px] font-medium text-main'>
-            {store?.address || '주소 정보 없음'}
+            {data?.address || '주소 정보 없음'}
           </li>
         </ul>
       </Link>
@@ -39,7 +47,7 @@ const StoreId = () => {
           </nav>
         </div>
         <div className='h-[calc(100%-55px)] w-full bg-background'>
-          <Calender storeId={parseInt(id)} />
+          <Calender data={data} />
         </div>
       </div>
     </div>
