@@ -1,4 +1,5 @@
 import PieChart from '../common/PieChart';
+import { StoreResponse } from '@/api/store/store.type';
 import { twMerge } from 'tailwind-merge';
 import { useState } from 'react';
 

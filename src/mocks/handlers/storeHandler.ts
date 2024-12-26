@@ -10,7 +10,7 @@ type StoreResponse = {
   };
 };
 
-export type Category = {
+type Category = {
   category: string;
   cost: number;
 };
@@ -96,15 +96,6 @@ export const storeHandler = [
   // 모든 상점 조회
   http.get('/stores/stores', () => {
     return HttpResponse.json(stores);
-  }),
-
-  // 특정 상점 조회
-  http.get('/stores/stores/:id', ({ params }) => {
-    const store = stores.find((store) => store.store_id === Number(params.id));
-    if (!store) {
-      return new HttpResponse(null, { status: 404 });
-    }
-    return HttpResponse.json(store);
   }),
 
   // 새 상점 생성

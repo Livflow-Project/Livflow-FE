@@ -1,6 +1,6 @@
 import { HttpResponse, http } from 'msw';
 
-import { Category } from './storeHandler';
+import { Category } from '@/api/store/store.type';
 
 type StoreIDResponse = {
   store_id: number;
