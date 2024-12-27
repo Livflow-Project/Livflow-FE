@@ -31,15 +31,64 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
     income: dateInfo.day_info.income || [], // 기본값으로 빈 배열 설정
   }));
 
-  // 차트 데이터 사용
-  const monthlyTotals = {
-    expense: data.chart.expense.reduce((sum, item) => sum + item.cost, 0),
-    income: data.chart.income.reduce((sum, item) => sum + item.cost, 0),
-    categories: {
-      expense: data.chart.expense,
-      income: data.chart.income,
-    },
+  // 차트 데이터 계산 로직 수정
+  const calculateTotals = () => {
+    // 카테고리별 총합을 계산하기 위한 객체
+    const expenseByCategory: { [key: string]: number } = {};
+    const incomeByCategory: { [key: string]: number } = {};
+
+    // 모든 날짜의 거래 내역을 순회하며 카테고리별 합계 계산
+    data.date_info.forEach((dateInfo) => {
+      // 지출 계산
+      dateInfo.day_info.expense.forEach((expense) => {
+        expenseByCategory[expense.category] =
+          (expenseByCategory[expense.category] || 0) + expense.cost;
+      });
+
+      // 수입 계산
+      dateInfo.day_info.income.forEach((income) => {
+        incomeByCategory[income.category] =
+          (incomeByCategory[income.category] || 0) + income.cost;
+      });
+    });
+
+    // 카테고리별 합계를 배열 형태로 변환
+    const expenseCategories = Object.entries(expenseByCategory).map(
+      ([category, cost]) => ({
+        category,
+        cost,
+      })
+    );
+
+    const incomeCategories = Object.entries(incomeByCategory).map(
+      ([category, cost]) => ({
+        category,
+        cost,
+      })
+    );
+
+    // 총합 계산
+    const totalExpense = expenseCategories.reduce(
+      (sum, item) => sum + item.cost,
+      0
+    );
+    const totalIncome = incomeCategories.reduce(
+      (sum, item) => sum + item.cost,
+      0
+    );
+
+    return {
+      expense: totalExpense,
+      income: totalIncome,
+      categories: {
+        expense: expenseCategories,
+        income: incomeCategories,
+      },
+    };
   };
+
+  // 계산된 데이터 사용
+  const monthlyTotals = calculateTotals();
 
   // 선택된 날짜의 거래 내역 가져오기
   const getSelectedDateTransactions = () => {
@@ -159,7 +208,7 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
                       categories={monthlyTotals.categories.expense}
                     />
                     <ul className='flex w-full flex-col items-center text-xl font-medium text-caption'>
-                      {data.chart.expense
+                      {monthlyTotals.categories.expense
                         .sort((a, b) => b.cost - a.cost)
                         .slice(0, 5)
                         .map((category, index) => (
@@ -197,7 +246,7 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
                       categories={monthlyTotals.categories.income}
                     />
                     <ul className='flex w-full flex-col items-center text-xl font-medium text-caption'>
-                      {data.chart.income
+                      {monthlyTotals.categories.income
                         .sort((a, b) => b.cost - a.cost)
                         .slice(0, 5)
                         .map((category, index) => (
