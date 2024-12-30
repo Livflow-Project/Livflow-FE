@@ -1,3 +1,4 @@
+import { StoreRequestParams, StoreResponse } from '@/api/store/store.type';
 import { mapIcon, storeIcon } from '@/assets/assets';
 import { useRef, useState } from 'react';
 

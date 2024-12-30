@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import AddStore from '@/components/store/AddStore';
 import MyStore from '@/components/store/MyStore';
+import { StoreResponse } from '@/api/store/store.type';
 import { useCallback } from 'react';
 
 type StoreListProps = {
