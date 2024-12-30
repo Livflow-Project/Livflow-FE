@@ -27,8 +27,8 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
   // date_info 배열을 캘린더 이벤트로 변환할 때 기본값 설정
   const events: CalendarEvent[] = data.date_info.map((dateInfo) => ({
     start: `2024-12-${dateInfo.day.toString().padStart(2, '0')}`,
-    expense: dateInfo.day_info.expense || [], // 기본값으로 빈 배열 설정
-    income: dateInfo.day_info.income || [], // 기본값으로 빈 배열 설정
+    expense: dateInfo.day_info.expense,
+    income: dateInfo.day_info.income,
   }));
 
   // 차트 데이터 계산 로직 수정
@@ -40,16 +40,20 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
     // 모든 날짜의 거래 내역을 순회하며 카테고리별 합계 계산
     data.date_info.forEach((dateInfo) => {
       // 지출 계산
-      dateInfo.day_info.expense.forEach((expense) => {
-        expenseByCategory[expense.category] =
-          (expenseByCategory[expense.category] || 0) + expense.cost;
-      });
+      if (dateInfo.day_info.expense) {
+        dateInfo.day_info.expense.forEach((expense) => {
+          expenseByCategory[expense.category] =
+            (expenseByCategory[expense.category] || 0) + expense.cost;
+        });
+      }
 
       // 수입 계산
-      dateInfo.day_info.income.forEach((income) => {
-        incomeByCategory[income.category] =
-          (incomeByCategory[income.category] || 0) + income.cost;
-      });
+      if (dateInfo.day_info.income) {
+        dateInfo.day_info.income?.forEach((income) => {
+          incomeByCategory[income.category] =
+            (incomeByCategory[income.category] || 0) + income.cost;
+        });
+      }
     });
 
     // 카테고리별 합계를 배열 형태로 변환
@@ -196,7 +200,7 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
           <>
             <div className='flex h-full w-full items-center justify-evenly'>
               <div className='flex w-[40%] flex-col items-center justify-center gap-[50px]'>
-                {data.chart.expense.length === 0 ? (
+                {monthlyTotals.categories.expense.length === 0 ? (
                   <p className='text-sx text-caption'>
                     입력된 지출이 없습니다.
                   </p>
@@ -234,7 +238,7 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
               <div className='h-[90%] w-[1px] bg-underline/50'></div>
 
               <div className='flex w-[40%] flex-col items-center justify-center gap-[50px]'>
-                {data.chart.income.length === 0 ? (
+                {monthlyTotals.categories.income.length === 0 ? (
                   <p className='text-sx text-caption'>
                     입력된 수입이 없습니다.
                   </p>
@@ -295,7 +299,7 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
             <div className='flex h-[calc(100%-130px)] w-full flex-col gap-2'>
               {getSelectedDateTransactions() ? (
                 <>
-                  {getSelectedDateTransactions()?.expense.map(
+                  {getSelectedDateTransactions()?.expense?.map(
                     (transaction, index) => (
                       <div
                         key={`expense-${index}`}
@@ -313,7 +317,7 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
                       </div>
                     )
                   )}
-                  {getSelectedDateTransactions()?.income.map(
+                  {getSelectedDateTransactions()?.income?.map(
                     (transaction, index) => (
                       <div
                         key={`income-${index}`}
