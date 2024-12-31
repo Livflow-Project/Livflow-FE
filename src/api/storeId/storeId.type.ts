@@ -8,6 +8,9 @@ export type StoreIDResponse = {
     expense: Category[];
     income: Category[];
   };
+};
+
+export type StoreIdDetailResponse = {
   date_info: DayInfo[];
 };
 
@@ -25,4 +28,9 @@ export type DayDetailTransaction = {
   category: string;
   detail: string;
   cost: number;
+};
+
+export type StoreDetailParams = {
+  year: number;
+  month: number;
 };

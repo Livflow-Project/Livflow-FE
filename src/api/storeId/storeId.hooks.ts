@@ -1,8 +1,9 @@
+import { StoreDetailParams } from './storeId.type';
 import { storeIdAPI } from './storeIdAPI';
 import { useQuery } from '@tanstack/react-query';
 
 export const useStoreIdQuery = () => {
-  // 특정 스토어 조회
+  // 기본 스토어 정보 조회
   const useGetStore = (id: number) => {
     return useQuery({
       queryKey: ['store', id],
@@ -10,7 +11,16 @@ export const useStoreIdQuery = () => {
     });
   };
 
+  // 스토어 상세 정보(달력 데이터) 조회
+  const useGetStoreDetail = (id: number, params: StoreDetailParams) => {
+    return useQuery({
+      queryKey: ['store', id, 'detail', params.year, params.month],
+      queryFn: () => storeIdAPI.getStoreDetailAPI(id, params),
+    });
+  };
+
   return {
     useGetStore,
+    useGetStoreDetail,
   };
 };
