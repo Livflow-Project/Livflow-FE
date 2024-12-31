@@ -2,21 +2,22 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {colors: {
-      main: '#121212',
-      caption: '#333333',
-      primary: '#004aad',
-      primary_hover: '#003e92',
-      button: '#336ebd',
-      button_hover: '#004aad',
-      m_background: '#d9d9d9',
-      underline: '#333333',
-      red: '#D10000',
-      green: '#00C016',
-      background: '#E4F0FF'
-    },
-    animation: {
-      smoothWaveAndSlide: 'smoothWaveAndSlide 4s ease-in-out forwards', // 더 부드러운 이동을 위해 ease-in-out 사용
+    extend: {
+      colors: {
+        main: '#121212',
+        caption: '#333333',
+        primary: '#004aad',
+        primary_hover: '#003e92',
+        button: '#336ebd',
+        button_hover: '#004aad',
+        m_background: '#d9d9d9',
+        underline: '#333333',
+        red: '#D10000',
+        green: '#00C016',
+        background: '#E4F0FF'
+      },
+      animation: {
+        smoothWaveAndSlide: 'smoothWaveAndSlide 4s ease-in-out forwards', // 더 부드러운 이동을 위해 ease-in-out 사용
       },
       keyframes: {
         smoothWaveAndSlide: {
@@ -26,12 +27,12 @@ export default {
           '100%': { transform: 'translateX(0) translateY(0) rotate(0deg)' }, // 최종 위치
         },
       },
-    fontFamily: {
-      sans: ['Pretendard','Roboto', 'sans-serif'],
+      fontFamily: {
+        sans: ['Pretendard','Roboto', 'sans-serif'],
+      },
     },
   },
-},
-plugins: [ require('@tailwindcss/forms')],
+  plugins: [ require('@tailwindcss/forms')],
 }
 
 
