@@ -56,9 +56,9 @@ const MOCK_STORE: StoreResponse[] = [
     // 스토어 아이디
     store_id: 2,
     // 스토어 이름
-    name: '스토어 이름 1',
+    name: '스토어 이름 2',
     // 스토어 주소 (선택)
-    address: '스토어 주소 1',
+    address: '스토어 주소 2',
     // 해당 달에 있는 카테고리별 총 지출
     chart: {
       expense: [
