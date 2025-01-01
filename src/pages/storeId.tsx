@@ -47,7 +47,7 @@ const StoreId = () => {
           </nav>
         </div>
         <div className='h-[calc(100%-55px)] w-full bg-background'>
-          <Calender data={data} />
+          <Calender storeId={parseInt(id)} />
         </div>
       </div>
     </div>
