@@ -5,56 +5,85 @@ import { useRef, useState } from 'react';
 
 import { CalendarEvent } from '@/types/calendarType';
 import CalendarModal from '../CalendarModal';
+import { DayDetailTransaction } from '@/api/storeId/storeId.type';
 import FullCalendar from '@fullcalendar/react';
 import PieChart from '@/components/common/PieChart';
-import { StoreIDResponse } from '@/api/storeId/storeId.type';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import koLocale from '@fullcalendar/core/locales/ko';
 import listPlugin from '@fullcalendar/list';
 import { toast } from 'react-toastify';
+import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
 type CalendarProps = {
-  data: StoreIDResponse;
+  storeId: number;
 };
 
-const Calender: React.FC<CalendarProps> = ({ data }) => {
+const Calender = ({ storeId }: CalendarProps) => {
   const calendarRef = useRef<FullCalendar | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedDateElement, setSelectedDateElement] =
     useState<HTMLElement | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [currentYear, setCurrentYear] = useState(2024);
+  const [currentMonth, setCurrentMonth] = useState(12);
+  const { useGetStoreDetail } = useStoreIdQuery();
+
+  // 달력 데이터 조회
+  const { data: calendarData } = useGetStoreDetail(storeId, {
+    year: currentYear,
+    month: currentMonth,
+  });
+
   // date_info 배열을 캘린더 이벤트로 변환할 때 기본값 설정
-  const events: CalendarEvent[] = data.date_info.map((dateInfo) => ({
-    start: `2024-12-${dateInfo.day.toString().padStart(2, '0')}`,
-    expense: dateInfo.day_info.expense,
-    income: dateInfo.day_info.income,
-  }));
+  const events: CalendarEvent[] =
+    calendarData?.date_info.map(
+      (dateInfo: {
+        day: { toString: () => string };
+        day_info: { expense: any; income: any };
+      }) => ({
+        start: `${currentYear}-${currentMonth.toString().padStart(2, '0')}-${dateInfo.day.toString().padStart(2, '0')}`,
+        expense: dateInfo.day_info.expense,
+        income: dateInfo.day_info.income,
+      })
+    ) || [];
 
   // 차트 데이터 계산 로직 수정
   const calculateTotals = () => {
+    if (!calendarData)
+      return {
+        expense: 0,
+        income: 0,
+        categories: {
+          expense: [],
+          income: [],
+        },
+      };
+
     // 카테고리별 총합을 계산하기 위한 객체
     const expenseByCategory: { [key: string]: number } = {};
     const incomeByCategory: { [key: string]: number } = {};
 
     // 모든 날짜의 거래 내역을 순회하며 카테고리별 합계 계산
-    data.date_info.forEach((dateInfo) => {
-      // 지출 계산
-      if (dateInfo.day_info.expense) {
-        dateInfo.day_info.expense.forEach((expense) => {
-          expenseByCategory[expense.category] =
-            (expenseByCategory[expense.category] || 0) + expense.cost;
-        });
-      }
+    calendarData.date_info.forEach(
+      (dateInfo: { day_info: { expense: any[]; income: any[] } }) => {
+        // 지출 계산
+        if (dateInfo.day_info.expense) {
+          dateInfo.day_info.expense.forEach((expense) => {
+            expenseByCategory[expense.category] =
+              (expenseByCategory[expense.category] || 0) + expense.cost;
+          });
+        }
 
-      // 수입 계산
-      if (dateInfo.day_info.income) {
-        dateInfo.day_info.income?.forEach((income) => {
-          incomeByCategory[income.category] =
-            (incomeByCategory[income.category] || 0) + income.cost;
-        });
+        // 수입 계산
+        if (dateInfo.day_info.income) {
+          dateInfo.day_info.income?.forEach((income) => {
+            incomeByCategory[income.category] =
+              (incomeByCategory[income.category] || 0) + income.cost;
+          });
+        }
       }
-    });
+    );
 
     // 카테고리별 합계를 배열 형태로 변환
     const expenseCategories = Object.entries(expenseByCategory).map(
@@ -96,9 +125,11 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
 
   // 선택된 날짜의 거래 내역 가져오기
   const getSelectedDateTransactions = () => {
-    if (!selectedDate) return null;
+    if (!selectedDate || !calendarData) return null;
     const day = parseInt(selectedDate.split('-')[2]);
-    return data.date_info.find((info) => info.day === day)?.day_info;
+    return calendarData.date_info.find(
+      (info: { day: number }) => info.day === day
+    )?.day_info;
   };
 
   const handleDateClick = (info: DateClickArg) => {
@@ -124,12 +155,18 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
   const handlePrev = () => {
     if (calendarRef.current) {
       calendarRef.current.getApi().prev();
+      const newDate = calendarRef.current.getApi().getDate();
+      setCurrentYear(newDate.getFullYear());
+      setCurrentMonth(newDate.getMonth() + 1);
     }
   };
 
   const handleNext = () => {
     if (calendarRef.current) {
       calendarRef.current.getApi().next();
+      const newDate = calendarRef.current.getApi().getDate();
+      setCurrentYear(newDate.getFullYear());
+      setCurrentMonth(newDate.getMonth() + 1);
     }
   };
 
@@ -178,14 +215,18 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
           eventContent={(eventInfo) => {
             const date = eventInfo.event.startStr;
             const eventData = events.find((e) => e.start === date);
+
+            if (!eventData) return null;
+
             return (
               <div
-                style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+                className='flex items-center gap-1'
+                style={{ pointerEvents: 'none' }}
               >
-                {(eventData?.expense || []).length > 0 && (
+                {eventData.expense && eventData.expense.length > 0 && (
                   <span className='text-red'>●</span>
                 )}
-                {(eventData?.income || []).length > 0 && (
+                {eventData.income && eventData.income.length > 0 && (
                   <span className='text-green'>●</span>
                 )}
               </div>
@@ -198,8 +239,8 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
       <div className='flex h-full w-[40%] flex-col items-center rounded-xl bg-white/50'>
         {!selectedDate ? (
           <>
-            <div className='flex h-full w-full items-center justify-evenly'>
-              <div className='flex w-[40%] flex-col items-center justify-center gap-[50px]'>
+            <div className='flex h-full w-full items-center justify-evenly py-14'>
+              <div className='flex h-full w-[40%] flex-col items-center gap-[50px]'>
                 {monthlyTotals.categories.expense.length === 0 ? (
                   <p className='text-sx text-caption'>
                     입력된 지출이 없습니다.
@@ -211,7 +252,7 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
                       selectedType='expense'
                       categories={monthlyTotals.categories.expense}
                     />
-                    <ul className='flex w-full flex-col items-center text-xl font-medium text-caption'>
+                    <ul className='flex h-full w-full flex-col items-center text-xl font-medium text-caption'>
                       {monthlyTotals.categories.expense
                         .sort((a, b) => b.cost - a.cost)
                         .slice(0, 5)
@@ -224,20 +265,22 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
                             <span>- {category.cost.toLocaleString()}원</span>
                           </li>
                         ))}
-                      <li className='mt-10 flex w-full justify-between'>
-                        <span>합계</span>
-                        <span>
-                          - {monthlyTotals.expense.toLocaleString()}원
-                        </span>
-                      </li>
+                      <div className='mt-auto w-full pt-[25px]'>
+                        <li className='flex w-full justify-between'>
+                          <span>합계</span>
+                          <span>
+                            - {monthlyTotals.expense.toLocaleString()}원
+                          </span>
+                        </li>
+                      </div>
                     </ul>
                   </>
                 )}
               </div>
 
-              <div className='h-[90%] w-[1px] bg-underline/50'></div>
+              <div className='h-full w-[1px] bg-underline/30'></div>
 
-              <div className='flex w-[40%] flex-col items-center justify-center gap-[50px]'>
+              <div className='flex h-full w-[40%] flex-col items-center gap-[50px]'>
                 {monthlyTotals.categories.income.length === 0 ? (
                   <p className='text-sx text-caption'>
                     입력된 수입이 없습니다.
@@ -249,7 +292,7 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
                       selectedType='income'
                       categories={monthlyTotals.categories.income}
                     />
-                    <ul className='flex w-full flex-col items-center text-xl font-medium text-caption'>
+                    <ul className='flex h-full w-full flex-col items-center text-xl font-medium text-caption'>
                       {monthlyTotals.categories.income
                         .sort((a, b) => b.cost - a.cost)
                         .slice(0, 5)
@@ -262,17 +305,22 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
                             <span>+ {category.cost.toLocaleString()}원</span>
                           </li>
                         ))}
-                      <li className='mt-10 flex w-full justify-between'>
-                        <span>합계</span>
-                        <span>+ {monthlyTotals.income.toLocaleString()}원</span>
-                      </li>
+
+                      <div className='mt-auto w-full pt-[20px]'>
+                        <li className='mt-10 flex w-full justify-between'>
+                          <span>합계</span>
+                          <span>
+                            + {monthlyTotals.income.toLocaleString()}원
+                          </span>
+                        </li>
+                      </div>
                     </ul>
                   </>
                 )}
               </div>
             </div>
 
-            <div className='flex h-[100px] items-center justify-center'>
+            <div className='flex h-[100px] w-full items-center justify-center border-t-2 border-underline/30'>
               <p className='text-2xl font-semibold'>
                 총 합계 :{' '}
                 {(
@@ -300,7 +348,7 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
               {getSelectedDateTransactions() ? (
                 <>
                   {getSelectedDateTransactions()?.expense?.map(
-                    (transaction, index) => (
+                    (transaction: DayDetailTransaction, index: number) => (
                       <div
                         key={`expense-${index}`}
                         className='flex h-[45px] w-full items-center border-b border-underline/30 text-center'
@@ -317,8 +365,9 @@ const Calender: React.FC<CalendarProps> = ({ data }) => {
                       </div>
                     )
                   )}
+
                   {getSelectedDateTransactions()?.income?.map(
-                    (transaction, index) => (
+                    (transaction: DayDetailTransaction, index: number) => (
                       <div
                         key={`income-${index}`}
                         className='flex h-[45px] w-full items-center border-b border-underline/30 text-center'
