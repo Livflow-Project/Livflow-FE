@@ -11,8 +11,8 @@ type StoreIdDetailResponse = {
 };
 
 type DayInfo = {
-  day?: number;
-  day_info?: DayTransaction;
+  day: number;
+  day_info: DayTransaction;
 };
 
 type DayTransaction = {
@@ -29,6 +29,24 @@ type DayDetailTransaction = {
 type StoreDetailParams = {
   year: number;
   month: number;
+};
+
+type AddTransactionParams = {
+  year: number;
+  month: number;
+  day: number;
+  day_info: {
+    expense?: DayDetailTransaction[];
+    income?: DayDetailTransaction[];
+  };
+};
+
+type DeleteTransactionParams = {
+  year: number;
+  month: number;
+  day: number;
+  transactionType: 'expense' | 'income';
+  index: number;
 };
 
 const MOCK_STORE_ID: StoreIdResponse[] = [
@@ -277,6 +295,7 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
 ];
 
 export const storeIdHandler = [
+  // 스토어 이름, 주소 정보 조회
   http.get('/stores/stores/:id', ({ params }) => {
     const storeId = Number(params.id);
     const store = MOCK_STORE_ID.find((store) => store.store_id === storeId);
@@ -306,4 +325,127 @@ export const storeIdHandler = [
       ...storeDetail,
     });
   }),
+
+  // 스토어 지출, 수입 정보 추가
+  http.post(
+    '/stores/stores/detail/:id/transaction',
+    async ({ params, request }) => {
+      const storeId = Number(params.id);
+      const transactionData = (await request.json()) as AddTransactionParams;
+      const storeDetail = MOCK_STORE_ID_DETAIL[storeId - 1];
+
+      if (!storeDetail) {
+        return new HttpResponse(null, { status: 404 });
+      }
+
+      // 해당 날짜의 데이터가 있는지 확인
+      const dayIndex = storeDetail.date_info.findIndex(
+        (info) => info.day === transactionData.day
+      );
+
+      if (dayIndex === -1) {
+        storeDetail.date_info.push({
+          day: transactionData.day,
+          day_info: {
+            expense: transactionData.day_info.expense || [],
+            income: transactionData.day_info.income || [],
+          },
+        });
+      } else {
+        const existingDayInfo = storeDetail.date_info[dayIndex].day_info;
+        existingDayInfo.expense = [
+          ...(existingDayInfo.expense || []),
+          ...(transactionData.day_info.expense || []),
+        ];
+        existingDayInfo.income = [
+          ...(existingDayInfo.income || []),
+          ...(transactionData.day_info.income || []),
+        ];
+      }
+
+      return HttpResponse.json({
+        success: true,
+        message: '거래가 성공적으로 추가되었습니다.',
+        data: storeDetail,
+      });
+    }
+  ),
+
+  // 스토어 지출, 수입 정보 수정
+  http.put(
+    '/stores/stores/detail/:id/transaction',
+    async ({ params, request }) => {
+      const storeId = Number(params.id);
+      const updateData = (await request.json()) as AddTransactionParams;
+      const storeDetail = MOCK_STORE_ID_DETAIL[storeId - 1];
+
+      if (!storeDetail) {
+        return new HttpResponse(null, { status: 404 });
+      }
+
+      const dayIndex = storeDetail.date_info.findIndex(
+        (info) => info.day === updateData.day
+      );
+
+      if (dayIndex === -1) {
+        return new HttpResponse(null, {
+          status: 404,
+          statusText: '해당 날짜의 거래 정보를 찾을 수 없습니다.',
+        });
+      }
+
+      storeDetail.date_info[dayIndex].day_info = {
+        expense: updateData.day_info.expense || [],
+        income: updateData.day_info.income || [],
+      };
+
+      return HttpResponse.json({
+        success: true,
+        message: '거래가 성공적으로 수정되었습니다.',
+        data: storeDetail,
+      });
+    }
+  ),
+
+  // 스토어 지출, 수입 정보 삭제
+  http.delete(
+    '/stores/stores/detail/:id/transaction',
+    async ({ params, request }) => {
+      const storeId = Number(params.id);
+      const deleteData = (await request.json()) as DeleteTransactionParams;
+      const storeDetail = MOCK_STORE_ID_DETAIL[storeId - 1];
+
+      if (!storeDetail) {
+        return new HttpResponse(null, { status: 404 });
+      }
+
+      const dayInfo = storeDetail.date_info.find(
+        (info) => info.day === deleteData.day
+      );
+
+      if (!dayInfo || !dayInfo.day_info[deleteData.transactionType]) {
+        return new HttpResponse(null, {
+          status: 404,
+          statusText: '해당 거래를 찾을 수 없습니다.',
+        });
+      }
+
+      dayInfo.day_info[deleteData.transactionType]?.splice(deleteData.index, 1);
+
+      if (
+        !dayInfo.day_info.expense?.length &&
+        !dayInfo.day_info.income?.length
+      ) {
+        storeDetail.date_info = storeDetail.date_info.filter(
+          (info) => info.day !== deleteData.day
+        );
+      }
+
+      return HttpResponse.json({
+        success: true,
+        message: '거래가 성공적으로 삭제되었습니다.',
+        data: storeDetail,
+      });
+    }
+  ),
 ];
