@@ -170,12 +170,6 @@ const Calender = ({ storeId }: CalendarProps) => {
     }
   };
 
-  const handleAddTransaction = () => {
-    // API 호출 또는 상태 업데이트 로직
-    toast.success('거래가 추가되었습니다.');
-    setIsModalOpen(false);
-  };
-
   return (
     <div className='flex h-full items-center justify-between px-[35px] py-[30px]'>
       <div className='relative h-full w-[58%] overflow-hidden rounded-xl bg-white p-5'>
@@ -414,7 +408,6 @@ const Calender = ({ storeId }: CalendarProps) => {
             setIsModalOpen(false);
             toast.dismiss();
           }}
-          onSubmit={handleAddTransaction}
           storeId={storeId}
           selectedDate={selectedDate}
         />
