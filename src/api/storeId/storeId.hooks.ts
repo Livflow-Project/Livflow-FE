@@ -1,8 +1,15 @@
-import { StoreDetailParams } from './storeId.type';
+import {
+  AddTransactionParams,
+  DeleteTransactionParams,
+  StoreDetailParams,
+} from './storeId.type';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
 import { storeIdAPI } from './storeIdAPI';
-import { useQuery } from '@tanstack/react-query';
 
 export const useStoreIdQuery = () => {
+  const queryClient = useQueryClient();
+
   // 기본 스토어 정보 조회
   const useGetStore = (id: number) => {
     return useQuery({
@@ -19,8 +26,71 @@ export const useStoreIdQuery = () => {
     });
   };
 
+  const useAddTransaction = () => {
+    return useMutation({
+      mutationFn: ({ id, data }: { id: number; data: AddTransactionParams }) =>
+        storeIdAPI.addTransactionAPI(id, data),
+      onSuccess: (_, variables) => {
+        // 성공 시 해당 월의 데이터 무효화
+        queryClient.invalidateQueries({
+          queryKey: [
+            'store',
+            variables.id,
+            'detail',
+            variables.data.year,
+            variables.data.month,
+          ],
+        });
+      },
+    });
+  };
+
+  const useUpdateTransaction = () => {
+    return useMutation({
+      mutationFn: ({ id, data }: { id: number; data: AddTransactionParams }) =>
+        storeIdAPI.updateTransactionAPI(id, data),
+      onSuccess: (_, variables) => {
+        queryClient.invalidateQueries({
+          queryKey: [
+            'store',
+            variables.id,
+            'detail',
+            variables.data.year,
+            variables.data.month,
+          ],
+        });
+      },
+    });
+  };
+
+  const useDeleteTransaction = () => {
+    return useMutation({
+      mutationFn: ({
+        id,
+        data,
+      }: {
+        id: number;
+        data: DeleteTransactionParams;
+      }) => storeIdAPI.deleteTransactionAPI(id, data),
+      onSuccess: (_, variables) => {
+        queryClient.invalidateQueries({
+          queryKey: [
+            'store',
+            variables.id,
+            'detail',
+            variables.data.year,
+            variables.data.month,
+          ],
+        });
+      },
+    });
+  };
+
   return {
     useGetStore,
     useGetStoreDetail,
+    useAddTransaction,
+    useUpdateTransaction,
+    useDeleteTransaction,
   };
 };
