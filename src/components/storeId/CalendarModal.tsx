@@ -1,35 +1,71 @@
-import { Transaction } from '@/types/calendarType';
+import { DayDetailTransaction } from '@/api/storeId/storeId.type';
 import { showWarnToast } from '@/utils/toast';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
+import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
 type CalendarModalProps = {
   onClose: () => void;
-  onSubmit: (transaction: Transaction) => void;
+  storeId: number;
   selectedDate: string | null;
 };
 
-const CalendarModal = ({ onClose, onSubmit }: CalendarModalProps) => {
-  const [transaction, setTransaction] = useState<Transaction>({
-    item: '',
-    details: '',
+const CalendarModal = ({
+  onClose,
+  selectedDate,
+  storeId,
+}: CalendarModalProps) => {
+  const { useAddTransaction } = useStoreIdQuery();
+  const { mutate: addTransaction } = useAddTransaction();
+
+  const [transaction, setTransaction] = useState<{
+    category: string;
+    detail: string;
+    type: 'expense' | 'income';
+    cost: number;
+  }>({
+    category: '',
+    detail: '',
     type: 'expense',
-    amount: 0,
+    cost: 0,
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!selectedDate) {
+      showWarnToast('날짜를 선택해주세요.');
+      return;
+    }
+
     if (
-      !transaction.item ||
-      transaction.amount === 0 ||
-      transaction.details.trim() === ''
+      !transaction.category ||
+      transaction.cost === 0 ||
+      transaction.detail.trim() === ''
     ) {
       showWarnToast('빈칸 없이 모두 입력해주세요.');
       return;
     }
 
-    onSubmit(transaction);
+    const [year, month, day] = selectedDate.split('-').map(Number);
+
+    const newTransaction: DayDetailTransaction = {
+      category: transaction.category,
+      detail: transaction.detail,
+      cost: transaction.cost,
+    };
+
+    addTransaction({
+      id: storeId,
+      data: {
+        year,
+        month,
+        day,
+        day_info: {
+          [transaction.type]: [newTransaction],
+        },
+      },
+    });
 
     onClose();
     toast.dismiss();
@@ -59,9 +95,9 @@ const CalendarModal = ({ onClose, onSubmit }: CalendarModalProps) => {
             </div>
 
             <select
-              value={transaction.item}
+              value={transaction.category}
               onChange={(e) =>
-                setTransaction({ ...transaction, item: e.target.value })
+                setTransaction({ ...transaction, category: e.target.value })
               }
               className='input_box'
             >
@@ -132,11 +168,11 @@ const CalendarModal = ({ onClose, onSubmit }: CalendarModalProps) => {
             </div>
             <input
               type='number'
-              value={transaction.amount}
+              value={transaction.cost}
               onChange={(e) =>
                 setTransaction({
                   ...transaction,
-                  amount: Number(e.target.value),
+                  cost: Number(e.target.value),
                 })
               }
               placeholder='금액을 입력해 주세요.'
@@ -151,9 +187,9 @@ const CalendarModal = ({ onClose, onSubmit }: CalendarModalProps) => {
 
             <input
               type='text'
-              value={transaction.details}
+              value={transaction.detail}
               onChange={(e) =>
-                setTransaction({ ...transaction, details: e.target.value })
+                setTransaction({ ...transaction, detail: e.target.value })
               }
               placeholder='상세 정보를 입력해 주세요.'
               className='input_box'
