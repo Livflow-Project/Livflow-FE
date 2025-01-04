@@ -415,6 +415,7 @@ const Calender = ({ storeId }: CalendarProps) => {
             toast.dismiss();
           }}
           onSubmit={handleAddTransaction}
+          storeId={storeId}
           selectedDate={selectedDate}
         />
       )}
