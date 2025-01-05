@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 
-import Calender from '@/components/storeId/calendar/Calender';
+import Calender from '@/components/storeId/calendar/MainCalender';
 import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
 const StoreId = () => {
