@@ -5,9 +5,9 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { useStoreQuery } from '@/api/store/store.hooks';
 
-interface AddStoreModalProps {
+type AddStoreModalProps = {
   onClose: () => void;
-}
+};
 
 const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
   const [name, setName] = useState('');

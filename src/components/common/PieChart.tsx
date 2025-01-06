@@ -1,6 +1,8 @@
 import Chart, { TooltipItem } from 'chart.js/auto';
 import { useEffect, useRef } from 'react';
 
+import { Category } from '@/api/store/store.type';
+
 type PieChartProps = {
   selectedType: 'expense' | 'income';
   categories?: Category[];

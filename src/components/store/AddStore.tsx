@@ -1,8 +1,8 @@
 import { plusButton } from '@/assets/assets';
 
-interface AddStoreProps {
+type AddStoreProps = {
   onOpenModal: () => void;
-}
+};
 
 const AddStore = ({ onOpenModal }: AddStoreProps) => {
   return (

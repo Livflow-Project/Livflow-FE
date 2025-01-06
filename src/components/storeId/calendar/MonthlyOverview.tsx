@@ -1,9 +1,9 @@
 import PieChart from '@/components/common/PieChart';
 import { calculateTotals } from '@/utils/calendarUtils';
 
-interface MonthlyOverviewProps {
+type MonthlyOverviewProps = {
   calendarData: any;
-}
+};
 
 const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
   const monthlyTotals = calculateTotals(calendarData);

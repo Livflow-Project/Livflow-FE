@@ -9,7 +9,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import koLocale from '@fullcalendar/core/locales/ko';
 import listPlugin from '@fullcalendar/list';
 
-interface CalendarViewProps {
+type CalendarViewProps = {
   currentYear: number;
   currentMonth: number;
   setCurrentYear: (year: number) => void;
@@ -17,7 +17,7 @@ interface CalendarViewProps {
   calendarData: any;
   selectedDate: string | null;
   setSelectedDate: (date: string | null) => void;
-}
+};
 
 const CalendarView = ({
   currentYear,
