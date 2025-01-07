@@ -1,5 +1,6 @@
 import PieChart from '@/components/common/PieChart';
 import { calculateTotals } from '@/utils/calendarUtils';
+import { twMerge } from 'tailwind-merge';
 
 type MonthlyOverviewProps = {
   calendarData: any;
@@ -27,8 +28,12 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
                   .slice(0, 5)
                   .map((category, index) => (
                     <li key={index} className='flex w-full justify-between'>
-                      <span>{category.category}</span>
-                      <span>- {category.cost.toLocaleString()}원</span>
+                      <span className='text-xl font-normal text-caption'>
+                        {category.category}
+                      </span>
+                      <span className='text-xl font-normal text-caption'>
+                        - {category.cost.toLocaleString()}원
+                      </span>
                     </li>
                   ))}
                 <div className='mt-auto w-full pt-[25px]'>
@@ -60,8 +65,12 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
                   .slice(0, 5)
                   .map((category, index) => (
                     <li key={index} className='flex w-full justify-between'>
-                      <span>{category.category}</span>
-                      <span>+ {category.cost.toLocaleString()}원</span>
+                      <span className='text-xl font-normal text-caption'>
+                        {category.category}
+                      </span>
+                      <span className='text-xl font-normal text-caption'>
+                        + {category.cost.toLocaleString()}원
+                      </span>
                     </li>
                   ))}
                 <div className='mt-auto w-full pt-[20px]'>
@@ -77,9 +86,20 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
       </div>
 
       <div className='flex h-[100px] w-full items-center justify-center border-t-2 border-underline/30'>
-        <p className='text-2xl font-semibold'>
-          총 합계 :{' '}
-          {(monthlyTotals.income - monthlyTotals.expense).toLocaleString()}원
+        <p className='text-2xl font-semibold'>총 합계 &nbsp;&nbsp;</p>
+        <p
+          className={twMerge(
+            'text-2xl font-semibold',
+            monthlyTotals.income - monthlyTotals.expense >= 0
+              ? 'text-green'
+              : 'text-red'
+          )}
+        >
+          {monthlyTotals.income - monthlyTotals.expense >= 0 ? '+' : '-'}
+          {Math.abs(
+            monthlyTotals.income - monthlyTotals.expense
+          ).toLocaleString()}
+          원
         </p>
       </div>
     </>
