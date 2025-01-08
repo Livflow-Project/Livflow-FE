@@ -18,7 +18,7 @@ export const storeAPI = {
   },
 
   deleteStoreAPI: async (id: string) => {
-    const response = await axiosInstance.delete(`/stores${id}`);
+    const response = await axiosInstance.delete(`/stores/${id}`);
     return response.data;
   },
 };
