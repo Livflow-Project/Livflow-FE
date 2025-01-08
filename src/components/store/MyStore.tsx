@@ -77,7 +77,10 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
   const handleDelete = () => {
     deleteStoreMutation.mutate(storeInfo.store_id, {
       onSuccess: () => {
-        // 삭제 후 필요한 처리
+        toast.success('스토어가 삭제되었습니다');
+      },
+      onError: () => {
+        toast.error('삭제 중 오류가 발생했습니다');
       },
     });
   };

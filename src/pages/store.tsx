@@ -11,7 +11,7 @@ const Store = () => {
 
   // React Query 훅 사용
   const { useGetAllStores } = useStoreQuery();
-  const { data, isLoading } = useGetAllStores();
+  const { data, isLoading, error } = useGetAllStores();
 
   const handleToggleModal = () => {
     setIsModalOpen((prev) => !prev);
@@ -24,6 +24,10 @@ const Store = () => {
 
   if (isLoading) {
     return <div>로딩중...</div>;
+  }
+
+  if (error) {
+    return <div>에러가 발생했습니다: {error.message}</div>;
   }
 
   // data가 없거나 배열이 아닌 경우를 처리
