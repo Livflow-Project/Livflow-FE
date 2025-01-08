@@ -1,4 +1,4 @@
-import { AddTransactionParams, DeleteTransactionParams } from './storeId.type';
+import { AddTransactionParams, UpdateTransactionParams } from './storeId.type';
 
 import axiosInstance from '../axiosInstance';
 
@@ -26,14 +26,14 @@ export const storeIdAPI = {
     return response.data;
   },
 
-  updateTransactionAPI: async (id: string, data: AddTransactionParams) => {
+  updateTransactionAPI: async (id: string, data: UpdateTransactionParams) => {
     const response = await axiosInstance.put(`/stores/${id}/transaction`, data);
     return response.data;
   },
 
-  deleteTransactionAPI: async (id: string, data: DeleteTransactionParams) => {
+  deleteTransactionAPI: async (id: string, transaction_id: string) => {
     const response = await axiosInstance.delete(`/stores/${id}/transaction`, {
-      data,
+      data: { transaction_id },
     });
     return response.data;
   },

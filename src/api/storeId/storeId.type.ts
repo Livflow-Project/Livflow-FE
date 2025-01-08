@@ -25,14 +25,17 @@ export type DayTransaction = {
 };
 
 export type DayDetailTransaction = {
-  id: string;
+  transaction_id: string;
   category: string;
   detail: string;
   cost: number;
 };
 
 // id를 제외한 DayDetailTransaction 타입
-export type AddDayDetailTransaction = Omit<DayDetailTransaction, 'id'>;
+export type AddDayDetailTransaction = Omit<
+  DayDetailTransaction,
+  'transaction_id'
+>;
 
 export type StoreDetailParams = {
   year: number;
@@ -52,6 +55,7 @@ export type AddTransactionParams = {
 
 // 거래 수정을 위한 요청 타입
 export type UpdateTransactionParams = {
+  transaction_id: string;
   year: number;
   month: number;
   day: number;
@@ -63,9 +67,5 @@ export type UpdateTransactionParams = {
 
 // 거래 삭제를 위한 요청 타입
 export type DeleteTransactionParams = {
-  year: number;
-  month: number;
-  day: number;
-  transactionType: 'expense' | 'income';
-  transactionId: string;
+  transaction_id: string;
 };

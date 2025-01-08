@@ -1,7 +1,7 @@
 import {
   AddTransactionParams,
-  DeleteTransactionParams,
   StoreDetailParams,
+  UpdateTransactionParams,
 } from './storeId.type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -47,8 +47,13 @@ export const useStoreIdQuery = () => {
 
   const useUpdateTransaction = () => {
     return useMutation({
-      mutationFn: ({ id, data }: { id: string; data: AddTransactionParams }) =>
-        storeIdAPI.updateTransactionAPI(id, data),
+      mutationFn: ({
+        id,
+        data,
+      }: {
+        id: string;
+        data: UpdateTransactionParams;
+      }) => storeIdAPI.updateTransactionAPI(id, data),
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
           queryKey: [
@@ -67,20 +72,14 @@ export const useStoreIdQuery = () => {
     return useMutation({
       mutationFn: ({
         id,
-        data,
+        transaction_id,
       }: {
         id: string;
-        data: DeleteTransactionParams;
-      }) => storeIdAPI.deleteTransactionAPI(id, data),
+        transaction_id: string;
+      }) => storeIdAPI.deleteTransactionAPI(id, transaction_id),
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
-          queryKey: [
-            'store',
-            variables.id,
-            'detail',
-            variables.data.year,
-            variables.data.month,
-          ],
+          queryKey: ['store', variables.id, 'detail'],
         });
       },
     });
