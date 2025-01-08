@@ -1,7 +1,7 @@
 import { HttpResponse, http } from 'msw';
 
 type StoreResponse = {
-  store_id: number;
+  store_id: string; // UUID
   name: string;
   address?: string;
   chart: {
@@ -15,10 +15,17 @@ type Category = {
   cost: number;
 };
 
+// 임시 랜덤 UUID
+const STORE_IDS = {
+  STORE_1: '0a6e3e2a-0bea-4cda-9f7d-9141ea5efa33',
+  STORE_2: '1b7f4f3b-1cfb-5de4-0g8e-0252fb6efb44',
+  STORE_3: 'a0b8035d-5499-4adb-9d8a-d7a93ac026e8',
+};
+
 const MOCK_STORE: StoreResponse[] = [
   {
     // 스토어 아이디
-    store_id: 1,
+    store_id: STORE_IDS.STORE_1,
     // 스토어 이름
     name: '스토어 이름 1',
     // 스토어 주소 (선택)
@@ -54,7 +61,7 @@ const MOCK_STORE: StoreResponse[] = [
   },
   {
     // 스토어 아이디
-    store_id: 2,
+    store_id: STORE_IDS.STORE_2,
     // 스토어 이름
     name: '스토어 이름 2',
     // 스토어 주소 (선택)
@@ -94,20 +101,21 @@ let stores: StoreResponse[] = [...MOCK_STORE];
 
 export const storeHandler = [
   // 모든 상점 조회
-  http.get('/stores/stores', () => {
+  http.get('/stores', () => {
     return HttpResponse.json(stores);
   }),
 
   // 새 상점 생성
-  http.post('/stores/stores', async ({ request }) => {
-    const newStore = (await request.json()) as Omit<StoreResponse, 'store_id'>;
-    const store_id = Math.max(...stores.map((store) => store.store_id)) + 1;
+  http.post('/stores', async ({ request }) => {
+    const newStore = (await request.json()) as StoreResponse;
 
-    const createdStore = {
+    const createdStore: StoreResponse = {
       ...newStore,
-      store_id,
-      expense: [],
-      income: [],
+      store_id: STORE_IDS.STORE_3,
+      chart: {
+        expense: [],
+        income: [],
+      },
     };
 
     stores.push(createdStore);
@@ -115,13 +123,13 @@ export const storeHandler = [
   }),
 
   // 상점 정보 수정 (이름, 주소만)
-  http.put('/stores/stores/:id', async ({ params, request }) => {
+  http.put('/stores/:id', async ({ params, request }) => {
     const updates = (await request.json()) as Pick<
       StoreResponse,
       'name' | 'address'
     >;
     const storeIndex = stores.findIndex(
-      (store) => store.store_id === Number(params.id)
+      (store) => store.store_id === params.id
     );
 
     if (storeIndex === -1) {
@@ -137,16 +145,16 @@ export const storeHandler = [
   }),
 
   // 상점 삭제
-  http.delete('/stores/stores/:id', ({ params }) => {
+  http.delete('/stores/:id', ({ params }) => {
     const storeIndex = stores.findIndex(
-      (store) => store.store_id === Number(params.id)
+      (store) => store.store_id === params.id
     );
 
     if (storeIndex === -1) {
       return new HttpResponse(null, { status: 404 });
     }
 
-    stores = stores.filter((store) => store.store_id !== Number(params.id));
+    stores = stores.filter((store) => store.store_id !== params.id);
     return new HttpResponse(null, { status: 204 });
   }),
 ];

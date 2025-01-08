@@ -1,5 +1,5 @@
 export type StoreResponse = {
-  store_id: number;
+  store_id: string;
   name: string;
   address?: string;
   chart: { expense: Category[]; income: Category[] };

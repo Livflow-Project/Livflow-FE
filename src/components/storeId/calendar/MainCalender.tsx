@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
 type CalendarProps = {
-  storeId: number;
+  storeId: string;
 };
 
 const MainCalendar = ({ storeId }: CalendarProps) => {

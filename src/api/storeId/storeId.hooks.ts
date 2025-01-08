@@ -11,7 +11,7 @@ export const useStoreIdQuery = () => {
   const queryClient = useQueryClient();
 
   // 기본 스토어 정보 조회
-  const useGetStore = (id: number) => {
+  const useGetStore = (id: string) => {
     return useQuery({
       queryKey: ['store', id],
       queryFn: () => storeIdAPI.getStoreIdAPI(id),
@@ -19,7 +19,7 @@ export const useStoreIdQuery = () => {
   };
 
   // 스토어 상세 정보(달력 데이터) 조회
-  const useGetStoreDetail = (id: number, params: StoreDetailParams) => {
+  const useGetStoreDetail = (id: string, params: StoreDetailParams) => {
     return useQuery({
       queryKey: ['store', id, 'detail', params.year, params.month],
       queryFn: () => storeIdAPI.getStoreDetailAPI(id, params),
@@ -28,7 +28,7 @@ export const useStoreIdQuery = () => {
 
   const useAddTransaction = () => {
     return useMutation({
-      mutationFn: ({ id, data }: { id: number; data: AddTransactionParams }) =>
+      mutationFn: ({ id, data }: { id: string; data: AddTransactionParams }) =>
         storeIdAPI.addTransactionAPI(id, data),
       onSuccess: (_, variables) => {
         // 성공 시 해당 월의 데이터 무효화
@@ -47,7 +47,7 @@ export const useStoreIdQuery = () => {
 
   const useUpdateTransaction = () => {
     return useMutation({
-      mutationFn: ({ id, data }: { id: number; data: AddTransactionParams }) =>
+      mutationFn: ({ id, data }: { id: string; data: AddTransactionParams }) =>
         storeIdAPI.updateTransactionAPI(id, data),
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
@@ -69,7 +69,7 @@ export const useStoreIdQuery = () => {
         id,
         data,
       }: {
-        id: number;
+        id: string;
         data: DeleteTransactionParams;
       }) => storeIdAPI.deleteTransactionAPI(id, data),
       onSuccess: (_, variables) => {

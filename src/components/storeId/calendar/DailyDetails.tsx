@@ -5,7 +5,7 @@ import { useState } from 'react';
 type DailyDetailsProps = {
   selectedDate: string;
   calendarData: any;
-  storeId: number;
+  storeId: string;
   onModalOpen: () => void;
 };
 

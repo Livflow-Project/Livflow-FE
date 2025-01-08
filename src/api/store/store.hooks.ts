@@ -36,13 +36,13 @@ export const useStoreQuery = () => {
         id,
         storeInfo,
       }: {
-        id: number;
+        id: string;
         storeInfo: StoreRequestParams;
       }) => storeAPI.putStoreAPI(id, storeInfo),
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({ queryKey: ['stores'] });
         queryClient.invalidateQueries({
-          queryKey: ['store', variables.id.toString()],
+          queryKey: ['store', variables.id],
         });
       },
     });
@@ -51,7 +51,7 @@ export const useStoreQuery = () => {
   // 스토어 삭제
   const useDeleteStore = () => {
     return useMutation({
-      mutationFn: (id: number) => storeAPI.deleteStoreAPI(id),
+      mutationFn: (id: string) => storeAPI.deleteStoreAPI(id),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['stores'] });
       },

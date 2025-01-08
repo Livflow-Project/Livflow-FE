@@ -7,7 +7,7 @@ const StoreId = () => {
   const { id } = useParams<{ id: string }>();
   const { useGetStore } = useStoreIdQuery();
 
-  const { data, isLoading, isError } = useGetStore(parseInt(id || '0'));
+  const { data, isLoading, isError } = useGetStore(id || '0');
 
   if (isLoading) {
     return (
@@ -47,7 +47,7 @@ const StoreId = () => {
           </nav>
         </div>
         <div className='h-[calc(100%-55px)] w-full bg-background'>
-          <Calender storeId={parseInt(id)} />
+          <Calender storeId={id} />
         </div>
       </div>
     </div>

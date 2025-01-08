@@ -1,7 +1,7 @@
 import { Category } from '../store/store.type';
 
 export type StoreIDResponse = {
-  store_id: number;
+  store_id: string;
   name: string;
   address?: string;
   chart: {
@@ -25,10 +25,14 @@ export type DayTransaction = {
 };
 
 export type DayDetailTransaction = {
+  id: string;
   category: string;
   detail: string;
   cost: number;
 };
+
+// id를 제외한 DayDetailTransaction 타입
+export type AddDayDetailTransaction = Omit<DayDetailTransaction, 'id'>;
 
 export type StoreDetailParams = {
   year: number;
@@ -41,8 +45,8 @@ export type AddTransactionParams = {
   month: number;
   day: number;
   day_info: {
-    expense?: DayDetailTransaction[];
-    income?: DayDetailTransaction[];
+    expense?: AddDayDetailTransaction[];
+    income?: AddDayDetailTransaction[];
   };
 };
 
@@ -63,5 +67,5 @@ export type DeleteTransactionParams = {
   month: number;
   day: number;
   transactionType: 'expense' | 'income';
-  transactionIndex: number;
+  transactionId: string;
 };

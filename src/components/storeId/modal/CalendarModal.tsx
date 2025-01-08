@@ -1,4 +1,4 @@
-import { DayDetailTransaction } from '@/api/storeId/storeId.type';
+import { AddDayDetailTransaction } from '@/api/storeId/storeId.type';
 import { showWarnToast } from '@/utils/toast';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
@@ -6,7 +6,7 @@ import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
 type CalendarModalProps = {
   onClose: () => void;
-  storeId: number;
+  storeId: string;
   selectedDate: string | null;
 };
 
@@ -19,14 +19,14 @@ const CalendarModal = ({
   const { mutate: addTransaction } = useAddTransaction();
 
   const [transaction, setTransaction] = useState<{
+    type: 'expense' | 'income';
     category: string;
     detail: string;
-    type: 'expense' | 'income';
     cost: number;
   }>({
+    type: 'expense',
     category: '',
     detail: '',
-    type: 'expense',
     cost: 0,
   });
 
@@ -49,7 +49,7 @@ const CalendarModal = ({
 
     const [year, month, day] = selectedDate.split('-').map(Number);
 
-    const newTransaction: DayDetailTransaction = {
+    const newTransaction: AddDayDetailTransaction = {
       category: transaction.category,
       detail: transaction.detail,
       cost: transaction.cost,
