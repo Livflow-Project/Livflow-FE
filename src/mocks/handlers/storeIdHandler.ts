@@ -73,6 +73,14 @@ const MOCK_STORE_ID: StoreIdResponse[] = [
     // 스토어 주소 (선택)
     address: '스토어 주소 2',
   },
+  {
+    // 스토어 아이디
+    store_id: STORE_IDS.STORE_3,
+    // 스토어 이름
+    name: '스토어 이름 3',
+    // 스토어 주소 (선택)
+    address: '스토어 주소 3',
+  },
 ];
 
 const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
