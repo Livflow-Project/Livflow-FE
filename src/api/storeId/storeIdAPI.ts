@@ -4,44 +4,37 @@ import axiosInstance from '../axiosInstance';
 
 export const storeIdAPI = {
   // 기본 스토어 정보 조회
-  getStoreIdAPI: async (id: number) => {
-    const response = await axiosInstance.get(`/stores/stores/${id}`);
+  getStoreIdAPI: async (id: string) => {
+    const response = await axiosInstance.get(`/stores/${id}`);
     return response.data;
   },
 
   // 스토어 상세 정보(달력 데이터) 조회
   getStoreDetailAPI: async (
-    id: number,
+    id: string,
     params: { year: number; month: number }
   ) => {
-    const response = await axiosInstance.post(
-      `/stores/stores/detail/${id}`,
-      params
-    );
+    const response = await axiosInstance.post(`/stores/detail/${id}`, params);
     return response.data;
   },
 
-  addTransactionAPI: async (id: number, data: AddTransactionParams) => {
+  addTransactionAPI: async (id: string, data: AddTransactionParams) => {
     const response = await axiosInstance.post(
-      `/stores/stores/detail/${id}/transaction`,
+      `/stores/${id}/transaction`,
       data
     );
     return response.data;
   },
 
-  updateTransactionAPI: async (id: number, data: AddTransactionParams) => {
-    const response = await axiosInstance.put(
-      `/stores/stores/detail/${id}/transaction`,
-      data
-    );
+  updateTransactionAPI: async (id: string, data: AddTransactionParams) => {
+    const response = await axiosInstance.put(`/stores/${id}/transaction`, data);
     return response.data;
   },
 
-  deleteTransactionAPI: async (id: number, data: DeleteTransactionParams) => {
-    const response = await axiosInstance.delete(
-      `/stores/stores/detail/${id}/transaction`,
-      { data }
-    );
+  deleteTransactionAPI: async (id: string, data: DeleteTransactionParams) => {
+    const response = await axiosInstance.delete(`/stores/${id}/transaction`, {
+      data,
+    });
     return response.data;
   },
 };
