@@ -1,6 +1,7 @@
 import { DayDetailTransaction } from '@/api/storeId/storeId.type';
 import { getSelectedDateTransactions } from '@/utils/calendarUtils';
 import { useState } from 'react';
+import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
 type DailyDetailsProps = {
   selectedDate: string;
@@ -12,10 +13,15 @@ type DailyDetailsProps = {
 const DailyDetails = ({
   selectedDate,
   calendarData,
+  storeId,
   onModalOpen,
 }: DailyDetailsProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const transactions = getSelectedDateTransactions(selectedDate, calendarData);
+
+  const { useUpdateTransaction, useDeleteTransaction } = useStoreIdQuery();
+  const updateMutation = useUpdateTransaction();
+  const deleteMutation = useDeleteTransaction();
 
   const handleEditClick = () => {
     setIsEditMode(!isEditMode);
@@ -24,16 +30,11 @@ const DailyDetails = ({
   const TransactionItem = ({
     transaction,
     type,
-    index,
   }: {
     transaction: DayDetailTransaction;
     type: 'expense' | 'income';
-    index: number;
   }) => (
-    <div
-      key={`${type}-${index}`}
-      className='relative flex h-[45px] w-full items-center border-b border-underline/30 text-center'
-    >
+    <div className='relative flex h-[45px] w-full items-center border-b border-underline/30 text-center'>
       <span className='w-[30%] text-lg font-normal'>
         {transaction.category}
       </span>
@@ -84,11 +85,36 @@ const DailyDetails = ({
   const handleEdit = (transaction: DayDetailTransaction) => {
     // 수정 로직 구현
     console.log('Edit:', transaction);
+
+    const [year, month, day] = selectedDate.split('-').map(Number);
+
+    // 현재 날짜의 모든 거래 데이터를 가져옴
+    const currentTransactions = transactions;
+
+    // 수정된 거래 데이터로 업데이트
+    updateMutation.mutate({
+      id: storeId,
+      data: {
+        transaction_id: transaction.transaction_id,
+        year,
+        month,
+        day,
+        day_info: {
+          expense: currentTransactions?.expense || [],
+          income: currentTransactions?.income || [],
+        },
+      },
+    });
   };
 
   const handleDelete = (transaction: DayDetailTransaction) => {
     // 삭제 로직 구현
     console.log('Delete:', transaction);
+
+    deleteMutation.mutate({
+      id: storeId,
+      transaction_id: transaction.transaction_id,
+    });
   };
 
   return (
@@ -108,27 +134,21 @@ const DailyDetails = ({
       <div className='flex h-[calc(100%-130px)] w-full flex-col'>
         {transactions ? (
           <>
-            {transactions?.expense?.map(
-              (transaction: DayDetailTransaction, index: number) => (
-                <TransactionItem
-                  key={`expense-${index}`}
-                  transaction={transaction}
-                  type='expense'
-                  index={index}
-                />
-              )
-            )}
+            {transactions?.expense?.map((transaction: DayDetailTransaction) => (
+              <TransactionItem
+                key={transaction.transaction_id}
+                transaction={transaction}
+                type='expense'
+              />
+            ))}
 
-            {transactions?.income?.map(
-              (transaction: DayDetailTransaction, index: number) => (
-                <TransactionItem
-                  key={`income-${index}`}
-                  transaction={transaction}
-                  type='income'
-                  index={index}
-                />
-              )
-            )}
+            {transactions?.income?.map((transaction: DayDetailTransaction) => (
+              <TransactionItem
+                key={transaction.transaction_id}
+                transaction={transaction}
+                type='income'
+              />
+            ))}
           </>
         ) : (
           <div className='my-auto w-full text-center text-2xl text-main'>

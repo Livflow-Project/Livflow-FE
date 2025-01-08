@@ -21,7 +21,7 @@ type DayTransaction = {
 };
 
 type DayDetailTransaction = {
-  id: string; // UUID
+  transaction_id: string; // UUID
   category: string;
   detail: string;
   cost: number;
@@ -43,11 +43,7 @@ type AddTransactionParams = {
 };
 
 type DeleteTransactionParams = {
-  year: number;
-  month: number;
-  day: number;
-  transactionType: 'expense' | 'income';
-  transactionId: string;
+  transaction_id: string;
 };
 
 const STORE_IDS = {
@@ -95,13 +91,13 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           expense: [
             // 1일에 입력 된 상세 지출 정보
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '식비',
               detail: '친구랑 밥',
               cost: 30000,
             },
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '교통비',
               detail: '서울 여행',
               cost: 30000,
@@ -116,13 +112,13 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           expense: [
             // 2일에 입력 된 상세 지출 정보 전체
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '식비',
               detail: '친구랑 밥',
               cost: 30000,
             },
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '식비',
               detail: '친구랑 밥',
               cost: 30000,
@@ -131,13 +127,13 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           income: [
             // 2일에 입력 된 상세 수입 정보 전체
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '급여',
               detail: '11월 급여',
               cost: 2000000,
             },
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '급여',
               detail: '11월 급여',
               cost: 2000000,
@@ -152,13 +148,13 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           expense: [
             // 3일에 입력 된 상세 지출 정보 전체
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '식비',
               detail: '친구랑 밥',
               cost: 30000,
             },
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '식비',
               detail: '친구랑 밥',
               cost: 30000,
@@ -167,13 +163,13 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           income: [
             // 3일에 입력 된 상세 수입 정보 전체
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '급여',
               detail: '11월 급여',
               cost: 2000000,
             },
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '급여',
               detail: '11월 급여',
               cost: 2000000,
@@ -188,13 +184,13 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           expense: [
             // 3일에 입력 된 상세 지출 정보 전체
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '영화',
               detail: '친구랑 영화',
               cost: 30000,
             },
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '식비',
               detail: '친구랑 밥',
               cost: 30000,
@@ -203,13 +199,13 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           income: [
             // 3일에 입력 된 상세 수입 정보 전체
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '급여',
               detail: '11월 급여',
               cost: 2000000,
             },
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '급여',
               detail: '11월 급여',
               cost: 2000000,
@@ -230,13 +226,13 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           expense: [
             // 1일에 입력 된 상세 지출 정보
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '식비',
               detail: '친구랑 밥',
               cost: 30000,
             },
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '식비',
               detail: '친구랑 밥',
               cost: 30000,
@@ -245,13 +241,13 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           income: [
             // 1일에 입력 된 상세 수입 정보
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '급여',
               detail: '11월 급여',
               cost: 2000000,
             },
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '급여',
               detail: '11월 급여',
               cost: 2000000,
@@ -266,13 +262,13 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           expense: [
             // 2일에 입력 된 상세 지출 정보 전체
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '식비',
               detail: '친구랑 밥',
               cost: 30000,
             },
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '식비',
               detail: '친구랑 밥',
               cost: 30000,
@@ -281,13 +277,13 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           income: [
             // 2일에 입력 된 상세 수입 정보 전체
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '급여',
               detail: '11월 급여',
               cost: 2000000,
             },
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '급여',
               detail: '11월 급여',
               cost: 2000000,
@@ -302,13 +298,13 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           expense: [
             // 3일에 입력 된 상세 지출 정보 전체
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '식비',
               detail: '친구랑 밥',
               cost: 30000,
             },
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '식비',
               detail: '친구랑 밥',
               cost: 30000,
@@ -317,13 +313,13 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           income: [
             // 3일에 입력 된 상세 수입 정보 전체
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '급여',
               detail: '11월 급여',
               cost: 2000000,
             },
             {
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
               category: '급여',
               detail: '11월 급여',
               cost: 2000000,
@@ -391,12 +387,12 @@ export const storeIdHandler = [
           expense:
             transactionData.day_info.expense?.map((exp) => ({
               ...exp,
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
             })) || [],
           income:
             transactionData.day_info.income?.map((inc) => ({
               ...inc,
-              id: crypto.randomUUID(),
+              transaction_id: crypto.randomUUID(),
             })) || [],
         },
       });
@@ -404,11 +400,17 @@ export const storeIdHandler = [
       const existingDayInfo = storeDetail.date_info[dayIndex].day_info;
       existingDayInfo.expense = [
         ...(existingDayInfo.expense || []),
-        ...(transactionData.day_info.expense || []),
+        ...(transactionData.day_info.expense?.map((exp) => ({
+          ...exp,
+          transaction_id: crypto.randomUUID(),
+        })) || []),
       ];
       existingDayInfo.income = [
         ...(existingDayInfo.income || []),
-        ...(transactionData.day_info.income || []),
+        ...(transactionData.day_info.income?.map((inc) => ({
+          ...inc,
+          transaction_id: crypto.randomUUID(),
+        })) || []),
       ];
     }
 
@@ -466,32 +468,40 @@ export const storeIdHandler = [
       return new HttpResponse(null, { status: 404 });
     }
 
-    const dayInfo = storeDetail.date_info.find(
-      (info) => info.day === deleteData.day
-    );
+    // 모든 날짜에서 해당 ID를 가진 거래 찾기
+    let isDeleted = false;
+    storeDetail.date_info = storeDetail.date_info.filter((dayInfo) => {
+      // expense와 income 배열에서 해당 ID를 가진 거래 삭제
+      if (dayInfo.day_info.expense) {
+        dayInfo.day_info.expense = dayInfo.day_info.expense.filter((t) => {
+          if (t.transaction_id === deleteData.transaction_id) {
+            isDeleted = true;
+            return false;
+          }
+          return true;
+        });
+      }
+      if (dayInfo.day_info.income) {
+        dayInfo.day_info.income = dayInfo.day_info.income.filter((t) => {
+          if (t.transaction_id === deleteData.transaction_id) {
+            isDeleted = true;
+            return false;
+          }
+          return true;
+        });
+      }
 
-    if (!dayInfo || !dayInfo.day_info[deleteData.transactionType]) {
+      // expense와 income이 모두 비어있으면 해당 날짜 제거
+      return (
+        dayInfo.day_info.expense?.length || dayInfo.day_info.income?.length
+      );
+    });
+
+    if (!isDeleted) {
       return new HttpResponse(null, {
         status: 404,
         statusText: '해당 거래를 찾을 수 없습니다.',
       });
-    }
-
-    // index 대신 id로 찾아서 삭제
-    const transactions = dayInfo.day_info[deleteData.transactionType];
-    if (transactions) {
-      const transactionIndex = transactions.findIndex(
-        (t) => t.id === deleteData.transactionId
-      );
-      if (transactionIndex !== -1) {
-        transactions.splice(transactionIndex, 1);
-      }
-    }
-
-    if (!dayInfo.day_info.expense?.length && !dayInfo.day_info.income?.length) {
-      storeDetail.date_info = storeDetail.date_info.filter(
-        (info) => info.day !== deleteData.day
-      );
     }
 
     return HttpResponse.json({
