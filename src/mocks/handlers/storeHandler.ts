@@ -92,10 +92,7 @@ export const storeHandler = [
     const createdStore: StoreResponse = {
       ...newStore,
       store_id: STORE_IDS.STORE_3,
-      chart: {
-        expense: [],
-        income: [],
-      },
+      chart: [],
     };
 
     stores.push(createdStore);
