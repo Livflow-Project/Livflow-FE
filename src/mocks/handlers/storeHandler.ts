@@ -4,13 +4,11 @@ type StoreResponse = {
   store_id: string; // UUID
   name: string;
   address?: string;
-  chart: {
-    expense: Category[];
-    income: Category[];
-  };
+  chart: Category[];
 };
 
 type Category = {
+  type: 'expense' | 'income';
   category: string;
   cost: number;
 };
@@ -24,76 +22,58 @@ const STORE_IDS = {
 
 const MOCK_STORE: StoreResponse[] = [
   {
-    // 스토어 아이디
     store_id: STORE_IDS.STORE_1,
-    // 스토어 이름
     name: '스토어 이름 1',
-    // 스토어 주소 (선택)
     address: '스토어 주소 1',
-    // 해당 달에 있는 카테고리별 총 지출
-    chart: {
-      expense: [
-        {
-          category: '교통비',
-          // 카테고리가 교통비인 지출의 총 합
-          cost: 1500,
-        },
-        {
-          category: '저축',
-          // 카테고리가 저축인 지출의 총 합
-          cost: 20000,
-        },
-      ],
-      // 해당 달에 있는 카테고리별 총 수입
-      income: [
-        {
-          category: '용돈',
-          // 카테고리가 용돈인 수입의 총 합
-          cost: 50000,
-        },
-        {
-          category: '주식',
-          // 카테고리가 주식인 수입의 총 합
-          cost: 2000,
-        },
-      ],
-    },
+    chart: [
+      {
+        type: 'expense',
+        category: '교통비',
+        cost: 1500,
+      },
+      {
+        type: 'expense',
+        category: '저축',
+        cost: 20000,
+      },
+      {
+        type: 'income',
+        category: '용돈',
+        cost: 50000,
+      },
+      {
+        type: 'income',
+        category: '주식',
+        cost: 2000,
+      },
+    ],
   },
   {
-    // 스토어 아이디
     store_id: STORE_IDS.STORE_2,
-    // 스토어 이름
     name: '스토어 이름 2',
-    // 스토어 주소 (선택)
     address: '스토어 주소 2',
-    // 해당 달에 있는 카테고리별 총 지출
-    chart: {
-      expense: [
-        {
-          category: '외식',
-          // 카테고리가 외식인 지출의 총 합
-          cost: 17000,
-        },
-        {
-          category: '주식',
-          // 카테고리가 주식인 지출의 총 합
-          cost: 20000,
-        },
-      ],
-      // 해당 달에 있는 카테고리별 총 수입
-      income: [
-        {
-          category: '용돈',
-          // 카테고리가 용돈인 수입의 총 합
-          cost: 30000,
-        },
-        {
-          category: '알바',
-          // 카테고리가 알바인 수입의 총 합
-          cost: 70000,
-        },
-      ],
-    },
+    chart: [
+      {
+        type: 'expense',
+        category: '외식',
+        cost: 17000,
+      },
+      {
+        type: 'expense',
+        category: '주식',
+        cost: 20000,
+      },
+      {
+        type: 'income',
+        category: '용돈',
+        cost: 30000,
+      },
+      {
+        type: 'income',
+        category: '알바',
+        cost: 70000,
+      },
+    ],
   },
 ];
 

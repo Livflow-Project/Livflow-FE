@@ -12,16 +12,12 @@ type StoreIdDetailResponse = {
 
 type DayInfo = {
   day: number;
-  day_info: DayTransaction;
-};
-
-type DayTransaction = {
-  expense?: DayDetailTransaction[];
-  income?: DayDetailTransaction[];
+  day_info: DayDetailTransaction[];
 };
 
 type DayDetailTransaction = {
   transaction_id: string; // UUID
+  type: 'expense' | 'income';
   category: string;
   detail: string;
   cost: number;
@@ -52,280 +48,229 @@ const STORE_IDS = {
   STORE_3: 'a0b8035d-5499-4adb-9d8a-d7a93ac026e8',
 };
 
-const MOCK_STORE_ID: StoreIdResponse[] = [
-  {
-    // 스토어 아이디
-    store_id: STORE_IDS.STORE_1,
-    // 스토어 이름
-    name: '스토어 이름 1',
-    // 스토어 주소 (선택)
-    address: '스토어 주소 1',
-  },
-  {
-    // 스토어 아이디
-    store_id: STORE_IDS.STORE_2,
-    // 스토어 이름
-    name: '스토어 이름 2',
-    // 스토어 주소 (선택)
-    address: '스토어 주소 2',
-  },
-  {
-    // 스토어 아이디
-    store_id: STORE_IDS.STORE_3,
-    // 스토어 이름
-    name: '스토어 이름 3',
-    // 스토어 주소 (선택)
-    address: '스토어 주소 3',
-  },
-];
-
 const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
   {
-    // 해당 달에 있는 날짜별 지출, 수입
-    // 1일부터 순서대로 배열에 담기고 지출이나 수입이 있는 날짜만 받음
     date_info: [
       {
-        // 1일에 있는 상세 지출, 수입 정보
         day: 1,
-        day_info: {
-          expense: [
-            // 1일에 입력 된 상세 지출 정보
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '식비',
-              detail: '친구랑 밥',
-              cost: 30000,
-            },
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '교통비',
-              detail: '서울 여행',
-              cost: 30000,
-            },
-          ],
-        },
+        day_info: [
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'expense',
+            category: '식비',
+            detail: '친구랑 밥',
+            cost: 30000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'expense',
+            category: '교통비',
+            detail: '서울 여행',
+            cost: 30000,
+          },
+        ],
       },
       {
-        // 1일에 있는 상세 지출, 수입 정보
         day: 2,
-        day_info: {
-          expense: [
-            // 2일에 입력 된 상세 지출 정보 전체
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '식비',
-              detail: '친구랑 밥',
-              cost: 30000,
-            },
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '식비',
-              detail: '친구랑 밥',
-              cost: 30000,
-            },
-          ],
-          income: [
-            // 2일에 입력 된 상세 수입 정보 전체
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '급여',
-              detail: '11월 급여',
-              cost: 2000000,
-            },
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '급여',
-              detail: '11월 급여',
-              cost: 2000000,
-            },
-          ],
-        },
+        day_info: [
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'expense',
+            category: '식비',
+            detail: '친구랑 밥',
+            cost: 30000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'expense',
+            category: '식비',
+            detail: '친구랑 밥',
+            cost: 30000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'income',
+            category: '급여',
+            detail: '11월 급여',
+            cost: 2000000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'income',
+            category: '급여',
+            detail: '11월 급여',
+            cost: 2000000,
+          },
+        ],
       },
       {
-        // 3일에 있는 상세 지출, 수입 정보
         day: 3,
-        day_info: {
-          expense: [
-            // 3일에 입력 된 상세 지출 정보 전체
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '식비',
-              detail: '친구랑 밥',
-              cost: 30000,
-            },
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '식비',
-              detail: '친구랑 밥',
-              cost: 30000,
-            },
-          ],
-          income: [
-            // 3일에 입력 된 상세 수입 정보 전체
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '급여',
-              detail: '11월 급여',
-              cost: 2000000,
-            },
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '급여',
-              detail: '11월 급여',
-              cost: 2000000,
-            },
-          ],
-        },
+        day_info: [
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'expense',
+            category: '식비',
+            detail: '친구랑 밥',
+            cost: 30000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'expense',
+            category: '식비',
+            detail: '친구랑 밥',
+            cost: 30000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'income',
+            category: '급여',
+            detail: '11월 급여',
+            cost: 2000000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'income',
+            category: '급여',
+            detail: '11월 급여',
+            cost: 2000000,
+          },
+        ],
       },
       {
-        // 10일에 있는 상세 지출, 수입 정보
         day: 10,
-        day_info: {
-          expense: [
-            // 3일에 입력 된 상세 지출 정보 전체
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '영화',
-              detail: '친구랑 영화',
-              cost: 30000,
-            },
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '식비',
-              detail: '친구랑 밥',
-              cost: 30000,
-            },
-          ],
-          income: [
-            // 3일에 입력 된 상세 수입 정보 전체
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '급여',
-              detail: '11월 급여',
-              cost: 2000000,
-            },
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '급여',
-              detail: '11월 급여',
-              cost: 2000000,
-            },
-          ],
-        },
+        day_info: [
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'expense',
+            category: '영화',
+            detail: '친구랑 영화',
+            cost: 30000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'expense',
+            category: '식비',
+            detail: '친구랑 밥',
+            cost: 30000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'income',
+            category: '급여',
+            detail: '11월 급여',
+            cost: 2000000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'income',
+            category: '급여',
+            detail: '11월 급여',
+            cost: 2000000,
+          },
+        ],
       },
     ],
   },
   {
-    // 해당 달에 있는 날짜별 지출, 수입
-    // 1일부터 순서대로 배열에 담기고 지출이나 수입이 있는 날짜만 받음
     date_info: [
       {
-        // 1일에 있는 상세 지출, 수입 정보
         day: 21,
-        day_info: {
-          expense: [
-            // 1일에 입력 된 상세 지출 정보
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '식비',
-              detail: '친구랑 밥',
-              cost: 30000,
-            },
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '식비',
-              detail: '친구랑 밥',
-              cost: 30000,
-            },
-          ],
-          income: [
-            // 1일에 입력 된 상세 수입 정보
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '급여',
-              detail: '11월 급여',
-              cost: 2000000,
-            },
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '급여',
-              detail: '11월 급여',
-              cost: 2000000,
-            },
-          ],
-        },
+        day_info: [
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'expense',
+            category: '식비',
+            detail: '친구랑 밥',
+            cost: 30000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'expense',
+            category: '식비',
+            detail: '친구랑 밥',
+            cost: 30000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'income',
+            category: '급여',
+            detail: '11월 급여',
+            cost: 2000000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'income',
+            category: '급여',
+            detail: '11월 급여',
+            cost: 2000000,
+          },
+        ],
       },
       {
-        // 1일에 있는 상세 지출, 수입 정보
         day: 23,
-        day_info: {
-          expense: [
-            // 2일에 입력 된 상세 지출 정보 전체
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '식비',
-              detail: '친구랑 밥',
-              cost: 30000,
-            },
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '식비',
-              detail: '친구랑 밥',
-              cost: 30000,
-            },
-          ],
-          income: [
-            // 2일에 입력 된 상세 수입 정보 전체
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '급여',
-              detail: '11월 급여',
-              cost: 2000000,
-            },
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '급여',
-              detail: '11월 급여',
-              cost: 2000000,
-            },
-          ],
-        },
+        day_info: [
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'expense',
+            category: '식비',
+            detail: '친구랑 밥',
+            cost: 30000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'expense',
+            category: '식비',
+            detail: '친구랑 밥',
+            cost: 30000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'income',
+            category: '급여',
+            detail: '11월 급여',
+            cost: 2000000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'income',
+            category: '급여',
+            detail: '11월 급여',
+            cost: 2000000,
+          },
+        ],
       },
       {
-        // 3일에 있는 상세 지출, 수입 정보
         day: 3,
-        day_info: {
-          expense: [
-            // 3일에 입력 된 상세 지출 정보 전체
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '식비',
-              detail: '친구랑 밥',
-              cost: 30000,
-            },
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '식비',
-              detail: '친구랑 밥',
-              cost: 30000,
-            },
-          ],
-          income: [
-            // 3일에 입력 된 상세 수입 정보 전체
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '급여',
-              detail: '11월 급여',
-              cost: 2000000,
-            },
-            {
-              transaction_id: crypto.randomUUID(),
-              category: '급여',
-              detail: '11월 급여',
-              cost: 2000000,
-            },
-          ],
-        },
+        day_info: [
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'expense',
+            category: '식비',
+            detail: '친구랑 밥',
+            cost: 30000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'expense',
+            category: '식비',
+            detail: '친구랑 밥',
+            cost: 30000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'income',
+            category: '급여',
+            detail: '11월 급여',
+            cost: 2000000,
+          },
+          {
+            transaction_id: crypto.randomUUID(),
+            type: 'income',
+            category: '급여',
+            detail: '11월 급여',
+            cost: 2000000,
+          },
+        ],
       },
     ],
   },
