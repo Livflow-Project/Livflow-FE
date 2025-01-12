@@ -32,10 +32,14 @@ type AddTransactionParams = {
   year: number;
   month: number;
   day: number;
-  day_info: {
-    expense?: DayDetailTransaction[];
-    income?: DayDetailTransaction[];
-  };
+  day_info: Omit<DayDetailTransaction, 'transaction_id'>[];
+};
+
+type EditTransactionParams = {
+  year: number;
+  month: number;
+  day: number;
+  day_info: DayDetailTransaction[];
 };
 
 type DeleteTransactionParams = {
@@ -47,6 +51,24 @@ const STORE_IDS = {
   STORE_2: '1b7f4f3b-1cfb-5de4-0g8e-0252fb6efb44',
   STORE_3: 'a0b8035d-5499-4adb-9d8a-d7a93ac026e8',
 };
+
+const STORE_INFO: StoreIdResponse[] = [
+  {
+    store_id: STORE_IDS.STORE_1,
+    name: '스토어 이름 1',
+    address: '스토어 주소 1',
+  },
+  {
+    store_id: STORE_IDS.STORE_2,
+    name: '스토어 이름 2',
+    address: '스토어 주소 2',
+  },
+  {
+    store_id: STORE_IDS.STORE_3,
+    name: '스토어 이름 3',
+    address: '스토어 주소 3',
+  },
+];
 
 const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
   {
@@ -279,7 +301,7 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
 export const storeIdHandler = [
   // 스토어 이름, 주소 정보 조회
   http.get('/stores/:id', ({ params }) => {
-    const store = MOCK_STORE_ID.find((store) => store.store_id === params.id);
+    const store = STORE_INFO.find((store) => store.store_id === params.id);
 
     if (!store) {
       return new HttpResponse(null, { status: 404 });
@@ -292,7 +314,7 @@ export const storeIdHandler = [
   http.post('/stores/detail/:id', async ({ params, request }) => {
     const storeDetail =
       MOCK_STORE_ID_DETAIL[
-        MOCK_STORE_ID.findIndex((store) => store.store_id === params.id)
+        STORE_INFO.findIndex((store) => store.store_id === params.id)
       ];
 
     if (!storeDetail) {
@@ -313,7 +335,7 @@ export const storeIdHandler = [
     const transactionData = (await request.json()) as AddTransactionParams;
     const storeDetail =
       MOCK_STORE_ID_DETAIL[
-        MOCK_STORE_ID.findIndex((store) => store.store_id === params.id)
+        STORE_INFO.findIndex((store) => store.store_id === params.id)
       ];
 
     if (!storeDetail) {
@@ -326,37 +348,44 @@ export const storeIdHandler = [
     );
 
     if (dayIndex === -1) {
+      // 새로운 날짜 추가
+      const newTransactions = [
+        ...(transactionData.day_info.map((exp) => ({
+          ...exp,
+          type: 'expense' as const,
+          transaction_id: crypto.randomUUID(),
+        })) || []),
+        ...(transactionData.day_info.map((inc) => ({
+          ...inc,
+          type: 'income' as const,
+          transaction_id: crypto.randomUUID(),
+        })) || []),
+      ];
+
       storeDetail.date_info.push({
         day: transactionData.day,
-        day_info: {
-          expense:
-            transactionData.day_info.expense?.map((exp) => ({
-              ...exp,
-              transaction_id: crypto.randomUUID(),
-            })) || [],
-          income:
-            transactionData.day_info.income?.map((inc) => ({
-              ...inc,
-              transaction_id: crypto.randomUUID(),
-            })) || [],
-        },
+        day_info: newTransactions,
       });
+
+      // 날짜 순으로 정렬
+      storeDetail.date_info.sort((a, b) => a.day - b.day);
     } else {
-      const existingDayInfo = storeDetail.date_info[dayIndex].day_info;
-      existingDayInfo.expense = [
-        ...(existingDayInfo.expense || []),
-        ...(transactionData.day_info.expense?.map((exp) => ({
+      // 기존 날짜에 거래 추가
+      const newTransactions = [
+        ...storeDetail.date_info[dayIndex].day_info,
+        ...(transactionData.day_info.map((exp) => ({
           ...exp,
+          type: 'expense' as const,
           transaction_id: crypto.randomUUID(),
         })) || []),
-      ];
-      existingDayInfo.income = [
-        ...(existingDayInfo.income || []),
-        ...(transactionData.day_info.income?.map((inc) => ({
+        ...(transactionData.day_info.map((inc) => ({
           ...inc,
+          type: 'income' as const,
           transaction_id: crypto.randomUUID(),
         })) || []),
       ];
+
+      storeDetail.date_info[dayIndex].day_info = newTransactions;
     }
 
     return HttpResponse.json({
@@ -368,10 +397,10 @@ export const storeIdHandler = [
 
   // 스토어 지출, 수입 정보 수정
   http.put('/stores/:id/transaction', async ({ params, request }) => {
-    const updateData = (await request.json()) as AddTransactionParams;
+    const updateData = (await request.json()) as EditTransactionParams;
     const storeDetail =
       MOCK_STORE_ID_DETAIL[
-        MOCK_STORE_ID.findIndex((store) => store.store_id === params.id)
+        STORE_INFO.findIndex((store) => store.store_id === params.id)
       ];
 
     if (!storeDetail) {
@@ -389,10 +418,18 @@ export const storeIdHandler = [
       });
     }
 
-    storeDetail.date_info[dayIndex].day_info = {
-      expense: updateData.day_info.expense || [],
-      income: updateData.day_info.income || [],
-    };
+    const newTransactions = [
+      ...(updateData.day_info.map((exp) => ({
+        ...exp,
+        type: 'expense' as const,
+      })) || []),
+      ...(updateData.day_info.map((inc) => ({
+        ...inc,
+        type: 'income' as const,
+      })) || []),
+    ];
+
+    storeDetail.date_info[dayIndex].day_info = newTransactions;
 
     return HttpResponse.json({
       success: true,
@@ -406,7 +443,7 @@ export const storeIdHandler = [
     const deleteData = (await request.json()) as DeleteTransactionParams;
     const storeDetail =
       MOCK_STORE_ID_DETAIL[
-        MOCK_STORE_ID.findIndex((store) => store.store_id === params.id)
+        STORE_INFO.findIndex((store) => store.store_id === params.id)
       ];
 
     if (!storeDetail) {
@@ -416,30 +453,15 @@ export const storeIdHandler = [
     // 모든 날짜에서 해당 ID를 가진 거래 찾기
     let isDeleted = false;
     storeDetail.date_info = storeDetail.date_info.filter((dayInfo) => {
-      // expense와 income 배열에서 해당 ID를 가진 거래 삭제
-      if (dayInfo.day_info.expense) {
-        dayInfo.day_info.expense = dayInfo.day_info.expense.filter((t) => {
-          if (t.transaction_id === deleteData.transaction_id) {
-            isDeleted = true;
-            return false;
-          }
-          return true;
-        });
-      }
-      if (dayInfo.day_info.income) {
-        dayInfo.day_info.income = dayInfo.day_info.income.filter((t) => {
-          if (t.transaction_id === deleteData.transaction_id) {
-            isDeleted = true;
-            return false;
-          }
-          return true;
-        });
-      }
+      dayInfo.day_info = dayInfo.day_info.filter((transaction) => {
+        if (transaction.transaction_id === deleteData.transaction_id) {
+          isDeleted = true;
+          return false;
+        }
+        return true;
+      });
 
-      // expense와 income이 모두 비어있으면 해당 날짜 제거
-      return (
-        dayInfo.day_info.expense?.length || dayInfo.day_info.income?.length
-      );
+      return dayInfo.day_info.length > 0;
     });
 
     if (!isDeleted) {
