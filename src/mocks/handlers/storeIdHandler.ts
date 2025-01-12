@@ -23,6 +23,9 @@ type DayDetailTransaction = {
   cost: number;
 };
 
+// id를 제외한 DayDetailTransaction 타입
+type AddDayDetailTransaction = Omit<DayDetailTransaction, 'transaction_id'>;
+
 type StoreDetailParams = {
   year: number;
   month: number;
@@ -32,7 +35,7 @@ type AddTransactionParams = {
   year: number;
   month: number;
   day: number;
-  day_info: Omit<DayDetailTransaction, 'transaction_id'>[];
+  day_info: AddDayDetailTransaction[];
 };
 
 type EditTransactionParams = {

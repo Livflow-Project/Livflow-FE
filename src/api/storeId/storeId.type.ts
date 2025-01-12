@@ -4,10 +4,7 @@ export type StoreIDResponse = {
   store_id: string;
   name: string;
   address?: string;
-  chart: {
-    expense: Category[];
-    income: Category[];
-  };
+  chart: Category[];
 };
 
 export type StoreIdDetailResponse = {
@@ -16,16 +13,12 @@ export type StoreIdDetailResponse = {
 
 export type DayInfo = {
   day: number;
-  day_info: DayTransaction;
-};
-
-export type DayTransaction = {
-  expense: DayDetailTransaction[];
-  income: DayDetailTransaction[];
+  day_info: DayDetailTransaction[];
 };
 
 export type DayDetailTransaction = {
-  transaction_id: string;
+  transaction_id: string; // UUID
+  type: 'expense' | 'income';
   category: string;
   detail: string;
   cost: number;
@@ -47,10 +40,7 @@ export type AddTransactionParams = {
   year: number;
   month: number;
   day: number;
-  day_info: {
-    expense?: AddDayDetailTransaction[];
-    income?: AddDayDetailTransaction[];
-  };
+  day_info: AddDayDetailTransaction[];
 };
 
 // 거래 수정을 위한 요청 타입
@@ -59,10 +49,7 @@ export type UpdateTransactionParams = {
   year: number;
   month: number;
   day: number;
-  day_info: {
-    expense?: DayDetailTransaction[];
-    income?: DayDetailTransaction[];
-  };
+  day_info: DayDetailTransaction[];
 };
 
 // 거래 삭제를 위한 요청 타입

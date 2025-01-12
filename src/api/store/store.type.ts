@@ -2,10 +2,11 @@ export type StoreResponse = {
   store_id: string;
   name: string;
   address?: string;
-  chart: { expense: Category[]; income: Category[] };
+  chart: Category[];
 };
 
 export type Category = {
+  type: 'expense' | 'income';
   category: string;
   cost: number;
 };
