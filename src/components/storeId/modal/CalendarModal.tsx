@@ -10,6 +10,23 @@ type CalendarModalProps = {
   selectedDate: string | null;
 };
 
+const TRANSACTION_CATEGORIES = [
+  { value: '식비', label: '식비' },
+  { value: '교통비', label: '교통비' },
+  { value: '생활용품', label: '생활용품' },
+  { value: '저축', label: '저축' },
+  { value: '주거', label: '주거' },
+  { value: '용돈', label: '용돈' },
+  { value: '통신비', label: '통신비' },
+  { value: '건강', label: '건강' },
+  { value: '자기계발', label: '자기계발' },
+  { value: '여행', label: '여행' },
+  { value: '자동차', label: '자동차' },
+  { value: '문화', label: '문화' },
+  { value: '경조사', label: '경조사' },
+  { value: '기타', label: '기타' },
+];
+
 const CalendarModal = ({
   onClose,
   selectedDate,
@@ -18,17 +35,14 @@ const CalendarModal = ({
   const { useAddTransaction } = useStoreIdQuery();
   const { mutate: addTransaction } = useAddTransaction();
 
-  const [transaction, setTransaction] = useState<{
-    type: 'expense' | 'income';
-    category: string;
-    detail: string;
-    cost: number;
-  }>({
+  const [transaction, setTransaction] = useState<AddDayDetailTransaction>({
     type: 'expense',
     category: '',
     detail: '',
     cost: 0,
   });
+
+  const [costInput, setCostInput] = useState('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,21 +63,13 @@ const CalendarModal = ({
 
     const [year, month, day] = selectedDate.split('-').map(Number);
 
-    const newTransaction: AddDayDetailTransaction = {
-      category: transaction.category,
-      detail: transaction.detail,
-      cost: transaction.cost,
-    };
-
     addTransaction({
       id: storeId,
       data: {
         year,
         month,
         day,
-        day_info: {
-          [transaction.type]: [newTransaction],
-        },
+        day_info: [transaction],
       },
     });
 
@@ -104,20 +110,11 @@ const CalendarModal = ({
               <option value='' disabled className='text-center text-caption'>
                 카테고리 선택
               </option>
-              <option value='식비'>식비</option>
-              <option value='교통비'>교통비</option>
-              <option value='생활용품'>생활용품</option>
-              <option value='저축'>저축</option>
-              <option value='주거'>주거</option>
-              <option value='용돈'>용돈</option>
-              <option value='통신비'>통신비</option>
-              <option value='건강'>건강</option>
-              <option value='자기계발'>자기계발</option>
-              <option value='여행'>여행</option>
-              <option value='자동차'>자동차</option>
-              <option value='문화'>문화</option>
-              <option value='경조사'>경조사</option>
-              <option value='기타'>기타</option>
+              {TRANSACTION_CATEGORIES.map(({ value, label }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
             </select>
           </li>
           <li className='flex items-center justify-between'>
@@ -168,15 +165,17 @@ const CalendarModal = ({
             </div>
             <input
               type='number'
-              value={transaction.cost}
-              onChange={(e) =>
+              value={costInput}
+              onChange={(e) => {
+                const value = e.target.value;
+                setCostInput(value);
                 setTransaction({
                   ...transaction,
-                  cost: Number(e.target.value),
-                })
-              }
-              placeholder='금액을 입력해 주세요.'
-              className='input_box'
+                  cost: value ? Number(value) : 0,
+                });
+              }}
+              placeholder='숫자만 입력해 주세요.'
+              className='input_box [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none'
             />
           </li>
           <li className='flex items-center justify-between'>
