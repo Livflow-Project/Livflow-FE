@@ -1,75 +1,61 @@
-export const calculateTotals = (calendarData: any) => {
+import {
+  DayDetailTransaction,
+  DayInfo,
+  StoreIdDetailResponse,
+} from '@/api/storeId/storeId.type';
+
+export const calculateTotals = (calendarData: StoreIdDetailResponse) => {
   if (!calendarData)
     return {
       expense: 0,
       income: 0,
-      categories: {
-        expense: [],
-        income: [],
-      },
+      categories: [],
     };
 
-  const expenseByCategory: { [key: string]: number } = {};
-  const incomeByCategory: { [key: string]: number } = {};
+  const categoryTotals: {
+    [key: string]: {
+      type: 'expense' | 'income';
+      category: string;
+      cost: number;
+    };
+  } = {};
 
-  calendarData.date_info.forEach(
-    (dateInfo: { day_info: { expense: any[]; income: any[] } }) => {
-      if (dateInfo.day_info.expense) {
-        dateInfo.day_info.expense.forEach((expense) => {
-          expenseByCategory[expense.category] =
-            (expenseByCategory[expense.category] || 0) + expense.cost;
-        });
+  calendarData.date_info.forEach((dateInfo: DayInfo) => {
+    dateInfo.day_info.forEach((transaction: DayDetailTransaction) => {
+      const key = `${transaction.type}-${transaction.category}`;
+      if (!categoryTotals[key]) {
+        categoryTotals[key] = {
+          type: transaction.type,
+          category: transaction.category,
+          cost: 0,
+        };
       }
+      categoryTotals[key].cost += transaction.cost;
+    });
+  });
 
-      if (dateInfo.day_info.income) {
-        dateInfo.day_info.income?.forEach((income) => {
-          incomeByCategory[income.category] =
-            (incomeByCategory[income.category] || 0) + income.cost;
-        });
-      }
-    }
-  );
+  const categories = Object.values(categoryTotals);
 
-  const expenseCategories = Object.entries(expenseByCategory).map(
-    ([category, cost]) => ({
-      category,
-      cost,
-    })
-  );
+  const totalExpense = categories
+    .filter((cat) => cat.type === 'expense')
+    .reduce((sum, item) => sum + item.cost, 0);
 
-  const incomeCategories = Object.entries(incomeByCategory).map(
-    ([category, cost]) => ({
-      category,
-      cost,
-    })
-  );
-
-  const totalExpense = expenseCategories.reduce(
-    (sum, item) => sum + item.cost,
-    0
-  );
-  const totalIncome = incomeCategories.reduce(
-    (sum, item) => sum + item.cost,
-    0
-  );
+  const totalIncome = categories
+    .filter((cat) => cat.type === 'income')
+    .reduce((sum, item) => sum + item.cost, 0);
 
   return {
     expense: totalExpense,
     income: totalIncome,
-    categories: {
-      expense: expenseCategories,
-      income: incomeCategories,
-    },
+    categories,
   };
 };
 
 export const getSelectedDateTransactions = (
   selectedDate: string,
-  calendarData: any
+  calendarData: StoreIdDetailResponse
 ) => {
   if (!selectedDate || !calendarData) return null;
   const day = parseInt(selectedDate.split('-')[2]);
-  return calendarData.date_info.find(
-    (info: { day: number }) => info.day === day
-  )?.day_info;
+  return calendarData.date_info.find((info) => info.day === day)?.day_info;
 };
