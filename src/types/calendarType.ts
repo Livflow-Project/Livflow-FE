@@ -1,14 +1,14 @@
 import { DayDetailTransaction } from '@/api/storeId/storeId.type';
 
 export type Transaction = {
-  item: string;
-  details: string;
+  transaction_id: string;
+  category: string;
+  detail: string;
   type: 'expense' | 'income';
-  amount: number;
+  cost: number;
 };
 
 export type CalendarEvent = {
   start: string;
-  expense?: DayDetailTransaction[];
-  income?: DayDetailTransaction[];
+  transactions: DayDetailTransaction[];
 };
