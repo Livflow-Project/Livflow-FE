@@ -1,9 +1,12 @@
 import './css/calendar.css';
 
+import {
+  DayDetailTransaction,
+  StoreIdDetailResponse,
+} from '@/api/storeId/storeId.type';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { useRef, useState } from 'react';
 
-import { CalendarEvent } from '@/types/calendarType';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import koLocale from '@fullcalendar/core/locales/ko';
@@ -14,9 +17,14 @@ type CalendarViewProps = {
   currentMonth: number;
   setCurrentYear: (year: number) => void;
   setCurrentMonth: (month: number) => void;
-  calendarData: any;
+  calendarData: StoreIdDetailResponse;
   selectedDate: string | null;
   setSelectedDate: (date: string | null) => void;
+};
+
+type CalendarEvent = {
+  start: string;
+  transactions: DayDetailTransaction[];
 };
 
 const CalendarView = ({
@@ -32,16 +40,10 @@ const CalendarView = ({
     useState<HTMLElement | null>(null);
 
   const events: CalendarEvent[] =
-    calendarData?.date_info.map(
-      (dateInfo: {
-        day: { toString: () => string };
-        day_info: { expense: any; income: any };
-      }) => ({
-        start: `${currentYear}-${currentMonth.toString().padStart(2, '0')}-${dateInfo.day.toString().padStart(2, '0')}`,
-        expense: dateInfo.day_info.expense,
-        income: dateInfo.day_info.income,
-      })
-    ) || [];
+    calendarData?.date_info.map((dateInfo) => ({
+      start: `${currentYear}-${currentMonth.toString().padStart(2, '0')}-${dateInfo.day.toString().padStart(2, '0')}`,
+      transactions: dateInfo.day_info,
+    })) || [];
 
   const handleDateClick = (info: DateClickArg) => {
     if (selectedDateElement) {
@@ -122,17 +124,20 @@ const CalendarView = ({
 
           if (!eventData) return null;
 
+          const hasExpense = eventData.transactions.some(
+            (t) => t.type === 'expense'
+          );
+          const hasIncome = eventData.transactions.some(
+            (t) => t.type === 'income'
+          );
+
           return (
             <div
               className='flex items-center gap-1'
               style={{ pointerEvents: 'none' }}
             >
-              {eventData.expense && eventData.expense.length > 0 && (
-                <span className='text-red'>●</span>
-              )}
-              {eventData.income && eventData.income.length > 0 && (
-                <span className='text-green'>●</span>
-              )}
+              {hasExpense && <span className='text-red'>●</span>}
+              {hasIncome && <span className='text-green'>●</span>}
             </div>
           );
         }}

@@ -1,11 +1,15 @@
-import { DayDetailTransaction } from '@/api/storeId/storeId.type';
+import {
+  DayDetailTransaction,
+  StoreIdDetailResponse,
+} from '@/api/storeId/storeId.type';
+
 import { getSelectedDateTransactions } from '@/utils/calendarUtils';
 import { useState } from 'react';
 import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
 type DailyDetailsProps = {
   selectedDate: string;
-  calendarData: any;
+  calendarData: StoreIdDetailResponse;
   storeId: string;
   onModalOpen: () => void;
 };
@@ -29,10 +33,8 @@ const DailyDetails = ({
 
   const TransactionItem = ({
     transaction,
-    type,
   }: {
     transaction: DayDetailTransaction;
-    type: 'expense' | 'income';
   }) => (
     <div className='relative flex h-[45px] w-full items-center border-b border-underline/30 text-center'>
       <span className='w-[30%] text-lg font-normal'>
@@ -40,9 +42,9 @@ const DailyDetails = ({
       </span>
       <span className='w-[40%] text-lg font-normal'>{transaction.detail}</span>
       <span
-        className={`w-[30%] text-lg font-normal ${type === 'expense' ? 'text-red' : 'text-green'}`}
+        className={`w-[30%] text-lg font-normal ${transaction.type === 'expense' ? 'text-red' : 'text-green'}`}
       >
-        {type === 'expense' ? '- ' : '+ '}
+        {transaction.type === 'expense' ? '- ' : '+ '}
         {transaction.cost.toLocaleString()}원
       </span>
       {isEditMode && (
@@ -88,9 +90,6 @@ const DailyDetails = ({
 
     const [year, month, day] = selectedDate.split('-').map(Number);
 
-    // 현재 날짜의 모든 거래 데이터를 가져옴
-    const currentTransactions = transactions;
-
     // 수정된 거래 데이터로 업데이트
     updateMutation.mutate({
       id: storeId,
@@ -99,10 +98,7 @@ const DailyDetails = ({
         year,
         month,
         day,
-        day_info: {
-          expense: currentTransactions?.expense || [],
-          income: currentTransactions?.income || [],
-        },
+        day_info: transactions || [],
       },
     });
   };
@@ -132,24 +128,13 @@ const DailyDetails = ({
       </div>
 
       <div className='flex h-[calc(100%-130px)] w-full flex-col'>
-        {transactions ? (
-          <>
-            {transactions?.expense?.map((transaction: DayDetailTransaction) => (
-              <TransactionItem
-                key={transaction.transaction_id}
-                transaction={transaction}
-                type='expense'
-              />
-            ))}
-
-            {transactions?.income?.map((transaction: DayDetailTransaction) => (
-              <TransactionItem
-                key={transaction.transaction_id}
-                transaction={transaction}
-                type='income'
-              />
-            ))}
-          </>
+        {transactions && transactions.length > 0 ? (
+          transactions.map((transaction) => (
+            <TransactionItem
+              key={transaction.transaction_id}
+              transaction={transaction}
+            />
+          ))
         ) : (
           <div className='my-auto w-full text-center text-2xl text-main'>
             입력된 지출 / 수입이 없습니다.

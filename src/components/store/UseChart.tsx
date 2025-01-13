@@ -1,16 +1,20 @@
+import { Category } from '@/api/store/store.type';
 import PieChart from '../common/PieChart';
-import { StoreResponse } from '@/api/store/store.type';
 import { twMerge } from 'tailwind-merge';
 import { useState } from 'react';
 
 type UseChartProps = {
-  chartInfo?: StoreResponse['chart'];
+  chartInfo?: Category[];
   isDeleteMode: boolean;
 };
 
 const UseChart = ({ chartInfo, isDeleteMode }: UseChartProps) => {
   const [selectedType, setSelectedType] = useState<'expense' | 'income'>(
     'expense'
+  );
+
+  const filteredCategories = chartInfo?.filter(
+    (item) => item.type === selectedType
   );
 
   return (
@@ -46,16 +50,15 @@ const UseChart = ({ chartInfo, isDeleteMode }: UseChartProps) => {
       </div>
 
       <div className={isDeleteMode ? 'opacity-50' : ''}>
-        {selectedType === 'expense' ? (
-          chartInfo?.expense && chartInfo.expense.length > 0 ? (
-            <PieChart selectedType='expense' categories={chartInfo.expense} />
-          ) : (
-            <div className='text-center'>입력된 지출이 없습니다.</div>
-          )
-        ) : chartInfo?.income && chartInfo.income.length > 0 ? (
-          <PieChart selectedType='income' categories={chartInfo.income} />
+        {filteredCategories && filteredCategories.length > 0 ? (
+          <PieChart
+            selectedType={selectedType}
+            categories={filteredCategories}
+          />
         ) : (
-          <div className='text-center'>입력된 수입이 없습니다.</div>
+          <div className='text-center'>
+            {`입력된 ${selectedType === 'expense' ? '지출' : '수입'}이 없습니다.`}
+          </div>
         )}
       </div>
     </>
