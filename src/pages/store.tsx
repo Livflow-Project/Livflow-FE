@@ -9,7 +9,6 @@ const Store = () => {
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // React Query 훅 사용
   const { useGetAllStores } = useStoreQuery();
   const { data, isLoading, error } = useGetAllStores();
 
@@ -30,7 +29,6 @@ const Store = () => {
     return <div>에러가 발생했습니다: {error.message}</div>;
   }
 
-  // data가 없거나 배열이 아닌 경우를 처리
   if (!data) {
     return <div>데이터를 불러올 수 없습니다.</div>;
   }
