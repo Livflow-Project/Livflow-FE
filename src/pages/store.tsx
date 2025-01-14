@@ -19,6 +19,7 @@ const Store = () => {
 
   const handleDeleteModeToggle = () => {
     setIsDeleteMode((prev) => !prev);
+    toast.dismiss();
   };
 
   if (isLoading) {
