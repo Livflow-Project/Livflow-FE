@@ -6,7 +6,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import AddStore from '@/components/store/AddStore';
 import MyStore from '@/components/store/MyStore';
 import { StoreResponse } from '@/api/store/store.type';
-import { useCallback } from 'react';
 
 type StoreListProps = {
   stores: StoreResponse[];
@@ -14,70 +13,87 @@ type StoreListProps = {
   isDeleteMode: boolean;
 };
 
+type StoreSlide = {
+  stores: StoreResponse[];
+  isDeleteMode: boolean;
+  showAddStore?: boolean;
+  onOpenModal: () => void;
+};
+
 const STORES_PER_PAGE = {
   FIRST_PAGE: 2,
   OTHER_PAGES: 3,
 };
 
+// 슬라이드 컴포넌트 분리
+const StoreSlide = ({
+  stores,
+  isDeleteMode,
+  showAddStore = false,
+  onOpenModal,
+}: StoreSlide) => (
+  <div className='flex items-start justify-start gap-[30px]'>
+    {showAddStore && <AddStore onOpenModal={onOpenModal} />}
+    {stores.map((store) => (
+      <MyStore
+        key={store.store_id}
+        storeInfo={store}
+        isDeleteMode={isDeleteMode}
+      />
+    ))}
+  </div>
+);
+
 const StoreList = ({ stores, onToggleModal, isDeleteMode }: StoreListProps) => {
-  const renderFirstSlide = useCallback(
-    () => (
-      <SwiperSlide className='h-full px-[60px]'>
-        <div className='flex items-start justify-start gap-[30px]'>
-          <AddStore onOpenModal={onToggleModal} />
+  // 첫 페이지 스토어 계산
+  const firstPageStores = stores.slice(0, STORES_PER_PAGE.FIRST_PAGE);
 
-          {stores.slice(0, STORES_PER_PAGE.FIRST_PAGE).map((store) => (
-            <MyStore
-              key={store.store_id}
-              storeInfo={store}
-              isDeleteMode={isDeleteMode}
-            />
-          ))}
-        </div>
-      </SwiperSlide>
-    ),
-    [stores, isDeleteMode, onToggleModal]
-  );
+  // 나머지 페이지 스토어 계산
+  const calculateRemainingPages = () => {
+    const remainingStores = stores.slice(STORES_PER_PAGE.FIRST_PAGE);
+    const pages = [];
 
-  const renderRemainingSlides = useCallback(() => {
-    const remainingStoresCount = stores.length - STORES_PER_PAGE.FIRST_PAGE;
-    const slidesCount = Math.ceil(
-      remainingStoresCount / STORES_PER_PAGE.OTHER_PAGES
-    );
+    for (
+      let i = 0;
+      i < remainingStores.length;
+      i += STORES_PER_PAGE.OTHER_PAGES
+    ) {
+      pages.push(remainingStores.slice(i, i + STORES_PER_PAGE.OTHER_PAGES));
+    }
 
-    return Array.from({ length: slidesCount }, (_, index) => {
-      const startIdx =
-        STORES_PER_PAGE.FIRST_PAGE + index * STORES_PER_PAGE.OTHER_PAGES;
-      const currentSlideStores = stores.slice(
-        startIdx,
-        startIdx + STORES_PER_PAGE.OTHER_PAGES
-      );
+    return pages;
+  };
 
-      return (
-        <SwiperSlide key={`slide-${index}`} className='h-full px-[60px]'>
-          <div className='flex items-start justify-start gap-[30px]'>
-            {currentSlideStores.map((store) => (
-              <MyStore
-                key={store.store_id}
-                storeInfo={store}
-                isDeleteMode={isDeleteMode}
-              />
-            ))}
-          </div>
-        </SwiperSlide>
-      );
-    });
-  }, [stores, isDeleteMode]);
+  const swiperConfig = {
+    modules: [Navigation, Pagination],
+    navigation: true,
+    pagination: { clickable: true },
+    className: 'h-[650px]',
+  };
+
+  const hasRemainingPages = stores.length > STORES_PER_PAGE.FIRST_PAGE;
 
   return (
-    <Swiper
-      modules={[Navigation, Pagination]}
-      navigation
-      pagination={{ clickable: true }}
-      className='h-[650px]'
-    >
-      {renderFirstSlide()}
-      {stores.length >= STORES_PER_PAGE.FIRST_PAGE && renderRemainingSlides()}
+    <Swiper {...swiperConfig}>
+      <SwiperSlide className='h-full px-[60px]'>
+        <StoreSlide
+          stores={firstPageStores}
+          isDeleteMode={isDeleteMode}
+          showAddStore={true}
+          onOpenModal={onToggleModal}
+        />
+      </SwiperSlide>
+
+      {hasRemainingPages &&
+        calculateRemainingPages().map((pageStores, index) => (
+          <SwiperSlide key={`page-${index}`} className='h-full px-[60px]'>
+            <StoreSlide
+              stores={pageStores}
+              isDeleteMode={isDeleteMode}
+              onOpenModal={onToggleModal}
+            />
+          </SwiperSlide>
+        ))}
     </Swiper>
   );
 };
