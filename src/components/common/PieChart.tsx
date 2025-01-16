@@ -1,5 +1,5 @@
 import Chart, { TooltipItem } from 'chart.js/auto';
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useMemo, useRef } from 'react';
 
 import { Category } from '@/api/store/store.type';
 
@@ -8,64 +8,75 @@ type PieChartProps = {
   categories?: Category[];
 };
 
-const PieChart = ({ selectedType, categories }: PieChartProps) => {
-  const chartRef = useRef<HTMLCanvasElement | null>(null);
+const CHART_COLORS = [
+  'rgb(255, 99, 132)',
+  'rgb(54, 162, 235)',
+  'rgb(255, 205, 86)',
+  'rgb(75, 192, 192)',
+];
 
-  const labels = categories?.map((item) => item.category) || [];
-  const dataValues = categories?.map((item) => item.cost) || [];
-
-  useEffect(() => {
-    if (!chartRef.current) return;
-    if (!categories || categories.length === 0) {
-      return;
-    }
-
-    const ctx = chartRef.current.getContext('2d');
-    if (!ctx) return;
-
-    const data = {
-      labels,
-      datasets: [
-        {
-          data: dataValues,
-          backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
-          ],
-          hoverOffset: 5,
-        },
-      ],
-    };
-
-    const chartInstance = new Chart(ctx, {
-      type: 'pie',
-      data: data,
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            display: false,
-          },
-          tooltip: {
-            callbacks: {
-              label: (tooltipItem: TooltipItem<'pie'>) => {
-                const value = tooltipItem.raw as number;
-                return `${tooltipItem.label} : ${value.toLocaleString()}원`;
-              },
-            },
-          },
+const CHART_OPTIONS = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      callbacks: {
+        label: (tooltipItem: TooltipItem<'pie'>) => {
+          const value = tooltipItem.raw as number;
+          return `${tooltipItem.label} : ${value.toLocaleString()}원`;
         },
       },
-    });
-
-    return () => {
-      chartInstance.destroy();
-    };
-  }, [categories, selectedType]);
-
-  return <canvas ref={chartRef}></canvas>;
+    },
+  },
 };
+
+const PieChart = memo(
+  ({ selectedType, categories }: PieChartProps) => {
+    const chartRef = useRef<HTMLCanvasElement | null>(null);
+
+    const chartData = useMemo(
+      () => ({
+        labels: categories?.map((item) => item.category) || [],
+        datasets: [
+          {
+            data: categories?.map((item) => item.cost) || [],
+            backgroundColor: CHART_COLORS,
+            hoverOffset: 5,
+          },
+        ],
+      }),
+      [categories]
+    );
+
+    useEffect(() => {
+      if (!chartRef.current) return;
+      if (!categories || categories.length === 0) return;
+
+      const ctx = chartRef.current.getContext('2d');
+      if (!ctx) return;
+
+      const chartInstance = new Chart(ctx, {
+        type: 'pie',
+        data: chartData,
+        options: CHART_OPTIONS,
+      });
+
+      return () => {
+        chartInstance.destroy();
+      };
+    }, [categories, selectedType, chartData]);
+
+    return <canvas ref={chartRef} />;
+  },
+  (prevProps, nextProps) => {
+    return (
+      prevProps.selectedType === nextProps.selectedType &&
+      JSON.stringify(prevProps.categories) ===
+        JSON.stringify(nextProps.categories)
+    );
+  }
+);
 
 export default PieChart;
