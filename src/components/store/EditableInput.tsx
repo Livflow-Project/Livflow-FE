@@ -1,5 +1,3 @@
-import { twMerge } from 'tailwind-merge';
-
 type EditableInputProps = {
   isEditing: boolean;
   value: string;
@@ -8,7 +6,6 @@ type EditableInputProps = {
   onEditClick: () => void;
   onUpdate: () => void;
   inputRef: React.RefObject<HTMLInputElement>;
-  isDeleteMode: boolean;
   icon: string;
   iconAlt: string;
   isRequired?: boolean;
@@ -22,7 +19,6 @@ const EditableInput = ({
   onEditClick,
   onUpdate,
   inputRef,
-  isDeleteMode,
   icon,
   iconAlt,
   isRequired = false,
@@ -46,12 +42,9 @@ const EditableInput = ({
         </span>
       )}
       <button
-        className={twMerge(
-          'text-[13px] outline-none hover:font-bold',
-          isDeleteMode ? 'no_hover' : 'soft_TcolorSet'
-        )}
+        type='button'
+        className='soft_TcolorSet text-[13px] outline-none hover:font-bold'
         onClick={isEditing ? onUpdate : onEditClick}
-        disabled={isDeleteMode}
       >
         {isEditing ? '완료' : '수정'}
       </button>
