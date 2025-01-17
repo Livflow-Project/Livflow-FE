@@ -43,7 +43,7 @@ const MOCK_STORE: StoreResponse[] = [
       },
       {
         type: 'income',
-        category: '주식',
+        category: '기타',
         cost: 2000,
       },
     ],
@@ -55,12 +55,12 @@ const MOCK_STORE: StoreResponse[] = [
     chart: [
       {
         type: 'expense',
-        category: '외식',
+        category: '기타',
         cost: 17000,
       },
       {
         type: 'expense',
-        category: '주식',
+        category: '경조사',
         cost: 20000,
       },
       {
@@ -70,7 +70,7 @@ const MOCK_STORE: StoreResponse[] = [
       },
       {
         type: 'income',
-        category: '알바',
+        category: '기타',
         cost: 70000,
       },
     ],
