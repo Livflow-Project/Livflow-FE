@@ -37,6 +37,7 @@ const StoreId = () => {
           </li>
         </ul>
       </Link>
+
       <div className='h-[calc(100%-70px)]'>
         <div className='flex items-center justify-start gap-3'>
           <nav className='flex h-[55px] w-[135px] items-center justify-center rounded-tl-[10px] rounded-tr-[10px] bg-background'>
