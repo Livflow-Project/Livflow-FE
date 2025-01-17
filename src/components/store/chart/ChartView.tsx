@@ -27,7 +27,7 @@ const ChartView = ({ isDeleteMode, chartInfo }: ChartViewProps) => {
   const chartContent = useMemo(
     () =>
       filteredCategories && filteredCategories.length > 0 ? (
-        <PieChart selectedType={selectedType} categories={filteredCategories} />
+        <PieChart categories={filteredCategories} />
       ) : (
         <div className='text-center'>
           {`입력된 ${CHART_LABELS[selectedType]}이 없습니다.`}
