@@ -1,4 +1,8 @@
-import { AddDayDetailTransaction } from '@/api/storeId/storeId.type';
+import {
+  AddTransactionParams,
+  TransactionRequest,
+} from '@/api/storeId/storeId.type';
+
 import { showWarnToast } from '@/utils/toast';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
@@ -11,6 +15,7 @@ type CalendarModalProps = {
 };
 
 const TRANSACTION_CATEGORIES = [
+  { value: '급여', label: '급여' },
   { value: '식비', label: '식비' },
   { value: '교통비', label: '교통비' },
   { value: '생활용품', label: '생활용품' },
@@ -35,7 +40,7 @@ const CalendarModal = ({
   const { useAddTransaction } = useStoreIdQuery();
   const { mutate: addTransaction } = useAddTransaction();
 
-  const [transaction, setTransaction] = useState<AddDayDetailTransaction>({
+  const [transaction, setTransaction] = useState<TransactionRequest>({
     type: 'expense',
     category: '',
     detail: '',
@@ -63,14 +68,18 @@ const CalendarModal = ({
 
     const [year, month, day] = selectedDate.split('-').map(Number);
 
-    addTransaction({
-      id: storeId,
-      data: {
+    const addTransactionData: AddTransactionParams = {
+      date: {
         year,
         month,
         day,
-        day_info: [transaction],
       },
+      ...transaction,
+    };
+
+    addTransaction({
+      id: storeId,
+      data: addTransactionData,
     });
 
     onClose();
