@@ -2,8 +2,8 @@ import { StoreRequestParams, StoreResponse } from '@/api/store/store.type';
 import { mapIcon, storeIcon } from '@/assets/assets';
 import { useRef, useState } from 'react';
 
+import ChartView from './chart/ChartView';
 import EditableInput from './EditableInput';
-import UseChart from './UseChart';
 import { showWarnToast } from '@/utils/toast';
 import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
@@ -127,7 +127,7 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
       </div>
 
       <div className='flex h-[calc(100%-128px)] flex-col items-center justify-between p-[20px]'>
-        <UseChart isDeleteMode={isDeleteMode} chartInfo={storeInfo.chart} />
+        <ChartView isDeleteMode={isDeleteMode} chartInfo={storeInfo.chart} />
 
         <button
           className={twMerge(isDeleteMode ? 'delete_button' : 'choice_button')}
