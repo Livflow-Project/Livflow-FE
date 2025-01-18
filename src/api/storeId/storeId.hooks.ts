@@ -1,7 +1,7 @@
 import {
   AddTransactionParams,
+  DayDetailTransaction,
   DayParams,
-  TransactionRequest,
 } from './storeId.type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -49,13 +49,13 @@ export const useStoreIdQuery = () => {
     return useMutation({
       mutationFn: ({
         id,
-        transactionId,
+        transaction_id,
         data,
       }: {
         id: string;
-        transactionId: string;
-        data: TransactionRequest;
-      }) => storeIdAPI.updateTransactionAPI(id, transactionId, data),
+        transaction_id: string;
+        data: DayDetailTransaction;
+      }) => storeIdAPI.updateTransactionAPI(id, transaction_id, data),
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
           queryKey: ['store', variables.id, 'detail'],
