@@ -4,7 +4,6 @@ import { memo, useEffect, useMemo, useRef } from 'react';
 import { Category } from '@/api/store/store.type';
 
 type PieChartProps = {
-  selectedType: 'expense' | 'income';
   categories?: Category[];
 };
 
@@ -33,7 +32,7 @@ const CHART_OPTIONS = {
 };
 
 const PieChart = memo(
-  ({ selectedType, categories }: PieChartProps) => {
+  ({ categories }: PieChartProps) => {
     const chartRef = useRef<HTMLCanvasElement | null>(null);
 
     const chartData = useMemo(
@@ -66,15 +65,14 @@ const PieChart = memo(
       return () => {
         chartInstance.destroy();
       };
-    }, [categories, selectedType, chartData]);
+    }, [categories, chartData]);
 
     return <canvas ref={chartRef} />;
   },
   (prevProps, nextProps) => {
     return (
-      prevProps.selectedType === nextProps.selectedType &&
       JSON.stringify(prevProps.categories) ===
-        JSON.stringify(nextProps.categories)
+      JSON.stringify(nextProps.categories)
     );
   }
 );
