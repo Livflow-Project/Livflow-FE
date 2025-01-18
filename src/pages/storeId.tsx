@@ -32,6 +32,7 @@ const StoreId = () => {
           <li className='text-2xl font-semibold text-main'>
             {data.name || '이름 정보 없음'}
           </li>
+
           <li className='text-[15px] font-medium text-main'>
             {data?.address || '주소 정보 없음'}
           </li>
@@ -43,10 +44,12 @@ const StoreId = () => {
           <nav className='flex h-[55px] w-[135px] items-center justify-center rounded-tl-[10px] rounded-tr-[10px] bg-background'>
             <span className='text-[22px] font-normal text-main'>가계부</span>
           </nav>
+
           <nav className='flex h-[55px] w-[135px] items-center justify-center rounded-tl-[10px] rounded-tr-[10px] bg-background/60'>
             <span className='text-[22px] font-normal text-main/60'>재료</span>
           </nav>
         </div>
+
         <div className='h-[calc(100%-55px)] w-full bg-background'>
           <Calender storeId={id} />
         </div>
