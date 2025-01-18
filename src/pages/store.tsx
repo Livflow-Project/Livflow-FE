@@ -14,6 +14,9 @@ const Store = () => {
 
   const handleToggleModal = () => {
     setIsModalOpen((prev) => !prev);
+    if (!isModalOpen) {
+      setIsDeleteMode(false);
+    }
     toast.dismiss();
   };
 
