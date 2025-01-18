@@ -1,6 +1,6 @@
 import CalendarModal from '../modal/CalendarModal';
 import CalendarView from './CalendarView';
-import DailyDetails from './DailyDetails';
+import DailyDetails from '../dailyDetails/Index';
 import MonthlyOverview from './MonthlyOverview';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
