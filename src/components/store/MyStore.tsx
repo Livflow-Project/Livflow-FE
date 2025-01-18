@@ -92,7 +92,12 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
   return (
     <div className='store_box'>
       <div className='border-b border-underline border-opacity-20 p-[20px]'>
-        <ul className='flex flex-col gap-6'>
+        <ul
+          className={twMerge(
+            'flex flex-col gap-6',
+            isDeleteMode && 'pointer-events-none'
+          )}
+        >
           <li className='flex items-center justify-between'>
             <EditableInput
               isEditing={isEditingName}
@@ -102,7 +107,6 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
               onEditClick={() => handleEditButtonClick('name')}
               onUpdate={() => handleUpdate('name')}
               inputRef={nameInputRef}
-              isDeleteMode={isDeleteMode}
               icon={storeIcon}
               iconAlt='상점 아이콘'
               isRequired={true}
@@ -118,7 +122,6 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
               onEditClick={() => handleEditButtonClick('address')}
               onUpdate={() => handleUpdate('address')}
               inputRef={addressInputRef}
-              isDeleteMode={isDeleteMode}
               icon={mapIcon}
               iconAlt='주소 아이콘'
             />
