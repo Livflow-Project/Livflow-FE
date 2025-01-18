@@ -24,30 +24,15 @@ type DayDetailTransaction = {
 };
 
 // id를 제외한 DayDetailTransaction 타입
-type AddDayDetailTransaction = Omit<DayDetailTransaction, 'transaction_id'>;
-
-type StoreDetailParams = {
-  year: number;
-  month: number;
-};
+type TransactionRequest = Omit<DayDetailTransaction, 'transaction_id'>;
 
 type AddTransactionParams = {
-  year: number;
-  month: number;
-  day: number;
-  day_info: AddDayDetailTransaction[];
-};
-
-type EditTransactionParams = {
-  year: number;
-  month: number;
-  day: number;
-  day_info: DayDetailTransaction[];
-};
-
-type DeleteTransactionParams = {
-  transaction_id: string;
-};
+  date: {
+    year: number;
+    month: number;
+    day: number;
+  };
+} & TransactionRequest;
 
 const STORE_IDS = {
   STORE_1: '0a6e3e2a-0bea-4cda-9f7d-9141ea5efa33',
@@ -167,7 +152,7 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           {
             transaction_id: crypto.randomUUID(),
             type: 'expense',
-            category: '영화',
+            category: '기타',
             detail: '친구랑 영화',
             cost: 30000,
           },
@@ -314,7 +299,18 @@ export const storeIdHandler = [
   }),
 
   // 스토어 상세 정보 조회 (달력 데이터)
-  http.post('/stores/detail/:id', async ({ params, request }) => {
+  http.get('/stores/:id/calendar', ({ params, request }) => {
+    const url = new URL(request.url);
+    const year = url.searchParams.get('year');
+    const month = url.searchParams.get('month');
+
+    if (!year || !month || isNaN(Number(year)) || isNaN(Number(month))) {
+      return new HttpResponse(null, {
+        status: 400,
+        statusText: '유효하지 않은 년도 또는 월입니다.',
+      });
+    }
+
     const storeDetail =
       MOCK_STORE_ID_DETAIL[
         STORE_INFO.findIndex((store) => store.store_id === params.id)
@@ -324,17 +320,40 @@ export const storeIdHandler = [
       return new HttpResponse(null, { status: 404 });
     }
 
-    const { year, month } = (await request.json()) as StoreDetailParams;
+    return HttpResponse.json(storeDetail);
+  }),
 
-    return HttpResponse.json({
-      year,
-      month,
-      ...storeDetail,
+  // 특정 거래 정보 조회
+  http.get('/stores/:id/transactions/:transactionId', ({ params }) => {
+    const storeDetail =
+      MOCK_STORE_ID_DETAIL[
+        STORE_INFO.findIndex((store) => store.store_id === params.id)
+      ];
+
+    if (!storeDetail) {
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    let transaction = null;
+    storeDetail.date_info.some((dayInfo) => {
+      transaction = dayInfo.day_info.find(
+        (t) => t.transaction_id === params.transactionId
+      );
+      return transaction !== undefined;
     });
+
+    if (!transaction) {
+      return new HttpResponse(null, {
+        status: 404,
+        statusText: '해당 거래를 찾을 수 없습니다.',
+      });
+    }
+
+    return HttpResponse.json(transaction);
   }),
 
   // 스토어 지출, 수입 정보 추가
-  http.post('/stores/:id/transaction', async ({ params, request }) => {
+  http.post('/stores/:id/transactions', async ({ params, request }) => {
     const transactionData = (await request.json()) as AddTransactionParams;
     const storeDetail =
       MOCK_STORE_ID_DETAIL[
@@ -345,105 +364,83 @@ export const storeIdHandler = [
       return new HttpResponse(null, { status: 404 });
     }
 
-    // 해당 날짜의 데이터가 있는지 확인
     const dayIndex = storeDetail.date_info.findIndex(
-      (info) => info.day === transactionData.day
+      (info) => info.day === transactionData.date.day
     );
 
+    const newTransaction = {
+      transaction_id: crypto.randomUUID(),
+      type: transactionData.type,
+      category: transactionData.category,
+      detail: transactionData.detail,
+      cost: transactionData.cost,
+    };
+
     if (dayIndex === -1) {
-      // 새로운 날짜 추가
-      const newTransactions = [
-        ...(transactionData.day_info.map((exp) => ({
-          ...exp,
-          type: 'expense' as const,
-          transaction_id: crypto.randomUUID(),
-        })) || []),
-        ...(transactionData.day_info.map((inc) => ({
-          ...inc,
-          type: 'income' as const,
-          transaction_id: crypto.randomUUID(),
-        })) || []),
-      ];
-
       storeDetail.date_info.push({
-        day: transactionData.day,
-        day_info: newTransactions,
+        day: transactionData.date.day,
+        day_info: [newTransaction],
       });
-
-      // 날짜 순으로 정렬
       storeDetail.date_info.sort((a, b) => a.day - b.day);
     } else {
-      // 기존 날짜에 거래 추가
-      const newTransactions = [
-        ...storeDetail.date_info[dayIndex].day_info,
-        ...(transactionData.day_info.map((exp) => ({
-          ...exp,
-          type: 'expense' as const,
-          transaction_id: crypto.randomUUID(),
-        })) || []),
-        ...(transactionData.day_info.map((inc) => ({
-          ...inc,
-          type: 'income' as const,
-          transaction_id: crypto.randomUUID(),
-        })) || []),
-      ];
-
-      storeDetail.date_info[dayIndex].day_info = newTransactions;
+      storeDetail.date_info[dayIndex].day_info.push(newTransaction);
     }
 
     return HttpResponse.json({
       success: true,
       message: '거래가 성공적으로 추가되었습니다.',
-      data: storeDetail,
+      data: newTransaction,
     });
   }),
 
   // 스토어 지출, 수입 정보 수정
-  http.put('/stores/:id/transaction', async ({ params, request }) => {
-    const updateData = (await request.json()) as EditTransactionParams;
-    const storeDetail =
-      MOCK_STORE_ID_DETAIL[
-        STORE_INFO.findIndex((store) => store.store_id === params.id)
-      ];
+  http.put(
+    '/stores/:id/transactions/:transactionId',
+    async ({ params, request }) => {
+      const storeId = params.id as string;
+      const transactionId = params.transactionId as string;
+      const updateData = (await request.json()) as TransactionRequest;
 
-    if (!storeDetail) {
-      return new HttpResponse(null, { status: 404 });
-    }
+      const storeDetail =
+        MOCK_STORE_ID_DETAIL[
+          STORE_INFO.findIndex((store) => store.store_id === storeId)
+        ];
 
-    const dayIndex = storeDetail.date_info.findIndex(
-      (info) => info.day === updateData.day
-    );
+      if (!storeDetail) {
+        return new HttpResponse(null, { status: 404 });
+      }
 
-    if (dayIndex === -1) {
-      return new HttpResponse(null, {
-        status: 404,
-        statusText: '해당 날짜의 거래 정보를 찾을 수 없습니다.',
+      let isUpdated = false;
+      storeDetail.date_info.forEach((dayInfo) => {
+        const transactionIndex = dayInfo.day_info.findIndex(
+          (t) => t.transaction_id === transactionId
+        );
+
+        if (transactionIndex !== -1) {
+          dayInfo.day_info[transactionIndex] = {
+            transaction_id: transactionId, // URL에서 받은 ID 사용
+            ...updateData,
+          };
+          isUpdated = true;
+        }
+      });
+
+      if (!isUpdated) {
+        return new HttpResponse(null, {
+          status: 404,
+          statusText: '해당 거래를 찾을 수 없습니다.',
+        });
+      }
+
+      return HttpResponse.json({
+        success: true,
+        message: '거래가 성공적으로 수정되었습니다.',
       });
     }
-
-    const newTransactions = [
-      ...(updateData.day_info.map((exp) => ({
-        ...exp,
-        type: 'expense' as const,
-      })) || []),
-      ...(updateData.day_info.map((inc) => ({
-        ...inc,
-        type: 'income' as const,
-      })) || []),
-    ];
-
-    storeDetail.date_info[dayIndex].day_info = newTransactions;
-
-    return HttpResponse.json({
-      success: true,
-      message: '거래가 성공적으로 수정되었습니다.',
-      data: storeDetail,
-    });
-  }),
+  ),
 
   // 스토어 지출, 수입 정보 삭제
-  http.delete('/stores/:id/transaction', async ({ params, request }) => {
-    const deleteData = (await request.json()) as DeleteTransactionParams;
+  http.delete('/stores/:id/transactions/:transactionId', ({ params }) => {
     const storeDetail =
       MOCK_STORE_ID_DETAIL[
         STORE_INFO.findIndex((store) => store.store_id === params.id)
@@ -453,17 +450,15 @@ export const storeIdHandler = [
       return new HttpResponse(null, { status: 404 });
     }
 
-    // 모든 날짜에서 해당 ID를 가진 거래 찾기
     let isDeleted = false;
     storeDetail.date_info = storeDetail.date_info.filter((dayInfo) => {
       dayInfo.day_info = dayInfo.day_info.filter((transaction) => {
-        if (transaction.transaction_id === deleteData.transaction_id) {
+        if (transaction.transaction_id === params.transactionId) {
           isDeleted = true;
           return false;
         }
         return true;
       });
-
       return dayInfo.day_info.length > 0;
     });
 
@@ -477,7 +472,6 @@ export const storeIdHandler = [
     return HttpResponse.json({
       success: true,
       message: '거래가 성공적으로 삭제되었습니다.',
-      data: storeDetail,
     });
   }),
 ];
