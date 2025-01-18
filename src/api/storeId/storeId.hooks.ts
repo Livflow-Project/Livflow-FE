@@ -1,7 +1,7 @@
 import {
   AddTransactionParams,
-  StoreDetailParams,
-  UpdateTransactionParams,
+  DayParams,
+  TransactionRequest,
 } from './storeId.type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -19,10 +19,10 @@ export const useStoreIdQuery = () => {
   };
 
   // 스토어 상세 정보(달력 데이터) 조회
-  const useGetStoreDetail = (id: string, params: StoreDetailParams) => {
+  const useGetStoreCalendar = (id: string, params: DayParams) => {
     return useQuery({
       queryKey: ['store', id, 'detail', params.year, params.month],
-      queryFn: () => storeIdAPI.getStoreDetailAPI(id, params),
+      queryFn: () => storeIdAPI.getStoreCalendarAPI(id, params),
     });
   };
 
@@ -37,8 +37,8 @@ export const useStoreIdQuery = () => {
             'store',
             variables.id,
             'detail',
-            variables.data.year,
-            variables.data.month,
+            variables.data.date.year,
+            variables.data.date.month,
           ],
         });
       },
@@ -49,20 +49,16 @@ export const useStoreIdQuery = () => {
     return useMutation({
       mutationFn: ({
         id,
+        transactionId,
         data,
       }: {
         id: string;
-        data: UpdateTransactionParams;
-      }) => storeIdAPI.updateTransactionAPI(id, data),
+        transactionId: string;
+        data: TransactionRequest;
+      }) => storeIdAPI.updateTransactionAPI(id, transactionId, data),
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
-          queryKey: [
-            'store',
-            variables.id,
-            'detail',
-            variables.data.year,
-            variables.data.month,
-          ],
+          queryKey: ['store', variables.id, 'detail'],
         });
       },
     });
@@ -87,7 +83,7 @@ export const useStoreIdQuery = () => {
 
   return {
     useGetStore,
-    useGetStoreDetail,
+    useGetStoreCalendar,
     useAddTransaction,
     useUpdateTransaction,
     useDeleteTransaction,
