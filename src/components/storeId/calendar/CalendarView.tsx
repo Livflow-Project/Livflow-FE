@@ -84,7 +84,7 @@ const CalendarView = ({
   };
 
   return (
-    <div className='relative h-full w-[58%] overflow-hidden rounded-xl bg-white p-5'>
+    <div className='relative h-full w-[50%] overflow-hidden rounded-xl bg-white p-5'>
       <div className='absolute right-5 top-[25px] flex items-center justify-end gap-6'>
         <div className='flex items-center gap-2'>
           <span className='text-red'>●</span>

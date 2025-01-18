@@ -16,8 +16,8 @@ const MainCalendar = ({ storeId }: CalendarProps) => {
   const [currentMonth, setCurrentMonth] = useState(12);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { useGetStoreDetail } = useStoreIdQuery();
-  const { data: calendarData } = useGetStoreDetail(storeId, {
+  const { useGetStoreCalendar } = useStoreIdQuery();
+  const { data: calendarData } = useGetStoreCalendar(storeId, {
     year: currentYear,
     month: currentMonth,
   });
@@ -34,7 +34,7 @@ const MainCalendar = ({ storeId }: CalendarProps) => {
         setSelectedDate={setSelectedDate}
       />
 
-      <div className='flex h-full w-[40%] flex-col items-center rounded-xl bg-white/50'>
+      <div className='flex h-full w-[48%] flex-col items-center justify-between rounded-xl bg-white/50'>
         {!selectedDate ? (
           <MonthlyOverview calendarData={calendarData} />
         ) : (
