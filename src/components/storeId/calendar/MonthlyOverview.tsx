@@ -4,20 +4,106 @@ import { calculateTotals } from '@/utils/calendarUtils';
 import { twMerge } from 'tailwind-merge';
 
 type MonthlyOverviewProps = {
-  calendarData: StoreIdDetailResponse;
+  calendarData: StoreIdDetailResponse | null | undefined;
+};
+
+type CategoryData = {
+  type: 'expense' | 'income';
+  category: string;
+  cost: number;
+};
+
+type CategorySectionProps = {
+  title: string;
+  categories: CategoryData[];
+  total: number;
+  isIncome: boolean;
+};
+
+const CategorySection = ({
+  title,
+  categories,
+  total,
+  isIncome,
+}: CategorySectionProps) => {
+  if (categories.length === 0) {
+    return (
+      <p className='text-sx text-caption'>
+        입력된 {isIncome ? '수입' : '지출'}이 없습니다.
+      </p>
+    );
+  }
+
+  return (
+    <>
+      <span className='text-2xl font-semibold'>{title}</span>
+      <PieChart categories={categories} />
+      <ul className='flex h-full w-full flex-col items-center text-xl font-medium text-caption'>
+        {categories
+          .sort((a, b) => b.cost - a.cost)
+          .slice(0, 5)
+          .map((category, index) => (
+            <li
+              key={`${category.category}-${index}`}
+              className='flex w-full justify-between'
+            >
+              <span className='text-xl font-normal text-caption'>
+                {category.category}
+              </span>
+              <span className='text-xl font-normal text-caption'>
+                {isIncome ? '+' : '-'} {category.cost.toLocaleString()}원
+              </span>
+            </li>
+          ))}
+
+        <div className='mt-auto w-full pt-[25px]'>
+          <li className='flex w-full justify-between'>
+            <span>합계</span>
+            <span>
+              {isIncome ? '+' : '-'} {total.toLocaleString()}원
+            </span>
+          </li>
+        </div>
+      </ul>
+    </>
+  );
+};
+
+const TotalBalance = ({
+  income,
+  expense,
+}: {
+  income: number;
+  expense: number;
+}) => {
+  const balance = income - expense;
+  const isPositive = balance >= 0;
+
+  return (
+    <div className='flex h-[100px] w-full items-center justify-center border-t-2 border-underline/30'>
+      <p className='text-2xl font-semibold'>총 합계 &nbsp;&nbsp;</p>
+      <p
+        className={twMerge(
+          'text-2xl font-semibold',
+          isPositive ? 'text-green' : 'text-red'
+        )}
+      >
+        {isPositive ? '+' : '-'}
+        {Math.abs(balance).toLocaleString()}원
+      </p>
+    </div>
+  );
 };
 
 const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
   const monthlyTotals = calculateTotals(calendarData);
-
   const expenseCategories = monthlyTotals.categories.filter(
-    (category) => category.type === 'expense'
+    (cat) => cat.type === 'expense'
   );
   const incomeCategories = monthlyTotals.categories.filter(
-    (category) => category.type === 'income'
+    (cat) => cat.type === 'income'
   );
 
-  // 데이터가 없는 경우
   if (expenseCategories.length === 0 && incomeCategories.length === 0) {
     return (
       <div className='my-auto w-full text-center text-2xl text-main'>
@@ -30,89 +116,30 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
     <>
       <div className='flex h-full w-full items-center justify-evenly py-14'>
         <div className='flex h-full w-[40%] flex-col items-center gap-[50px]'>
-          {expenseCategories.length === 0 ? (
-            <p className='text-sx text-caption'>입력된 지출이 없습니다.</p>
-          ) : (
-            <>
-              <span className='text-2xl font-semibold'>총 지출</span>
-              <PieChart selectedType='expense' categories={expenseCategories} />
-              <ul className='flex h-full w-full flex-col items-center text-xl font-medium text-caption'>
-                {expenseCategories
-                  .sort((a, b) => b.cost - a.cost)
-                  .slice(0, 5)
-                  .map((category, index) => (
-                    <li key={index} className='flex w-full justify-between'>
-                      <span className='text-xl font-normal text-caption'>
-                        {category.category}
-                      </span>
-                      <span className='text-xl font-normal text-caption'>
-                        - {category.cost.toLocaleString()}원
-                      </span>
-                    </li>
-                  ))}
-                <div className='mt-auto w-full pt-[25px]'>
-                  <li className='flex w-full justify-between'>
-                    <span>합계</span>
-                    <span>- {monthlyTotals.expense.toLocaleString()}원</span>
-                  </li>
-                </div>
-              </ul>
-            </>
-          )}
+          <CategorySection
+            title='총 지출'
+            categories={expenseCategories}
+            total={monthlyTotals.expense}
+            isIncome={false}
+          />
         </div>
 
-        <div className='h-full w-[1px] bg-underline/30'></div>
+        <div className='h-full w-[1px] bg-underline/30' />
 
         <div className='flex h-full w-[40%] flex-col items-center gap-[50px]'>
-          {incomeCategories.length === 0 ? (
-            <p className='text-sx text-caption'>입력된 수입이 없습니다.</p>
-          ) : (
-            <>
-              <span className='text-2xl font-semibold'>총 수입</span>
-              <PieChart selectedType='income' categories={incomeCategories} />
-              <ul className='flex h-full w-full flex-col items-center text-xl font-medium text-caption'>
-                {incomeCategories
-                  .sort((a, b) => b.cost - a.cost)
-                  .slice(0, 5)
-                  .map((category, index) => (
-                    <li key={index} className='flex w-full justify-between'>
-                      <span className='text-xl font-normal text-caption'>
-                        {category.category}
-                      </span>
-                      <span className='text-xl font-normal text-caption'>
-                        + {category.cost.toLocaleString()}원
-                      </span>
-                    </li>
-                  ))}
-                <div className='mt-auto w-full pt-[20px]'>
-                  <li className='mt-10 flex w-full justify-between'>
-                    <span>합계</span>
-                    <span>+ {monthlyTotals.income.toLocaleString()}원</span>
-                  </li>
-                </div>
-              </ul>
-            </>
-          )}
+          <CategorySection
+            title='총 수입'
+            categories={incomeCategories}
+            total={monthlyTotals.income}
+            isIncome={true}
+          />
         </div>
       </div>
 
-      <div className='flex h-[100px] w-full items-center justify-center border-t-2 border-underline/30'>
-        <p className='text-2xl font-semibold'>총 합계 &nbsp;&nbsp;</p>
-        <p
-          className={twMerge(
-            'text-2xl font-semibold',
-            monthlyTotals.income - monthlyTotals.expense >= 0
-              ? 'text-green'
-              : 'text-red'
-          )}
-        >
-          {monthlyTotals.income - monthlyTotals.expense >= 0 ? '+' : '-'}
-          {Math.abs(
-            monthlyTotals.income - monthlyTotals.expense
-          ).toLocaleString()}
-          원
-        </p>
-      </div>
+      <TotalBalance
+        income={monthlyTotals.income}
+        expense={monthlyTotals.expense}
+      />
     </>
   );
 };
