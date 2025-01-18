@@ -6,7 +6,7 @@ import ChartTypeButton from './ChartTypeButton';
 import PieChart from '../../common/PieChart';
 
 type ChartViewProps = {
-  chartInfo?: Category[];
+  chartInfo: Category[];
   isDeleteMode: boolean;
 };
 
