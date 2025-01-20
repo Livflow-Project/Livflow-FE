@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 
-import Calender from '@/components/storeId/calendar/MainCalender';
+import MainCalender from '@/components/storeId/calendar/MainCalender';
 import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
 const StoreId = () => {
@@ -51,7 +51,7 @@ const StoreId = () => {
         </div>
 
         <div className='h-[calc(100%-55px)] w-full bg-background'>
-          <Calender storeId={id} />
+          <MainCalender storeId={id} />
         </div>
       </div>
     </div>
