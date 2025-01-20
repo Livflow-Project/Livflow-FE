@@ -58,8 +58,8 @@ const STORE_INFO: StoreIdResponse[] = [
   },
 ];
 
-const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
-  {
+const MOCK_STORE_ID_DETAIL: Record<string, StoreIdDetailResponse> = {
+  [STORE_IDS.STORE_1]: {
     date_info: [
       {
         day: 1,
@@ -92,20 +92,6 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           },
           {
             transaction_id: crypto.randomUUID(),
-            type: 'expense',
-            category: '식비',
-            detail: '친구랑 밥',
-            cost: 30000,
-          },
-          {
-            transaction_id: crypto.randomUUID(),
-            type: 'income',
-            category: '급여',
-            detail: '11월 급여',
-            cost: 2000000,
-          },
-          {
-            transaction_id: crypto.randomUUID(),
             type: 'income',
             category: '급여',
             detail: '11월 급여',
@@ -113,36 +99,26 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
           },
         ],
       },
+    ],
+  },
+  [STORE_IDS.STORE_2]: {
+    date_info: [
       {
-        day: 3,
+        day: 5,
         day_info: [
           {
             transaction_id: crypto.randomUUID(),
             type: 'expense',
-            category: '식비',
-            detail: '친구랑 밥',
-            cost: 30000,
-          },
-          {
-            transaction_id: crypto.randomUUID(),
-            type: 'expense',
-            category: '식비',
-            detail: '친구랑 밥',
-            cost: 30000,
+            category: '생활용품',
+            detail: '생필품 구매',
+            cost: 50000,
           },
           {
             transaction_id: crypto.randomUUID(),
             type: 'income',
-            category: '급여',
-            detail: '11월 급여',
-            cost: 2000000,
-          },
-          {
-            transaction_id: crypto.randomUUID(),
-            type: 'income',
-            category: '급여',
-            detail: '11월 급여',
-            cost: 2000000,
+            category: '용돈',
+            detail: '용돈',
+            cost: 100000,
           },
         ],
       },
@@ -153,138 +129,56 @@ const MOCK_STORE_ID_DETAIL: StoreIdDetailResponse[] = [
             transaction_id: crypto.randomUUID(),
             type: 'expense',
             category: '기타',
-            detail: '친구랑 영화',
-            cost: 30000,
-          },
-          {
-            transaction_id: crypto.randomUUID(),
-            type: 'expense',
-            category: '식비',
-            detail: '친구랑 밥',
-            cost: 30000,
-          },
-          {
-            transaction_id: crypto.randomUUID(),
-            type: 'income',
-            category: '급여',
-            detail: '11월 급여',
-            cost: 2000000,
-          },
-          {
-            transaction_id: crypto.randomUUID(),
-            type: 'income',
-            category: '급여',
-            detail: '11월 급여',
-            cost: 2000000,
+            detail: '친구 선물',
+            cost: 45000,
           },
         ],
       },
     ],
   },
-  {
+  [STORE_IDS.STORE_3]: {
     date_info: [
       {
-        day: 21,
+        day: 15,
         day_info: [
           {
             transaction_id: crypto.randomUUID(),
             type: 'expense',
-            category: '식비',
-            detail: '친구랑 밥',
-            cost: 30000,
-          },
-          {
-            transaction_id: crypto.randomUUID(),
-            type: 'expense',
-            category: '식비',
-            detail: '친구랑 밥',
-            cost: 30000,
+            category: '문화',
+            detail: '영화 관람',
+            cost: 15000,
           },
           {
             transaction_id: crypto.randomUUID(),
             type: 'income',
-            category: '급여',
-            detail: '11월 급여',
-            cost: 2000000,
-          },
-          {
-            transaction_id: crypto.randomUUID(),
-            type: 'income',
-            category: '급여',
-            detail: '11월 급여',
-            cost: 2000000,
+            category: '기타',
+            detail: '중고 거래',
+            cost: 50000,
           },
         ],
       },
       {
-        day: 23,
+        day: 20,
         day_info: [
           {
             transaction_id: crypto.randomUUID(),
             type: 'expense',
             category: '식비',
-            detail: '친구랑 밥',
-            cost: 30000,
-          },
-          {
-            transaction_id: crypto.randomUUID(),
-            type: 'expense',
-            category: '식비',
-            detail: '친구랑 밥',
-            cost: 30000,
+            detail: '장보기',
+            cost: 100000,
           },
           {
             transaction_id: crypto.randomUUID(),
             type: 'income',
             category: '급여',
-            detail: '11월 급여',
-            cost: 2000000,
-          },
-          {
-            transaction_id: crypto.randomUUID(),
-            type: 'income',
-            category: '급여',
-            detail: '11월 급여',
-            cost: 2000000,
-          },
-        ],
-      },
-      {
-        day: 3,
-        day_info: [
-          {
-            transaction_id: crypto.randomUUID(),
-            type: 'expense',
-            category: '식비',
-            detail: '친구랑 밥',
-            cost: 30000,
-          },
-          {
-            transaction_id: crypto.randomUUID(),
-            type: 'expense',
-            category: '식비',
-            detail: '친구랑 밥',
-            cost: 30000,
-          },
-          {
-            transaction_id: crypto.randomUUID(),
-            type: 'income',
-            category: '급여',
-            detail: '11월 급여',
-            cost: 2000000,
-          },
-          {
-            transaction_id: crypto.randomUUID(),
-            type: 'income',
-            category: '급여',
-            detail: '11월 급여',
-            cost: 2000000,
+            detail: '12월 급여',
+            cost: 3000000,
           },
         ],
       },
     ],
   },
-];
+};
 
 export const storeIdHandler = [
   // 스토어 이름, 주소 정보 조회
@@ -311,10 +205,8 @@ export const storeIdHandler = [
       });
     }
 
-    const storeDetail =
-      MOCK_STORE_ID_DETAIL[
-        STORE_INFO.findIndex((store) => store.store_id === params.id)
-      ];
+    const storeId = params.id as string;
+    const storeDetail = MOCK_STORE_ID_DETAIL[storeId];
 
     if (!storeDetail) {
       return new HttpResponse(null, { status: 404 });
@@ -325,10 +217,8 @@ export const storeIdHandler = [
 
   // 특정 거래 정보 조회
   http.get('/stores/:id/transactions/:transactionId', ({ params }) => {
-    const storeDetail =
-      MOCK_STORE_ID_DETAIL[
-        STORE_INFO.findIndex((store) => store.store_id === params.id)
-      ];
+    const storeId = params.id as string;
+    const storeDetail = MOCK_STORE_ID_DETAIL[storeId];
 
     if (!storeDetail) {
       return new HttpResponse(null, { status: 404 });
@@ -355,10 +245,8 @@ export const storeIdHandler = [
   // 스토어 지출, 수입 정보 추가
   http.post('/stores/:id/transactions', async ({ params, request }) => {
     const transactionData = (await request.json()) as AddTransactionParams;
-    const storeDetail =
-      MOCK_STORE_ID_DETAIL[
-        STORE_INFO.findIndex((store) => store.store_id === params.id)
-      ];
+    const storeId = params.id as string;
+    const storeDetail = MOCK_STORE_ID_DETAIL[storeId];
 
     if (!storeDetail) {
       return new HttpResponse(null, { status: 404 });
@@ -401,10 +289,7 @@ export const storeIdHandler = [
       const transactionId = params.transactionId as string;
       const updateData = (await request.json()) as TransactionRequest;
 
-      const storeDetail =
-        MOCK_STORE_ID_DETAIL[
-          STORE_INFO.findIndex((store) => store.store_id === storeId)
-        ];
+      const storeDetail = MOCK_STORE_ID_DETAIL[storeId];
 
       if (!storeDetail) {
         return new HttpResponse(null, { status: 404 });
@@ -441,10 +326,8 @@ export const storeIdHandler = [
 
   // 스토어 지출, 수입 정보 삭제
   http.delete('/stores/:id/transactions/:transactionId', ({ params }) => {
-    const storeDetail =
-      MOCK_STORE_ID_DETAIL[
-        STORE_INFO.findIndex((store) => store.store_id === params.id)
-      ];
+    const storeId = params.id as string;
+    const storeDetail = MOCK_STORE_ID_DETAIL[storeId];
 
     if (!storeDetail) {
       return new HttpResponse(null, { status: 404 });
