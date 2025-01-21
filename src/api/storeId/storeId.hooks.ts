@@ -45,6 +45,13 @@ export const useStoreIdQuery = () => {
     });
   };
 
+  const useGetTransaction = (id: string, transactionId: string) => {
+    return useQuery({
+      queryKey: ['store', id, 'transaction', transactionId],
+      queryFn: () => storeIdAPI.getTransactionAPI(id, transactionId),
+    });
+  };
+
   const useUpdateTransaction = () => {
     return useMutation({
       mutationFn: ({
@@ -85,6 +92,7 @@ export const useStoreIdQuery = () => {
     useGetStore,
     useGetStoreCalendar,
     useAddTransaction,
+    useGetTransaction,
     useUpdateTransaction,
     useDeleteTransaction,
   };

@@ -29,6 +29,13 @@ export const storeIdAPI = {
     return response.data;
   },
 
+  getTransactionAPI: async (id: string, transactionId: string) => {
+    const response = await axiosInstance.get(
+      `/stores/${id}/transactions/${transactionId}`
+    );
+    return response.data;
+  },
+
   updateTransactionAPI: async (
     id: string,
     transactionId: string,
