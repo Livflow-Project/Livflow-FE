@@ -1,5 +1,6 @@
 import {
   AddTransactionParams,
+  DayDetailTransaction,
   TransactionRequest,
 } from '@/api/storeId/storeId.type';
 
@@ -12,6 +13,8 @@ type CalendarModalProps = {
   onClose: () => void;
   storeId: string;
   selectedDate: string | null;
+  isEditMode?: boolean;
+  initialData?: DayDetailTransaction;
 };
 
 const TRANSACTION_CATEGORIES = [
@@ -36,18 +39,38 @@ const CalendarModal = ({
   onClose,
   selectedDate,
   storeId,
+  isEditMode = false,
+  initialData,
 }: CalendarModalProps) => {
-  const { useAddTransaction } = useStoreIdQuery();
+  const { useAddTransaction, useUpdateTransaction } = useStoreIdQuery();
   const { mutate: addTransaction } = useAddTransaction();
+  const { mutate: updateTransaction } = useUpdateTransaction();
 
-  const [transaction, setTransaction] = useState<TransactionRequest>({
-    type: 'expense',
-    category: '',
-    detail: '',
-    cost: 0,
+  // 초기 상태를 수정 모드일 때는 initialData로 설정
+  const [transaction, setTransaction] = useState<TransactionRequest>(() => {
+    if (isEditMode && initialData) {
+      return {
+        type: initialData.type,
+        category: initialData.category,
+        detail: initialData.detail,
+        cost: initialData.cost,
+      };
+    }
+    return {
+      type: 'expense',
+      category: '',
+      detail: '',
+      cost: 0,
+    };
   });
 
-  const [costInput, setCostInput] = useState('');
+  // costInput도 initialData의 cost로 초기화
+  const [costInput, setCostInput] = useState(() => {
+    if (isEditMode && initialData) {
+      return initialData.cost.toString();
+    }
+    return '';
+  });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,21 +89,24 @@ const CalendarModal = ({
       return;
     }
 
-    const [year, month, day] = selectedDate.split('-').map(Number);
-
-    const addTransactionData: AddTransactionParams = {
-      date: {
-        year,
-        month,
-        day,
-      },
-      ...transaction,
-    };
-
-    addTransaction({
-      id: storeId,
-      data: addTransactionData,
-    });
+    if (isEditMode && initialData) {
+      updateTransaction({
+        id: storeId,
+        transaction_id: initialData.transaction_id,
+        data: {
+          transaction_id: initialData.transaction_id, // 기존 ID 유지
+          ...transaction, // TransactionRequest의 나머지 필드
+        },
+      });
+    } else {
+      // 기존 추가 로직
+      const [year, month, day] = selectedDate!.split('-').map(Number);
+      const addTransactionData: AddTransactionParams = {
+        date: { year, month, day },
+        ...transaction,
+      };
+      addTransaction({ id: storeId, data: addTransactionData });
+    }
 
     onClose();
     toast.dismiss();
