@@ -11,16 +11,28 @@ type CalendarProps = {
 };
 
 const MainCalendar = ({ storeId }: CalendarProps) => {
+  const today = new Date();
+
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [currentYear, setCurrentYear] = useState(2024);
-  const [currentMonth, setCurrentMonth] = useState(12);
+  const [currentYear, setCurrentYear] = useState(today.getFullYear());
+  const [currentMonth, setCurrentMonth] = useState(today.getMonth() + 1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { useGetStoreCalendar } = useStoreIdQuery();
-  const { data: calendarData } = useGetStoreCalendar(storeId, {
+  const { data: calendarData, isLoading } = useGetStoreCalendar(storeId, {
     year: currentYear,
     month: currentMonth,
   });
+
+  // 데이터 로딩 상태 처리
+  if (isLoading || !calendarData) {
+    return (
+      <div className='flex h-full items-center justify-between px-[35px] py-[30px]'>
+        <div className='relative h-full w-[50%] overflow-hidden rounded-xl bg-white p-5'></div>
+        <div className='flex h-full w-[48%] flex-col items-center justify-between rounded-xl bg-white/50'></div>
+      </div>
+    );
+  }
 
   return (
     <div className='flex h-full items-center justify-between px-[35px] py-[30px]'>
