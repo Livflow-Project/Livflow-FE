@@ -5,7 +5,7 @@ import {
   StoreIdDetailResponse,
 } from '@/api/storeId/storeId.type';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -39,11 +39,15 @@ const CalendarView = ({
   const [selectedDateElement, setSelectedDateElement] =
     useState<HTMLElement | null>(null);
 
-  const events: CalendarEvent[] =
-    calendarData?.date_info.map((dateInfo) => ({
-      start: `${currentYear}-${currentMonth.toString().padStart(2, '0')}-${dateInfo.day.toString().padStart(2, '0')}`,
-      transactions: dateInfo.day_info,
-    })) || [];
+  const events: CalendarEvent[] = useMemo(
+    () =>
+      calendarData?.date_info.map((dateInfo) => ({
+        start: `${currentYear}-${currentMonth.toString().padStart(2, '0')}-${dateInfo.day.toString().padStart(2, '0')}`,
+        transactions: dateInfo.day_info,
+        allDay: true,
+      })) || [],
+    [calendarData, currentYear, currentMonth]
+  );
 
   const handleDateClick = (info: DateClickArg) => {
     if (selectedDateElement) {
@@ -65,12 +69,26 @@ const CalendarView = ({
     }
   };
 
+  // 날짜 변경 시 데이터 갱신을 위한 콜백 함수
+  const onDateChange = useCallback(
+    (newDate: Date) => {
+      const year = newDate.getFullYear();
+      const month = newDate.getMonth() + 1;
+
+      setCurrentYear(year);
+      setCurrentMonth(month);
+      // 날짜가 변경될 때 선택된 날짜 초기화
+      setSelectedDate(null);
+      setSelectedDateElement(null);
+    },
+    [setCurrentYear, setCurrentMonth, setSelectedDate]
+  );
+
   const handlePrev = () => {
     if (calendarRef.current) {
       calendarRef.current.getApi().prev();
       const newDate = calendarRef.current.getApi().getDate();
-      setCurrentYear(newDate.getFullYear());
-      setCurrentMonth(newDate.getMonth() + 1);
+      onDateChange(newDate);
     }
   };
 
@@ -78,10 +96,19 @@ const CalendarView = ({
     if (calendarRef.current) {
       calendarRef.current.getApi().next();
       const newDate = calendarRef.current.getApi().getDate();
-      setCurrentYear(newDate.getFullYear());
-      setCurrentMonth(newDate.getMonth() + 1);
+      onDateChange(newDate);
     }
   };
+
+  // 캘린더 초기화 및 데이터 동기화
+  useEffect(() => {
+    if (calendarRef.current) {
+      const api = calendarRef.current.getApi();
+      api.gotoDate(
+        `${currentYear}-${currentMonth.toString().padStart(2, '0')}-01`
+      );
+    }
+  }, [currentYear, currentMonth]);
 
   return (
     <div className='relative h-full w-[50%] overflow-hidden rounded-xl bg-white p-5'>
