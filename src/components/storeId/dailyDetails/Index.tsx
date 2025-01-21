@@ -4,6 +4,7 @@ import {
 } from '@/api/storeId/storeId.type';
 
 import ActionButtons from './buttons/ActionButtons';
+import CalendarModal from '../modal/CalendarModal';
 import TransactionHeader from './TransactionHeader';
 import TransactionList from './TransactionList';
 import { getSelectedDateTransactions } from '@/utils/calendarUtils';
@@ -24,17 +25,18 @@ const DailyDetails = ({
   onModalOpen,
 }: DailyDetailsProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
+  const [editingTransaction, setEditingTransaction] =
+    useState<DayDetailTransaction | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const transactions = getSelectedDateTransactions(selectedDate, calendarData);
-  const { useUpdateTransaction, useDeleteTransaction } = useStoreIdQuery();
-  const updateMutation = useUpdateTransaction();
+
+  const { useDeleteTransaction } = useStoreIdQuery();
   const deleteMutation = useDeleteTransaction();
 
   const handleEdit = (transaction: DayDetailTransaction) => {
-    updateMutation.mutate({
-      id: storeId,
-      transaction_id: transaction.transaction_id,
-      data: transaction,
-    });
+    setEditingTransaction(transaction);
+    setIsModalOpen(true);
   };
 
   const handleDelete = (transaction: DayDetailTransaction) => {
@@ -60,6 +62,19 @@ const DailyDetails = ({
         onEditModeToggle={() => setIsEditMode(!isEditMode)}
         onModalOpen={onModalOpen}
       />
+
+      {isModalOpen && editingTransaction && (
+        <CalendarModal
+          onClose={() => {
+            setIsModalOpen(false);
+            setEditingTransaction(null);
+          }}
+          storeId={storeId}
+          selectedDate={selectedDate}
+          isEditMode={true}
+          initialData={editingTransaction}
+        />
+      )}
     </>
   );
 };
