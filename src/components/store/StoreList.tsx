@@ -25,6 +25,13 @@ const STORES_PER_PAGE = {
   OTHER_PAGES: 3,
 };
 
+const swiperConfig = {
+  modules: [Navigation, Pagination],
+  navigation: true,
+  pagination: { clickable: true },
+  className: 'h-[650px]',
+};
+
 // 슬라이드 컴포넌트 분리
 const StoreSlide = ({
   stores,
@@ -44,7 +51,26 @@ const StoreSlide = ({
   </div>
 );
 
-const StoreList = ({ stores, onToggleModal, isDeleteMode }: StoreListProps) => {
+const StoreList = ({
+  stores = [],
+  onToggleModal,
+  isDeleteMode,
+}: StoreListProps) => {
+  if (!stores || !Array.isArray(stores) || stores.length === 0) {
+    return (
+      <Swiper {...swiperConfig}>
+        <SwiperSlide className='h-full px-[60px]'>
+          <StoreSlide
+            stores={[]}
+            isDeleteMode={isDeleteMode}
+            showAddStore={true}
+            onOpenModal={onToggleModal}
+          />
+        </SwiperSlide>
+      </Swiper>
+    );
+  }
+
   // 첫 페이지 스토어 계산
   const firstPageStores = stores.slice(0, STORES_PER_PAGE.FIRST_PAGE);
 
@@ -62,13 +88,6 @@ const StoreList = ({ stores, onToggleModal, isDeleteMode }: StoreListProps) => {
     }
 
     return pages;
-  };
-
-  const swiperConfig = {
-    modules: [Navigation, Pagination],
-    navigation: true,
-    pagination: { clickable: true },
-    className: 'h-[650px]',
   };
 
   const hasRemainingPages = stores.length > STORES_PER_PAGE.FIRST_PAGE;
