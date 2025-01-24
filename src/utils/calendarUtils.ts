@@ -37,11 +37,13 @@ export const calculateTotals = (
     categories: [],
   };
 
-  if (!calendarData) return defaultResult;
+  if (!calendarData || !calendarData.date_info) return defaultResult;
 
   const categoryTotals = new Map<string, CategoryTotal>();
 
   calendarData.date_info.forEach((dateInfo: DayInfo) => {
+    if (!dateInfo.day_info) return;
+
     dateInfo.day_info.forEach((transaction: DayDetailTransaction) => {
       const key = `${transaction.type}-${transaction.category}`;
       const existingTotal = categoryTotals.get(key) ?? {
