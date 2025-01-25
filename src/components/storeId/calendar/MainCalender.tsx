@@ -28,8 +28,8 @@ const MainCalendar = ({ storeId }: CalendarProps) => {
   if (isLoading || !calendarData) {
     return (
       <div className='flex h-full items-center justify-between px-[35px] py-[30px]'>
-        <div className='relative h-full w-[50%] overflow-hidden rounded-xl bg-white p-5'></div>
-        <div className='flex h-full w-[48%] flex-col items-center justify-between rounded-xl bg-white/50'></div>
+        <div className='relative h-full w-[49%] overflow-hidden rounded-xl bg-white p-5'></div>
+        <div className='flex h-full w-[49%] flex-col items-center justify-between rounded-xl bg-white/50'></div>
       </div>
     );
   }
@@ -46,7 +46,7 @@ const MainCalendar = ({ storeId }: CalendarProps) => {
         setSelectedDate={setSelectedDate}
       />
 
-      <div className='flex h-full w-[48%] flex-col items-center justify-between rounded-xl bg-white/50'>
+      <div className='flex h-full w-[49%] flex-col items-center justify-between rounded-xl bg-white/50'>
         {!selectedDate ? (
           <MonthlyOverview calendarData={calendarData} />
         ) : (
