@@ -37,7 +37,9 @@ const CategorySection = ({
   return (
     <>
       <span className='text-2xl font-semibold'>{title}</span>
-      <PieChart categories={categories} />
+      <div className='max-h-[230px] max-w-[230px]'>
+        <PieChart categories={categories} />
+      </div>
       <ul className='flex h-full w-full flex-col items-center text-xl font-medium text-caption'>
         {categories
           .sort((a, b) => b.cost - a.cost)
@@ -80,11 +82,11 @@ const TotalBalance = ({
   const isPositive = balance >= 0;
 
   return (
-    <div className='flex h-[100px] w-full items-center justify-center border-t-2 border-underline/30'>
-      <p className='text-2xl font-semibold'>총 합계 &nbsp;&nbsp;</p>
+    <div className='flex w-full items-center justify-center border-t-2 border-underline/30 py-6'>
+      <p className='text-[26px] font-semibold'>총 합계 &nbsp;&nbsp;</p>
       <p
         className={twMerge(
-          'text-2xl font-semibold',
+          'text-[26px] font-semibold',
           isPositive ? 'text-green' : 'text-red'
         )}
       >
@@ -114,7 +116,7 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
 
   return (
     <>
-      <div className='flex h-full w-full items-center justify-evenly py-14'>
+      <div className='flex h-[calc(100%-80px)] w-full items-center justify-evenly py-11'>
         <div className='flex h-full w-[40%] flex-col items-center gap-[50px]'>
           <CategorySection
             title='총 지출'
