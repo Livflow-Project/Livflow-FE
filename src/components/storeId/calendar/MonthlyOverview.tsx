@@ -37,9 +37,12 @@ const CategorySection = ({
   return (
     <>
       <span className='text-2xl font-semibold'>{title}</span>
-      <div className='max-h-[230px] max-w-[230px]'>
-        <PieChart categories={categories} />
+      <div className='flex h-full min-h-0 w-full items-center justify-center'>
+        <div className='flex aspect-square h-[min(100%,250px)] w-[min(100%,250px)] items-center justify-center'>
+          <PieChart categories={categories} />
+        </div>
       </div>
+
       <ul className='flex h-full w-full flex-col items-center text-xl font-medium text-caption'>
         {categories
           .sort((a, b) => b.cost - a.cost)
@@ -117,7 +120,7 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
   return (
     <>
       <div className='flex h-[calc(100%-80px)] w-full items-center justify-evenly py-11'>
-        <div className='flex h-full w-[40%] flex-col items-center gap-[50px]'>
+        <div className='flex h-full w-[40%] flex-col items-center gap-[40px]'>
           <CategorySection
             title='총 지출'
             categories={expenseCategories}
@@ -128,7 +131,7 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
 
         <div className='h-full w-[1px] bg-underline/30' />
 
-        <div className='flex h-full w-[40%] flex-col items-center gap-[50px]'>
+        <div className='flex h-full w-[40%] flex-col items-center gap-[40px]'>
           <CategorySection
             title='총 수입'
             categories={incomeCategories}
