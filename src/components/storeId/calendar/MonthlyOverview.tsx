@@ -43,26 +43,24 @@ const CategorySection = ({
         </div>
       </div>
 
-      <ul className='flex h-full w-full flex-col items-center text-xl font-medium text-caption'>
+      <ul className='flex h-full w-full flex-col items-center text-xl'>
         {categories
           .sort((a, b) => b.cost - a.cost)
           .slice(0, 5)
           .map((category, index) => (
             <li
               key={`${category.category}-${index}`}
-              className='flex w-full justify-between'
+              className='flex w-full justify-between font-normal text-caption'
             >
-              <span className='text-xl font-normal text-caption'>
-                {category.category}
-              </span>
-              <span className='text-xl font-normal text-caption'>
+              <span>{category.category}</span>
+              <span>
                 {isIncome ? '+' : '-'} {category.cost.toLocaleString()}원
               </span>
             </li>
           ))}
 
         <div className='mt-auto w-full pt-[25px]'>
-          <li className='flex w-full justify-between'>
+          <li className='flex w-full justify-between font-medium'>
             <span>합계</span>
             <span>
               {isIncome ? '+' : '-'} {total.toLocaleString()}원
