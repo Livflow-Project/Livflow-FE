@@ -1,12 +1,13 @@
 import { Link, useParams } from 'react-router-dom';
 
 import MainCalender from '@/components/storeId/ledger/calendar/MainCalender';
+import MainIngredients from '@/components/storeId/ingredients/Mainingredients';
 import { useState } from 'react';
 import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
 const NAV_ITEMS = [
   { id: 1, title: '가계부', component: MainCalender },
-  { id: 2, title: '재료', component: null },
+  { id: 2, title: '재료', component: MainIngredients },
   { id: 3, title: '원가계산', component: null },
 ];
 
