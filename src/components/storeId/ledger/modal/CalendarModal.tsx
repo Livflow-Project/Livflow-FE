@@ -4,8 +4,8 @@ import {
   TransactionRequest,
 } from '@/api/storeId/storeId.type';
 
+import Modal from '@/components/common/Modal';
 import { showWarnToast } from '@/utils/toast';
-import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
@@ -46,7 +46,6 @@ const CalendarModal = ({
   const { mutate: addTransaction } = useAddTransaction();
   const { mutate: updateTransaction } = useUpdateTransaction();
 
-  // 초기 상태를 수정 모드일 때는 initialData로 설정
   const [transaction, setTransaction] = useState<TransactionRequest>(() => {
     if (isEditMode && initialData) {
       return {
@@ -64,7 +63,6 @@ const CalendarModal = ({
     };
   });
 
-  // costInput도 initialData의 cost로 초기화
   const [costInput, setCostInput] = useState(() => {
     if (isEditMode && initialData) {
       return initialData.cost.toString();
@@ -94,12 +92,11 @@ const CalendarModal = ({
         id: storeId,
         transaction_id: initialData.transaction_id,
         data: {
-          transaction_id: initialData.transaction_id, // 기존 ID 유지
-          ...transaction, // TransactionRequest의 나머지 필드
+          transaction_id: initialData.transaction_id,
+          ...transaction,
         },
       });
     } else {
-      // 기존 추가 로직
       const [year, month, day] = selectedDate!.split('-').map(Number);
       const addTransactionData: AddTransactionParams = {
         date: { year, month, day },
@@ -109,141 +106,113 @@ const CalendarModal = ({
     }
 
     onClose();
-    toast.dismiss();
-  };
-
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-      toast.dismiss();
-    }
   };
 
   return (
-    <div
-      className='fixed inset-0 z-50 flex items-center justify-center bg-m_background/70'
-      onClick={handleBackdropClick}
-    >
-      <form
-        onSubmit={handleSubmit}
-        className='modal_div flex w-[500px] flex-col gap-7'
-      >
-        <ul className='flex flex-col gap-4'>
-          <li className='flex items-center justify-between'>
-            <div className='relative flex items-center gap-2'>
-              <label className='input_label'>카테고리</label>
-              <span className='absolute -right-1.5 -top-2 text-red'>*</span>
-            </div>
-
-            <select
-              value={transaction.category}
-              onChange={(e) =>
-                setTransaction({ ...transaction, category: e.target.value })
-              }
-              className='input_box'
-            >
-              <option value='' disabled className='text-center text-caption'>
-                카테고리 선택
-              </option>
-              {TRANSACTION_CATEGORIES.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </li>
-          <li className='flex items-center justify-between'>
-            <div className='relative flex items-center gap-2'>
-              <span className='input_label'>지출 / 수입</span>
-              <span className='absolute -right-1.5 -top-2 text-red'>*</span>
-            </div>
-
-            <div className='flex h-[42px] w-[60%] items-center justify-around'>
-              <label className='flex items-center'>
-                <input
-                  type='radio'
-                  name='transactionType'
-                  value='expense'
-                  checked={transaction.type === 'expense'}
-                  onChange={(e) =>
-                    setTransaction({
-                      ...transaction,
-                      type: e.target.value as 'expense' | 'income',
-                    })
-                  }
-                  className='h-5 w-5'
-                />
-                <span className='ml-2 text-lg text-main'>지출</span>
-              </label>
-              <label className='flex items-center'>
-                <input
-                  type='radio'
-                  name='transactionType'
-                  value='income'
-                  checked={transaction.type === 'income'}
-                  onChange={(e) =>
-                    setTransaction({
-                      ...transaction,
-                      type: e.target.value as 'expense' | 'income',
-                    })
-                  }
-                  className='h-5 w-5'
-                />
-                <span className='ml-2 text-lg text-main'>수입</span>
-              </label>
-            </div>
-          </li>
-          <li className='flex items-center justify-between'>
-            <div className='relative flex items-center gap-2'>
-              <label className='input_label'>금액</label>
-              <span className='absolute -right-1.5 -top-2 text-red'>*</span>
-            </div>
-            <input
-              type='number'
-              value={costInput}
-              onChange={(e) => {
-                const value = e.target.value;
-                setCostInput(value);
-                setTransaction({
-                  ...transaction,
-                  cost: value ? Number(value) : 0,
-                });
-              }}
-              placeholder='숫자만 입력해 주세요.'
-              className='input_box [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none'
-            />
-          </li>
-          <li className='flex items-center justify-between'>
-            <div className='relative flex items-center gap-2'>
-              <label className='input_label'>상세정보</label>
-              <span className='absolute -right-1.5 -top-2 text-red'>*</span>
-            </div>
-
-            <input
-              type='text'
-              value={transaction.detail}
-              onChange={(e) =>
-                setTransaction({ ...transaction, detail: e.target.value })
-              }
-              placeholder='상세 정보를 입력해 주세요.'
-              className='input_box'
-            />
-          </li>
-        </ul>
-        <div className='button_gap'>
-          <button
-            type='button'
-            onClick={onClose}
-            className='choice_button opacity-70'
+    <Modal onClose={onClose} onSubmit={handleSubmit}>
+      <ul className='flex flex-col gap-4'>
+        <li className='flex items-center justify-between'>
+          <div className='relative flex items-center gap-2'>
+            <label className='input_label'>카테고리</label>
+            <span className='absolute -right-1.5 -top-2 text-red'>*</span>
+          </div>
+          <select
+            value={transaction.category}
+            onChange={(e) =>
+              setTransaction({ ...transaction, category: e.target.value })
+            }
+            className='input_box'
           >
-            취소
-          </button>
-          <button type='submit' className='choice_button'>
-            완료
-          </button>
-        </div>
-      </form>
-    </div>
+            <option value='' disabled className='text-center text-caption'>
+              카테고리 선택
+            </option>
+            {TRANSACTION_CATEGORIES.map(({ value, label }) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </li>
+
+        <li className='flex items-center justify-between'>
+          <div className='relative flex items-center gap-2'>
+            <span className='input_label'>지출 / 수입</span>
+            <span className='absolute -right-1.5 -top-2 text-red'>*</span>
+          </div>
+          <div className='flex h-[42px] w-[60%] items-center justify-around'>
+            <label className='flex items-center'>
+              <input
+                type='radio'
+                name='transactionType'
+                value='expense'
+                checked={transaction.type === 'expense'}
+                onChange={(e) =>
+                  setTransaction({
+                    ...transaction,
+                    type: e.target.value as 'expense' | 'income',
+                  })
+                }
+                className='h-5 w-5'
+              />
+              <span className='ml-2 text-lg text-main'>지출</span>
+            </label>
+            <label className='flex items-center'>
+              <input
+                type='radio'
+                name='transactionType'
+                value='income'
+                checked={transaction.type === 'income'}
+                onChange={(e) =>
+                  setTransaction({
+                    ...transaction,
+                    type: e.target.value as 'expense' | 'income',
+                  })
+                }
+                className='h-5 w-5'
+              />
+              <span className='ml-2 text-lg text-main'>수입</span>
+            </label>
+          </div>
+        </li>
+
+        <li className='flex items-center justify-between'>
+          <div className='relative flex items-center gap-2'>
+            <label className='input_label'>금액</label>
+            <span className='absolute -right-1.5 -top-2 text-red'>*</span>
+          </div>
+          <input
+            type='number'
+            value={costInput}
+            onChange={(e) => {
+              const value = e.target.value;
+              setCostInput(value);
+              setTransaction({
+                ...transaction,
+                cost: value ? Number(value) : 0,
+              });
+            }}
+            placeholder='숫자만 입력해 주세요.'
+            className='input_box [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none'
+          />
+        </li>
+
+        <li className='flex items-center justify-between'>
+          <div className='relative flex items-center gap-2'>
+            <label className='input_label'>상세정보</label>
+            <span className='absolute -right-1.5 -top-2 text-red'>*</span>
+          </div>
+          <input
+            type='text'
+            value={transaction.detail}
+            onChange={(e) =>
+              setTransaction({ ...transaction, detail: e.target.value })
+            }
+            placeholder='상세 정보를 입력해 주세요.'
+            className='input_box'
+          />
+        </li>
+      </ul>
+    </Modal>
   );
 };
 
