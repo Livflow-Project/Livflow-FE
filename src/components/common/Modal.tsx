@@ -19,7 +19,10 @@ const Modal = ({ onClose, onSubmit, children }: ModalProps) => {
       className='fixed inset-0 z-50 flex items-center justify-center bg-m_background/70'
       onClick={handleBackdropClick}
     >
-      <form onSubmit={onSubmit} className={`modal_div flex flex-col gap-7`}>
+      <form
+        onSubmit={onSubmit}
+        className='modal_div flex w-[520px] flex-col gap-7'
+      >
         {children}
         <div className='button_gap'>
           <button
