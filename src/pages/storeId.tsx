@@ -1,9 +1,18 @@
 import { Link, useParams } from 'react-router-dom';
 
-import MainCalender from '@/components/storeId/calendar/MainCalender';
+import MainCalender from '@/components/storeId/ledger/calendar/MainCalender';
+import { useState } from 'react';
 import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
+const NAV_ITEMS = [
+  { id: 1, title: '가계부', component: MainCalender },
+  { id: 2, title: '재료', component: null },
+  { id: 3, title: '원가계산', component: null },
+];
+
 const StoreId = () => {
+  const [activeTab, setActiveTab] = useState(1);
+
   const { id } = useParams<{ id: string }>();
   const { useGetStore } = useStoreIdQuery();
 
@@ -25,6 +34,15 @@ const StoreId = () => {
     );
   }
 
+  const renderComponent = () => {
+    const activeItem = NAV_ITEMS.find((item) => item.id === activeTab);
+    if (activeItem?.component) {
+      const Component = activeItem.component;
+      return <Component storeId={id} />;
+    }
+    return null;
+  };
+
   return (
     <div className='flex h-[calc(100vh-75px)] flex-col justify-between p-[45px]'>
       <Link to='/store'>
@@ -41,17 +59,27 @@ const StoreId = () => {
 
       <div className='h-[calc(100%-70px)]'>
         <div className='flex items-center justify-start gap-3'>
-          <nav className='flex h-[55px] w-[135px] items-center justify-center rounded-tl-[10px] rounded-tr-[10px] bg-background'>
-            <span className='text-[22px] font-normal text-main'>가계부</span>
-          </nav>
-
-          <nav className='flex h-[55px] w-[135px] items-center justify-center rounded-tl-[10px] rounded-tr-[10px] bg-background/60'>
-            <span className='text-[22px] font-normal text-main/60'>재료</span>
-          </nav>
+          {NAV_ITEMS.map((item) => (
+            <nav
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              className={`flex h-[55px] w-[135px] cursor-pointer items-center justify-center rounded-tl-[10px] rounded-tr-[10px] ${
+                activeTab === item.id ? 'bg-background' : 'bg-background/60'
+              }`}
+            >
+              <span
+                className={`text-[22px] font-normal ${
+                  activeTab === item.id ? 'text-main' : 'text-main/60'
+                }`}
+              >
+                {item.title}
+              </span>
+            </nav>
+          ))}
         </div>
 
         <div className='h-[calc(100%-55px)] w-full bg-background'>
-          <MainCalender storeId={id} />
+          {renderComponent()}
         </div>
       </div>
     </div>
