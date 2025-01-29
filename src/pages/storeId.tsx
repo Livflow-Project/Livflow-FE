@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 
 import MainCalender from '@/components/storeId/ledger/calendar/MainCalender';
-import MainIngredients from '@/components/storeId/ingredients/Mainingredients';
+import MainIngredients from '@/components/storeId/ingredients/MainIngredients';
 import { useState } from 'react';
 import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
