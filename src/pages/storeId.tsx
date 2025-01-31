@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 
 import MainCalender from '@/components/storeId/ledger/calendar/MainCalender';
 import MainIngredients from '@/components/storeId/ingredients/MainIngredients';
+import { twMerge } from 'tailwind-merge';
 import { useState } from 'react';
 import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
@@ -64,14 +65,20 @@ const StoreId = () => {
             <nav
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`flex h-[55px] w-[135px] cursor-pointer items-center justify-center rounded-tl-[10px] rounded-tr-[10px] ${
-                activeTab === item.id ? 'bg-background' : 'bg-background/60'
-              }`}
+              className={twMerge(
+                'flex h-[55px] w-[135px] cursor-pointer items-center justify-center rounded-tl-[10px] rounded-tr-[10px]',
+                activeTab === item.id
+                  ? 'bg-background'
+                  : 'bg-background/50 hover:bg-background'
+              )}
             >
               <span
-                className={`text-[22px] font-normal ${
-                  activeTab === item.id ? 'text-main' : 'text-main/60'
-                }`}
+                className={twMerge(
+                  'text-[22px] font-normal',
+                  activeTab === item.id
+                    ? 'font-semibold text-main'
+                    : 'text-main/50'
+                )}
               >
                 {item.title}
               </span>
