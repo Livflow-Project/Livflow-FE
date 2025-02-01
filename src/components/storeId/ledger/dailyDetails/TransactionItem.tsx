@@ -1,6 +1,6 @@
 import { DayDetailTransaction } from '@/api/storeId/storeId.type';
-import DeleteButton from './buttons/DeleteButton';
-import EditButton from './buttons/EditButton';
+import DeleteButton from '@/components/common/DeleteButton';
+import EditButton from '@/components/common//EditButton';
 
 type TransactionItemProps = {
   transaction: DayDetailTransaction;
