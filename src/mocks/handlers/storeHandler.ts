@@ -7,6 +7,8 @@ type StoreResponse = {
   chart: Category[];
 };
 
+type StoreIdResponse = Omit<StoreResponse, 'chart'>;
+
 type Category = {
   type: 'expense' | 'income';
   category: string;
@@ -19,6 +21,24 @@ const STORE_IDS = {
   STORE_2: '1b7f4f3b-1cfb-5de4-0g8e-0252fb6efb44',
   STORE_3: 'a0b8035d-5499-4adb-9d8a-d7a93ac026e8',
 };
+
+const STORE_INFO: StoreIdResponse[] = [
+  {
+    store_id: STORE_IDS.STORE_1,
+    name: '스토어 이름 1',
+    address: '스토어 주소 1',
+  },
+  {
+    store_id: STORE_IDS.STORE_2,
+    name: '스토어 이름 2',
+    address: '스토어 주소 2',
+  },
+  {
+    store_id: STORE_IDS.STORE_3,
+    name: '스토어 이름 3',
+    address: '스토어 주소 3',
+  },
+];
 
 const MOCK_STORE: StoreResponse[] = [
   {
@@ -85,6 +105,17 @@ export const storeHandler = [
     return HttpResponse.json(stores);
   }),
 
+  // 특정 스토어 이름, 주소 정보 조회
+  http.get('/stores/:storeId', ({ params }) => {
+    const store = STORE_INFO.find((store) => store.store_id === params.storeId);
+
+    if (!store) {
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    return HttpResponse.json(store);
+  }),
+
   // 새 상점 생성
   http.post('/stores', async ({ request }) => {
     const newStore = (await request.json()) as StoreResponse;
@@ -100,7 +131,7 @@ export const storeHandler = [
   }),
 
   // 상점 정보 수정 (이름, 주소만)
-  http.put('/stores/:id', async ({ params, request }) => {
+  http.put('/stores/:storeId', async ({ params, request }) => {
     const updates = (await request.json()) as Pick<
       StoreResponse,
       'name' | 'address'
@@ -122,7 +153,7 @@ export const storeHandler = [
   }),
 
   // 상점 삭제
-  http.delete('/stores/:id', ({ params }) => {
+  http.delete('/stores/:storeId', ({ params }) => {
     const storeIndex = stores.findIndex(
       (store) => store.store_id === params.id
     );
