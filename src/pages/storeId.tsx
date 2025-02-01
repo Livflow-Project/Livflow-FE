@@ -4,7 +4,7 @@ import MainCalender from '@/components/storeId/ledger/calendar/MainCalender';
 import MainIngredients from '@/components/storeId/ingredients/MainIngredients';
 import { twMerge } from 'tailwind-merge';
 import { useState } from 'react';
-import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
+import { useStoreQuery } from '@/api/store/store.hooks';
 
 const NAV_ITEMS = [
   { id: 1, title: '가계부', component: MainCalender },
@@ -16,7 +16,7 @@ const StoreId = () => {
   const [activeTab, setActiveTab] = useState(1);
 
   const { id } = useParams<{ id: string }>();
-  const { useGetStore } = useStoreIdQuery();
+  const { useGetStore } = useStoreQuery();
 
   const { data, isLoading, isError } = useGetStore(id || '0');
 
