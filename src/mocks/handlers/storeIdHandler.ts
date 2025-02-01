@@ -1,11 +1,5 @@
 import { HttpResponse, http } from 'msw';
 
-type StoreIdResponse = {
-  store_id: string; // UUID
-  name: string;
-  address?: string;
-};
-
 type StoreIdDetailResponse = {
   date_info: DayInfo[];
 };
@@ -39,24 +33,6 @@ const STORE_IDS = {
   STORE_2: '1b7f4f3b-1cfb-5de4-0g8e-0252fb6efb44',
   STORE_3: 'a0b8035d-5499-4adb-9d8a-d7a93ac026e8',
 };
-
-const STORE_INFO: StoreIdResponse[] = [
-  {
-    store_id: STORE_IDS.STORE_1,
-    name: '스토어 이름 1',
-    address: '스토어 주소 1',
-  },
-  {
-    store_id: STORE_IDS.STORE_2,
-    name: '스토어 이름 2',
-    address: '스토어 주소 2',
-  },
-  {
-    store_id: STORE_IDS.STORE_3,
-    name: '스토어 이름 3',
-    address: '스토어 주소 3',
-  },
-];
 
 const MOCK_STORE_ID_DETAIL: Record<string, StoreIdDetailResponse> = {
   [STORE_IDS.STORE_1]: {
@@ -181,19 +157,8 @@ const MOCK_STORE_ID_DETAIL: Record<string, StoreIdDetailResponse> = {
 };
 
 export const storeIdHandler = [
-  // 스토어 이름, 주소 정보 조회
-  http.get('/stores/:id', ({ params }) => {
-    const store = STORE_INFO.find((store) => store.store_id === params.id);
-
-    if (!store) {
-      return new HttpResponse(null, { status: 404 });
-    }
-
-    return HttpResponse.json(store);
-  }),
-
   // 스토어 상세 정보 조회 (달력 데이터)
-  http.get('/stores/:id/calendar', ({ params, request }) => {
+  http.get('/stores/:storeId/calendar', ({ params, request }) => {
     const url = new URL(request.url);
     const year = url.searchParams.get('year');
     const month = url.searchParams.get('month');
@@ -205,7 +170,7 @@ export const storeIdHandler = [
       });
     }
 
-    const storeId = params.id as string;
+    const storeId = params.storeId as string;
     const storeDetail = MOCK_STORE_ID_DETAIL[storeId];
 
     if (!storeDetail) {
@@ -216,8 +181,8 @@ export const storeIdHandler = [
   }),
 
   // 특정 거래 정보 조회
-  http.get('/stores/:id/transactions/:transactionId', ({ params }) => {
-    const storeId = params.id as string;
+  http.get('/ledger/:storeId/transactions/:transactionId', ({ params }) => {
+    const storeId = params.storeId as string;
     const storeDetail = MOCK_STORE_ID_DETAIL[storeId];
 
     if (!storeDetail) {
@@ -243,9 +208,9 @@ export const storeIdHandler = [
   }),
 
   // 스토어 지출, 수입 정보 추가
-  http.post('/stores/:id/transactions', async ({ params, request }) => {
+  http.post('/ledger/:storeId/transactions', async ({ params, request }) => {
     const transactionData = (await request.json()) as AddTransactionParams;
-    const storeId = params.id as string;
+    const storeId = params.storeId as string;
     const storeDetail = MOCK_STORE_ID_DETAIL[storeId];
 
     if (!storeDetail) {
@@ -283,9 +248,9 @@ export const storeIdHandler = [
 
   // 스토어 지출, 수입 정보 수정
   http.put(
-    '/stores/:id/transactions/:transactionId',
+    '/ledger/:storeId/transactions/:transactionId',
     async ({ params, request }) => {
-      const storeId = params.id as string;
+      const storeId = params.storeId as string;
       const transactionId = params.transactionId as string;
       const updateData = (await request.json()) as TransactionRequest;
 
@@ -325,8 +290,8 @@ export const storeIdHandler = [
   ),
 
   // 스토어 지출, 수입 정보 삭제
-  http.delete('/stores/:id/transactions/:transactionId', ({ params }) => {
-    const storeId = params.id as string;
+  http.delete('/ledger/:storeId/transactions/:transactionId', ({ params }) => {
+    const storeId = params.storeId as string;
     const storeDetail = MOCK_STORE_ID_DETAIL[storeId];
 
     if (!storeDetail) {
