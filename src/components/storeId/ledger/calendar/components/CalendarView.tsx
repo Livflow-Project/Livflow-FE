@@ -1,4 +1,4 @@
-import './css/calendar.css';
+import '../css/calendar.css';
 
 import {
   DayDetailTransaction,

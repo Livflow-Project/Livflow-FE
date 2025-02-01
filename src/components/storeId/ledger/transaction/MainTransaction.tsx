@@ -3,27 +3,27 @@ import {
   StoreIdDetailResponse,
 } from '@/api/storeId/storeId.type';
 
-import ActionButtons from './buttons/ActionButtons';
+import ActionButtons from './components/button/ActionButtons';
 import CalendarModal from '../modal/CalendarModal';
-import TransactionHeader from './TransactionHeader';
-import TransactionList from './TransactionList';
+import TransactionHeader from './components/TransactionHeader';
+import TransactionList from './components/TransactionList';
 import { getSelectedDateTransactions } from '@/utils/calendarUtils';
 import { useState } from 'react';
 import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
-type DailyDetailsProps = {
+type MainTransactionProps = {
   selectedDate: string;
   calendarData: StoreIdDetailResponse;
   storeId: string;
   onModalOpen: () => void;
 };
 
-const DailyDetails = ({
+const MainTransaction = ({
   selectedDate,
   calendarData,
   storeId,
   onModalOpen,
-}: DailyDetailsProps) => {
+}: MainTransactionProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingTransaction, setEditingTransaction] =
     useState<DayDetailTransaction | null>(null);
@@ -79,4 +79,4 @@ const DailyDetails = ({
   );
 };
 
-export default DailyDetails;
+export default MainTransaction;

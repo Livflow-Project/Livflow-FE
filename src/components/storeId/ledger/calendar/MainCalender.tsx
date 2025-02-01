@@ -1,7 +1,7 @@
 import CalendarModal from '../modal/CalendarModal';
-import CalendarView from './CalendarView';
-import DailyDetails from '../dailyDetails/Index';
-import MonthlyOverview from './MonthlyOverview';
+import CalendarView from './components/CalendarView';
+import MainTransaction from '../transaction/MainTransaction';
+import MonthlyOverview from './components/MonthlyOverview';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
@@ -50,7 +50,7 @@ const MainCalendar = ({ storeId }: CalendarProps) => {
         {!selectedDate ? (
           <MonthlyOverview calendarData={calendarData} />
         ) : (
-          <DailyDetails
+          <MainTransaction
             selectedDate={selectedDate}
             calendarData={calendarData}
             storeId={storeId}

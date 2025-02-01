@@ -1,5 +1,5 @@
 import { DayDetailTransaction } from '@/api/storeId/storeId.type';
-import { TransactionItem } from './TransactionItem';
+import TransactionItem from './TransactionItem';
 
 type TransactionListProps = {
   transactions: DayDetailTransaction[] | null;

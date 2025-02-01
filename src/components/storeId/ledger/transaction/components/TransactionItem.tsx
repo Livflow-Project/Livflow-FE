@@ -9,7 +9,7 @@ type TransactionItemProps = {
   onDelete: (transaction: DayDetailTransaction) => void;
 };
 
-export const TransactionItem = ({
+const TransactionItem = ({
   transaction,
   isEditMode,
   onEdit,
@@ -37,3 +37,5 @@ export const TransactionItem = ({
     )}
   </ul>
 );
+
+export default TransactionItem;
