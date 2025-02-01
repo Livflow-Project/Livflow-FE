@@ -118,7 +118,7 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
   return (
     <>
       <div className='flex h-[calc(100%-80px)] w-full items-center justify-evenly py-11'>
-        <div className='flex h-full w-[40%] flex-col items-center gap-[40px]'>
+        <div className='flex h-full w-[40%] flex-col items-center justify-center gap-[40px]'>
           <CategorySection
             title='총 지출'
             categories={expenseCategories}
@@ -129,7 +129,7 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
 
         <div className='h-full w-[1px] bg-underline/30' />
 
-        <div className='flex h-full w-[40%] flex-col items-center gap-[40px]'>
+        <div className='flex h-full w-[40%] flex-col items-center justify-center gap-[40px]'>
           <CategorySection
             title='총 수입'
             categories={incomeCategories}
