@@ -1,12 +1,3 @@
-import { Category } from '../store/store.type';
-
-export type StoreIDResponse = {
-  store_id: string;
-  name: string;
-  address?: string;
-  chart: Category[];
-};
-
 export type StoreIdDetailResponse = {
   date_info: DayInfo[];
 };
