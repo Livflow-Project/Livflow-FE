@@ -18,6 +18,14 @@ export const useStoreQuery = () => {
     });
   };
 
+  // 특정 스토어 정보 조회
+  const useGetStore = (id: string) => {
+    return useQuery({
+      queryKey: ['store', id],
+      queryFn: () => storeAPI.getStoreAPI(id),
+    });
+  };
+
   // 새 스토어 생성
   const useCreateStore = () => {
     return useMutation({
@@ -60,6 +68,7 @@ export const useStoreQuery = () => {
 
   return {
     useGetAllStores,
+    useGetStore,
     useCreateStore,
     useUpdateStore,
     useDeleteStore,

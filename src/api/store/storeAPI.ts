@@ -7,6 +7,11 @@ export const storeAPI = {
     return response.data;
   },
 
+  getStoreAPI: async (id: string) => {
+    const response = await axiosInstance.get(`/stores/${id}`);
+    return response.data;
+  },
+
   postStoreAPI: async (NewstoreInfo: StoreRequestParams) => {
     const response = await axiosInstance.post(`/stores`, NewstoreInfo);
     return response.data;
