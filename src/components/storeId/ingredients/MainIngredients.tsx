@@ -1,5 +1,5 @@
 import Button from '@/components/common/Button';
-import IngredientsHeader from './IngredientsHeader';
+import IngredientsHeader from './components/IngredientsHeader';
 import IngredientsModal from './modal/IngredientsModal';
 import { useState } from 'react';
 
