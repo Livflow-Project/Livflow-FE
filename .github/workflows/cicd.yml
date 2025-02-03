@@ -32,8 +32,17 @@ jobs:
         run: |
           npm install
 
-      # 4. 빌드
-      - name: Build project
+      # ✅ 4. 환경 변수 설정 및 빌드
+      - name: Build project with environment variables
+        env:
+          VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
+          VITE_GOOGLE_REDIRECT_URI: ${{ secrets.VITE_GOOGLE_REDIRECT_URI }}
+          VITE_GOOGLE_SCOPE: ${{ secrets.VITE_GOOGLE_SCOPE }}
+          # VITE_KAKAO_CLIENT_ID: ${{ secrets.VITE_KAKAO_CLIENT_ID }}
+          # VITE_KAKAO_REDIRECT_URI: ${{ secrets.VITE_KAKAO_REDIRECT_URI }}
+          # VITE_NAVER_CLIENT_ID: ${{ secrets.VITE_NAVER_CLIENT_ID }}
+          # VITE_NAVER_CLIENT_SECRET: ${{ secrets.VITE_NAVER_CLIENT_SECRET }}
+          # VITE_NAVER_REDIRECT_URI: ${{ secrets.VITE_NAVER_REDIRECT_URI }}
         run: |
           npm run build
 
@@ -53,7 +62,8 @@ jobs:
             # 기존 볼륨과 컨테이너 제거 후 재시작
             echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose down -v
             echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose up -d --build
-            # /usr/share/nginx/html/public 디렉터리 생성 및 파일 복사
+            
+            # public 디렉터리 생성 및 파일 복사
             echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker exec frontend-nginx /bin/sh -c "
               mkdir -p /usr/share/nginx/html/public && 
               cp /usr/share/nginx/html/*.svg /usr/share/nginx/html/public/
