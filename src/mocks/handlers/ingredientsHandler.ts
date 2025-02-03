@@ -1,13 +1,19 @@
 import { HttpResponse, http } from 'msw';
 
+type IngredientsResponse = {
+  all_ingredient: number;
+  all_ingredient_cost: number;
+  ingredients: IngredientsDetailResponse[];
+};
+
 type IngredientsDetailResponse = {
   ingredient_id: string; // UUID
-  item_name: string;
-  item_cost: number;
+  ingredient_name: string;
+  ingredient_cost: number;
   capacity: number;
   unit: 'ml' | 'mg' | 'ea';
   shop?: string;
-  item_detail?: string;
+  ingredient_detail?: string;
 };
 
 // id를 제외한 DayDetailTransaction 타입
@@ -23,62 +29,62 @@ const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientsDetailResponse[]> = {
   [STORE_IDS.STORE_1]: [
     {
       ingredient_id: crypto.randomUUID(),
-      item_name: '우유',
-      item_cost: 3500,
+      ingredient_name: '우유',
+      ingredient_cost: 3500,
       capacity: 1000,
       unit: 'ml',
       shop: '판매처',
-      item_detail: '기타',
+      ingredient_detail: '기타',
     },
     {
       ingredient_id: crypto.randomUUID(),
-      item_name: '우유',
-      item_cost: 3500,
+      ingredient_name: '우유',
+      ingredient_cost: 3500,
       capacity: 1000,
       unit: 'ml',
       shop: '판매처',
-      item_detail: '기타',
+      ingredient_detail: '기타',
     },
   ],
 
   [STORE_IDS.STORE_2]: [
     {
       ingredient_id: crypto.randomUUID(),
-      item_name: '우유',
-      item_cost: 3500,
+      ingredient_name: '우유',
+      ingredient_cost: 3500,
       capacity: 1000,
       unit: 'ml',
       shop: '판매처',
-      item_detail: '기타',
+      ingredient_detail: '기타',
     },
     {
       ingredient_id: crypto.randomUUID(),
-      item_name: '우유',
-      item_cost: 3500,
+      ingredient_name: '우유',
+      ingredient_cost: 3500,
       capacity: 1000,
       unit: 'ml',
       shop: '판매처',
-      item_detail: '기타',
+      ingredient_detail: '기타',
     },
   ],
   [STORE_IDS.STORE_3]: [
     {
       ingredient_id: crypto.randomUUID(),
-      item_name: '우유',
-      item_cost: 3500,
+      ingredient_name: '우유',
+      ingredient_cost: 3500,
       capacity: 1000,
       unit: 'ml',
       shop: '판매처',
-      item_detail: '기타',
+      ingredient_detail: '기타',
     },
     {
       ingredient_id: crypto.randomUUID(),
-      item_name: '우유',
-      item_cost: 3500,
+      ingredient_name: '우유',
+      ingredient_cost: 3500,
       capacity: 1000,
       unit: 'ml',
       shop: '판매처',
-      item_detail: '기타',
+      ingredient_detail: '기타',
     },
   ],
 };
@@ -93,7 +99,16 @@ export const ingredientsHandler = [
       return new HttpResponse(null, { status: 404 });
     }
 
-    return HttpResponse.json(ingredients);
+    const response: IngredientsResponse = {
+      all_ingredient: ingredients.length,
+      all_ingredient_cost: ingredients.reduce(
+        (sum, item) => sum + item.ingredient_cost,
+        0
+      ),
+      ingredients: ingredients,
+    };
+
+    return HttpResponse.json(response);
   }),
 
   // 특정 재료 정보 조회
