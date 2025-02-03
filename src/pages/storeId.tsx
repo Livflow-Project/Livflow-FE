@@ -1,14 +1,14 @@
 import { Link, useParams } from 'react-router-dom';
 
 import MainCalender from '@/components/storeId/ledger/calendar/MainCalender';
-import MainIngredients from '@/components/storeId/ingredients/MainIngredients';
+import MainIngredient from '@/components/storeId/ingredient/MainIngredient';
 import { twMerge } from 'tailwind-merge';
 import { useState } from 'react';
 import { useStoreQuery } from '@/api/store/store.hooks';
 
 const NAV_ITEMS = [
   { id: 1, title: '가계부', component: MainCalender },
-  { id: 2, title: '재료', component: MainIngredients },
+  { id: 2, title: '재료', component: MainIngredient },
   { id: 3, title: '원가계산', component: null },
 ];
 
