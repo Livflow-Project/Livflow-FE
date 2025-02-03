@@ -5,8 +5,8 @@ import {
 import { mapIcon, storeIcon } from '@/assets/assets';
 import { useRef, useState } from 'react';
 
-import ChartView from './chart/ChartView';
-import EditableInput from './EditableInput';
+import ChartView from '../chart/ChartView';
+import EditableInput from './components/EditableInput';
 import { showWarnToast } from '@/utils/toast';
 import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
