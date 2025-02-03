@@ -29,27 +29,27 @@ const IngredientsModal = ({
   const [ingredient, setIngredient] = useState<IngredientsRequest>(() => {
     if (isEditMode && initialData) {
       return {
-        item_name: initialData.item_name,
-        item_cost: initialData.item_cost,
+        ingredient_name: initialData.ingredient_name,
+        ingredient_cost: initialData.ingredient_cost,
         capacity: initialData.capacity,
         unit: initialData.unit,
         shop: initialData.shop,
-        item_detail: initialData.item_detail,
+        ingredient_detail: initialData.ingredient_detail,
       };
     }
     return {
-      item_name: '',
-      item_cost: 0,
+      ingredient_name: '',
+      ingredient_cost: 0,
       capacity: 0,
       unit: 'ml',
       shop: '',
-      item_detail: '',
+      ingredient_detail: '',
     };
   });
 
   const [costInput, setCostInput] = useState(() => {
     if (isEditMode && initialData) {
-      return initialData.item_cost.toString();
+      return initialData.ingredient_cost.toString();
     }
     return '';
   });
@@ -65,8 +65,8 @@ const IngredientsModal = ({
     e.preventDefault();
 
     if (
-      ingredient.item_name.trim() === '' ||
-      ingredient.item_cost === 0 ||
+      ingredient.ingredient_name.trim() === '' ||
+      ingredient.ingredient_cost === 0 ||
       ingredient.capacity === 0
     ) {
       showWarnToast('빈칸 없이 모두 입력해주세요.');
@@ -101,9 +101,9 @@ const IngredientsModal = ({
           </div>
           <input
             type='text'
-            value={ingredient.item_name}
+            value={ingredient.ingredient_name}
             onChange={(e) =>
-              setIngredient({ ...ingredient, item_name: e.target.value })
+              setIngredient({ ...ingredient, ingredient_name: e.target.value })
             }
             placeholder='품목명울 입력해 주세요.'
             className='input_box'
@@ -123,7 +123,7 @@ const IngredientsModal = ({
               setCostInput(value);
               setIngredient({
                 ...ingredient,
-                item_cost: value ? Number(value) : 0,
+                ingredient_cost: value ? Number(value) : 0,
               });
             }}
             placeholder='구매가를 입력해 주세요.'
@@ -230,9 +230,12 @@ const IngredientsModal = ({
           </div>
           <input
             type='text'
-            value={ingredient.item_detail}
+            value={ingredient.ingredient_detail}
             onChange={(e) =>
-              setIngredient({ ...ingredient, item_detail: e.target.value })
+              setIngredient({
+                ...ingredient,
+                ingredient_detail: e.target.value,
+              })
             }
             placeholder='비고를 입력해 주세요.'
             className='input_box'

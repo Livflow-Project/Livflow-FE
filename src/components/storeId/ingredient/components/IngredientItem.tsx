@@ -20,9 +20,13 @@ const IngredientItem = ({
   <ul className='relative flex h-[45px] w-full items-center border-b border-underline/30 text-center'>
     <li className='w-[8%] text-lg font-normal'>{index + 1}</li>
 
-    <li className='w-[17%] text-lg font-normal'>{ingredient.item_name}</li>
+    <li className='w-[17%] text-lg font-normal'>
+      {ingredient.ingredient_name}
+    </li>
 
-    <li className='w-[16%] text-lg font-normal'>{ingredient.item_cost}</li>
+    <li className='w-[16%] text-lg font-normal'>
+      {ingredient.ingredient_cost}
+    </li>
 
     <li className='w-[16%] text-lg font-normal'>{ingredient.capacity}</li>
 
@@ -30,7 +34,9 @@ const IngredientItem = ({
 
     <li className='w-[17%] text-lg font-normal'>{ingredient.shop}</li>
 
-    <li className='w-[17%] text-lg font-normal'>{ingredient.item_detail}</li>
+    <li className='w-[17%] text-lg font-normal'>
+      {ingredient.ingredient_detail}
+    </li>
 
     {isEditMode && (
       <li className='absolute inset-0 flex items-center bg-white/50'>
