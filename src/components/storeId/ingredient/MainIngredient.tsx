@@ -61,9 +61,9 @@ const MainIngredient = ({ storeId }: MainIngredientProps) => {
         <header className='flex w-full items-center justify-between gap-5'>
           <div className='h-[60px] w-[30%] min-w-[350px] rounded-lg bg-white/50'>
             <div className='flex h-full w-full items-center justify-evenly text-xl'>
-              <span>총 등록된 재료 : 0개</span>
+              <span>{`총 등록된 재료 : ${ingredients?.all_ingredient}개`}</span>
               <div className='h-[40px] w-[1px] bg-caption'></div>
-              <span>총 비용 : 0원</span>
+              <span>{`총 비용 : ${ingredients?.all_ingredient_cost}원`}</span>
             </div>
           </div>
 
@@ -83,7 +83,7 @@ const MainIngredient = ({ storeId }: MainIngredientProps) => {
           <IngredientHeader />
 
           <IngredientList
-            ingredients={ingredients}
+            ingredients={ingredients?.ingredients}
             isEditMode={isEditMode}
             onEdit={handleEdit}
             onDelete={handleDelete}
