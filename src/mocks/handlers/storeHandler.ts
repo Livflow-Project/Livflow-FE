@@ -1,13 +1,18 @@
 import { HttpResponse, http } from 'msw';
 
-type StoreResponse = {
+type StoresResponse = {
+  all_stores: number;
+  stores: StoreDetailResponse[];
+};
+
+type StoreDetailResponse = {
   store_id: string; // UUID
   name: string;
   address?: string;
   chart: Category[];
 };
 
-type StoreIdResponse = Omit<StoreResponse, 'chart'>;
+type StoreIdResponse = Omit<StoreDetailResponse, 'chart'>;
 
 type Category = {
   type: 'expense' | 'income';
@@ -40,7 +45,7 @@ const STORE_INFO: StoreIdResponse[] = [
   },
 ];
 
-const MOCK_STORE: StoreResponse[] = [
+const MOCK_STORE: StoreDetailResponse[] = [
   {
     store_id: STORE_IDS.STORE_1,
     name: '스토어 이름 1',
@@ -97,12 +102,16 @@ const MOCK_STORE: StoreResponse[] = [
   },
 ];
 
-let stores: StoreResponse[] = [...MOCK_STORE];
+let stores: StoreDetailResponse[] = [...MOCK_STORE];
 
 export const storeHandler = [
   // 모든 상점 조회
   http.get('/stores', () => {
-    return HttpResponse.json(stores);
+    const response: StoresResponse = {
+      all_stores: stores.length,
+      stores: stores,
+    };
+    return HttpResponse.json(response);
   }),
 
   // 특정 스토어 이름, 주소 정보 조회
@@ -118,9 +127,9 @@ export const storeHandler = [
 
   // 새 상점 생성
   http.post('/stores', async ({ request }) => {
-    const newStore = (await request.json()) as StoreResponse;
+    const newStore = (await request.json()) as StoreDetailResponse;
 
-    const createdStore: StoreResponse = {
+    const createdStore: StoreDetailResponse = {
       ...newStore,
       store_id: STORE_IDS.STORE_3,
       chart: [],
@@ -133,7 +142,7 @@ export const storeHandler = [
   // 상점 정보 수정 (이름, 주소만)
   http.put('/stores/:storeId', async ({ params, request }) => {
     const updates = (await request.json()) as Pick<
-      StoreResponse,
+      StoreDetailResponse,
       'name' | 'address'
     >;
     const storeIndex = stores.findIndex(
