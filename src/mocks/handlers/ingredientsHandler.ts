@@ -3,10 +3,10 @@ import { HttpResponse, http } from 'msw';
 type IngredientsResponse = {
   all_ingredient: number;
   all_ingredient_cost: number;
-  ingredients: IngredientsDetailResponse[];
+  ingredients: IngredientDetailResponse[];
 };
 
-type IngredientsDetailResponse = {
+type IngredientDetailResponse = {
   ingredient_id: string; // UUID
   ingredient_name: string;
   ingredient_cost: number;
@@ -17,7 +17,7 @@ type IngredientsDetailResponse = {
 };
 
 // id를 제외한 DayDetailTransaction 타입
-type IngredientsRequest = Omit<IngredientsDetailResponse, 'ingredient_id'>;
+type IngredientsRequest = Omit<IngredientDetailResponse, 'ingredient_id'>;
 
 const STORE_IDS = {
   STORE_1: '0a6e3e2a-0bea-4cda-9f7d-9141ea5efa33',
@@ -25,7 +25,7 @@ const STORE_IDS = {
   STORE_3: 'a0b8035d-5499-4adb-9d8a-d7a93ac026e8',
 };
 
-const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientsDetailResponse[]> = {
+const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientDetailResponse[]> = {
   [STORE_IDS.STORE_1]: [
     {
       ingredient_id: crypto.randomUUID(),
@@ -140,7 +140,7 @@ export const ingredientsHandler = [
       MOCK_INGREDIENTS_DETAIL[storeId] = [];
     }
 
-    const completeIngredient: IngredientsDetailResponse = {
+    const completeIngredient: IngredientDetailResponse = {
       ...newIngredient,
       ingredient_id: crypto.randomUUID(),
     };
