@@ -5,16 +5,16 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import AddStore from '@/components/store/AddStore';
 import MyStore from '@/components/store/MyStore';
-import { StoreResponse } from '@/api/store/store.type';
+import { StoreDetailResponse } from '@/api/store/store.type';
 
 type StoreListProps = {
-  stores: StoreResponse[];
+  stores: StoreDetailResponse[];
   onToggleModal: () => void;
   isDeleteMode: boolean;
 };
 
 type StoreSlide = {
-  stores: StoreResponse[];
+  stores: StoreDetailResponse[];
   isDeleteMode: boolean;
   showAddStore?: boolean;
   onOpenModal: () => void;

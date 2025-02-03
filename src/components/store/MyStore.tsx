@@ -1,4 +1,7 @@
-import { StoreRequestParams, StoreResponse } from '@/api/store/store.type';
+import {
+  StoreDetailResponse,
+  StoreRequestParams,
+} from '@/api/store/store.type';
 import { mapIcon, storeIcon } from '@/assets/assets';
 import { useRef, useState } from 'react';
 
@@ -11,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { useStoreQuery } from '@/api/store/store.hooks';
 
 type MyStoreProps = {
-  storeInfo: StoreResponse;
+  storeInfo: StoreDetailResponse;
   isDeleteMode: boolean;
 };
 
@@ -62,7 +65,7 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
     };
 
     updateStoreMutation.mutate(
-      { id: storeInfo.store_id, storeInfo: updates },
+      { storeId: storeInfo.store_id, storeInfo: updates },
       {
         onSuccess: () => {
           if (type === 'name') setIsEditingName(false);

@@ -33,7 +33,7 @@ const Store = () => {
     return <div>에러가 발생했습니다: {error.message}</div>;
   }
 
-  if (!data) {
+  if (!data.stores) {
     return <div>데이터를 불러올 수 없습니다.</div>;
   }
 
@@ -41,13 +41,13 @@ const Store = () => {
     <div className='flex h-[calc(100vh-75px)] flex-col items-center justify-center bg-white'>
       <div className='w-full max-w-[1200px]'>
         <StoreHeader
-          storeCount={data.length}
+          storeCount={data?.all_stores}
           isDeleteMode={isDeleteMode}
           onDeleteModeToggle={handleDeleteModeToggle}
         />
 
         <StoreList
-          stores={data}
+          stores={data?.stores}
           onToggleModal={handleToggleModal}
           isDeleteMode={isDeleteMode}
         />
