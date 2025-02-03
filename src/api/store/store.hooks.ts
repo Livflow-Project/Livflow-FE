@@ -19,18 +19,18 @@ export const useStoreQuery = () => {
   };
 
   // 특정 스토어 정보 조회
-  const useGetStore = (id: string) => {
+  const useGetStore = (storeId: string) => {
     return useQuery({
-      queryKey: ['store', id],
-      queryFn: () => storeAPI.getStoreAPI(id),
+      queryKey: ['store', storeId],
+      queryFn: () => storeAPI.getStoreAPI(storeId),
     });
   };
 
   // 새 스토어 생성
   const useCreateStore = () => {
     return useMutation({
-      mutationFn: (newStore: StoreRequestParams) =>
-        storeAPI.postStoreAPI(newStore),
+      mutationFn: (newStoreData: StoreRequestParams) =>
+        storeAPI.postStoreAPI(newStoreData),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['stores'] });
       },
@@ -41,16 +41,16 @@ export const useStoreQuery = () => {
   const useUpdateStore = () => {
     return useMutation({
       mutationFn: ({
-        id,
+        storeId,
         storeInfo,
       }: {
-        id: string;
+        storeId: string;
         storeInfo: StoreRequestParams;
-      }) => storeAPI.putStoreAPI(id, storeInfo),
+      }) => storeAPI.putStoreAPI(storeId, storeInfo),
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({ queryKey: ['stores'] });
         queryClient.invalidateQueries({
-          queryKey: ['store', variables.id],
+          queryKey: ['store', variables.storeId],
         });
       },
     });
@@ -59,7 +59,7 @@ export const useStoreQuery = () => {
   // 스토어 삭제
   const useDeleteStore = () => {
     return useMutation({
-      mutationFn: (id: string) => storeAPI.deleteStoreAPI(id),
+      mutationFn: (storeId: string) => storeAPI.deleteStoreAPI(storeId),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['stores'] });
       },

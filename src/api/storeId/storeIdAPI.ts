@@ -8,43 +8,43 @@ import axiosInstance from '../axiosInstance';
 
 export const storeIdAPI = {
   // 스토어 상세 정보(달력 데이터) 조회
-  getStoreCalendarAPI: async (id: string, params: DayParams) => {
+  getStoreCalendarAPI: async (storeId: string, params: DayParams) => {
     const response = await axiosInstance.get(
-      `/stores/${id}/calendar?year=${params.year}&month=${params.month}`
+      `/stores/${storeId}/calendar?year=${params.year}&month=${params.month}`
     );
     return response.data;
   },
 
-  addTransactionAPI: async (id: string, data: AddTransactionParams) => {
+  addTransactionAPI: async (storeId: string, data: AddTransactionParams) => {
     const response = await axiosInstance.post(
-      `/ledger/${id}/transactions`,
+      `/ledger/${storeId}/transactions`,
       data
     );
     return response.data;
   },
 
-  getTransactionAPI: async (id: string, transactionId: string) => {
+  getTransactionAPI: async (storeId: string, transactionId: string) => {
     const response = await axiosInstance.get(
-      `/ledger/${id}/transactions/${transactionId}`
+      `/ledger/${storeId}/transactions/${transactionId}`
     );
     return response.data;
   },
 
   updateTransactionAPI: async (
-    id: string,
+    storeId: string,
     transactionId: string,
     data: TransactionRequest
   ) => {
     const response = await axiosInstance.put(
-      `/ledger/${id}/transactions/${transactionId}`,
+      `/ledger/${storeId}/transactions/${transactionId}`,
       data
     );
     return response.data;
   },
 
-  deleteTransactionAPI: async (id: string, transactionId: string) => {
+  deleteTransactionAPI: async (storeId: string, transactionId: string) => {
     const response = await axiosInstance.delete(
-      `/ledger/${id}/transactions/${transactionId}`
+      `/ledger/${storeId}/transactions/${transactionId}`
     );
     return response.data;
   },

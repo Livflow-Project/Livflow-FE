@@ -7,23 +7,23 @@ export const storeAPI = {
     return response.data;
   },
 
-  getStoreAPI: async (id: string) => {
-    const response = await axiosInstance.get(`/stores/${id}`);
+  getStoreAPI: async (storeId: string) => {
+    const response = await axiosInstance.get(`/stores/${storeId}`);
     return response.data;
   },
 
-  postStoreAPI: async (NewstoreInfo: StoreRequestParams) => {
-    const response = await axiosInstance.post(`/stores`, NewstoreInfo);
+  postStoreAPI: async (NewStoreData: StoreRequestParams) => {
+    const response = await axiosInstance.post(`/stores`, NewStoreData);
     return response.data;
   },
 
-  putStoreAPI: async (id: string, storeInfo: StoreRequestParams) => {
-    const response = await axiosInstance.put(`/stores/${id}`, storeInfo);
+  putStoreAPI: async (storeId: string, storeInfo: StoreRequestParams) => {
+    const response = await axiosInstance.put(`/stores/${storeId}`, storeInfo);
     return response.data;
   },
 
-  deleteStoreAPI: async (id: string) => {
-    const response = await axiosInstance.delete(`/stores/${id}`);
+  deleteStoreAPI: async (storeId: string) => {
+    const response = await axiosInstance.delete(`/stores/${storeId}`);
     return response.data;
   },
 };

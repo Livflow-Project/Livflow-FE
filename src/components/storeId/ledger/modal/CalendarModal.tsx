@@ -89,8 +89,8 @@ const CalendarModal = ({
 
     if (isEditMode && initialData) {
       updateTransaction({
-        id: storeId,
-        transaction_id: initialData.transaction_id,
+        storeId: storeId,
+        transactionId: initialData.transaction_id,
         data: {
           transaction_id: initialData.transaction_id,
           ...transaction,
@@ -102,7 +102,7 @@ const CalendarModal = ({
         date: { year, month, day },
         ...transaction,
       };
-      addTransaction({ id: storeId, data: addTransactionData });
+      addTransaction({ storeId: storeId, data: addTransactionData });
     }
 
     onClose();

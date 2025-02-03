@@ -41,8 +41,8 @@ const MainTransaction = ({
 
   const handleDelete = (transaction: DayDetailTransaction) => {
     deleteMutation.mutate({
-      id: storeId,
-      transaction_id: transaction.transaction_id,
+      storeId: storeId,
+      transactionId: transaction.transaction_id,
     });
   };
 
