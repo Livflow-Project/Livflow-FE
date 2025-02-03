@@ -14,10 +14,10 @@ export const useIngredientsQuery = () => {
     });
   };
 
-  const useGetIngredient = (storeId: string, ingredientsId: string) => {
+  const useGetIngredient = (storeId: string, ingredientId: string) => {
     return useQuery({
-      queryKey: ['store', storeId, 'ingredient', ingredientsId],
-      queryFn: () => IngredientsAPI.getIngredientAPI(storeId, ingredientsId),
+      queryKey: ['store', storeId, 'ingredient', ingredientId],
+      queryFn: () => IngredientsAPI.getIngredientAPI(storeId, ingredientId),
     });
   };
 
@@ -43,16 +43,16 @@ export const useIngredientsQuery = () => {
     return useMutation({
       mutationFn: ({
         storeId,
-        ingredientsId,
+        ingredientId,
         data,
       }: {
         storeId: string;
-        ingredientsId: string;
+        ingredientId: string;
         data: IngredientsRequest;
-      }) => IngredientsAPI.updateIngredientAPI(storeId, ingredientsId, data),
+      }) => IngredientsAPI.updateIngredientAPI(storeId, ingredientId, data),
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
-          queryKey: ['store', variables.storeId, 'ingredient'],
+          queryKey: ['store', variables.storeId],
         });
       },
     });
@@ -62,14 +62,14 @@ export const useIngredientsQuery = () => {
     return useMutation({
       mutationFn: ({
         storeId,
-        ingredientsId,
+        ingredientId,
       }: {
         storeId: string;
-        ingredientsId: string;
-      }) => IngredientsAPI.deleteIngredientAPI(storeId, ingredientsId),
+        ingredientId: string;
+      }) => IngredientsAPI.deleteIngredientAPI(storeId, ingredientId),
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
-          queryKey: ['store', variables.storeId, 'ingredient'],
+          queryKey: ['store', variables.storeId],
         });
       },
     });

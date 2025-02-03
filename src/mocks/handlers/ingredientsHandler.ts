@@ -1,17 +1,17 @@
 import { HttpResponse, http } from 'msw';
 
 type IngredientsDetailResponse = {
-  ingredients_id: string; // UUID
+  ingredient_id: string; // UUID
   item_name: string;
   item_cost: number;
   capacity: number;
   unit: 'ml' | 'mg' | 'ea';
-  shop: string;
-  item_detail: string;
+  shop?: string;
+  item_detail?: string;
 };
 
 // id를 제외한 DayDetailTransaction 타입
-type IngredientsRequest = Omit<IngredientsDetailResponse, 'ingredients_id'>;
+type IngredientsRequest = Omit<IngredientsDetailResponse, 'ingredient_id'>;
 
 const STORE_IDS = {
   STORE_1: '0a6e3e2a-0bea-4cda-9f7d-9141ea5efa33',
@@ -22,7 +22,7 @@ const STORE_IDS = {
 const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientsDetailResponse[]> = {
   [STORE_IDS.STORE_1]: [
     {
-      ingredients_id: crypto.randomUUID(),
+      ingredient_id: crypto.randomUUID(),
       item_name: '우유',
       item_cost: 3500,
       capacity: 1000,
@@ -31,7 +31,7 @@ const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientsDetailResponse[]> = {
       item_detail: '기타',
     },
     {
-      ingredients_id: crypto.randomUUID(),
+      ingredient_id: crypto.randomUUID(),
       item_name: '우유',
       item_cost: 3500,
       capacity: 1000,
@@ -43,7 +43,7 @@ const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientsDetailResponse[]> = {
 
   [STORE_IDS.STORE_2]: [
     {
-      ingredients_id: crypto.randomUUID(),
+      ingredient_id: crypto.randomUUID(),
       item_name: '우유',
       item_cost: 3500,
       capacity: 1000,
@@ -52,7 +52,7 @@ const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientsDetailResponse[]> = {
       item_detail: '기타',
     },
     {
-      ingredients_id: crypto.randomUUID(),
+      ingredient_id: crypto.randomUUID(),
       item_name: '우유',
       item_cost: 3500,
       capacity: 1000,
@@ -63,7 +63,7 @@ const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientsDetailResponse[]> = {
   ],
   [STORE_IDS.STORE_3]: [
     {
-      ingredients_id: crypto.randomUUID(),
+      ingredient_id: crypto.randomUUID(),
       item_name: '우유',
       item_cost: 3500,
       capacity: 1000,
@@ -72,7 +72,7 @@ const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientsDetailResponse[]> = {
       item_detail: '기타',
     },
     {
-      ingredients_id: crypto.randomUUID(),
+      ingredient_id: crypto.randomUUID(),
       item_name: '우유',
       item_cost: 3500,
       capacity: 1000,
@@ -86,7 +86,7 @@ const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientsDetailResponse[]> = {
 export const ingredientsHandler = [
   // 모든 재료 조회
   http.get('/ingredients/:storeId', ({ params }) => {
-    const storeId = params.id as string;
+    const storeId = params.storeId as string;
     const ingredients = MOCK_INGREDIENTS_DETAIL[storeId];
 
     if (!ingredients) {
@@ -98,7 +98,7 @@ export const ingredientsHandler = [
 
   // 특정 재료 정보 조회
   http.get('/ingredients/:storeId/:ingredientsId', ({ params }) => {
-    const storeId = params.id as string;
+    const storeId = params.storeId as string;
     const ingredients = MOCK_INGREDIENTS_DETAIL[storeId];
 
     if (!ingredients) {
@@ -106,7 +106,7 @@ export const ingredientsHandler = [
     }
 
     const ingredient = ingredients.find(
-      (item) => item.ingredients_id === params.ingredientsId
+      (item) => item.ingredient_id === params.ingredientsId
     );
 
     if (!ingredient) {
@@ -118,23 +118,23 @@ export const ingredientsHandler = [
 
   // 재료 정보 추가
   http.post('/ingredients/:storeId', async ({ params, request }) => {
-    const storeId = params.id as string;
+    const storeId = params.storeId as string;
     const newIngredient = (await request.json()) as IngredientsRequest;
 
     if (!MOCK_INGREDIENTS_DETAIL[storeId]) {
       MOCK_INGREDIENTS_DETAIL[storeId] = [];
     }
 
-    const createdItem: IngredientsDetailResponse = {
-      ingredients_id: crypto.randomUUID(),
+    const completeIngredient: IngredientsDetailResponse = {
       ...newIngredient,
+      ingredient_id: crypto.randomUUID(),
     };
 
-    MOCK_INGREDIENTS_DETAIL[storeId].push(createdItem);
+    MOCK_INGREDIENTS_DETAIL[storeId].push(completeIngredient);
 
     return HttpResponse.json({
       success: true,
-      data: createdItem,
+      data: newIngredient,
     });
   }),
 
@@ -142,7 +142,7 @@ export const ingredientsHandler = [
   http.put(
     '/ingredients/:storeId/:ingredientsId',
     async ({ params, request }) => {
-      const storeId = params.id as string;
+      const storeId = params.storeId as string;
       const ingredientId = params.ingredientsId as string;
       const updateData = (await request.json()) as IngredientsRequest;
 
@@ -152,7 +152,7 @@ export const ingredientsHandler = [
       }
 
       const index = ingredients.findIndex(
-        (item) => item.ingredients_id === ingredientId
+        (item) => item.ingredient_id === ingredientId
       );
 
       if (index === -1) {
@@ -175,7 +175,7 @@ export const ingredientsHandler = [
 
   // 재료 정보 삭제
   http.delete('/ingredients/:storeId/:ingredientsId', ({ params }) => {
-    const storeId = params.id as string;
+    const storeId = params.storeId as string;
     const ingredientId = params.ingredientsId as string;
 
     const ingredients = MOCK_INGREDIENTS_DETAIL[storeId];
@@ -184,7 +184,7 @@ export const ingredientsHandler = [
     }
 
     const filtered = ingredients.filter(
-      (item) => item.ingredients_id !== ingredientId
+      (item) => item.ingredient_id !== ingredientId
     );
 
     if (filtered.length === ingredients.length) {
