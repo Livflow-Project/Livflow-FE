@@ -12,7 +12,7 @@ export const socialLoginAPI = {
   }) => {
     const { provider, code } = params;
     const response = await axiosInstance.post(
-      `/auth/login/callback/${provider}`,
+      `/users/${provider}/login/callback/`,
       {
         code,
       }
