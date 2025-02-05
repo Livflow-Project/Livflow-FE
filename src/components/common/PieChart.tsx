@@ -50,8 +50,6 @@ const getColorForCategory = (category: string) => {
 };
 
 const PieChart = memo(({ categories }: PieChartProps) => {
-  console.log('PieChart categories:', categories);
-
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstanceRef = useRef<Chart<'pie', number[], string> | null>(null);
 
@@ -68,7 +66,6 @@ const PieChart = memo(({ categories }: PieChartProps) => {
         },
       ],
     };
-    console.log('chartData:', data);
     return data;
   }, [categories]);
 
@@ -91,7 +88,6 @@ const PieChart = memo(({ categories }: PieChartProps) => {
       });
     };
 
-    console.log('Creating new chart with data:', chartData);
     initChart();
 
     return () => {
