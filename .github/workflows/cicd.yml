@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PROJECT_DIR: /home/joo/front-end-coffee  # 서버에 배포될 프론트엔드 경로
+      PROJECT_DIR: /home/joo/front-end-coffee # 서버에 배포될 프론트엔드 경로
 
     steps:
       # 1. 리포지토리 체크아웃
@@ -58,18 +58,18 @@ jobs:
             cd /home/joo/Front-end-coffee
             git config pull.rebase false
             git pull origin main
-            
-            # 기존 볼륨과 컨테이너 제거 후 재시작
+
+            # ✅ 기존 컨테이너 제거 후 재시작 (frontend-nginx 제거됨)
             echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose down -v
             echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose up -d --build
-            
-            # public 디렉터리 생성 및 파일 복사
-            echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker exec frontend-nginx /bin/sh -c "
+
+            # ✅ public 디렉터리 관리 (frontend 컨테이너로 변경)
+            echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker exec frontend-container /bin/sh -c "
               mkdir -p /usr/share/nginx/html/public && 
               cp /usr/share/nginx/html/*.svg /usr/share/nginx/html/public/
             "
 
-      # 6. Nginx 서비스 재시작
+      # ✅ 6. Nginx 서비스 재시작 (frontend 컨테이너로 변경)
       - name: Restart Nginx
         uses: appleboy/ssh-action@v0.1.8
         with:
@@ -79,4 +79,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/joo/Front-end-coffee
-            echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose restart frontend-nginx
+            echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose restart frontend
