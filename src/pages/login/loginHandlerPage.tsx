@@ -1,3 +1,5 @@
+import LoadingPage from '../status/loadindPage';
+import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSocialLoginCallbackMutation } from '@/api/login/login.hooks';
@@ -18,6 +20,8 @@ const LoginHandlerPage = () => {
       navigate('/store');
     },
     onError: (error) => {
+      toast.error('로그인 중 오류가 발생하였습니다.');
+      navigate('/login');
       console.log(error);
     },
   });
@@ -32,12 +36,7 @@ const LoginHandlerPage = () => {
   // if (isPending) return <LoadingPage />;
   // if (error) return <ErrorPage />;
 
-  return (
-    <div>
-      에러 페이지 입니다.
-      {/* <LoadingPage /> */}
-    </div>
-  );
+  return <LoadingPage />;
 };
 
 export default LoginHandlerPage;
