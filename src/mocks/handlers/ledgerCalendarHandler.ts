@@ -133,7 +133,7 @@ const MOCK_STORE_CALENDAR: Record<string, StoreCalendarResponse> = {
   },
 };
 
-export const calendarHandler = [
+export const ledgerCalendarHandler = [
   http.get('/ledger/:storeId/calendar', ({ params, request }) => {
     const url = new URL(request.url);
     const year = url.searchParams.get('year');
