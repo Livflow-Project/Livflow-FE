@@ -18,7 +18,7 @@ const IngredientItem = ({
   onDelete,
 }: IngredientItemProps) => (
   <ul className='relative flex h-[45px] w-full items-center border-b border-underline/30 text-center'>
-    <li className='w-[8%] text-lg font-normal'>{index + 1}</li>
+    <li className='w-[8%] min-w-20 text-lg font-normal'>{index + 1}</li>
 
     <li className='w-[17%] text-lg font-normal'>
       {ingredient.ingredient_name}
@@ -40,7 +40,7 @@ const IngredientItem = ({
 
     {isEditMode && (
       <li className='absolute inset-0 flex items-center bg-white/50'>
-        <nav className='flex w-[8%] items-center justify-center gap-1'>
+        <nav className='flex w-[8%] min-w-20 items-center justify-center gap-1'>
           <EditButton onClick={() => onEdit(ingredient)} />
           <DeleteButton onClick={() => onDelete(ingredient)} />
         </nav>
