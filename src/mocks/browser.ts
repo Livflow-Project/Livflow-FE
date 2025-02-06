@@ -1,10 +1,12 @@
 import { ingredientsHandler } from './handlers/ingredientsHandler';
+import { ledgerCalendarHandler } from './handlers/ledgerCalendarHandler';
+import { ledgerTransactionsHandler } from './handlers/ledgerTransactionsHandler';
 import { setupWorker } from 'msw/browser';
 import { storeHandler } from './handlers/storeHandler';
-import { storeIdHandler } from './handlers/storeIdHandler';
 
 export const worker = setupWorker(
   ...storeHandler,
-  ...storeIdHandler,
+  ...ledgerCalendarHandler,
+  ...ledgerTransactionsHandler,
   ...ingredientsHandler
 );
