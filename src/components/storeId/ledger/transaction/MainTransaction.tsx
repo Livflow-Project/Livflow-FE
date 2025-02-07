@@ -1,45 +1,46 @@
-import {
-  DayDetailTransaction,
-  StoreIdDetailResponse,
-} from '@/api/storeId/storeId.type';
-
 import ActionButtons from './components/button/ActionButtons';
 import CalendarModal from '../modal/CalendarModal';
+import { Transaction } from '@/api/storeId/ledger/transactions/transactions.type';
 import TransactionHeader from './components/TransactionHeader';
 import TransactionList from './components/TransactionList';
-import { getSelectedDateTransactions } from '@/utils/calendarUtils';
 import { useState } from 'react';
-import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
+import { useTransactionsQuery } from '@/api/storeId/ledger/transactions/transactions.hooks';
 
 type MainTransactionProps = {
   selectedDate: string;
-  calendarData: StoreIdDetailResponse;
   storeId: string;
   onModalOpen: () => void;
 };
 
 const MainTransaction = ({
   selectedDate,
-  calendarData,
   storeId,
   onModalOpen,
 }: MainTransactionProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingTransaction, setEditingTransaction] =
-    useState<DayDetailTransaction | null>(null);
+    useState<Transaction | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const transactions = getSelectedDateTransactions(selectedDate, calendarData);
+  // selectedDate에서 년,월,일 추출
+  const [year, month, day] = selectedDate.split('-').map(Number);
 
-  const { useDeleteTransaction } = useStoreIdQuery();
+  const { useGetAllTransactions } = useTransactionsQuery();
+  const { data: transactions } = useGetAllTransactions(storeId, {
+    year,
+    month,
+    day,
+  });
+
+  const { useDeleteTransaction } = useTransactionsQuery();
   const deleteMutation = useDeleteTransaction();
 
-  const handleEdit = (transaction: DayDetailTransaction) => {
+  const handleEdit = (transaction: Transaction) => {
     setEditingTransaction(transaction);
     setIsModalOpen(true);
   };
 
-  const handleDelete = (transaction: DayDetailTransaction) => {
+  const handleDelete = (transaction: Transaction) => {
     deleteMutation.mutate({
       storeId: storeId,
       transactionId: transaction.transaction_id,
