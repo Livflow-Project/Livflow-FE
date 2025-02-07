@@ -1,11 +1,11 @@
-import { DayDetailTransaction } from '@/api/storeId/storeId.type';
+import { Transaction } from '@/api/storeId/ledger/transactions/transactions.type';
 import TransactionItem from './TransactionItem';
 
 type TransactionListProps = {
-  transactions: DayDetailTransaction[] | null;
+  transactions: Transaction[] | null;
   isEditMode: boolean;
-  onEdit: (transaction: DayDetailTransaction) => void;
-  onDelete: (transaction: DayDetailTransaction) => void;
+  onEdit: (transaction: Transaction) => void;
+  onDelete: (transaction: Transaction) => void;
 };
 
 const TransactionList = ({

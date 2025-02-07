@@ -1,12 +1,12 @@
-import { DayDetailTransaction } from '@/api/storeId/storeId.type';
 import DeleteButton from '@/components/common/DeleteButton';
 import EditButton from '@/components/common//EditButton';
+import { Transaction } from '@/api/storeId/ledger/transactions/transactions.type';
 
 type TransactionItemProps = {
-  transaction: DayDetailTransaction;
+  transaction: Transaction;
   isEditMode: boolean;
-  onEdit: (transaction: DayDetailTransaction) => void;
-  onDelete: (transaction: DayDetailTransaction) => void;
+  onEdit: (transaction: Transaction) => void;
+  onDelete: (transaction: Transaction) => void;
 };
 
 const TransactionItem = ({
