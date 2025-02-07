@@ -1,3 +1,4 @@
+import ErrorPage from '../status/errorPage';
 import LoadingPage from '../status/loadindPage';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
@@ -13,15 +14,15 @@ const LoginHandlerPage = () => {
 
   const {
     mutate: socialLoginMutation,
-    // isPending,
-    // error,
+    isPending,
+    error,
   } = useSocialLoginCallbackMutation({
     onSuccess: () => {
       navigate('/store');
     },
     onError: (error) => {
       toast.error('로그인 중 오류가 발생하였습니다.');
-      navigate('/login');
+      navigate('/error');
       console.log(error);
     },
   });
@@ -33,8 +34,8 @@ const LoginHandlerPage = () => {
     }
   }, [provider, code, socialLoginMutation]);
 
-  // if (isPending) return <LoadingPage />;
-  // if (error) return <ErrorPage />;
+  if (isPending) return <LoadingPage />;
+  if (error) return <ErrorPage />;
 
   return <LoadingPage />;
 };
