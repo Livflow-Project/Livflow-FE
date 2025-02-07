@@ -3,8 +3,6 @@ node_modules
 npm-debug.log
 
 # 환경 설정 파일
-.env
-*.env
 
 # Git 관련
 .git
