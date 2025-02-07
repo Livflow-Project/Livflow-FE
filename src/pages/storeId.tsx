@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 
+import LoadingPage from './status/loadindPage';
 import MainCalender from '@/components/storeId/ledger/calendar/MainCalender';
 import MainIngredient from '@/components/storeId/ingredient/MainIngredient';
 import { twMerge } from 'tailwind-merge';
@@ -21,11 +22,7 @@ const StoreId = () => {
   const { data, isLoading, isError } = useGetStore(id || '0');
 
   if (isLoading) {
-    return (
-      <div className='flex h-[calc(100vh-75px)] items-center justify-center text-2xl font-semibold text-main'>
-        로딩 중...
-      </div>
-    );
+    return <LoadingPage />;
   }
 
   if (isError || !id || !data) {

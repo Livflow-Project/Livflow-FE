@@ -1,4 +1,5 @@
 import AddStoreModal from '@/components/store/modal/AddStoreModal';
+import LoadingPage from './status/loadindPage';
 import StoreHeader from '@/components/store/StoreHeader';
 import StoreList from '@/components/store/StoreList';
 import { toast } from 'react-toastify';
@@ -26,7 +27,7 @@ const Store = () => {
   };
 
   if (isLoading) {
-    return <div>로딩중...</div>;
+    return <LoadingPage />;
   }
 
   if (error) {
