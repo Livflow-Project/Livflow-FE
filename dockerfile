@@ -6,6 +6,9 @@ COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
 
+# ✅ `.env` 파일 복사
+COPY .env .env
+
 # TypeScript 컴파일 확인
 RUN npm run tsc --dry-run || echo "TypeScript check failed"
 
@@ -15,7 +18,7 @@ RUN npm run build || exit 1
 # 2단계: 배포 (Nginx Stage)
 FROM nginx:1.23-alpine
 
-# 빌드된 파일 복사
+# ✅ 빌드된 파일 복사 
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Nginx 설정 복사
