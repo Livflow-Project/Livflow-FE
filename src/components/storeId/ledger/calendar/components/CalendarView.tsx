@@ -1,13 +1,10 @@
 import '../css/calendar.css';
 
-import {
-  DayDetailTransaction,
-  StoreIdDetailResponse,
-} from '@/api/storeId/storeId.type';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import FullCalendar from '@fullcalendar/react';
+import { LedgerCalendarResponse } from '@/api/storeId/ledger/calendar/calendar.type';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import koLocale from '@fullcalendar/core/locales/ko';
 import listPlugin from '@fullcalendar/list';
@@ -17,14 +14,9 @@ type CalendarViewProps = {
   currentMonth: number;
   setCurrentYear: (year: number) => void;
   setCurrentMonth: (month: number) => void;
-  calendarData: StoreIdDetailResponse;
+  calendarData: LedgerCalendarResponse;
   selectedDate: string | null;
   setSelectedDate: (date: string | null) => void;
-};
-
-type CalendarEvent = {
-  start: string;
-  transactions: DayDetailTransaction[];
 };
 
 const CalendarView = ({
@@ -39,15 +31,18 @@ const CalendarView = ({
   const [selectedDateElement, setSelectedDateElement] =
     useState<HTMLElement | null>(null);
 
-  const events: CalendarEvent[] = useMemo(
-    () =>
-      calendarData?.date_info.map((dateInfo) => ({
-        start: `${currentYear}-${currentMonth.toString().padStart(2, '0')}-${dateInfo.day.toString().padStart(2, '0')}`,
-        transactions: dateInfo.day_info,
-        allDay: true,
-      })) || [],
-    [calendarData, currentYear, currentMonth]
-  );
+  const events = useMemo(() => {
+    if (!calendarData?.days) return [];
+
+    return calendarData.days.map((dayInfo: any) => ({
+      start: `${currentYear}-${currentMonth.toString().padStart(2, '0')}-${dayInfo.day?.toString().padStart(2, '0')}`,
+      extendedProps: {
+        hasIncome: dayInfo.hasIncome,
+        hasExpense: dayInfo.hasExpense,
+      },
+      allDay: true,
+    }));
+  }, [calendarData, currentYear, currentMonth]);
 
   const handleDateClick = (info: DateClickArg) => {
     if (selectedDateElement) {
@@ -145,18 +140,8 @@ const CalendarView = ({
           right: 'nextMonth',
         }}
         titleFormat={{ month: 'long' }}
-        eventContent={(eventInfo) => {
-          const date = eventInfo.event.startStr;
-          const eventData = events.find((e) => e.start === date);
-
-          if (!eventData) return null;
-
-          const hasExpense = eventData.transactions.some(
-            (t) => t.type === 'expense'
-          );
-          const hasIncome = eventData.transactions.some(
-            (t) => t.type === 'income'
-          );
+        eventContent={(arg) => {
+          const { hasIncome, hasExpense } = arg.event.extendedProps;
 
           return (
             <div

@@ -1,21 +1,18 @@
+import {
+  ChartOverview,
+  LedgerCalendarResponse,
+} from '@/api/storeId/ledger/calendar/calendar.type';
+
 import PieChart from '@/components/common/PieChart';
-import { StoreIdDetailResponse } from '@/api/storeId/storeId.type';
-import { calculateTotals } from '@/utils/calendarUtils';
 import { twMerge } from 'tailwind-merge';
 
 type MonthlyOverviewProps = {
-  calendarData: StoreIdDetailResponse | null | undefined;
-};
-
-type CategoryData = {
-  type: 'expense' | 'income';
-  category: string;
-  cost: number;
+  calendarData: LedgerCalendarResponse;
 };
 
 type CategorySectionProps = {
   title: string;
-  categories: CategoryData[];
+  categories: ChartOverview['categories'];
   total: number;
   isIncome: boolean;
 };
@@ -26,7 +23,11 @@ const CategorySection = ({
   total,
   isIncome,
 }: CategorySectionProps) => {
-  if (categories.length === 0) {
+  const filteredCategories = categories.filter(
+    (cat) => cat.type === (isIncome ? 'income' : 'expense')
+  );
+
+  if (filteredCategories.length === 0) {
     return (
       <p className='text-sx text-caption'>
         입력된 {isIncome ? '수입' : '지출'}이 없습니다.
@@ -39,12 +40,12 @@ const CategorySection = ({
       <span className='text-2xl font-semibold'>{title}</span>
       <div className='flex h-full min-h-0 w-full items-center justify-center'>
         <div className='flex aspect-square h-[min(100%,250px)] w-[min(100%,250px)] items-center justify-center'>
-          <PieChart categories={categories} />
+          <PieChart categories={filteredCategories} />
         </div>
       </div>
 
       <ul className='flex h-full w-full flex-col items-center text-xl'>
-        {categories
+        {filteredCategories
           .sort((a, b) => b.cost - a.cost)
           .slice(0, 5)
           .map((category, index) => (
@@ -99,15 +100,9 @@ const TotalBalance = ({
 };
 
 const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
-  const monthlyTotals = calculateTotals(calendarData);
-  const expenseCategories = monthlyTotals.categories.filter(
-    (cat) => cat.type === 'expense'
-  );
-  const incomeCategories = monthlyTotals.categories.filter(
-    (cat) => cat.type === 'income'
-  );
+  const { totalIncome, totalExpense, categories } = calendarData.chart;
 
-  if (expenseCategories.length === 0 && incomeCategories.length === 0) {
+  if (categories.length === 0) {
     return (
       <div className='my-auto w-full text-center text-2xl text-main'>
         입력된 지출 / 수입이 없습니다.
@@ -121,8 +116,8 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
         <div className='flex h-full w-[40%] flex-col items-center justify-center gap-[40px]'>
           <CategorySection
             title='총 지출'
-            categories={expenseCategories}
-            total={monthlyTotals.expense}
+            categories={categories}
+            total={totalExpense}
             isIncome={false}
           />
         </div>
@@ -132,17 +127,14 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
         <div className='flex h-full w-[40%] flex-col items-center justify-center gap-[40px]'>
           <CategorySection
             title='총 수입'
-            categories={incomeCategories}
-            total={monthlyTotals.income}
+            categories={categories}
+            total={totalIncome}
             isIncome={true}
           />
         </div>
       </div>
 
-      <TotalBalance
-        income={monthlyTotals.income}
-        expense={monthlyTotals.expense}
-      />
+      <TotalBalance income={totalIncome} expense={totalExpense} />
     </>
   );
 };
