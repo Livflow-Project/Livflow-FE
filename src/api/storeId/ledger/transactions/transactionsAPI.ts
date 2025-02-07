@@ -8,7 +8,7 @@ import axiosInstance from '@/api/axiosInstance';
 
 export const TransactionsAPI = {
   getAllTransactionsAPI: async (storeId: string, params: DayParams) => {
-    const response = await axiosInstance.post(
+    const response = await axiosInstance.get(
       `/ledger/${storeId}/transactions?year=${params.year}&month=${params.month}&day=${params.day}`
     );
     return response.data;
