@@ -1,9 +1,10 @@
-import { Link, useParams } from 'react-router-dom';
-
+import ErrorPage from './status/errorPage';
 import LoadingPage from './status/loadindPage';
 import MainCalender from '@/components/storeId/ledger/calendar/MainCalender';
 import MainIngredient from '@/components/storeId/ingredient/MainIngredient';
+import StoreInfo from '@/components/storeId/storeIdInfo/StoreInfo';
 import { twMerge } from 'tailwind-merge';
+import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useStoreQuery } from '@/api/store/store.hooks';
 
@@ -21,16 +22,12 @@ const StoreId = () => {
 
   const { data, isLoading, isError } = useGetStore(id || '0');
 
-  if (isLoading) {
+  if (isLoading && !data) {
     return <LoadingPage />;
   }
 
   if (isError || !id || !data) {
-    return (
-      <div className='flex h-[calc(100vh-75px)] items-center justify-center text-2xl font-semibold text-main'>
-        상점의 가계부 정보를 찾을 수 없습니다. 이전 페이지로 이동해주세요.
-      </div>
-    );
+    return <ErrorPage />;
   }
 
   const renderComponent = () => {
@@ -44,17 +41,7 @@ const StoreId = () => {
 
   return (
     <div className='flex h-[calc(100vh-75px)] flex-col justify-between p-[45px]'>
-      <Link to='/store'>
-        <ul className='flex flex-col items-end gap-4'>
-          <li className='text-2xl font-semibold text-main'>
-            {data.name || '이름 정보 없음'}
-          </li>
-
-          <li className='text-[15px] font-medium text-main'>
-            {data?.address || '주소 정보 없음'}
-          </li>
-        </ul>
-      </Link>
+      <StoreInfo name={data.name} address={data.address} />
 
       <div className='h-[calc(100%-70px)]'>
         <div className='flex items-center justify-start gap-3'>
