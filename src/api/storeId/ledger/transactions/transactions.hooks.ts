@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { TransactionsAPI } from './transactionsAPI';
 
-export const useStoreIdQuery = () => {
+export const useTransactionsQuery = () => {
   const queryClient = useQueryClient();
 
   const useGetAllTransactions = (storeId: string, params: DayParams) => {
