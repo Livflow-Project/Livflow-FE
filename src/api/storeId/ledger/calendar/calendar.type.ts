@@ -1,4 +1,4 @@
-export type StoreCalendarResponse = {
+export type LedgerCalendarResponse = {
   days: DayOverview[];
   chart: ChartOverview;
 };
@@ -15,7 +15,7 @@ export type ChartOverview = {
   categories: {
     type: 'income' | 'expense';
     category: string;
-    total: number;
+    cost: number;
   }[];
 };
 

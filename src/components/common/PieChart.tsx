@@ -1,10 +1,10 @@
 import Chart, { TooltipItem } from 'chart.js/auto';
 import { memo, useEffect, useMemo, useRef } from 'react';
 
-import { Category } from '@/api/store/store.type';
+import { ChartOverview } from '@/api/storeId/ledger/calendar/calendar.type';
 
 type PieChartProps = {
-  categories: Category[];
+  categories: ChartOverview['categories'];
 };
 
 const CATEGORY_COLOR_MAP: Record<string, string> = {

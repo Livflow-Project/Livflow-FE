@@ -18,7 +18,7 @@ type ChartOverview = {
   categories: {
     type: 'income' | 'expense';
     category: string;
-    total: number;
+    cost: number;
   }[];
 };
 
@@ -48,17 +48,17 @@ const MOCK_STORE_CALENDAR: Record<string, StoreCalendarResponse> = {
         {
           type: 'expense',
           category: '기타',
-          total: 1000,
+          cost: 1000,
         },
         {
           type: 'expense',
           category: '식비',
-          total: 1000,
+          cost: 1000,
         },
         {
           type: 'income',
           category: '용돈',
-          total: 1000,
+          cost: 1000,
         },
       ],
     },
@@ -82,17 +82,17 @@ const MOCK_STORE_CALENDAR: Record<string, StoreCalendarResponse> = {
         {
           type: 'expense',
           category: '기타',
-          total: 1000,
+          cost: 1000,
         },
         {
           type: 'expense',
           category: '식비',
-          total: 1000,
+          cost: 1000,
         },
         {
           type: 'income',
           category: '용돈',
-          total: 1000,
+          cost: 1000,
         },
       ],
     },
@@ -116,17 +116,17 @@ const MOCK_STORE_CALENDAR: Record<string, StoreCalendarResponse> = {
         {
           type: 'expense',
           category: '기타',
-          total: 1000,
+          cost: 1000,
         },
         {
           type: 'expense',
           category: '식비',
-          total: 1000,
+          cost: 1000,
         },
         {
           type: 'income',
           category: '용돈',
-          total: 1000,
+          cost: 1000,
         },
       ],
     },

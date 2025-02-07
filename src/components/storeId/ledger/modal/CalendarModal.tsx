@@ -1,20 +1,20 @@
 import {
   AddTransactionParams,
-  DayDetailTransaction,
+  Transaction,
   TransactionRequest,
-} from '@/api/storeId/storeId.type';
+} from '@/api/storeId/ledger/transactions/transactions.type';
 
 import Modal from '@/components/common/Modal';
 import { showWarnToast } from '@/utils/toast';
 import { useState } from 'react';
-import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
+import { useTransactionsQuery } from '@/api/storeId/ledger/transactions/transactions.hooks';
 
 type CalendarModalProps = {
   onClose: () => void;
   storeId: string;
   selectedDate: string | null;
   isEditMode?: boolean;
-  initialData?: DayDetailTransaction;
+  initialData?: Transaction;
 };
 
 const TRANSACTION_CATEGORIES = [
@@ -42,7 +42,7 @@ const CalendarModal = ({
   isEditMode = false,
   initialData,
 }: CalendarModalProps) => {
-  const { useAddTransaction, useUpdateTransaction } = useStoreIdQuery();
+  const { useAddTransaction, useUpdateTransaction } = useTransactionsQuery();
   const { mutate: addTransaction } = useAddTransaction();
   const { mutate: updateTransaction } = useUpdateTransaction();
 
