@@ -17,36 +17,45 @@ jobs:
       PROJECT_DIR: /home/joo/front-end-coffee # 서버에 배포될 프론트엔드 경로
 
     steps:
-      # 1. 리포지토리 체크아웃
+      # ✅ 1. 리포지토리 체크아웃
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Node.js 설정
+      # ✅ 2. Node.js 설정
       - name: Set up Node.js 18
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      # 3. 종속성 설치
+      # ✅ 3. 종속성 설치
       - name: Install dependencies
         run: |
           npm install
 
-      # ✅ 4. 환경 변수 설정 및 빌드
-      - name: Build project with environment variables
-        env:
-          VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
-          VITE_GOOGLE_REDIRECT_URI: ${{ secrets.VITE_GOOGLE_REDIRECT_URI }}
-          VITE_GOOGLE_SCOPE: ${{ secrets.VITE_GOOGLE_SCOPE }}
-          # VITE_KAKAO_CLIENT_ID: ${{ secrets.VITE_KAKAO_CLIENT_ID }}
-          # VITE_KAKAO_REDIRECT_URI: ${{ secrets.VITE_KAKAO_REDIRECT_URI }}
-          # VITE_NAVER_CLIENT_ID: ${{ secrets.VITE_NAVER_CLIENT_ID }}
-          # VITE_NAVER_CLIENT_SECRET: ${{ secrets.VITE_NAVER_CLIENT_SECRET }}
-          # VITE_NAVER_REDIRECT_URI: ${{ secrets.VITE_NAVER_REDIRECT_URI }}
+      # ✅ 4. 환경 변수 설정 및 `.env` 파일 생성
+      - name: Create .env file
+        run: |
+          echo "VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }}" > .env
+          echo "VITE_GOOGLE_REDIRECT_URI=${{ secrets.VITE_GOOGLE_REDIRECT_URI }}" >> .env
+          echo "VITE_GOOGLE_SCOPE=${{ secrets.VITE_GOOGLE_SCOPE }}" >> .env
+          echo "VITE_KAKAO_CLIENT_ID=${{ secrets.VITE_KAKAO_CLIENT_ID }}" >> .env
+          echo "VITE_KAKAO_REDIRECT_URI=${{ secrets.VITE_KAKAO_REDIRECT_URI }}" >> .env
+          echo "VITE_NAVER_CLIENT_ID=${{ secrets.VITE_NAVER_CLIENT_ID }}" >> .env
+          echo "VITE_NAVER_REDIRECT_URI=${{ secrets.VITE_NAVER_REDIRECT_URI }}" >> .env
+
+      # ✅ 5. 환경 변수 디버깅 (확인용, 실행 후 삭제 가능)
+      - name: Debug Environment Variables
+        run: |
+          echo "VITE_GOOGLE_REDIRECT_URI=${{ secrets.VITE_GOOGLE_REDIRECT_URI }}"
+          echo "VITE_KAKAO_REDIRECT_URI=${{ secrets.VITE_KAKAO_REDIRECT_URI }}"
+          echo "VITE_NAVER_REDIRECT_URI=${{ secrets.VITE_NAVER_REDIRECT_URI }}"
+
+      # ✅ 6. 프로젝트 빌드
+      - name: Build project
         run: |
           npm run build
 
-      # 5. 서버에 배포 (SSH 접속)
+      # ✅ 7. 서버에 배포 (SSH 접속)
       - name: Deploy to server
         uses: appleboy/ssh-action@v0.1.8
         with:
@@ -62,14 +71,14 @@ jobs:
             # ✅ 기존 컨테이너 제거 후 재시작 (frontend-nginx 제거됨)
             echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose down -v
             echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose up -d --build
-
-            # ✅ public 디렉터리 관리 (frontend 컨테이너로 변경)
+            
+            # ✅ public 디렉터리 관리 (frontend 컨테이너에서 실행)
             echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker exec frontend-container /bin/sh -c "
               mkdir -p /usr/share/nginx/html/public && 
               cp /usr/share/nginx/html/*.svg /usr/share/nginx/html/public/
             "
 
-      # ✅ 6. Nginx 서비스 재시작 (frontend 컨테이너로 변경)
+      # ✅ 8. Nginx 서비스 재시작 (frontend 컨테이너에서 실행)
       - name: Restart Nginx
         uses: appleboy/ssh-action@v0.1.8
         with:
