@@ -12,4 +12,4 @@ services:
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt:ro
       - ./certbot:/var/www/certbot
-      - ./env/.env:/usr/share/nginx/html/.env  # ✅ .env 파일을 컨테이너 내부로 마운트
+      - ./.env:/usr/share/nginx/html/.env  # ✅ .env 파일을 컨테이너 내부로 마운트
