@@ -3,8 +3,8 @@ import CalendarView from './components/CalendarView';
 import MainTransaction from '../transaction/MainTransaction';
 import MonthlyOverview from './components/MonthlyOverview';
 import { toast } from 'react-toastify';
+import { useGetLedgerCalendar } from '@/api/storeId/ledger/calendar/calendar.hooks';
 import { useState } from 'react';
-import { useStoreIdQuery } from '@/api/storeId/storeId.hooks';
 
 type CalendarProps = {
   storeId: string;
@@ -18,8 +18,7 @@ const MainCalendar = ({ storeId }: CalendarProps) => {
   const [currentMonth, setCurrentMonth] = useState(today.getMonth() + 1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { useGetStoreCalendar } = useStoreIdQuery();
-  const { data: calendarData, isLoading } = useGetStoreCalendar(storeId, {
+  const { data: calendarData, isLoading } = useGetLedgerCalendar(storeId, {
     year: currentYear,
     month: currentMonth,
   });
@@ -52,7 +51,6 @@ const MainCalendar = ({ storeId }: CalendarProps) => {
         ) : (
           <MainTransaction
             selectedDate={selectedDate}
-            calendarData={calendarData}
             storeId={storeId}
             onModalOpen={() => setIsModalOpen(true)}
           />
