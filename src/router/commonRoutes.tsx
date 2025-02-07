@@ -1,7 +1,9 @@
+import { Suspense, lazy } from 'react';
+
 import Header from '@/layout/header';
-import Home from '@/pages/home';
-import Store from '@/pages/store';
-import StoreId from '@/pages/storeId';
+import LoadingPage from '@/pages/status/loadindPage';
+
+const Home = lazy(() => import('@/pages/home'));
 
 export const commonRoutes = [
   {
@@ -9,15 +11,11 @@ export const commonRoutes = [
     children: [
       {
         path: '/',
-        element: <Home />,
-      },
-      {
-        path: '/store',
-        element: <Store />,
-      },
-      {
-        path: '/store/:id',
-        element: <StoreId />,
+        element: (
+          <Suspense fallback={<LoadingPage />}>
+            <Home />
+          </Suspense>
+        ),
       },
     ],
   },
