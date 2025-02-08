@@ -10,12 +10,12 @@ export type IngredientsDetailResponse = {
   ingredient_cost: number;
   capacity: number;
   unit: 'ml' | 'mg' | 'ea';
+  unit_cost: number;
   shop?: string;
   ingredient_detail?: string;
 };
 
-// id를 제외한 DayDetailTransaction 타입
 export type IngredientsRequest = Omit<
   IngredientsDetailResponse,
-  'ingredient_id'
+  'ingredient_id' | 'unit_cost'
 >;

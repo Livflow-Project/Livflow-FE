@@ -12,12 +12,15 @@ type IngredientDetailResponse = {
   ingredient_cost: number;
   capacity: number;
   unit: 'ml' | 'mg' | 'ea';
+  unit_cost: number;
   shop?: string;
   ingredient_detail?: string;
 };
 
-// id를 제외한 DayDetailTransaction 타입
-type IngredientsRequest = Omit<IngredientDetailResponse, 'ingredient_id'>;
+type IngredientsRequest = Omit<
+  IngredientDetailResponse,
+  'ingredient_id' | 'unit_cost'
+>;
 
 const STORE_IDS = {
   STORE_1: '0a6e3e2a-0bea-4cda-9f7d-9141ea5efa33',
@@ -33,6 +36,7 @@ const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientDetailResponse[]> = {
       ingredient_cost: 3500,
       capacity: 1000,
       unit: 'ml',
+      unit_cost: 3.5,
       shop: '판매처',
       ingredient_detail: '기타',
     },
@@ -42,6 +46,7 @@ const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientDetailResponse[]> = {
       ingredient_cost: 3500,
       capacity: 1000,
       unit: 'ml',
+      unit_cost: 3.5,
       shop: '판매처',
       ingredient_detail: '기타',
     },
@@ -54,6 +59,7 @@ const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientDetailResponse[]> = {
       ingredient_cost: 3500,
       capacity: 1000,
       unit: 'ml',
+      unit_cost: 3.5,
       shop: '판매처',
       ingredient_detail: '기타',
     },
@@ -63,6 +69,7 @@ const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientDetailResponse[]> = {
       ingredient_cost: 3500,
       capacity: 1000,
       unit: 'ml',
+      unit_cost: 3.5,
       shop: '판매처',
       ingredient_detail: '기타',
     },
@@ -74,6 +81,7 @@ const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientDetailResponse[]> = {
       ingredient_cost: 3500,
       capacity: 1000,
       unit: 'ml',
+      unit_cost: 3.5,
       shop: '판매처',
       ingredient_detail: '기타',
     },
@@ -83,6 +91,7 @@ const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientDetailResponse[]> = {
       ingredient_cost: 3500,
       capacity: 1000,
       unit: 'ml',
+      unit_cost: 3.5,
       shop: '판매처',
       ingredient_detail: '기타',
     },
@@ -143,6 +152,7 @@ export const ingredientsHandler = [
     const completeIngredient: IngredientDetailResponse = {
       ...newIngredient,
       ingredient_id: crypto.randomUUID(),
+      unit_cost: newIngredient.ingredient_cost / newIngredient.capacity,
     };
 
     MOCK_INGREDIENTS_DETAIL[storeId].push(completeIngredient);
