@@ -4,7 +4,7 @@ const IngredientHeader = () => (
       번호
     </li>
 
-    <li className='w-[17%] text-center text-xl font-semibold text-main'>
+    <li className='w-[16%] text-center text-xl font-semibold text-main'>
       재료명
     </li>
 
@@ -16,13 +16,15 @@ const IngredientHeader = () => (
       용량
     </li>
 
-    <li className='w-[9%] text-center text-xl font-semibold text-main'>단위</li>
+    <li className='w-[6%] text-center text-xl font-semibold text-main'>단위</li>
 
-    <li className='w-[17%] text-center text-xl font-semibold text-main'>
+    <li className='w-[9%] text-center text-xl font-semibold text-main'>단가</li>
+
+    <li className='w-[15%] text-center text-xl font-semibold text-main'>
       판매처
     </li>
 
-    <li className='w-[17%] text-center text-xl font-semibold text-main'>
+    <li className='w-[14%] text-center text-xl font-semibold text-main'>
       비고
     </li>
   </ul>

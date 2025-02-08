@@ -20,7 +20,7 @@ const IngredientItem = ({
   <ul className='relative flex h-[45px] w-full items-center border-b border-underline/30 text-center'>
     <li className='w-[8%] min-w-20 text-lg font-normal'>{index + 1}</li>
 
-    <li className='w-[17%] text-lg font-normal'>
+    <li className='w-[16%] text-lg font-normal'>
       {ingredient.ingredient_name}
     </li>
 
@@ -30,11 +30,13 @@ const IngredientItem = ({
 
     <li className='w-[16%] text-lg font-normal'>{ingredient.capacity}</li>
 
-    <li className='w-[9%] text-lg font-normal'>{ingredient.unit}</li>
+    <li className='w-[6%] text-lg font-normal'>{ingredient.unit}</li>
 
-    <li className='w-[17%] text-lg font-normal'>{ingredient.shop}</li>
+    <li className='w-[9%] text-lg font-normal'>{ingredient.unit_cost} 원</li>
 
-    <li className='w-[17%] text-lg font-normal'>
+    <li className='w-[15%] text-lg font-normal'>{ingredient.shop}</li>
+
+    <li className='w-[14%] text-lg font-normal'>
       {ingredient.ingredient_detail}
     </li>
 
