@@ -167,7 +167,7 @@ const IngredientsModal = ({
                 onChange={(e) =>
                   setIngredient({
                     ...ingredient,
-                    unit: e.target.value as 'ml' | 'mg' | 'ea',
+                    unit: e.target.value as 'ml' | 'g' | 'ea',
                   })
                 }
                 className='h-5 w-5'
@@ -178,17 +178,17 @@ const IngredientsModal = ({
               <input
                 type='radio'
                 name='ingredientType'
-                value='mg'
-                checked={ingredient.unit === 'mg'}
+                value='g'
+                checked={ingredient.unit === 'g'}
                 onChange={(e) =>
                   setIngredient({
                     ...ingredient,
-                    unit: e.target.value as 'ml' | 'mg' | 'ea',
+                    unit: e.target.value as 'ml' | 'g' | 'ea',
                   })
                 }
                 className='h-5 w-5'
               />
-              <span className='ml-2 text-lg text-main'>mg</span>
+              <span className='ml-2 text-lg text-main'>g</span>
             </label>
             <label className='flex items-center'>
               <input
@@ -199,7 +199,7 @@ const IngredientsModal = ({
                 onChange={(e) =>
                   setIngredient({
                     ...ingredient,
-                    unit: e.target.value as 'ml' | 'mg' | 'ea',
+                    unit: e.target.value as 'ml' | 'g' | 'ea',
                   })
                 }
                 className='h-5 w-5'

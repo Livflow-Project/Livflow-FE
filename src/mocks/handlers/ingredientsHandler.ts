@@ -11,7 +11,7 @@ type IngredientDetailResponse = {
   ingredient_name: string;
   ingredient_cost: number;
   capacity: number;
-  unit: 'ml' | 'mg' | 'ea';
+  unit: 'ml' | 'g' | 'ea';
   unit_cost: number;
   shop?: string;
   ingredient_detail?: string;
