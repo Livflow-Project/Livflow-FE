@@ -54,7 +54,7 @@ const UserHeader = () => {
           {/* 오른쪽 영역: 로그아웃 버튼 */}
           <span
             onClick={handleLogout}
-            className='text-[25px] font-semibold text-primary transition-all hover:font-bold hover:text-primary_hover'
+            className='cursor-pointer text-[25px] font-semibold text-primary transition-all hover:font-bold hover:text-primary_hover'
           >
             로그아웃
           </span>
