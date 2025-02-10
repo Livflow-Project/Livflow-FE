@@ -5,11 +5,14 @@ import UserHeader from '@/layout/userHeader';
 import { commonRoutes } from './commonRoutes';
 import { createBrowserRouter } from 'react-router-dom';
 import { loggedRoutes } from './loggedRoutes';
+import { useAuth } from '@/contexts/AuthContextProvider';
 
 const Router = () => {
+  const { isLoggedIn } = useAuth();
+
   const router = createBrowserRouter([
-    // 기본 라우트
-    ...commonRoutes,
+    // 비로그인 상태의 라우트
+    ...(isLoggedIn ? [] : commonRoutes),
 
     // 헤더가 없는 라우트
     ...HeaderlessRoutes,
