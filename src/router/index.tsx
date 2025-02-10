@@ -1,21 +1,31 @@
 import { HeaderlessRoutes } from './HeaderlessRoutes';
-// import { AuthProvider } from '@/context/AuthContextProvider';
+import ProtectedRoute from './components/ProtectedRoute';
 import { RouterProvider } from 'react-router';
+import UserHeader from '@/layout/userHeader';
 import { commonRoutes } from './commonRoutes';
 import { createBrowserRouter } from 'react-router-dom';
 import { loggedRoutes } from './loggedRoutes';
 
 const Router = () => {
   const router = createBrowserRouter([
-    ...commonRoutes, // 기본 헤더 라우트
-    ...HeaderlessRoutes, // 헤더 없는 라우드
-    ...loggedRoutes, // 로그인 된 라우트
+    // 기본 라우트
+    ...commonRoutes,
+
+    // 헤더가 없는 라우트
+    ...HeaderlessRoutes,
+
+    // 로그인 필요한 라우트
+    {
+      element: (
+        <ProtectedRoute>
+          <UserHeader />
+        </ProtectedRoute>
+      ),
+      children: loggedRoutes[0].children,
+    },
   ]);
 
-  return (
-    // <AuthProvider>
-    <RouterProvider router={router} future={{ v7_startTransition: true }} />
-    // </AuthProvider>
-  );
+  return <RouterProvider router={router} />;
 };
+
 export default Router;
