@@ -1,5 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css';
 
+import { AuthProvider } from './contexts/AuthContextProvider';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorPage from './pages/status/errorPage';
 import Router from './router';
@@ -15,8 +16,10 @@ const App = () => {
         error;
       }}
     >
-      <ToastContainer />
-      <Router />
+      <AuthProvider>
+        <ToastContainer />
+        <Router />
+      </AuthProvider>
     </ErrorBoundary>
   );
 };
