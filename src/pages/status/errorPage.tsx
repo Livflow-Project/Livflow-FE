@@ -47,7 +47,7 @@ const ErrorPage = ({ error, resetError }: ErrorPageProps) => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className='bg-red-500 hover:bg-red-600 rounded-full px-6 py-2 text-white transition-colors'
+            className='rounded-full bg-button px-6 py-2 text-white transition-colors hover:bg-button_hover'
             onClick={resetError}
           >
             다시 시도

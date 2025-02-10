@@ -47,7 +47,7 @@ const NotfoundPage = () => {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className='bg-primaryColor hover:bg-primaryHoverColor rounded-full px-6 py-2 text-white transition-colors'
+          className='rounded-full bg-button px-6 py-2 text-white transition-colors hover:bg-button_hover'
           onClick={() => window.history.back()}
         >
           이전 페이지로 돌아가기
