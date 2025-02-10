@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
 
       try {
-        const response = await axiosInstance.get('/users/token/verify/');
+        const response = await axiosInstance.post('/users/token/verify/');
         setIsLoggedIn(response.status === 200);
       } catch (error) {
         setIsLoggedIn(false);
