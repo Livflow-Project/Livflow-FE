@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const response = await axiosInstance.post('/users/token/verify/');
         setIsLoggedIn(response.status === 200);
       } catch (error) {
+        console.error('토큰 검증 중 오류 발생:', error);
         setIsLoggedIn(false);
       } finally {
         setIsInitialized(true);
@@ -48,8 +49,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLoggedIn(true);
   };
 
-  const logout = () => {
-    setIsLoggedIn(false);
+  const logout = async () => {
+    try {
+      await axiosInstance.post('/users/logout/');
+      setIsLoggedIn(false);
+    } catch (error) {
+      console.error('로그아웃 중 오류 발생:', error);
+      throw error;
+    }
   };
 
   return (
