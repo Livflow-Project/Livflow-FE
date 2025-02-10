@@ -1,6 +1,8 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 import { logo } from '../assets/assets';
+import { showErrorToast } from '@/utils/toast';
+import { useAuth } from '@/contexts/AuthContextProvider';
 
 // 네비게이션 항목 타입 정의
 type NavItem = {
@@ -24,6 +26,18 @@ const NavigationLinks = ({ items }: { items: NavItem[] }) => (
 );
 
 const UserHeader = () => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch (error) {
+      showErrorToast('로그아웃에 실패했습니다.');
+    }
+  };
+
   return (
     <>
       <header className='fixed left-0 top-0 h-[75px] w-full bg-white px-20 shadow-sm'>
@@ -38,7 +52,10 @@ const UserHeader = () => {
           </div>
 
           {/* 오른쪽 영역: 로그아웃 버튼 */}
-          <span className='text-[25px] font-semibold text-primary transition-all hover:font-bold hover:text-primary_hover'>
+          <span
+            onClick={handleLogout}
+            className='text-[25px] font-semibold text-primary transition-all hover:font-bold hover:text-primary_hover'
+          >
             로그아웃
           </span>
         </nav>
