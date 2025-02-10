@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import ErrorPage from './status/errorPage';
 import LoadingPage from './status/loadindPage';
 import MainCalender from '@/components/storeId/ledger/calendar/MainCalender';
@@ -5,7 +7,7 @@ import MainIngredient from '@/components/storeId/ingredient/MainIngredient';
 import StoreInfo from '@/components/storeId/storeIdInfo/StoreInfo';
 import { twMerge } from 'tailwind-merge';
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useStore } from '@/contexts/StoreContext';
 import { useStoreQuery } from '@/api/store/store.hooks';
 
 const NAV_ITEMS = [
@@ -18,9 +20,26 @@ const StoreId = () => {
   const [activeTab, setActiveTab] = useState(1);
 
   const { id } = useParams<{ id: string }>();
-  const { useGetStore } = useStoreQuery();
 
+  const { setStoreInfo } = useStore();
+
+  const { useGetStore } = useStoreQuery();
   const { data, isLoading, isError, error, refetch } = useGetStore(id || '0');
+
+  // 최초 마운트 시에만 실행
+  useEffect(() => {
+    // 초기 데이터 설정을 한 번만 수행
+    const initializeStoreInfo = () => {
+      if (data) {
+        setStoreInfo({
+          name: data.name,
+          address: data.address,
+        });
+      }
+    };
+
+    initializeStoreInfo();
+  }, []);
 
   if (isLoading && !data) {
     return <LoadingPage />;
@@ -41,7 +60,7 @@ const StoreId = () => {
 
   return (
     <div className='flex h-[calc(100vh-75px)] flex-col justify-between p-[45px]'>
-      <StoreInfo name={data.name} address={data.address} />
+      <StoreInfo />
 
       <div className='h-[calc(100%-70px)]'>
         <div className='flex items-center justify-start gap-3'>
