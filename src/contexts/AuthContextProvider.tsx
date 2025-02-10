@@ -70,7 +70,7 @@ export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error(
-      'useAuth Hook은 AuthProvider 내부에서만 사용할 수 있습니다. ' +
+      'useAuth Hook은 AuthProvider 내부에서만 사용할 수 있습니다.' +
         '컴포넌트가 AuthProvider로 감싸져 있는지 확인해주세요.'
     );
   }
