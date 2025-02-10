@@ -20,14 +20,14 @@ const StoreId = () => {
   const { id } = useParams<{ id: string }>();
   const { useGetStore } = useStoreQuery();
 
-  const { data, isLoading, isError } = useGetStore(id || '0');
+  const { data, isLoading, isError, error, refetch } = useGetStore(id || '0');
 
   if (isLoading && !data) {
     return <LoadingPage />;
   }
 
   if (isError || !id || !data) {
-    return <ErrorPage />;
+    return <ErrorPage error={error as Error} resetError={() => refetch()} />;
   }
 
   const renderComponent = () => {

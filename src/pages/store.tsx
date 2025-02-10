@@ -12,7 +12,7 @@ const Store = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { useGetAllStores } = useStoreQuery();
-  const { data, isLoading, isError } = useGetAllStores();
+  const { data, isLoading, isError, error, refetch } = useGetAllStores();
 
   const handleToggleModal = () => {
     setIsModalOpen((prev) => !prev);
@@ -32,7 +32,7 @@ const Store = () => {
   }
 
   if (isError) {
-    return <ErrorPage />;
+    return <ErrorPage error={error as Error} resetError={() => refetch()} />;
   }
 
   if (!data.stores) {

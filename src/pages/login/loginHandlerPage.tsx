@@ -1,5 +1,6 @@
 import ErrorPage from '../status/errorPage';
 import LoadingPage from '../status/loadindPage';
+import NotfoundPage from '../status/notFoundIcon';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +13,11 @@ const LoginHandlerPage = () => {
 
   const navigate = useNavigate();
 
+  // code가 없는 경우 404 페이지 렌더링
+  if (!code) {
+    return <NotfoundPage />;
+  }
+
   const {
     mutate: socialLoginMutation,
     isPending,
@@ -21,8 +27,9 @@ const LoginHandlerPage = () => {
       navigate('/store');
     },
     onError: (error) => {
+      toast.dismiss();
+
       toast.error('로그인 중 오류가 발생하였습니다.');
-      navigate('/error');
       console.log(error);
     },
   });
@@ -35,9 +42,21 @@ const LoginHandlerPage = () => {
   }, [provider, code, socialLoginMutation]);
 
   if (isPending) return <LoadingPage />;
-  if (error) return <ErrorPage />;
 
-  return <LoadingPage />;
+  if (error) {
+    return (
+      <ErrorPage
+        error={error as Error}
+        resetError={() => {
+          if (provider && code) {
+            socialLoginMutation({ provider, code });
+          } else {
+            navigate('/login');
+          }
+        }}
+      />
+    );
+  }
 };
 
 export default LoginHandlerPage;
