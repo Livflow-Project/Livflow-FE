@@ -24,10 +24,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // 초기 로그인 상태 확인
   useEffect(() => {
     const verifyToken = async () => {
-      try {
-        // 토큰 유효성 검증 API 호출
-        const response = await axiosInstance.get('/users/token/verify/');
+      // 현재 경로가 / 또는 /login인 경우 토큰 검증 스킵
+      const currentPath = window.location.pathname;
+      if (currentPath === '/' || currentPath === '/login') {
+        setIsInitialized(true);
+        return;
+      }
 
+      try {
+        const response = await axiosInstance.get('/users/token/verify/');
         setIsLoggedIn(response.status === 200);
       } catch (error) {
         setIsLoggedIn(false);
