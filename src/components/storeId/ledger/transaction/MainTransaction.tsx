@@ -1,8 +1,8 @@
 import ActionButtons from './components/button/ActionButtons';
 import CalendarModal from '../modal/CalendarModal';
-import { Transaction } from '@/api/storeId/ledger/transactions/transactions.type';
 import TransactionHeader from './components/TransactionHeader';
 import TransactionList from './components/TransactionList';
+import { TransactionResponse } from '@/api/storeId/ledger/transactions/transactions.type';
 import { useState } from 'react';
 import { useTransactionsQuery } from '@/api/storeId/ledger/transactions/transactions.hooks';
 
@@ -19,7 +19,7 @@ const MainTransaction = ({
 }: MainTransactionProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingTransaction, setEditingTransaction] =
-    useState<Transaction | null>(null);
+    useState<TransactionResponse | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // selectedDate에서 년,월,일 추출
@@ -35,12 +35,12 @@ const MainTransaction = ({
   const { useDeleteTransaction } = useTransactionsQuery();
   const deleteMutation = useDeleteTransaction();
 
-  const handleEdit = (transaction: Transaction) => {
+  const handleEdit = (transaction: TransactionResponse) => {
     setEditingTransaction(transaction);
     setIsModalOpen(true);
   };
 
-  const handleDelete = (transaction: Transaction) => {
+  const handleDelete = (transaction: TransactionResponse) => {
     deleteMutation.mutate({
       storeId: storeId,
       transactionId: transaction.transaction_id,

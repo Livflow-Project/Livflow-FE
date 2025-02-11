@@ -1,12 +1,12 @@
 import DeleteButton from '@/components/common/DeleteButton';
 import EditButton from '@/components/common//EditButton';
-import { Transaction } from '@/api/storeId/ledger/transactions/transactions.type';
+import { TransactionResponse } from '@/api/storeId/ledger/transactions/transactions.type';
 
 type TransactionItemProps = {
-  transaction: Transaction;
+  transaction: TransactionResponse;
   isEditMode: boolean;
-  onEdit: (transaction: Transaction) => void;
-  onDelete: (transaction: Transaction) => void;
+  onEdit: (transaction: TransactionResponse) => void;
+  onDelete: (transaction: TransactionResponse) => void;
 };
 
 const TransactionItem = ({

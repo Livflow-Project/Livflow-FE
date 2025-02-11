@@ -1,7 +1,7 @@
 import {
   AddTransactionParams,
-  Transaction,
   TransactionRequest,
+  TransactionResponse,
 } from '@/api/storeId/ledger/transactions/transactions.type';
 
 import Modal from '@/components/common/Modal';
@@ -14,7 +14,7 @@ type CalendarModalProps = {
   storeId: string;
   selectedDate: string | null;
   isEditMode?: boolean;
-  initialData?: Transaction;
+  initialData?: TransactionResponse;
 };
 
 const TRANSACTION_CATEGORIES = [

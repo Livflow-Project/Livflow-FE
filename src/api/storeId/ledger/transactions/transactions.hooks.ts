@@ -1,7 +1,7 @@
 import {
   AddTransactionParams,
   DayParams,
-  Transaction,
+  TransactionResponse,
 } from './transactions.type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -64,7 +64,7 @@ export const useTransactionsQuery = () => {
       }: {
         storeId: string;
         transactionId: string;
-        data: Transaction;
+        data: TransactionResponse;
       }) => TransactionsAPI.updateTransactionAPI(storeId, transactionId, data),
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({

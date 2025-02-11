@@ -1,6 +1,6 @@
 import { HttpResponse, http } from 'msw';
 
-type Transaction = {
+type TransactionResponse = {
   transaction_id: string; // UUID
   type: 'expense' | 'income';
   category: string;
@@ -9,7 +9,7 @@ type Transaction = {
 };
 
 // id를 제외한 DayDetailTransaction 타입
-type TransactionRequest = Omit<Transaction, 'transaction_id'>;
+type TransactionRequest = Omit<TransactionResponse, 'transaction_id'>;
 
 type AddTransactionParams = {
   date: {
@@ -25,7 +25,10 @@ const STORE_IDS = {
   STORE_3: 'a0b8035d-5499-4adb-9d8a-d7a93ac026e8',
 };
 
-const MOCK_STORE_TRANSACTION: Record<string, Record<number, Transaction[]>> = {
+const MOCK_STORE_TRANSACTION: Record<
+  string,
+  Record<number, TransactionResponse[]>
+> = {
   [STORE_IDS.STORE_1]: {
     1: [
       {

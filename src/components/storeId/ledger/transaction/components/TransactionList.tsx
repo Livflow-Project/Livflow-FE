@@ -1,11 +1,11 @@
-import { Transaction } from '@/api/storeId/ledger/transactions/transactions.type';
 import TransactionItem from './TransactionItem';
+import { TransactionResponse } from '@/api/storeId/ledger/transactions/transactions.type';
 
 type TransactionListProps = {
-  transactions: Transaction[] | null;
+  transactions: TransactionResponse[] | null;
   isEditMode: boolean;
-  onEdit: (transaction: Transaction) => void;
-  onDelete: (transaction: Transaction) => void;
+  onEdit: (transaction: TransactionResponse) => void;
+  onDelete: (transaction: TransactionResponse) => void;
 };
 
 const TransactionList = ({
