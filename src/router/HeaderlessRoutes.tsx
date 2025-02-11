@@ -20,6 +20,10 @@ export const HeaderlessRoutes = [
         element: <ErrorPage />,
       },
       {
+        path: '/loading',
+        element: <LoadingPage />,
+      },
+      {
         path: '/login',
         element: (
           <Suspense fallback={<LoadingPage />}>
