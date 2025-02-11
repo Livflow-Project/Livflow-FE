@@ -4,6 +4,7 @@ import { AuthProvider } from './contexts/AuthContextProvider';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorPage from './pages/status/errorPage';
 import Router from './router';
+import { StoreProvider } from './contexts/StoreContext';
 import { ToastContainer } from 'react-toastify';
 
 const App = () => {
@@ -17,8 +18,10 @@ const App = () => {
       }}
     >
       <AuthProvider>
-        <ToastContainer />
-        <Router />
+        <StoreProvider>
+          <ToastContainer />
+          <Router />
+        </StoreProvider>
       </AuthProvider>
     </ErrorBoundary>
   );
