@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { IngredientRequest } from './ingredients.type';
 import { IngredientsAPI } from './ingredientsAPI';
-import { IngredientsRequest } from './ingredients.type';
 
 export const useIngredientsQuery = () => {
   const queryClient = useQueryClient();
@@ -28,7 +28,7 @@ export const useIngredientsQuery = () => {
         data,
       }: {
         storeId: string;
-        data: IngredientsRequest;
+        data: IngredientRequest;
       }) => IngredientsAPI.addIngredientAPI(storeId, data),
       onSuccess: (_, variables) => {
         // 성공 시 해당 월의 데이터 무효화
@@ -48,7 +48,7 @@ export const useIngredientsQuery = () => {
       }: {
         storeId: string;
         ingredientId: string;
-        data: IngredientsRequest;
+        data: IngredientRequest;
       }) => IngredientsAPI.updateIngredientAPI(storeId, ingredientId, data),
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({

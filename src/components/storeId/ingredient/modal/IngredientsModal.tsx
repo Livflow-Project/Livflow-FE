@@ -1,6 +1,6 @@
 import {
-  IngredientsDetailResponse,
-  IngredientsRequest,
+  IngredientRequest,
+  IngredientResponse,
 } from '@/api/storeId/ingredients/ingredients.type';
 
 import Modal from '@/components/common/Modal';
@@ -13,7 +13,7 @@ type IngredientsModalProps = {
   storeId: string;
   selectedDate?: string | null;
   isEditMode?: boolean;
-  initialData?: IngredientsDetailResponse;
+  initialData?: IngredientResponse;
 };
 
 const IngredientsModal = ({
@@ -26,7 +26,7 @@ const IngredientsModal = ({
   const { mutate: addIngredient } = useAddIngredient();
   const { mutate: updateIngredient } = useUpdateIngredient();
 
-  const [ingredient, setIngredient] = useState<IngredientsRequest>(() => {
+  const [ingredient, setIngredient] = useState<IngredientRequest>(() => {
     if (isEditMode && initialData) {
       return {
         ingredient_name: initialData.ingredient_name,
@@ -82,7 +82,7 @@ const IngredientsModal = ({
         },
       });
     } else {
-      const addIngredientData: IngredientsRequest = {
+      const addIngredientData: IngredientRequest = {
         ...ingredient,
       };
       addIngredient({ storeId: storeId, data: addIngredientData });

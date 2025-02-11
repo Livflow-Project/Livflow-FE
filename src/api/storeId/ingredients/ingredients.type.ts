@@ -1,10 +1,10 @@
 export type IngredientsResponse = {
   all_ingredient: number;
   all_ingredient_cost: number;
-  ingredients: IngredientsDetailResponse[];
+  ingredients: IngredientResponse[];
 };
 
-export type IngredientsDetailResponse = {
+export type IngredientResponse = {
   ingredient_id: string; // UUID
   ingredient_name: string;
   ingredient_cost: number;
@@ -15,7 +15,7 @@ export type IngredientsDetailResponse = {
   ingredient_detail?: string;
 };
 
-export type IngredientsRequest = Omit<
-  IngredientsDetailResponse,
+export type IngredientRequest = Omit<
+  IngredientResponse,
   'ingredient_id' | 'unit_cost'
 >;

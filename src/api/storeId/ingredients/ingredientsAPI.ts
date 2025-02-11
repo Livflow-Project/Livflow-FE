@@ -1,4 +1,4 @@
-import { IngredientsRequest } from './ingredients.type';
+import { IngredientRequest } from './ingredients.type';
 import axiosInstance from '../../axiosInstance';
 
 export const IngredientsAPI = {
@@ -14,7 +14,7 @@ export const IngredientsAPI = {
     return response.data;
   },
 
-  addIngredientAPI: async (storeId: string, data: IngredientsRequest) => {
+  addIngredientAPI: async (storeId: string, data: IngredientRequest) => {
     const response = await axiosInstance.post(`/ingredients/${storeId}`, data);
     return response.data;
   },
@@ -22,7 +22,7 @@ export const IngredientsAPI = {
   updateIngredientAPI: async (
     storeId: string,
     ingredientsId: string,
-    data: IngredientsRequest
+    data: IngredientRequest
   ) => {
     const response = await axiosInstance.put(
       `/ingredients/${storeId}/${ingredientsId}`,

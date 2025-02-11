@@ -1,7 +1,7 @@
 import Button from '@/components/common/Button';
 import IngredientHeader from './components/IngredientHeader';
 import IngredientList from './components/IngredientList';
-import { IngredientsDetailResponse } from '@/api/storeId/ingredients/ingredients.type';
+import { IngredientResponse } from '@/api/storeId/ingredients/ingredients.type';
 import IngredientsModal from './modal/IngredientsModal';
 import { useIngredientsQuery } from '@/api/storeId/ingredients/ingredients.hooks';
 import { useState } from 'react';
@@ -13,7 +13,7 @@ type MainIngredientProps = {
 const MainIngredient = ({ storeId }: MainIngredientProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingIngredient, setEditingIngredient] =
-    useState<IngredientsDetailResponse | null>(null);
+    useState<IngredientResponse | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { useGetAllIngredients, useDeleteIngredient } = useIngredientsQuery();
@@ -25,12 +25,12 @@ const MainIngredient = ({ storeId }: MainIngredientProps) => {
   } = useGetAllIngredients(storeId);
   const deleteMutation = useDeleteIngredient();
 
-  const handleEdit = (ingredient: IngredientsDetailResponse) => {
+  const handleEdit = (ingredient: IngredientResponse) => {
     setEditingIngredient(ingredient);
     setIsModalOpen(true);
   };
 
-  const handleDelete = (ingredient: IngredientsDetailResponse) => {
+  const handleDelete = (ingredient: IngredientResponse) => {
     deleteMutation.mutate({
       storeId: storeId,
       ingredientId: ingredient.ingredient_id,

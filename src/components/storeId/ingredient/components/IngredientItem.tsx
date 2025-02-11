@@ -1,13 +1,13 @@
 import DeleteButton from '@/components/common/DeleteButton';
 import EditButton from '@/components/common/EditButton';
-import { IngredientsDetailResponse } from '@/api/storeId/ingredients/ingredients.type';
+import { IngredientResponse } from '@/api/storeId/ingredients/ingredients.type';
 
 type IngredientItemProps = {
   index: number;
-  ingredient: IngredientsDetailResponse;
+  ingredient: IngredientResponse;
   isEditMode: boolean;
-  onEdit: (transaction: IngredientsDetailResponse) => void;
-  onDelete: (transaction: IngredientsDetailResponse) => void;
+  onEdit: (transaction: IngredientResponse) => void;
+  onDelete: (transaction: IngredientResponse) => void;
 };
 
 const IngredientItem = ({

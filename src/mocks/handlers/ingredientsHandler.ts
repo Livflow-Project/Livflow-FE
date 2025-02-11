@@ -3,10 +3,10 @@ import { HttpResponse, http } from 'msw';
 type IngredientsResponse = {
   all_ingredient: number;
   all_ingredient_cost: number;
-  ingredients: IngredientDetailResponse[];
+  ingredients: IngredientResponse[];
 };
 
-type IngredientDetailResponse = {
+type IngredientResponse = {
   ingredient_id: string; // UUID
   ingredient_name: string;
   ingredient_cost: number;
@@ -17,8 +17,8 @@ type IngredientDetailResponse = {
   ingredient_detail?: string;
 };
 
-type IngredientsRequest = Omit<
-  IngredientDetailResponse,
+type IngredientRequest = Omit<
+  IngredientResponse,
   'ingredient_id' | 'unit_cost'
 >;
 
@@ -28,7 +28,7 @@ const STORE_IDS = {
   STORE_3: 'a0b8035d-5499-4adb-9d8a-d7a93ac026e8',
 };
 
-const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientDetailResponse[]> = {
+const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientResponse[]> = {
   [STORE_IDS.STORE_1]: [
     {
       ingredient_id: crypto.randomUUID(),
@@ -143,13 +143,13 @@ export const ingredientsHandler = [
   // 재료 정보 추가
   http.post('/ingredients/:storeId', async ({ params, request }) => {
     const storeId = params.storeId as string;
-    const newIngredient = (await request.json()) as IngredientsRequest;
+    const newIngredient = (await request.json()) as IngredientRequest;
 
     if (!MOCK_INGREDIENTS_DETAIL[storeId]) {
       MOCK_INGREDIENTS_DETAIL[storeId] = [];
     }
 
-    const completeIngredient: IngredientDetailResponse = {
+    const completeIngredient: IngredientResponse = {
       ...newIngredient,
       ingredient_id: crypto.randomUUID(),
       unit_cost: newIngredient.ingredient_cost / newIngredient.capacity,
@@ -169,7 +169,7 @@ export const ingredientsHandler = [
     async ({ params, request }) => {
       const storeId = params.storeId as string;
       const ingredientId = params.ingredientsId as string;
-      const updateData = (await request.json()) as IngredientsRequest;
+      const updateData = (await request.json()) as IngredientRequest;
 
       const ingredients = MOCK_INGREDIENTS_DETAIL[storeId];
       if (!ingredients) {
@@ -187,6 +187,7 @@ export const ingredientsHandler = [
       const updatedItem = {
         ...ingredients[index],
         ...updateData,
+        unit_cost: updateData.ingredient_cost / updateData.capacity,
       };
 
       ingredients[index] = updatedItem;

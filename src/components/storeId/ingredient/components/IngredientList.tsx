@@ -1,11 +1,11 @@
 import IngredientItem from './IngredientItem';
-import { IngredientsDetailResponse } from '@/api/storeId/ingredients/ingredients.type';
+import { IngredientResponse } from '@/api/storeId/ingredients/ingredients.type';
 
 type IngredientListProps = {
-  ingredients: IngredientsDetailResponse[] | null;
+  ingredients: IngredientResponse[] | null;
   isEditMode: boolean;
-  onEdit: (ingredient: IngredientsDetailResponse) => void;
-  onDelete: (ingredient: IngredientsDetailResponse) => void;
+  onEdit: (ingredient: IngredientResponse) => void;
+  onDelete: (ingredient: IngredientResponse) => void;
 };
 
 const IngredientList = ({
