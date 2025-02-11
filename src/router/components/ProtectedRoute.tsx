@@ -12,7 +12,10 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (isInitialized && !isLoggedIn) {
       showErrorToast('로그인이 필요한 서비스입니다.');
-      navigate('/login');
+
+      setTimeout(() => {
+        navigate('/login');
+      }, 100);
     }
   }, [isLoggedIn, isInitialized, navigate]);
 
