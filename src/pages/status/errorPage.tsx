@@ -8,7 +8,7 @@ type ErrorPageProps = {
 
 const ErrorPage = ({ error, resetError }: ErrorPageProps) => {
   return (
-    <div className='flex h-svh items-center justify-center bg-gray-50'>
+    <div className='fixed inset-0 z-50 flex h-screen w-screen flex-col items-center justify-center bg-white'>
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
