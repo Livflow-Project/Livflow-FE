@@ -31,19 +31,15 @@ const Store = () => {
     return <LoadingPage />;
   }
 
-  if (isError) {
+  if (!data || isError) {
     return <ErrorPage error={error as Error} resetError={() => refetch()} />;
-  }
-
-  if (!data.stores) {
-    return <ErrorPage />;
   }
 
   return (
     <div className='flex h-[calc(100vh-75px)] flex-col items-center justify-center bg-white'>
       <div className='w-full max-w-[1200px]'>
         <StoreHeader
-          storeCount={data?.all_stores}
+          storeCount={data?.all_stores || 0}
           isDeleteMode={isDeleteMode}
           onDeleteModeToggle={handleDeleteModeToggle}
         />
