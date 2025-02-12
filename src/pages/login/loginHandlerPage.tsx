@@ -2,6 +2,7 @@ import ErrorPage from '../status/errorPage';
 import LoadingPage from '../status/loadindPage';
 import NotfoundPage from '../status/notFoundIcon';
 import { toast } from 'react-toastify';
+import { useAuth } from '@/contexts/AuthContextProvider';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSocialLoginCallbackMutation } from '@/api/login/login.hooks';
@@ -10,6 +11,8 @@ const LoginHandlerPage = () => {
   const url = new URL(window.location.href);
   const code = url.searchParams.get('code');
   const provider = url.pathname.split('/').pop();
+
+  const { login } = useAuth();
 
   const navigate = useNavigate();
 
@@ -24,6 +27,8 @@ const LoginHandlerPage = () => {
     error,
   } = useSocialLoginCallbackMutation({
     onSuccess: () => {
+      login();
+
       navigate('/store');
     },
     onError: (error) => {
@@ -36,7 +41,6 @@ const LoginHandlerPage = () => {
 
   useEffect(() => {
     if (provider && code) {
-      console.log(provider, code);
       socialLoginMutation({ provider, code });
     }
   }, [provider, code, socialLoginMutation]);
