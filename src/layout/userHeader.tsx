@@ -27,12 +27,10 @@ const NavigationLinks = ({ items }: { items: NavItem[] }) => (
 
 const UserHeader = () => {
   const { logout } = useAuth();
-  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await logout();
-      navigate('/');
     } catch (error) {
       showErrorToast('로그아웃에 실패했습니다.');
     }
