@@ -1,3 +1,3 @@
 export type GetSocialLoginResponse = {
-  id: number;
+  access: string;
 };
