@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
 import { logo } from '../assets/assets';
 import { showErrorToast } from '@/utils/toast';
