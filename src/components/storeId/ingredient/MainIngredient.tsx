@@ -57,7 +57,7 @@ const MainIngredient = ({ storeId }: MainIngredientProps) => {
 
   return (
     <>
-      <div className='flex h-full flex-col items-center justify-between px-10 py-7'>
+      <div className='flex h-full flex-col items-center justify-between px-[35px] py-[30px]'>
         <header className='flex w-full items-center justify-between gap-5'>
           <div className='h-[60px] w-[30%] min-w-[350px] rounded-lg bg-white/50'>
             <div className='flex h-full w-full items-center justify-evenly text-xl'>
@@ -67,7 +67,7 @@ const MainIngredient = ({ storeId }: MainIngredientProps) => {
             </div>
           </div>
 
-          <nav className='flex items-center'>
+          <div className='flex items-center'>
             {!isEditMode && (
               <Button onClick={handleModalOpen}>재료 추가하기</Button>
             )}
@@ -76,7 +76,7 @@ const MainIngredient = ({ storeId }: MainIngredientProps) => {
                 {isEditMode ? '완료하기' : '수정 / 삭제하기'}
               </Button>
             </div>
-          </nav>
+          </div>
         </header>
 
         <div className='h-[calc(100%-80px)] w-full rounded-xl bg-white'>
