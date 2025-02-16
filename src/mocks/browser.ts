@@ -1,3 +1,5 @@
+import { IngredientsinventoryHandlers } from './handlers/ingredientsInventoryHandler';
+import { costCalculatorHandlers } from './handlers/costCalculatorHandler';
 import { ingredientsHandler } from './handlers/ingredientsHandler';
 import { ledgerCalendarHandler } from './handlers/ledgerCalendarHandler';
 import { ledgerTransactionsHandler } from './handlers/ledgerTransactionsHandler';
@@ -8,5 +10,7 @@ export const worker = setupWorker(
   ...storeHandler,
   ...ledgerCalendarHandler,
   ...ledgerTransactionsHandler,
-  ...ingredientsHandler
+  ...ingredientsHandler,
+  ...IngredientsinventoryHandlers,
+  ...costCalculatorHandlers
 );
