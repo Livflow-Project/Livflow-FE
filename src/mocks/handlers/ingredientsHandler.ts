@@ -1,5 +1,14 @@
 import { HttpResponse, http } from 'msw';
 
+import { MOCK_INVENTORY } from './ingredientsInventoryHandler';
+
+type InventoryResponse = {
+  ingredient_id: string;
+  ingredient_name: string;
+  remaining_amount: number;
+  unit: 'ml' | 'g' | 'ea';
+};
+
 type IngredientsResponse = {
   all_ingredient: number;
   all_ingredient_cost: number;
@@ -147,19 +156,33 @@ export const ingredientsHandler = [
 
     if (!MOCK_INGREDIENTS_DETAIL[storeId]) {
       MOCK_INGREDIENTS_DETAIL[storeId] = [];
+      MOCK_INVENTORY[storeId] = [];
     }
 
+    // 새로운 재료 생성
+    const ingredientId = crypto.randomUUID();
     const completeIngredient: IngredientResponse = {
       ...newIngredient,
-      ingredient_id: crypto.randomUUID(),
+      ingredient_id: ingredientId,
       unit_cost: newIngredient.ingredient_cost / newIngredient.capacity,
     };
 
     MOCK_INGREDIENTS_DETAIL[storeId].push(completeIngredient);
 
+    // 인벤토리에 자동 반영
+    const newInventoryItem: InventoryResponse = {
+      ingredient_id: ingredientId,
+      ingredient_name: completeIngredient.ingredient_name,
+      remaining_amount: completeIngredient.capacity, // 초기 용량을 재고로 설정
+      unit: completeIngredient.unit,
+    };
+
+    MOCK_INVENTORY[storeId].push(newInventoryItem);
+
     return HttpResponse.json({
       success: true,
-      data: newIngredient,
+      data: completeIngredient,
+      inventory: newInventoryItem,
     });
   }),
 
