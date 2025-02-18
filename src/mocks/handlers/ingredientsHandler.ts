@@ -5,7 +5,7 @@ import { MOCK_INVENTORY } from './ingredientsInventoryHandler';
 type InventoryResponse = {
   ingredient_id: string;
   ingredient_name: string;
-  remaining_amount: number;
+  remaining_stock: number;
   unit: 'ml' | 'g' | 'ea';
 };
 
@@ -39,71 +39,71 @@ const STORE_IDS = {
 
 const MOCK_INGREDIENTS_DETAIL: Record<string, IngredientResponse[]> = {
   [STORE_IDS.STORE_1]: [
-    {
-      ingredient_id: crypto.randomUUID(),
-      ingredient_name: '우유',
-      ingredient_cost: 3500,
-      capacity: 1000,
-      unit: 'ml',
-      unit_cost: 3.5,
-      shop: '판매처',
-      ingredient_detail: '기타',
-    },
-    {
-      ingredient_id: crypto.randomUUID(),
-      ingredient_name: '우유',
-      ingredient_cost: 3500,
-      capacity: 1000,
-      unit: 'ml',
-      unit_cost: 3.5,
-      shop: '판매처',
-      ingredient_detail: '기타',
-    },
+    // {
+    //   ingredient_id: crypto.randomUUID(),
+    //   ingredient_name: '우유1',
+    //   ingredient_cost: 3500,
+    //   capacity: 1000,
+    //   unit: 'ml',
+    //   unit_cost: 3.5,
+    //   shop: '판매처',
+    //   ingredient_detail: '기타',
+    // },
+    // {
+    //   ingredient_id: crypto.randomUUID(),
+    //   ingredient_name: '우유2',
+    //   ingredient_cost: 3500,
+    //   capacity: 1000,
+    //   unit: 'ml',
+    //   unit_cost: 3.5,
+    //   shop: '판매처',
+    //   ingredient_detail: '기타',
+    // },
   ],
 
   [STORE_IDS.STORE_2]: [
-    {
-      ingredient_id: crypto.randomUUID(),
-      ingredient_name: '우유',
-      ingredient_cost: 3500,
-      capacity: 1000,
-      unit: 'ml',
-      unit_cost: 3.5,
-      shop: '판매처',
-      ingredient_detail: '기타',
-    },
-    {
-      ingredient_id: crypto.randomUUID(),
-      ingredient_name: '우유',
-      ingredient_cost: 3500,
-      capacity: 1000,
-      unit: 'ml',
-      unit_cost: 3.5,
-      shop: '판매처',
-      ingredient_detail: '기타',
-    },
+    // {
+    //   ingredient_id: crypto.randomUUID(),
+    //   ingredient_name: '우유1',
+    //   ingredient_cost: 3500,
+    //   capacity: 1000,
+    //   unit: 'ml',
+    //   unit_cost: 3.5,
+    //   shop: '판매처',
+    //   ingredient_detail: '기타',
+    // },
+    // {
+    //   ingredient_id: crypto.randomUUID(),
+    //   ingredient_name: '우유2',
+    //   ingredient_cost: 3500,
+    //   capacity: 1000,
+    //   unit: 'ml',
+    //   unit_cost: 3.5,
+    //   shop: '판매처',
+    //   ingredient_detail: '기타',
+    // },
   ],
   [STORE_IDS.STORE_3]: [
-    {
-      ingredient_id: crypto.randomUUID(),
-      ingredient_name: '우유',
-      ingredient_cost: 3500,
-      capacity: 1000,
-      unit: 'ml',
-      unit_cost: 3.5,
-      shop: '판매처',
-      ingredient_detail: '기타',
-    },
-    {
-      ingredient_id: crypto.randomUUID(),
-      ingredient_name: '우유',
-      ingredient_cost: 3500,
-      capacity: 1000,
-      unit: 'ml',
-      unit_cost: 3.5,
-      shop: '판매처',
-      ingredient_detail: '기타',
-    },
+    // {
+    //   ingredient_id: crypto.randomUUID(),
+    //   ingredient_name: '우유1',
+    //   ingredient_cost: 3500,
+    //   capacity: 1000,
+    //   unit: 'ml',
+    //   unit_cost: 3.5,
+    //   shop: '판매처',
+    //   ingredient_detail: '기타',
+    // },
+    // {
+    //   ingredient_id: crypto.randomUUID(),
+    //   ingredient_name: '우유2',
+    //   ingredient_cost: 3500,
+    //   capacity: 1000,
+    //   unit: 'ml',
+    //   unit_cost: 3.5,
+    //   shop: '판매처',
+    //   ingredient_detail: '기타',
+    // },
   ],
 };
 
@@ -159,6 +159,30 @@ export const ingredientsHandler = [
       MOCK_INVENTORY[storeId] = [];
     }
 
+    // 중복된 이름 확인
+    const ingredients = MOCK_INGREDIENTS_DETAIL[storeId];
+    if (
+      ingredients.some(
+        (item) => item.ingredient_name === newIngredient.ingredient_name
+      )
+    ) {
+      return HttpResponse.json(
+        {
+          success: false,
+          message: 'Ingredient with the same name already exists',
+        },
+        { status: 400 }
+      );
+    }
+
+    // 음수 값 확인
+    if (newIngredient.capacity <= 0) {
+      return HttpResponse.json(
+        { success: false, message: 'Capacity must be a positive number' },
+        { status: 400 }
+      );
+    }
+
     // 새로운 재료 생성
     const ingredientId = crypto.randomUUID();
     const completeIngredient: IngredientResponse = {
@@ -173,7 +197,7 @@ export const ingredientsHandler = [
     const newInventoryItem: InventoryResponse = {
       ingredient_id: ingredientId,
       ingredient_name: completeIngredient.ingredient_name,
-      remaining_amount: completeIngredient.capacity, // 초기 용량을 재고로 설정
+      remaining_stock: completeIngredient.capacity, // 초기 용량을 재고로 설정
       unit: completeIngredient.unit,
     };
 
@@ -195,6 +219,7 @@ export const ingredientsHandler = [
       const updateData = (await request.json()) as IngredientRequest;
 
       const ingredients = MOCK_INGREDIENTS_DETAIL[storeId];
+
       if (!ingredients) {
         return new HttpResponse(null, { status: 404 });
       }
@@ -207,6 +232,31 @@ export const ingredientsHandler = [
         return new HttpResponse(null, { status: 404 });
       }
 
+      // 중복된 이름 확인 (현재 수정 중인 항목 제외)
+      if (
+        ingredients.some(
+          (item, idx) =>
+            idx !== index && item.ingredient_name === updateData.ingredient_name
+        )
+      ) {
+        return HttpResponse.json(
+          {
+            success: false,
+            message: 'Ingredient with the same name already exists',
+          },
+          { status: 400 }
+        );
+      }
+
+      // 음수 값 확인
+      if (updateData.capacity <= 0) {
+        return HttpResponse.json(
+          { success: false, message: 'Capacity must be a positive number' },
+          { status: 400 }
+        );
+      }
+
+      // 업데이트 처리
       const updatedItem = {
         ...ingredients[index],
         ...updateData,
