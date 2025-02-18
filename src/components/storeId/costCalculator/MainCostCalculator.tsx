@@ -3,6 +3,7 @@
 // };
 
 import Button from '@/components/common/Button';
+import { imageIcon } from '@/assets/assets';
 
 // const MainCostCalculator = ({ storeId }: MainCostCalculatorProps) => {
 
@@ -24,7 +25,7 @@ const MainCostCalculator = () => {
             </div>
           </header>
 
-          <article className='h-[calc(100%-70px)] w-full rounded-xl bg-white'>
+          <article className='h-[calc(100%-80px)] w-full rounded-xl bg-white'>
             <ul className='flex h-[65px] w-full items-center border-b border-underline text-center text-xl font-semibold text-main'>
               <li className='w-[20%] min-w-20'>사용 재료</li>
 
@@ -49,7 +50,20 @@ const MainCostCalculator = () => {
               <li>생산 단가 </li>
             </ul>
           </article>
-          <article className='h-[58%] w-full rounded-xl bg-white/50'></article>
+
+          <article className='h-[58%] w-full rounded-xl bg-white/50'>
+            <ul className='flex h-full flex-col items-start justify-between gap-5 p-5 text-xl font-semibold text-main'>
+              <li>메뉴 이미지 등록</li>
+              <li className='flex h-full w-full items-center justify-center'>
+                <img
+                  src={imageIcon}
+                  alt='이미지 아이콘'
+                  className='cursor-pointer opacity-70 hover:opacity-100'
+                />
+              </li>
+            </ul>
+          </article>
+
           <div className='flex items-center justify-between'>
             <Button children={' 취소하기'} />
             <Button children={'메뉴 저장하기'} />
