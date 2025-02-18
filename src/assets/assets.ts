@@ -1,4 +1,5 @@
 import google from './login/google.svg';
+import imageIcon from './store/imageIcon.svg';
 import kakao from './login/kakao.svg';
 import logo from './header/logo.svg';
 import logoText from './home/logoText.svg';
@@ -22,4 +23,5 @@ export {
   mapIcon,
   plusButton,
   rightArrow,
+  imageIcon,
 };
