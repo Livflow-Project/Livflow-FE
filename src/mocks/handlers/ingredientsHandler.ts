@@ -169,7 +169,7 @@ export const ingredientsHandler = [
       return HttpResponse.json(
         {
           success: false,
-          message: 'Ingredient with the same name already exists',
+          message: '재료의 이름이 중복됩니다.',
         },
         { status: 400 }
       );
@@ -178,7 +178,7 @@ export const ingredientsHandler = [
     // 음수 값 확인
     if (newIngredient.capacity <= 0) {
       return HttpResponse.json(
-        { success: false, message: 'Capacity must be a positive number' },
+        { success: false, message: '재료의 양은 음수값일 수 없습니다.' },
         { status: 400 }
       );
     }
@@ -242,7 +242,7 @@ export const ingredientsHandler = [
         return HttpResponse.json(
           {
             success: false,
-            message: 'Ingredient with the same name already exists',
+            message: '재료의 이름이 중복됩니다.',
           },
           { status: 400 }
         );
@@ -251,7 +251,7 @@ export const ingredientsHandler = [
       // 음수 값 확인
       if (updateData.capacity <= 0) {
         return HttpResponse.json(
-          { success: false, message: 'Capacity must be a positive number' },
+          { success: false, message: '재료의 양은 음수값일 수 없습니다.' },
           { status: 400 }
         );
       }

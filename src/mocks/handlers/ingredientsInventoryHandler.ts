@@ -40,7 +40,7 @@ export const IngredientsinventoryHandlers = [
       if (!inventory) {
         return new HttpResponse(null, {
           status: 404,
-          statusText: 'Store not found',
+          statusText: '스토어를 찾을 수 없습니다.',
         });
       }
 
@@ -51,7 +51,7 @@ export const IngredientsinventoryHandlers = [
       if (itemIndex === -1) {
         return new HttpResponse(null, {
           status: 404,
-          statusText: 'Ingredient not found',
+          statusText: '재료를 찾을 수 없습니다.',
         });
       }
 
@@ -60,7 +60,7 @@ export const IngredientsinventoryHandlers = [
       // 재고 부족 확인
       if (currentItem.remaining_stock < used_stock) {
         return HttpResponse.json(
-          { success: false, message: 'Insufficient inventory' },
+          { success: false, message: '재고가 부족합니다.' },
           { status: 400 }
         );
       }
