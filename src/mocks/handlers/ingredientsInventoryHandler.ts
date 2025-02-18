@@ -3,7 +3,7 @@ import { HttpResponse, http } from 'msw';
 type InventoryResponse = {
   ingredient_id: string;
   ingredient_name: string;
-  remaining_amount: number;
+  remaining_stock: number;
   unit: 'ml' | 'g' | 'ea';
 };
 
@@ -29,43 +29,49 @@ export const IngredientsinventoryHandlers = [
   }),
 
   // 재고 사용
-  http.post('/inventory/:storeId/use', async ({ params, request }) => {
-    const { storeId } = params;
-    const { ingredient_id, used_amount } = (await request.json()) as {
-      ingredient_id: string;
-      used_amount: number;
-    };
+  http.post(
+    '/inventory/:storeId/:ingredientId/use',
+    async ({ params, request }) => {
+      const { storeId, ingredientId } = params;
+      const { used_stock } = (await request.json()) as { used_stock: number };
 
-    const inventory = MOCK_INVENTORY[storeId as string];
+      const inventory = MOCK_INVENTORY[storeId as string];
 
-    if (!inventory) {
-      return new HttpResponse(null, { status: 404 });
-    }
+      if (!inventory) {
+        return new HttpResponse(null, {
+          status: 404,
+          statusText: 'Store not found',
+        });
+      }
 
-    const itemIndex = inventory.findIndex(
-      (i) => i.ingredient_id === ingredient_id
-    );
-
-    if (itemIndex === -1) {
-      return new HttpResponse(null, { status: 404 });
-    }
-
-    const currentItem = inventory[itemIndex];
-
-    // 재고 부족 확인
-    if (currentItem.remaining_amount < used_amount) {
-      return HttpResponse.json(
-        { success: false, message: 'Insufficient inventory' },
-        { status: 400 }
+      const itemIndex = inventory.findIndex(
+        (i) => i.ingredient_id === ingredientId
       );
+
+      if (itemIndex === -1) {
+        return new HttpResponse(null, {
+          status: 404,
+          statusText: 'Ingredient not found',
+        });
+      }
+
+      const currentItem = inventory[itemIndex];
+
+      // 재고 부족 확인
+      if (currentItem.remaining_stock < used_stock) {
+        return HttpResponse.json(
+          { success: false, message: 'Insufficient inventory' },
+          { status: 400 }
+        );
+      }
+
+      // 재고 차감
+      currentItem.remaining_stock -= used_stock;
+
+      return HttpResponse.json({
+        success: true,
+        data: currentItem,
+      });
     }
-
-    // 재고 차감
-    currentItem.remaining_amount -= used_amount;
-
-    return HttpResponse.json({
-      success: true,
-      data: currentItem,
-    });
-  }),
+  ),
 ];
