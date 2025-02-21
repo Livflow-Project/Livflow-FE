@@ -3,7 +3,7 @@ import { memo, useMemo, useState } from 'react';
 
 import { Category } from '@/api/store/store.type';
 import ChartTypeButton from './ChartTypeButton';
-import PieChart from '../../common/PieChart';
+import PieChart from '@/components/common/PieChart';
 
 type ChartViewProps = {
   chartInfo: Category[];

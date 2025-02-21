@@ -3,10 +3,10 @@
 // };
 
 import Button from '@/components/common/Button';
-import CostCalculatorHeader from './components/costCalculatorTable/costCalculatorHeader';
+import CostCalculatorHeader from './components/Header';
 import Header from './components/Header';
 import ImageUploader from './components/ImageUploader';
-import SummaryInfo from './components/Summaryinfo';
+import SummaryInfo from './components/SummaryInfo';
 
 // const MainCostCalculator = ({ storeId }: MainCostCalculatorProps) => {
 

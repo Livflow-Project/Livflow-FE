@@ -3,8 +3,8 @@ import 'swiper/swiper-bundle.css';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import AddStore from './stores/AddStore';
-import MyStore from './stores/MyStore';
+import AddStore from './components/AddStore';
+import MyStore from './components/MyStore';
 import { StoreDetailResponse } from '@/api/store/store.type';
 
 type StoreListProps = {

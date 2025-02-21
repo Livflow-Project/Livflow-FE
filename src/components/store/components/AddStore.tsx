@@ -12,13 +12,7 @@ const AddStore = ({ onOpenModal }: AddStoreProps) => {
       onClick={onOpenModal}
     >
       <div className='flex flex-col items-center justify-between gap-9'>
-        <img
-          src={plusButton}
-          alt='플러스 이미지'
-          className='w-[53px]'
-          width={53}
-          height={53}
-        />
+        <img src={plusButton} alt='플러스 이미지' className='w-[53px]' />
         <span className='text-xl font-normal text-caption'>
           스토어 추가하기
         </span>
