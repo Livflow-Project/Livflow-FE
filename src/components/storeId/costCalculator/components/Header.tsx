@@ -1,4 +1,4 @@
-const RecipeHeader = () => {
+const Header = () => {
   return (
     <header className='flex h-[60px] w-full items-center justify-evenly rounded-lg bg-white text-xl'>
       <div className='w-[45%]'>
@@ -15,4 +15,4 @@ const RecipeHeader = () => {
   );
 };
 
-export default RecipeHeader;
+export default Header;
