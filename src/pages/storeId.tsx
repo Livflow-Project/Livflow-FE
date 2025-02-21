@@ -16,14 +16,19 @@ const MainIngredient = lazy(
   () => import('@/components/storeId/ingredient/MainIngredient')
 );
 
-const MainCostCalculator = lazy(
-  () => import('@/components/storeId/costCalculator/MainCostCalculator')
+// const MainCostCalculator = lazy(
+//   () => import('@/components/storeId/costCalculator/MainCostCalculator')
+// );
+
+const MainRecipe = lazy(
+  () => import('@/components/storeId/costCalculator/MainRecipe')
 );
 
 const NAV_ITEMS = [
   { id: 1, title: '가계부', component: MainCalender },
   { id: 2, title: '재료', component: MainIngredient },
-  { id: 3, title: '원가계산', component: MainCostCalculator },
+  // { id: 3, title: '원가계산', component: MainCostCalculator },
+  { id: 3, title: '원가계산', component: MainRecipe },
 ];
 
 const StoreId = () => {
