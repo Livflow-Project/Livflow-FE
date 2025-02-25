@@ -5,7 +5,7 @@ type EditButtonProps = {
 const EditButton = ({ onClick }: EditButtonProps) => (
   <button
     onClick={onClick}
-    className='flex h-8 w-8 items-center justify-center rounded-full bg-main hover:bg-main/80'
+    className='flex h-8 w-8 items-center justify-center rounded-full bg-main/70 hover:bg-main'
   >
     <svg
       xmlns='http://www.w3.org/2000/svg'

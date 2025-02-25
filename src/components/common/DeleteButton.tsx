@@ -5,7 +5,7 @@ type DeleteButtonProps = {
 const DeleteButton = ({ onClick }: DeleteButtonProps) => (
   <button
     onClick={onClick}
-    className='flex h-8 w-8 items-center justify-center rounded-full bg-red hover:bg-red/80'
+    className='flex h-8 w-8 items-center justify-center rounded-full bg-red/70 hover:bg-red'
   >
     <svg
       xmlns='http://www.w3.org/2000/svg'
