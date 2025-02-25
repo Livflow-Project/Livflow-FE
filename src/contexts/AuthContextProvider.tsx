@@ -1,12 +1,7 @@
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { ReactNode, createContext, useContext, useState } from 'react';
 
-import axiosInstance from '@/api/axiosInstance';
+import { Cookies } from 'react-cookie';
+import LoadingPage from '@/pages/status/loadindPage';
 
 type AuthContextType = {
   isLoggedIn: boolean;
@@ -15,62 +10,75 @@ type AuthContextType = {
   logout: () => void;
 };
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isInitialized, setIsInitialized] = useState(false);
 
-  // 초기 로그인 상태 확인
-  useEffect(() => {
-    const verifyToken = async () => {
-      // 현재 경로가 / 또는 /login인 경우 토큰 검증 스킵
-      const currentPath = window.location.pathname;
-      if (currentPath === '/' || currentPath === '/login') {
-        setIsInitialized(true);
-        return;
-      }
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isInitialized, setIsInitialized] = useState(true);
 
-      try {
-        const response = await axiosInstance.post('/users/token/verify/');
-        setIsLoggedIn(response.status === 200);
-      } catch (error) {
-        console.error('토큰 검증 중 오류 발생:', error);
-        setIsLoggedIn(false);
-      } finally {
-        setIsInitialized(true);
-      }
-    };
+  const cookies = new Cookies();
 
-    verifyToken();
-  }, []);
+  // // 초기 로그인 상태 체크
+  // useEffect(() => {
+  //   const initializeAuth = () => {
+  //     try {
+  //       const accessToken = cookies.get('access_token');
+  //       if (accessToken) {
+  //         setIsLoggedIn(true);
+  //       } else {
+  //         setIsLoggedIn(false);
+  //       }
+  //     } catch (error) {
+  //       console.error('토큰 검증 중 오류 발생:', error);
+  //       setIsLoggedIn(false);
+  //     } finally {
+  //       setIsInitialized(true);
+  //     }
+  //   };
+
+  //   initializeAuth();
+  // }, []);
 
   const login = () => {
-    setIsLoggedIn(true);
+    const accessToken = cookies.get('access_token');
+    if (accessToken) {
+      setIsLoggedIn(true);
+    }
   };
 
   const logout = async () => {
     try {
-      await axiosInstance.post('/users/logout/');
+      cookies.remove('access_token', {
+        path: '/',
+        domain: window.location.hostname,
+        secure: true,
+        sameSite: 'strict',
+      });
       setIsLoggedIn(false);
+      window.location.href = '/';
     } catch (error) {
       console.error('로그아웃 중 오류 발생:', error);
       throw error;
     }
   };
 
-  return (
-    <AuthContext.Provider
-      value={{
-        isLoggedIn,
-        isInitialized,
-        login,
-        logout,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = {
+    isLoggedIn,
+    isInitialized,
+    login,
+    logout,
+  };
+
+  if (!isInitialized) {
+    return <LoadingPage />;
+  }
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
