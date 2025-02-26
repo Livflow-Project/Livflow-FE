@@ -153,7 +153,7 @@ export const costCalculatorHandlers = [
   }),
 
   // 특정 레시피 정보 조회
-  http.get('/costcalcul/:storeId/:recipesId', ({ params }) => {
+  http.get('/costcalcul/:storeId/:recipeId', ({ params }) => {
     const { storeId, recipeId } = params;
     const recipes = MOCK_RECIPE_DETAILS[storeId as string];
 
