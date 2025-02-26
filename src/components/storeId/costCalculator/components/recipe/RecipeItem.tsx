@@ -12,20 +12,36 @@ const RecipeItem = ({ recipe, isDeleteMode, onDelete }: RecipeItemProps) => {
   return (
     <li
       className={twMerge(
-        'border-gray relative h-[250px] w-[200px] rounded-lg border border-opacity-20 bg-white shadow-xl',
-        isDeleteMode && 'border-none bg-gray-400/50'
+        'border-gray relative h-[250px] w-[200px] rounded-lg border border-opacity-20 bg-white p-3 shadow-xl transition-all duration-200',
+        isDeleteMode && 'border-none bg-gray-400'
       )}
     >
-      <div className='p-4'>
-        <h3 className='font-bold'>{recipe.recipe_name}</h3>
-        {recipe.recipe_cost && <p>원가: {recipe.recipe_cost}원</p>}
-        {recipe.recipe_img && (
-          <img
-            src={recipe.recipe_img}
-            alt={recipe.recipe_name}
-            className='mt-2 h-32 w-full rounded object-cover'
-          />
-        )}
+      <div className='flex h-full w-full flex-col items-center'>
+        <div className='flex flex-grow items-center justify-center overflow-hidden'>
+          {recipe.recipe_img ? (
+            <img
+              src={recipe.recipe_img}
+              alt={recipe.recipe_name}
+              className={twMerge(
+                'max-h-full max-w-full rounded object-contain transition-all duration-200',
+                isDeleteMode && 'opacity-60 grayscale'
+              )}
+            />
+          ) : (
+            <div className='flex h-24 w-24 items-center justify-center rounded-full bg-gray-200'>
+              <span className='text-gray-400'>이미지 없음</span>
+            </div>
+          )}
+        </div>
+
+        <div className='mt-auto flex flex-col items-center justify-center py-2'>
+          <h1 className='line-clamp-1 text-xl font-bold'>
+            {recipe.recipe_name}
+          </h1>
+          {recipe.recipe_cost && (
+            <p className='text-lg'>{recipe.recipe_cost.toLocaleString()}원</p>
+          )}
+        </div>
       </div>
 
       {isDeleteMode && (
