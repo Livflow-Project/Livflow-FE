@@ -1,18 +1,14 @@
+import { CostCalculatorListItem } from '@/api/storeId/costCalculator/costCalculator.type';
 import DeleteButton from '@/components/common/DeleteButton';
 import { twMerge } from 'tailwind-merge';
 
-type Recipe = {
-  id: number;
-  // 추가적인 레시피 정보를 여기에 넣을 수 있습니다.
-};
-
 type RecipeItemProps = {
-  recipe: Recipe;
+  recipe: CostCalculatorListItem;
   isDeleteMode: boolean;
   onDelete: () => void;
 };
 
-const RecipeItem = ({ isDeleteMode, onDelete }: RecipeItemProps) => {
+const RecipeItem = ({ recipe, isDeleteMode, onDelete }: RecipeItemProps) => {
   return (
     <li
       className={twMerge(
@@ -20,6 +16,18 @@ const RecipeItem = ({ isDeleteMode, onDelete }: RecipeItemProps) => {
         isDeleteMode && 'border-none bg-gray-400/50'
       )}
     >
+      <div className='p-4'>
+        <h3 className='font-bold'>{recipe.recipe_name}</h3>
+        {recipe.recipe_cost && <p>원가: {recipe.recipe_cost}원</p>}
+        {recipe.recipe_img && (
+          <img
+            src={recipe.recipe_img}
+            alt={recipe.recipe_name}
+            className='mt-2 h-32 w-full rounded object-cover'
+          />
+        )}
+      </div>
+
       {isDeleteMode && (
         <div className='absolute right-2 top-2 flex items-center justify-center rounded-full text-3xl text-red'>
           <DeleteButton onClick={onDelete} />

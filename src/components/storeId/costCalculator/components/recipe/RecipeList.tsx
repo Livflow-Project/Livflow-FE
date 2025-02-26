@@ -1,14 +1,10 @@
+import { CostCalculatorListItem } from '@/api/storeId/costCalculator/costCalculator.type';
 import RecipeItem from './RecipeItem';
 
-type Recipe = {
-  id: number;
-  // 추가적인 레시피 정보를 여기에 넣을 수 있습니다.
-};
-
 type RecipeListProps = {
-  recipes: Recipe[];
+  recipes: CostCalculatorListItem[];
   isDeleteMode: boolean;
-  onDeleteRecipe: (id: number) => void;
+  onDeleteRecipe: (recipeId: string) => void;
 };
 
 const RecipeList = ({
@@ -21,10 +17,10 @@ const RecipeList = ({
       <ul className='grid grid-cols-4 gap-x-20 gap-y-10'>
         {recipes.map((recipe) => (
           <RecipeItem
-            key={recipe.id}
+            key={recipe.recipe_id}
             recipe={recipe}
             isDeleteMode={isDeleteMode}
-            onDelete={() => onDeleteRecipe(recipe.id)}
+            onDelete={() => onDeleteRecipe(recipe.recipe_id)}
           />
         ))}
       </ul>

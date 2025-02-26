@@ -1,24 +1,38 @@
+import {
+  useDeleteRecipeMutation,
+  useGetAllRecipes,
+} from '@/api/storeId/costCalculator/costCalculator.hooks';
 import { useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
+import ErrorPage from '@/pages/status/errorPage';
+import LoadingPage from '@/pages/status/loadindPage';
 import MainCostCalculator from './MainCostCalculator';
 import RecipeList from './components/recipe/RecipeList';
 
-type Recipe = {
-  id: number;
+type MainRecipeProps = {
+  storeId: string;
 };
 
-const MainRecipe = () => {
+const MainRecipe = ({ storeId }: MainRecipeProps) => {
   const [showCostCalculator, setShowCostCalculator] = useState(false);
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+
+  const {
+    data: recipes,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useGetAllRecipes(storeId || '');
+
+  const deleteRecipeMutation = useDeleteRecipeMutation(storeId || '');
 
   const handleAddMenu = () => {
     setShowCostCalculator(true);
   };
 
   const handleSaveMenu = () => {
-    setRecipes((prevRecipes) => [...prevRecipes, { id: Date.now() }]);
     setShowCostCalculator(false);
   };
 
@@ -30,26 +44,30 @@ const MainRecipe = () => {
     setIsDeleteMode((prevMode) => !prevMode);
   };
 
-  const handleDeleteRecipe = (id: number) => {
-    setRecipes((prevRecipes) => {
-      const updatedRecipes = prevRecipes.filter((recipe) => recipe.id !== id);
-      if (updatedRecipes.length === 0) {
-        setIsDeleteMode(false); // 모든 레시피가 삭제되면 삭제 모드 종료
-      }
-      return updatedRecipes;
-    });
+  const handleDeleteRecipe = (recipeId: string) => {
+    deleteRecipeMutation.mutate(recipeId);
   };
 
   useEffect(() => {
-    if (recipes.length === 0) {
+    // 레시피가 없으면 삭제 모드 비활성화
+    if (recipes && recipes.length === 0) {
       setIsDeleteMode(false);
     }
   }, [recipes]);
+
+  if (isLoading || !recipes) {
+    return <LoadingPage />;
+  }
+
+  if (isError) {
+    return <ErrorPage error={error as Error} resetError={() => refetch()} />;
+  }
 
   return (
     <div className='flex h-full flex-col'>
       {showCostCalculator ? (
         <MainCostCalculator
+          storeId={storeId}
           onSave={handleSaveMenu}
           onCancel={handleCancelMenu}
         />
@@ -61,7 +79,9 @@ const MainRecipe = () => {
             ) : (
               <>
                 <Button onClick={handleAddMenu}>메뉴 추가하기</Button>
-                <Button onClick={handleDeleteMode}>메뉴 삭제하기</Button>
+                {recipes && recipes.length > 0 && (
+                  <Button onClick={handleDeleteMode}>메뉴 삭제하기</Button>
+                )}
               </>
             )}
           </div>
