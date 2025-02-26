@@ -5,11 +5,16 @@ import ImageUploader from './components/costCalculator/ImageUploader';
 import SummaryInfo from './components/costCalculator/SummaryInfo';
 
 type MainCostCalculatorProps = {
+  storeId: string;
   onSave: () => void;
   onCancel: () => void;
 };
 
-const MainCostCalculator = ({ onSave, onCancel }: MainCostCalculatorProps) => {
+const MainCostCalculator = ({
+  storeId,
+  onSave,
+  onCancel,
+}: MainCostCalculatorProps) => {
   return (
     <div className='flex h-full justify-between px-[35px] py-[30px]'>
       <div className='flex h-full w-[70%] flex-col justify-between'>
