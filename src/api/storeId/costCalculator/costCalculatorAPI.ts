@@ -9,9 +9,7 @@ import axiosInstance from '@/api/axiosInstance';
 export const getAllRecipesAPI = async (
   storeId: string
 ): Promise<CostCalculatorListItem[]> => {
-  console.log('API 응답:', storeId);
   const response = await axiosInstance.get(`/costcalcul/${storeId}`);
-  console.log('API 응답:', response.data);
   return response.data;
 };
 
