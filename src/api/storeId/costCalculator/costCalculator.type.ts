@@ -3,6 +3,7 @@ export type CostCalculatorListItem = {
   recipe_name: string;
   recipe_cost?: number;
   recipe_img?: string;
+  is_favorites: boolean;
 };
 
 export type RecipeIngredient = {
@@ -17,6 +18,7 @@ export type CostCalculatorDetail = {
   recipe_name: string;
   recipe_cost?: number;
   recipe_img?: string;
+  is_favorites: boolean;
   ingredients?: RecipeIngredient[];
   total_ingredient_cost?: number;
   production_quantity?: number;
