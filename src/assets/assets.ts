@@ -1,3 +1,4 @@
+import favoritesIcon from './store/favoritesIcon.svg';
 import google from './login/google.svg';
 import imageIcon from './store/imageIcon.svg';
 import kakao from './login/kakao.svg';
@@ -24,4 +25,5 @@ export {
   plusButton,
   rightArrow,
   imageIcon,
+  favoritesIcon,
 };
