@@ -1,5 +1,6 @@
 import { CostCalculatorListItem } from '@/api/storeId/costCalculator/costCalculator.type';
 import DeleteButton from '@/components/common/DeleteButton';
+import { favoritesIcon } from '@/assets/assets';
 import { twMerge } from 'tailwind-merge';
 
 type RecipeItemProps = {
@@ -16,6 +17,18 @@ const RecipeItem = ({ recipe, isDeleteMode, onDelete }: RecipeItemProps) => {
         isDeleteMode && 'border-none bg-gray-400'
       )}
     >
+      {recipe.is_favorites && (
+        <div className='absolute -left-3 -top-3 flex items-center justify-center rounded-full'>
+          <img
+            src={favoritesIcon}
+            className={twMerge(
+              'transition-all duration-200',
+              isDeleteMode && 'grayscale'
+            )}
+          />
+        </div>
+      )}
+
       <div className='flex h-full w-full flex-col items-center'>
         <div className='flex flex-grow items-center justify-center overflow-hidden'>
           {recipe.recipe_img ? (
