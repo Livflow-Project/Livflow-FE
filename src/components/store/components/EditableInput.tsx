@@ -33,7 +33,7 @@ const EditableInput = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={onKeyDown}
-          className='h-full w-[200px] border-0 border-b border-gray-300 bg-transparent p-0 pb-1 text-center text-[17px] font-semibold text-main focus:border-b focus:border-gray-300 focus:outline-none focus:ring-0'
+          className='h-full w-[200px] border-0 border-b border-gray-300 bg-transparent p-0 text-center text-[17px] font-semibold text-main focus:border-b focus:border-gray-300 focus:outline-none focus:ring-0'
           required={isRequired}
         />
       ) : (
