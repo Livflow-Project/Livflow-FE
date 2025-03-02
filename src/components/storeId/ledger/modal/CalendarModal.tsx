@@ -192,7 +192,7 @@ const CalendarModal = ({
               });
             }}
             placeholder='숫자만 입력해 주세요.'
-            className='input_box [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none'
+            className='input_box number_input'
           />
         </li>
 

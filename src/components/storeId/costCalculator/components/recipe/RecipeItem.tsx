@@ -13,7 +13,7 @@ const RecipeItem = ({ recipe, isDeleteMode, onDelete }: RecipeItemProps) => {
   return (
     <li
       className={twMerge(
-        'border-gray relative h-[250px] w-[200px] rounded-lg border border-opacity-20 bg-white p-3 shadow-xl transition-all duration-200',
+        'recipe_box',
         isDeleteMode && 'border-none bg-gray-400'
       )}
     >
