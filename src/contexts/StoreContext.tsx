@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
 
 type StoreInfo = {
+  id?: string;
   name: string;
   address?: string;
 };
