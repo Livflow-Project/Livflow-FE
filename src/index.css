@@ -39,79 +39,71 @@ body {
   opacity: 1 !important;
 }
 
-@layer utilities {
+/* 기본 컴포넌트 스타일 - 재사용 가능한 UI 컴포넌트 */
+@layer components {
   .store_box {
     @apply h-[560px] w-[340px] rounded-lg border border-underline border-opacity-20 bg-white shadow-xl;
   }
+
+  .recipe_box {
+    @apply relative h-[250px] w-[200px] cursor-pointer rounded-lg border border-underline border-opacity-20 bg-white p-3 shadow-xl transition-all duration-200;
+  }
+
+  .modal_div {
+    @apply rounded-xl bg-white p-[40px] text-center shadow-lg;
+  }
+
+  .social_button {
+    @apply h-[60px] w-[620px] text-xl font-medium;
+  }
+
+  .choice_button {
+    @apply h-[34px] w-[96px] self-center rounded-2xl bg-button text-xl text-white hover:bg-button_hover;
+  }
+
+  .delete_button {
+    @apply h-[34px] w-[96px] self-center rounded-2xl bg-red/70 text-xl text-white hover:bg-red;
+  }
+
+  .input_label {
+    @apply text-xl font-medium text-main;
+  }
+
+  .input_box {
+    @apply h-[42px] w-[60%] rounded-lg border px-3 py-2;
+  }
+
+  .input_underlined {
+    @apply border-0 border-b border-gray-300 bg-transparent p-0 text-center text-lg focus:border-b focus:border-gray-300 focus:outline-none focus:ring-0;
+  }
 }
 
+/* 유틸리티 스타일 - 작은 단위의 스타일 */
 @layer utilities {
   .button_gap {
     @apply flex items-center justify-center gap-28;
   }
-}
 
-@layer utilities {
-  .social_button {
-    @apply h-[60px] w-[620px] text-xl font-medium;
-  }
-}
-
-@layer utilities {
   .soft_TcolorSet {
     @apply text-primary/50 hover:text-primary_hover;
   }
-}
 
-@layer utilities {
   .deep_TcolorSet {
     @apply text-primary hover:text-primary_hover;
   }
-}
 
-@layer utilities {
   .soft_BcolorSet {
     @apply h-[45px] rounded-3xl bg-button/70 text-[18px] font-semibold text-white hover:bg-button_hover;
   }
-}
 
-@layer utilities {
   .deep_BcolorSet {
     @apply bg-button hover:bg-button_hover;
   }
-}
 
-@layer utilities {
-  .choice_button {
-    @apply h-[34px] w-[96px] self-center rounded-2xl bg-button text-xl text-white hover:bg-button_hover;
+  .number_input {
+    @apply [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none;
   }
-}
 
-@layer utilities {
-  .delete_button {
-    @apply h-[34px] w-[96px] self-center rounded-2xl bg-red/70 text-xl text-white hover:bg-red;
-  }
-}
-
-@layer utilities {
-  .modal_div {
-    @apply rounded-xl bg-white p-[40px] text-center shadow-lg;
-  }
-}
-
-@layer utilities {
-  .input_label {
-    @apply text-xl font-medium text-main;
-  }
-}
-
-@layer utilities {
-  .input_box {
-    @apply h-[42px] w-[60%] rounded-lg border px-3 py-2;
-  }
-}
-
-@layer utilities {
   .no_hover {
     pointer-events: none;
     @apply text-gray-400/50;
