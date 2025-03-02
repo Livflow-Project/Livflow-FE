@@ -9,14 +9,14 @@ import ErrorPage from '@/pages/status/errorPage';
 import LoadingPage from '@/pages/status/loadindPage';
 import MainCostCalculator from './MainCostCalculator';
 import RecipeList from './components/recipe/RecipeList';
+import { useStore } from '@/contexts/StoreContext';
 
-type MainRecipeProps = {
-  storeId: string;
-};
-
-const MainRecipe = ({ storeId }: MainRecipeProps) => {
+const MainRecipe = () => {
   const [showCostCalculator, setShowCostCalculator] = useState(false);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+
+  const { storeInfo } = useStore();
+  const storeId = storeInfo?.id || '';
 
   const {
     data: recipes,

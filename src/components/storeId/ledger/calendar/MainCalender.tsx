@@ -5,12 +5,12 @@ import MonthlyOverview from './components/MonthlyOverview';
 import { toast } from 'react-toastify';
 import { useGetLedgerCalendar } from '@/api/storeId/ledger/calendar/calendar.hooks';
 import { useState } from 'react';
+import { useStore } from '@/contexts/StoreContext';
 
-type CalendarProps = {
-  storeId: string;
-};
+const MainCalendar = () => {
+  const { storeInfo } = useStore();
+  const storeId = storeInfo?.id || '';
 
-const MainCalendar = ({ storeId }: CalendarProps) => {
   const today = new Date();
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);

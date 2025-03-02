@@ -5,18 +5,18 @@ import { IngredientResponse } from '@/api/storeId/ingredients/ingredients.type';
 import IngredientsModal from './modal/IngredientsModal';
 import { useIngredientsQuery } from '@/api/storeId/ingredients/ingredients.hooks';
 import { useState } from 'react';
+import { useStore } from '@/contexts/StoreContext';
 
-type MainIngredientProps = {
-  storeId: string;
-};
-
-const MainIngredient = ({ storeId }: MainIngredientProps) => {
+const MainIngredient = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingIngredient, setEditingIngredient] =
     useState<IngredientResponse | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { useGetAllIngredients, useDeleteIngredient } = useIngredientsQuery();
+
+  const { storeInfo } = useStore();
+  const storeId = storeInfo?.id || '';
 
   const {
     data: ingredients,
