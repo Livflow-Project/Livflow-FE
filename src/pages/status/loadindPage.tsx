@@ -18,7 +18,7 @@ const LoadingPage = () => {
         className='relative h-20 w-20'
         variants={containerVariants}
         animate='animate'
-        style={{ transformOrigin: 'center' }} // 회전 중심점 설정
+        style={{ transformOrigin: 'center' }}
       >
         {[...Array(6)].map((_, i) => {
           const angle = i * 60 * (Math.PI / 180);
@@ -26,14 +26,14 @@ const LoadingPage = () => {
           const y = Math.sin(angle) * 30;
 
           return (
-            <div // motion.div에서 일반 div로 변경
+            <div
               key={i}
               className='absolute h-4 w-4 rounded-full bg-primary'
               style={{
-                left: 'calc(50% - 8px)', // 원의 크기(16px)의 절반만큼 조정
+                left: 'calc(50% - 8px)',
                 top: 'calc(50% - 8px)',
                 transform: `translate(${x}px, ${y}px)`,
-                transformOrigin: 'center', // 각 원의 회전 중심점도 설정
+                transformOrigin: 'center',
               }}
             />
           );
