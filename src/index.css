@@ -74,7 +74,7 @@ body {
   }
 
   .input_underlined {
-    @apply border-0 border-b border-gray-300 bg-transparent p-0 text-center text-lg focus:border-b focus:border-gray-300 focus:outline-none focus:ring-0;
+    @apply min-w-0 border-0 border-b border-gray-300 bg-transparent p-0 text-center text-lg focus:border-b focus:border-gray-300 focus:outline-none focus:ring-0;
   }
 }
 
