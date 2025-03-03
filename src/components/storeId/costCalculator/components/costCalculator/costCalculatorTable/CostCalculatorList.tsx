@@ -42,18 +42,24 @@ const CostCalculatorList = ({
   }
 
   return (
-    <div>
-      {inventoryItems.map((item) => (
-        <CostCalculatorItem
-          key={item.ingredient_id}
-          inventoryItem={item}
-          totalCost={totalCost}
-          onCostChange={(cost) =>
-            handleItemCostChange(item.ingredient_id, cost)
-          }
-        />
-      ))}
-    </div>
+    <>
+      {Array.isArray(inventoryItems) && inventoryItems.length > 0 ? (
+        inventoryItems.map((item) => (
+          <CostCalculatorItem
+            key={item.ingredient_id}
+            inventoryItem={item}
+            totalCost={totalCost}
+            onCostChange={(cost) =>
+              handleItemCostChange(item.ingredient_id, cost)
+            }
+          />
+        ))
+      ) : (
+        <div className='flex h-[calc(100%-65px)] w-full items-center justify-center'>
+          <p className='text-2xl text-main'>저장된 재료가 없습니다.</p>
+        </div>
+      )}
+    </>
   );
 };
 
