@@ -1,20 +1,29 @@
 import Button from '@/components/common/Button';
 import CostCalculatorHeader from './components/costCalculator/costCalculatorTable/CostCalculatorHeader';
+import CostCalculatorList from './components/costCalculator/costCalculatorTable/CostCalculatorList';
 import Header from './components/costCalculator/Header';
 import ImageUploader from './components/costCalculator/ImageUploader';
 import SummaryInfo from './components/costCalculator/SummaryInfo';
+import { useGetInventoryItems } from '@/api/storeId/inventory/inventory.hooks';
+import { useStore } from '@/contexts/StoreContext';
 
 type MainCostCalculatorProps = {
-  storeId: string;
   onSave: () => void;
   onCancel: () => void;
 };
 
-const MainCostCalculator = ({
-  storeId,
-  onSave,
-  onCancel,
-}: MainCostCalculatorProps) => {
+const MainCostCalculator = ({ onSave, onCancel }: MainCostCalculatorProps) => {
+  // 스토어 컨텍스트에서 storeId 가져오기
+  const { storeInfo } = useStore();
+  const storeId = storeInfo?.id || '';
+
+  // 재료 목록 데이터 가져오기
+  const {
+    data: inventoryItems,
+    isLoading,
+    error,
+  } = useGetInventoryItems(storeId);
+
   return (
     <div className='flex h-full justify-between px-[35px] py-[30px]'>
       <div className='flex h-full w-[70%] flex-col justify-between'>
@@ -22,6 +31,11 @@ const MainCostCalculator = ({
 
         <article className='h-[calc(100%-80px)] w-full rounded-xl bg-white'>
           <CostCalculatorHeader />
+
+          <CostCalculatorList
+            inventoryItems={inventoryItems || []}
+            isLoading={isLoading}
+          />
         </article>
       </div>
 
