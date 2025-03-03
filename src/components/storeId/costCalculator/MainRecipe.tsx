@@ -67,7 +67,6 @@ const MainRecipe = () => {
     <div className='flex h-full flex-col'>
       {showCostCalculator ? (
         <MainCostCalculator
-          storeId={storeId}
           onSave={handleSaveMenu}
           onCancel={handleCancelMenu}
         />
