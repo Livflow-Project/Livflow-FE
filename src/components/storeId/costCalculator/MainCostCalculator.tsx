@@ -6,6 +6,7 @@ import Header from './components/costCalculator/Header';
 import ImageUploader from './components/costCalculator/ImageUploader';
 import SummaryInfo from './components/costCalculator/SummaryInfo';
 import { useGetInventoryItems } from '@/api/storeId/inventory/inventory.hooks';
+import { useState } from 'react';
 import { useStore } from '@/contexts/StoreContext';
 
 type MainCostCalculatorProps = {
@@ -17,6 +18,9 @@ const MainCostCalculator = ({ onSave, onCancel }: MainCostCalculatorProps) => {
   // 스토어 컨텍스트에서 storeId 가져오기
   const { storeInfo } = useStore();
   const storeId = storeInfo?.id || '';
+
+  // 총 재료 원가를 저장할 상태 추가
+  const [totalIngredientCost, setTotalIngredientCost] = useState<number>(0);
 
   // 재료 목록 데이터 가져오기
   const {
@@ -42,12 +46,13 @@ const MainCostCalculator = ({ onSave, onCancel }: MainCostCalculatorProps) => {
           <CostCalculatorList
             inventoryItems={inventoryItems || []}
             isLoading={isLoading}
+            onTotalCostChange={setTotalIngredientCost}
           />
         </article>
       </div>
 
       <div className='flex h-full w-[28%] flex-col justify-between'>
-        <SummaryInfo />
+        <SummaryInfo totalIngredientCost={totalIngredientCost} />
 
         <ImageUploader />
 
