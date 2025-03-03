@@ -5,6 +5,7 @@ type InventoryResponse = {
   ingredient_name: string;
   remaining_stock: number;
   unit: 'ml' | 'g' | 'ea';
+  unit_cost: number;
 };
 
 const STORE_IDS = {

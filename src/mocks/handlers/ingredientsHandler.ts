@@ -7,6 +7,7 @@ type InventoryResponse = {
   ingredient_name: string;
   remaining_stock: number;
   unit: 'ml' | 'g' | 'ea';
+  unit_cost: number;
 };
 
 type IngredientsResponse = {
@@ -199,6 +200,7 @@ export const ingredientsHandler = [
       ingredient_name: completeIngredient.ingredient_name,
       remaining_stock: completeIngredient.capacity, // 초기 용량을 재고로 설정
       unit: completeIngredient.unit,
+      unit_cost: completeIngredient.unit_cost,
     };
 
     MOCK_INVENTORY[storeId].push(newInventoryItem);
