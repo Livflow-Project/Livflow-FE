@@ -1,6 +1,7 @@
 import Button from '@/components/common/Button';
 import CostCalculatorHeader from './components/costCalculator/costCalculatorTable/CostCalculatorHeader';
 import CostCalculatorList from './components/costCalculator/costCalculatorTable/CostCalculatorList';
+import ErrorPage from '@/pages/status/errorPage';
 import Header from './components/costCalculator/Header';
 import ImageUploader from './components/costCalculator/ImageUploader';
 import SummaryInfo from './components/costCalculator/SummaryInfo';
@@ -21,8 +22,14 @@ const MainCostCalculator = ({ onSave, onCancel }: MainCostCalculatorProps) => {
   const {
     data: inventoryItems,
     isLoading,
+    isError,
     error,
+    refetch,
   } = useGetInventoryItems(storeId);
+
+  if (isError) {
+    return <ErrorPage error={error as Error} resetError={() => refetch()} />;
+  }
 
   return (
     <div className='flex h-full justify-between px-[35px] py-[30px]'>
