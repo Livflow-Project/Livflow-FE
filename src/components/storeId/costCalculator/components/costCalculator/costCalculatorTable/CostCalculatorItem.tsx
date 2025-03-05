@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react';
 
 import { InventoryItem } from '@/api/storeId/inventory/inventory.type';
+import { twMerge } from 'tailwind-merge';
 
 type CostCalculatorItemProps = {
   inventoryItem: InventoryItem;
   totalCost: number;
+  isLastItem: boolean;
   onCostChange: (cost: number) => void;
 };
 
 const CostCalculatorItem = ({
   inventoryItem,
   totalCost,
+  isLastItem,
   onCostChange,
 }: CostCalculatorItemProps) => {
   // 사용량을 저장할 상태 추가
@@ -39,7 +42,12 @@ const CostCalculatorItem = ({
   }, [calculatedCost]);
 
   return (
-    <ul className='relative flex h-[45px] w-full items-center border-b border-underline/30 text-center text-lg font-normal'>
+    <ul
+      className={twMerge(
+        'relative flex h-[45px] w-full flex-shrink-0 items-center text-center text-lg font-normal',
+        !isLastItem && 'border-b border-underline/30'
+      )}
+    >
       <li className='text-x w-[20%] min-w-20'>
         {inventoryItem.ingredient_name}
       </li>

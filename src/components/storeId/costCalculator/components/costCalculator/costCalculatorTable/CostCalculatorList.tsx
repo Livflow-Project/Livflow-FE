@@ -42,13 +42,14 @@ const CostCalculatorList = ({
   }
 
   return (
-    <>
+    <div className='flex h-[calc(100%-65px)] w-full flex-col overflow-y-auto'>
       {Array.isArray(inventoryItems) && inventoryItems.length > 0 ? (
-        inventoryItems.map((item) => (
+        inventoryItems.map((item, index) => (
           <CostCalculatorItem
             key={item.ingredient_id}
             inventoryItem={item}
             totalCost={totalCost}
+            isLastItem={index === inventoryItems.length - 1}
             onCostChange={(cost) =>
               handleItemCostChange(item.ingredient_id, cost)
             }
@@ -59,7 +60,7 @@ const CostCalculatorList = ({
           <p className='text-2xl text-main'>저장된 재료가 없습니다.</p>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
