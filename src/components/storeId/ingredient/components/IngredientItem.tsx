@@ -1,10 +1,12 @@
 import DeleteButton from '@/components/common/DeleteButton';
 import EditButton from '@/components/common/EditButton';
 import { IngredientResponse } from '@/api/storeId/ingredients/ingredients.type';
+import { twMerge } from 'tailwind-merge';
 
 type IngredientItemProps = {
   index: number;
   ingredient: IngredientResponse;
+  isLastItem: boolean;
   isEditMode: boolean;
   onEdit: (transaction: IngredientResponse) => void;
   onDelete: (transaction: IngredientResponse) => void;
@@ -13,11 +15,17 @@ type IngredientItemProps = {
 const IngredientItem = ({
   index,
   ingredient,
+  isLastItem,
   isEditMode,
   onEdit,
   onDelete,
 }: IngredientItemProps) => (
-  <ul className='relative flex h-[45px] w-full items-center border-b border-underline/30 text-center'>
+  <ul
+    className={twMerge(
+      'relative flex h-[45px] w-full flex-shrink-0 items-center text-center',
+      !isLastItem && 'border-b border-underline/30'
+    )}
+  >
     <li className='w-[8%] min-w-20 text-lg font-normal'>{index + 1}</li>
 
     <li className='w-[16%] text-lg font-normal'>
