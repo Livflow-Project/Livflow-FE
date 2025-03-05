@@ -14,7 +14,7 @@ const TransactionList = ({
   onEdit,
   onDelete,
 }: TransactionListProps) => (
-  <div className='flex h-[calc(100%-130px)] w-full flex-col'>
+  <div className='flex h-[calc(100%-150px)] w-full flex-col overflow-y-auto'>
     {transactions && transactions.length > 0 ? (
       transactions.map((transaction) => (
         <TransactionItem
