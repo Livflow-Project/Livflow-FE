@@ -15,17 +15,13 @@ type CostCalCulatorResponse = {
   recipe_img?: string;
   is_favorites: boolean;
   ingredients?: RecipeIngredient[];
-  total_ingredient_cost?: number;
   production_quantity?: number;
-  production_cost?: number;
 };
 
 // 레시피에 사용되는 재료 정보
 type RecipeIngredient = {
   ingredient_id: string;
-  ingredient_name: string;
   required_amount: number;
-  unit: 'ml' | 'g' | 'ea';
 };
 
 type CostCalCulatorRequest = Omit<CostCalCulatorResponse, 'recipe_id'>;
@@ -100,14 +96,10 @@ const MOCK_RECIPE_DETAILS: Record<string, CostCalCulatorResponse[]> = {
       ingredients: [
         {
           ingredient_id: crypto.randomUUID(),
-          ingredient_name: '우유',
           required_amount: 1000,
-          unit: 'ml',
         },
       ],
-      total_ingredient_cost: 1000,
       production_quantity: 1,
-      production_cost: 1500,
     },
   ],
   [STORE_IDS.STORE_2]: [
@@ -120,14 +112,10 @@ const MOCK_RECIPE_DETAILS: Record<string, CostCalCulatorResponse[]> = {
       ingredients: [
         {
           ingredient_id: crypto.randomUUID(),
-          ingredient_name: '우유',
           required_amount: 1000,
-          unit: 'ml',
         },
       ],
-      total_ingredient_cost: 1000,
       production_quantity: 1,
-      production_cost: 1500,
     },
   ],
   [STORE_IDS.STORE_3]: [
@@ -140,14 +128,10 @@ const MOCK_RECIPE_DETAILS: Record<string, CostCalCulatorResponse[]> = {
       ingredients: [
         {
           ingredient_id: crypto.randomUUID(),
-          ingredient_name: '우유',
           required_amount: 1000,
-          unit: 'ml',
         },
       ],
-      total_ingredient_cost: 1000,
       production_quantity: 1,
-      production_cost: 1500,
     },
   ],
 };
