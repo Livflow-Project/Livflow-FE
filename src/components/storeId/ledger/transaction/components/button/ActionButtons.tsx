@@ -20,7 +20,7 @@ const ActionButtons = ({
   }
 
   return (
-    <div className='flex w-full items-center justify-between px-[25px] pb-[20px]'>
+    <div className='flex w-full items-center justify-between px-[25px] py-[20px]'>
       <Button onClick={onModalOpen}>지출 / 수입 추가하기</Button>
       <Button onClick={onEditModeToggle}>수정 / 삭제 하기</Button>
     </div>
