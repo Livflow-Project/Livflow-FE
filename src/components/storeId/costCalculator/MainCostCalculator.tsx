@@ -40,7 +40,7 @@ const MainCostCalculator = ({ onSave, onCancel }: MainCostCalculatorProps) => {
       <div className='flex h-full w-[70%] flex-col justify-between'>
         <Header />
 
-        <article className='h-[calc(100%-80px)] w-full rounded-xl bg-white'>
+        <article className='h-[calc(100%-80px)] w-full overflow-hidden rounded-xl bg-white'>
           <CostCalculatorHeader />
 
           <CostCalculatorList
