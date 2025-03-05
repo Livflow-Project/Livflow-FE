@@ -14,12 +14,13 @@ const IngredientList = ({
   onEdit,
   onDelete,
 }: IngredientListProps) => (
-  <div className='flex h-[calc(100%-130px)] w-full flex-col'>
+  <div className='flex h-[calc(100%-65px)] w-full flex-col overflow-y-auto'>
     {ingredients && ingredients.length > 0 ? (
       ingredients.map((ingredient, index) => (
         <IngredientItem
           key={ingredient.ingredient_id}
           index={index}
+          isLastItem={index === ingredients.length - 1}
           ingredient={ingredient}
           isEditMode={isEditMode}
           onEdit={onEdit}
