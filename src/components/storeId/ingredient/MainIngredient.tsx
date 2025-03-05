@@ -61,9 +61,9 @@ const MainIngredient = () => {
         <header className='flex w-full items-center justify-between gap-5'>
           <div className='h-[60px] w-[30%] min-w-[350px] rounded-lg bg-white/50'>
             <div className='flex h-full w-full items-center justify-evenly text-xl'>
-              <span>{`총 등록된 재료 : ${ingredients?.all_ingredient}개`}</span>
+              <span>{`총 등록된 재료 : ${ingredients?.all_ingredient ?? 0}개`}</span>
               <div className='h-[40px] w-[1px] bg-caption'></div>
-              <span>{`총 비용 : ${ingredients?.all_ingredient_cost}원`}</span>
+              <span>{`총 비용 : ${ingredients?.all_ingredient_cost ?? 0}원`}</span>
             </div>
           </div>
 
@@ -79,7 +79,7 @@ const MainIngredient = () => {
           </div>
         </header>
 
-        <div className='h-[calc(100%-80px)] w-full rounded-xl bg-white'>
+        <div className='h-[calc(100%-80px)] w-full overflow-hidden rounded-xl bg-white'>
           <IngredientHeader />
 
           <IngredientList
