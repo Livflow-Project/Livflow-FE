@@ -15,7 +15,7 @@ const TransactionItem = ({
   onEdit,
   onDelete,
 }: TransactionItemProps) => (
-  <ul className='relative flex h-[45px] w-full items-center border-b border-underline/30 text-center'>
+  <ul className='relative flex h-[45px] w-full flex-shrink-0 items-center border-b border-underline/30 text-center'>
     <li className='w-[30%] text-lg font-normal'>{transaction.category}</li>
 
     <li className='w-[40%] text-lg font-normal'>{transaction.detail}</li>
