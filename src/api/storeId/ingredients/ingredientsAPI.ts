@@ -3,19 +3,19 @@ import axiosInstance from '../../axiosInstance';
 
 export const IngredientsAPI = {
   getAllIngredientsAPI: async (storeId: string) => {
-    const response = await axiosInstance.get(`/ingredients/${storeId}`);
+    const response = await axiosInstance.get(`/ingredients/${storeId}/`);
     return response.data;
   },
 
   getIngredientAPI: async (storeId: string, ingredientsId: string) => {
     const response = await axiosInstance.get(
-      `/ingredients/${storeId}/${ingredientsId}`
+      `/ingredients/${storeId}/${ingredientsId}/`
     );
     return response.data;
   },
 
   addIngredientAPI: async (storeId: string, data: IngredientRequest) => {
-    const response = await axiosInstance.post(`/ingredients/${storeId}`, data);
+    const response = await axiosInstance.post(`/ingredients/${storeId}/`, data);
     return response.data;
   },
 
@@ -25,7 +25,7 @@ export const IngredientsAPI = {
     data: IngredientRequest
   ) => {
     const response = await axiosInstance.put(
-      `/ingredients/${storeId}/${ingredientsId}`,
+      `/ingredients/${storeId}/${ingredientsId}/`,
       data
     );
     return response.data;
@@ -33,7 +33,7 @@ export const IngredientsAPI = {
 
   deleteIngredientAPI: async (storeId: string, ingredientsId: string) => {
     const response = await axiosInstance.delete(
-      `/ingredients/${storeId}/${ingredientsId}`
+      `/ingredients/${storeId}/${ingredientsId}/`
     );
     return response.data;
   },

@@ -9,7 +9,7 @@ import axiosInstance from '@/api/axiosInstance';
 export const getAllRecipesAPI = async (
   storeId: string
 ): Promise<CostCalculatorListItem[]> => {
-  const response = await axiosInstance.get(`/costcalcul/${storeId}`);
+  const response = await axiosInstance.get(`/costcalcul/${storeId}/`);
   return response.data;
 };
 
@@ -18,7 +18,7 @@ export const getRecipeAPI = async (
   recipeId: string
 ): Promise<CostCalculatorDetail> => {
   const response = await axiosInstance.get(
-    `/costcalcul/${storeId}/${recipeId}`
+    `/costcalcul/${storeId}/${recipeId}/`
   );
   return response.data;
 };
@@ -27,7 +27,7 @@ export const createRecipeAPI = async (
   storeId: string,
   data: CostCalculatorRequest
 ): Promise<CostCalculatorDetail> => {
-  const response = await axiosInstance.post(`/costcalcul/${storeId}`, data);
+  const response = await axiosInstance.post(`/costcalcul/${storeId}/`, data);
   return response.data;
 };
 
@@ -37,7 +37,7 @@ export const updateRecipeAPI = async (
   data: CostCalculatorRequest
 ): Promise<CostCalculatorDetail> => {
   const response = await axiosInstance.put(
-    `/costcalcul/${storeId}/${recipeId}`,
+    `/costcalcul/${storeId}/${recipeId}/`,
     data
   );
   return response.data;
@@ -45,7 +45,7 @@ export const updateRecipeAPI = async (
 
 export const deleteRecipeAPI = async (storeId: string, recipeId: string) => {
   const response = await axiosInstance.delete(
-    `/costcalcul/${storeId}/${recipeId}`
+    `/costcalcul/${storeId}/${recipeId}/`
   );
   return response.data;
 };
