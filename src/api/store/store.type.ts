@@ -1,5 +1,4 @@
 export type StoresResponse = {
-  all_stores: number;
   stores: StoreDetailResponse[];
 };
 

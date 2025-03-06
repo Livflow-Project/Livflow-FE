@@ -39,13 +39,13 @@ const Store = () => {
     <div className='flex h-[calc(100vh-75px)] flex-col items-center justify-center bg-white'>
       <div className='w-full max-w-[1200px]'>
         <StoreHeader
-          storeCount={data?.all_stores || 0}
+          storeCount={data.length || 0}
           isDeleteMode={isDeleteMode}
           onDeleteModeToggle={handleDeleteModeToggle}
         />
 
         <StoreList
-          stores={data?.stores}
+          stores={data}
           onToggleModal={handleToggleModal}
           isDeleteMode={isDeleteMode}
         />

@@ -1,7 +1,6 @@
 import { HttpResponse, http } from 'msw';
 
 type StoresResponse = {
-  all_stores: number;
   stores: StoreDetailResponse[];
 };
 
@@ -108,10 +107,9 @@ export const storeHandler = [
   // 모든 상점 조회
   http.get('/stores', () => {
     const response: StoresResponse = {
-      all_stores: stores.length,
-      stores: stores,
+      stores,
     };
-    return HttpResponse.json(response);
+    return HttpResponse.json(response.stores);
   }),
 
   // 특정 스토어 이름, 주소 정보 조회
