@@ -11,7 +11,7 @@ export const useGetInventoryItems = (storeId: string) => {
   });
 };
 
-export const useUseInventoryItemMutation = (storeId: string) => {
+export const useInventoryItemMutation = (storeId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
