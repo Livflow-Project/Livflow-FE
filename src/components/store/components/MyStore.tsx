@@ -89,7 +89,7 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
   };
 
   const handleSelect = () => {
-    navigate(`/store/${storeInfo.store_id}`);
+    navigate(`/store/${storeInfo.store_id}/ledger`);
   };
 
   return (
