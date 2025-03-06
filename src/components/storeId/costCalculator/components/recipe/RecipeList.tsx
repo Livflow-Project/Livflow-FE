@@ -5,12 +5,14 @@ type RecipeListProps = {
   recipes: CostCalculatorListItem[];
   isDeleteMode: boolean;
   onDeleteRecipe: (recipeId: string) => void;
+  onEditRecipe: (recipeId: string) => void;
 };
 
 const RecipeList = ({
   recipes,
   isDeleteMode,
   onDeleteRecipe,
+  onEditRecipe,
 }: RecipeListProps) => {
   return (
     <div className='flex items-start justify-center'>
@@ -21,6 +23,7 @@ const RecipeList = ({
             recipe={recipe}
             isDeleteMode={isDeleteMode}
             onDelete={() => onDeleteRecipe(recipe.recipe_id)}
+            onClick={() => onEditRecipe(recipe.recipe_id)}
           />
         ))}
       </ul>

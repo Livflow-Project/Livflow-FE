@@ -7,15 +7,28 @@ type RecipeItemProps = {
   recipe: CostCalculatorListItem;
   isDeleteMode: boolean;
   onDelete: () => void;
+  onClick: () => void;
 };
 
-const RecipeItem = ({ recipe, isDeleteMode, onDelete }: RecipeItemProps) => {
+const RecipeItem = ({
+  recipe,
+  isDeleteMode,
+  onDelete,
+  onClick,
+}: RecipeItemProps) => {
+  const handleClick = () => {
+    if (!isDeleteMode) {
+      onClick();
+    }
+  };
+
   return (
     <li
       className={twMerge(
         'recipe_box',
         isDeleteMode && 'border-none bg-gray-400'
       )}
+      onClick={handleClick}
     >
       {recipe.is_favorites && (
         <div className='absolute -left-3 -top-3 flex items-center justify-center rounded-full'>
