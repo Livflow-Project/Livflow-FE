@@ -54,7 +54,7 @@ const RecipeItem = ({
               )}
             />
           ) : (
-            <div className='flex h-24 w-24 items-center justify-center rounded-full bg-gray-200'>
+            <div className='flex h-36 w-36 items-center justify-center rounded-lg bg-gray-200'>
               <span className='text-gray-400'>이미지 없음</span>
             </div>
           )}
