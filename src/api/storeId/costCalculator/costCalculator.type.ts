@@ -8,9 +8,7 @@ export type CostCalculatorListItem = {
 
 export type RecipeIngredient = {
   ingredient_id: string; // UUID
-  ingredient_name: string;
   required_amount: number;
-  unit: 'ml' | 'g' | 'ea';
 };
 
 export type CostCalculatorDetail = {
@@ -22,7 +20,6 @@ export type CostCalculatorDetail = {
   ingredients?: RecipeIngredient[];
   total_ingredient_cost?: number;
   production_quantity?: number;
-  production_cost?: number;
 };
 
 export type CostCalculatorRequest = Omit<CostCalculatorDetail, 'recipe_id'>;
