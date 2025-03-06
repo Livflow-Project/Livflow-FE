@@ -16,6 +16,10 @@ const MainIngredient = lazy(
 const MainRecipe = lazy(
   () => import('@/components/storeId/costCalculator/MainRecipe')
 );
+const RecipeDetail = lazy(
+  () =>
+    import('@/components/storeId/costCalculator/components/recipe/RecipeDetail')
+);
 
 export const loggedRoutes = [
   {
@@ -60,6 +64,10 @@ export const loggedRoutes = [
           {
             path: 'recipe',
             element: <MainRecipe />,
+          },
+          {
+            path: 'recipe/:recipeId',
+            element: <RecipeDetail />,
           },
         ],
       },
