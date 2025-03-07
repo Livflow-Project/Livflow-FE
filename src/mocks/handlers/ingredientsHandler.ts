@@ -5,6 +5,7 @@ import { MOCK_INVENTORY } from './ingredientsInventoryHandler';
 type InventoryResponse = {
   ingredient_id: string;
   ingredient_name: string;
+  original_stock: number;
   remaining_stock: number;
   unit: 'ml' | 'g' | 'ea';
   unit_cost: number;
@@ -198,6 +199,7 @@ export const ingredientsHandler = [
     const newInventoryItem: InventoryResponse = {
       ingredient_id: ingredientId,
       ingredient_name: completeIngredient.ingredient_name,
+      original_stock: completeIngredient.capacity,
       remaining_stock: completeIngredient.capacity, // 초기 용량을 재고로 설정
       unit: completeIngredient.unit,
       unit_cost: completeIngredient.unit_cost,
