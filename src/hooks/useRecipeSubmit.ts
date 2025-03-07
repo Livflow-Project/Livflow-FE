@@ -57,7 +57,8 @@ export const useRecipeSubmit = (
 
       for (const item of inventoryItems) {
         const usage = data.ingredients_usage[item.ingredient_id] || 0;
-        const maxUsage = item.original_stock;
+        const originalAmount = originalUsage[item.ingredient_id] || 0;
+        const maxUsage = item.remaining_stock + originalAmount;
 
         if (usage > maxUsage) {
           // 오류 항목 추가
