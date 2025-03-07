@@ -1,5 +1,7 @@
 import { HttpResponse, http } from 'msw';
 
+import { MOCK_INVENTORY } from './ingredientsInventoryHandler';
+
 type CostCalCulatorsResponse = {
   recipe_id: string; // UUID
   recipe_name: string;
@@ -233,7 +235,7 @@ export const costCalculatorHandlers = [
   }),
 
   // 레시피 삭제
-  http.delete('/costcalcul/:storeId/:recipeId', ({ params }) => {
+  http.delete('/costcalcul/:storeId/:recipeId/', ({ params }) => {
     const { storeId, recipeId } = params;
 
     const recipes = MOCK_RECIPE_DETAILS[storeId as string];
@@ -241,6 +243,16 @@ export const costCalculatorHandlers = [
       return new HttpResponse(null, { status: 404 });
     }
 
+    // 삭제할 레시피 찾기
+    const recipeToDelete = recipes.find(
+      (recipe) => recipe.recipe_id === recipeId
+    );
+
+    if (!recipeToDelete) {
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    // 레시피 삭제
     MOCK_RECIPE_DETAILS[storeId as string] = recipes.filter(
       (recipe) => recipe.recipe_id !== recipeId
     );
@@ -249,6 +261,21 @@ export const costCalculatorHandlers = [
     MOCK_RECIPES_LIST[storeId as string] = MOCK_RECIPES_LIST[
       storeId as string
     ].filter((recipe) => recipe.recipe_id !== recipeId);
+
+    // 재고 반환 처리
+    if (recipeToDelete.ingredients) {
+      recipeToDelete.ingredients.forEach((ingredient) => {
+        const inventory = MOCK_INVENTORY[storeId as string];
+        const itemIndex = inventory.findIndex(
+          (i) => i.ingredient_id === ingredient.ingredient_id
+        );
+
+        if (itemIndex !== -1) {
+          // 재고 반환 (사용량만큼 다시 추가)
+          inventory[itemIndex].remaining_stock += ingredient.required_amount;
+        }
+      });
+    }
 
     return HttpResponse.json({
       success: true,
