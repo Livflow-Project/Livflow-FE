@@ -18,6 +18,7 @@ export default {
       },
       animation: {
         smoothWaveAndSlide: 'smoothWaveAndSlide 4s ease-in-out forwards', // 더 부드러운 이동을 위해 ease-in-out 사용
+        blinkingBorder: 'blinkingBorder 1s ease-in-out infinite',
       },
       keyframes: {
         smoothWaveAndSlide: {
@@ -25,6 +26,10 @@ export default {
           '33%': { transform: 'translateX(-160%) translateY(6px) rotate(3deg)' }, // 중간
           '66%': { transform: 'translateX(-60%) translateY(-4px) rotate(-3deg)' }, // 끝에 가까운 위치
           '100%': { transform: 'translateX(0) translateY(0) rotate(0deg)' }, // 최종 위치
+        },
+        blinkingBorder: {
+          '0%, 100%': { borderColor: '#D10000' },
+          '50%': { borderColor: 'transparent' },
         },
       },
       fontFamily: {
