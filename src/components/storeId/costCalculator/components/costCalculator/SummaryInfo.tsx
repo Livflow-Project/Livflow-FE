@@ -1,28 +1,31 @@
-import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
-type SummaryInfoProps = {
-  totalIngredientCost: number;
-};
+const SummaryInfo = () => {
+  // React Hook Form 컨텍스트 사용
+  const { watch, setValue } = useFormContext();
 
-const SummaryInfo = ({ totalIngredientCost }: SummaryInfoProps) => {
-  const [productionQuantity, setProductionQuantity] = useState<number | null>(
-    null
-  );
+  // 총 원가와 생산량 감시
+  const totalIngredientCost = watch('total_ingredient_cost') || 0;
+  const productionQuantity = watch('production_quantity');
 
-  // 생산 단가 계산
-  const productionUnitCost =
-    productionQuantity && productionQuantity > 0
-      ? totalIngredientCost / productionQuantity
-      : 0;
-
+  // 생산량 변경 핸들러
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value === '' ? null : parseInt(e.target.value);
-
-    // 값이 null이거나 양수인 경우에만 상태 업데이트
-    if (value === null || value > 0) {
-      setProductionQuantity(value);
+    const value = e.target.value;
+    if (value === '') {
+      setValue('production_quantity', null);
+    } else {
+      const numValue = parseInt(value);
+      if (!isNaN(numValue) && numValue >= 0) {
+        setValue('production_quantity', numValue);
+      }
     }
   };
+
+  // 개당 원가 계산
+  const unitCost =
+    productionQuantity && productionQuantity > 0
+      ? Math.round(totalIngredientCost / productionQuantity)
+      : 0;
 
   return (
     <article className='h-[30%] w-full rounded-xl bg-white/50'>
@@ -51,7 +54,7 @@ const SummaryInfo = ({ totalIngredientCost }: SummaryInfoProps) => {
         <li className='flex w-full items-center'>
           <span className='input_label'>생산 단가 :</span>
           <span className='flex-1 text-center'>
-            {productionUnitCost.toLocaleString()} 원
+            {unitCost.toLocaleString()} 원
           </span>
         </li>
       </ul>

@@ -1,59 +1,26 @@
-import {
-  useDeleteRecipeMutation,
-  useGetAllRecipes,
-} from '@/api/storeId/costCalculator/costCalculator.hooks';
-import { useEffect, useState } from 'react';
-
 import Button from '@/components/common/Button';
 import ErrorPage from '@/pages/status/errorPage';
 import LoadingPage from '@/pages/status/loadindPage';
 import MainCostCalculator from './MainCostCalculator';
 import RecipeList from './components/recipe/RecipeList';
-import { useStore } from '@/contexts/StoreContext';
+import { useRecipeManagement } from '@/hooks/useRecipeManagement';
 
 const MainRecipe = () => {
-  const [showCostCalculator, setShowCostCalculator] = useState(false);
-  const [isDeleteMode, setIsDeleteMode] = useState(false);
-
-  const { storeInfo } = useStore();
-  const storeId = storeInfo?.id || '';
-
   const {
-    data: recipes,
+    recipes,
     isLoading,
     isError,
     error,
     refetch,
-  } = useGetAllRecipes(storeId || '');
-
-  const deleteRecipeMutation = useDeleteRecipeMutation(storeId || '');
-
-  const handleAddMenu = () => {
-    setShowCostCalculator(true);
-  };
-
-  const handleSaveMenu = () => {
-    setShowCostCalculator(false);
-  };
-
-  const handleCancelMenu = () => {
-    setShowCostCalculator(false);
-  };
-
-  const handleDeleteMode = () => {
-    setIsDeleteMode((prevMode) => !prevMode);
-  };
-
-  const handleDeleteRecipe = (recipeId: string) => {
-    deleteRecipeMutation.mutate(recipeId);
-  };
-
-  useEffect(() => {
-    // 레시피가 없으면 삭제 모드 비활성화
-    if (recipes && recipes.length === 0) {
-      setIsDeleteMode(false);
-    }
-  }, [recipes]);
+    showCostCalculator,
+    isDeleteMode,
+    handleAddMenu,
+    handleEditRecipe,
+    handleSaveMenu,
+    handleCancelMenu,
+    handleDeleteMode,
+    handleDeleteRecipe,
+  } = useRecipeManagement();
 
   if (isLoading || !recipes) {
     return <LoadingPage />;
@@ -69,6 +36,7 @@ const MainRecipe = () => {
         <MainCostCalculator
           onSave={handleSaveMenu}
           onCancel={handleCancelMenu}
+          editOnly={false}
         />
       ) : (
         <>
@@ -89,6 +57,7 @@ const MainRecipe = () => {
             recipes={recipes}
             isDeleteMode={isDeleteMode}
             onDeleteRecipe={handleDeleteRecipe}
+            onEditRecipe={handleEditRecipe}
           />
         </>
       )}

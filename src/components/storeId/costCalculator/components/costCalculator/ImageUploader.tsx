@@ -1,11 +1,17 @@
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useRef } from 'react';
 
 import DeleteButton from '@/components/common/DeleteButton';
 import { imageIcon } from '@/assets/assets';
+import { useFormContext } from 'react-hook-form';
 
 const ImageUploader = () => {
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // React Hook Form 컨텍스트 사용
+  const { watch, setValue } = useFormContext();
+
+  // 이미지 미리보기 상태 감시
+  const imagePreview = watch('recipe_img');
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
@@ -18,7 +24,7 @@ const ImageUploader = () => {
       const reader = new FileReader();
       reader.onload = (event) => {
         if (event.target && typeof event.target.result === 'string') {
-          setImagePreview(event.target.result);
+          setValue('recipe_img', event.target.result);
         }
       };
       reader.readAsDataURL(file);
@@ -26,7 +32,7 @@ const ImageUploader = () => {
   };
 
   const handleRemoveImage = () => {
-    setImagePreview(null);
+    setValue('recipe_img', null);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
