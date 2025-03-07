@@ -1,23 +1,43 @@
-import { useEffect, useState } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import { InventoryItem } from '@/api/storeId/inventory/inventory.type';
 import { twMerge } from 'tailwind-merge';
+import { useEffect } from 'react';
 
 type CostCalculatorItemProps = {
   inventoryItem: InventoryItem;
   totalCost: number;
   isLastItem: boolean;
-  onCostChange: (cost: number) => void;
+  initialAmount?: number;
+  onCostChange: (cost: number, amount: number) => void;
+};
+
+type FormValues = {
+  ingredients_usage: {
+    [key: string]: number;
+  };
 };
 
 const CostCalculatorItem = ({
   inventoryItem,
   totalCost,
   isLastItem,
+  initialAmount = 0,
   onCostChange,
 }: CostCalculatorItemProps) => {
-  // 사용량을 저장할 상태 추가
-  const [usedAmount, setUsedAmount] = useState<number>(0);
+  // 폼 컨텍스트 사용
+  const {
+    control,
+    watch,
+    formState: { errors },
+  } = useFormContext<FormValues>();
+
+  // 현재 필드의 오류 확인 (타입 단언 사용)
+  const fieldError = errors?.ingredients_usage?.[inventoryItem.ingredient_id];
+
+  // 현재 입력값 감시 (전체 폼 컨텍스트에서)
+  const usedAmount =
+    watch(`ingredients_usage.${inventoryItem.ingredient_id}`) || 0;
 
   // 재료 원가 계산
   const calculatedCost = usedAmount * (inventoryItem.unit_cost || 0);
@@ -26,20 +46,10 @@ const CostCalculatorItem = ({
   const costRatio =
     totalCost > 0 ? Math.round((calculatedCost / totalCost) * 100) : 0;
 
-  // 사용량 변경 핸들러
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value) || 0;
-
-    // 음수 및 재고보다 많은 수량 방지
-    if (value >= 0 && value <= inventoryItem.remaining_stock) {
-      setUsedAmount(value);
-    }
-  };
-
   // 원가가 변경될 때마다 상위 컴포넌트에 알림
   useEffect(() => {
-    onCostChange(calculatedCost);
-  }, [calculatedCost]);
+    onCostChange(calculatedCost, usedAmount);
+  }, [calculatedCost, usedAmount]);
 
   return (
     <ul
@@ -55,13 +65,28 @@ const CostCalculatorItem = ({
       <li className='w-[15%]'>{inventoryItem.remaining_stock}</li>
 
       <li className='w-[20%]'>
-        <input
-          type='number'
-          value={usedAmount || ''}
-          onChange={handleAmountChange}
-          min='0'
-          max={inventoryItem.remaining_stock}
-          className='number_input h-full w-[70%] rounded-full border-none bg-background text-center'
+        <Controller
+          name={`ingredients_usage.${inventoryItem.ingredient_id}`}
+          control={control}
+          defaultValue={initialAmount}
+          render={({ field }) => (
+            <input
+              type='number'
+              value={field.value || ''}
+              onChange={(e) => {
+                const value = parseInt(e.target.value) || 0;
+                if (value >= 0) {
+                  field.onChange(value);
+                  onCostChange(calculatedCost, value);
+                }
+              }}
+              min='0'
+              className={twMerge(
+                'number_input h-full w-[70%] rounded-full bg-background text-center',
+                fieldError ? 'animate-blinkingBorder border-2' : 'border-none'
+              )}
+            />
+          )}
         />
       </li>
 
