@@ -1,6 +1,6 @@
 import Button from '@/components/common/Button';
+import ContentLoadingIndicator from '@/components/common/ContentLoadingIndicator';
 import ErrorPage from '@/pages/status/errorPage';
-import LoadingPage from '@/pages/status/loadindPage';
 import MainCostCalculator from './MainCostCalculator';
 import RecipeList from './components/recipe/RecipeList';
 import { useRecipeManagement } from '@/hooks/useRecipeManagement';
@@ -23,7 +23,7 @@ const MainRecipe = () => {
   } = useRecipeManagement();
 
   if (isLoading || !recipes) {
-    return <LoadingPage />;
+    return <ContentLoadingIndicator />;
   }
 
   if (isError) {

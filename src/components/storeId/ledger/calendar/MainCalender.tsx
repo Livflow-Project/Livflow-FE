@@ -1,5 +1,6 @@
 import CalendarModal from '../modal/CalendarModal';
 import CalendarView from './components/CalendarView';
+import ContentLoadingIndicator from '@/components/common/ContentLoadingIndicator';
 import MainTransaction from '../transaction/MainTransaction';
 import MonthlyOverview from './components/MonthlyOverview';
 import { toast } from 'react-toastify';
@@ -25,12 +26,7 @@ const MainCalendar = () => {
 
   // 데이터 로딩 상태 처리
   if (isLoading || !calendarData) {
-    return (
-      <div className='flex h-full items-center justify-between px-[35px] py-[30px]'>
-        <div className='relative h-full w-[49%] overflow-hidden rounded-xl bg-white p-5'></div>
-        <div className='flex h-full w-[49%] flex-col items-center justify-between rounded-xl bg-white/50'></div>
-      </div>
-    );
+    return <ContentLoadingIndicator />;
   }
 
   return (

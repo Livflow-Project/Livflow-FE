@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
+import ContentLoadingIndicator from '@/components/common/ContentLoadingIndicator';
 import ErrorPage from '@/pages/status/errorPage';
-import LoadingPage from '@/pages/status/loadindPage';
 import MainCostCalculator from '../../MainCostCalculator';
 import { useGetRecipe } from '@/api/storeId/costCalculator/costCalculator.hooks';
 import { useStore } from '@/contexts/StoreContext';
@@ -28,7 +28,7 @@ const RecipeDetail = () => {
   };
 
   if (isLoading) {
-    return <LoadingPage />;
+    return <ContentLoadingIndicator />;
   }
 
   if (isError) {
