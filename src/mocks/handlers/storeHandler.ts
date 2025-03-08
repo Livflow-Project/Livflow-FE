@@ -144,7 +144,7 @@ export const storeHandler = [
       'name' | 'address'
     >;
     const storeIndex = stores.findIndex(
-      (store) => store.store_id === params.id
+      (store) => store.store_id === params.storeId
     );
 
     if (storeIndex === -1) {
@@ -162,14 +162,14 @@ export const storeHandler = [
   // 상점 삭제
   http.delete('/stores/:storeId', ({ params }) => {
     const storeIndex = stores.findIndex(
-      (store) => store.store_id === params.id
+      (store) => store.store_id === params.storeId
     );
 
     if (storeIndex === -1) {
       return new HttpResponse(null, { status: 404 });
     }
 
-    stores = stores.filter((store) => store.store_id !== params.id);
+    stores = stores.filter((store) => store.store_id !== params.storeId);
     return new HttpResponse(null, { status: 204 });
   }),
 ];
