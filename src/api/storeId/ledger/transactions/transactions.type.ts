@@ -2,7 +2,7 @@ export type TransactionResponse = {
   transaction_id: string; // UUID
   type: 'expense' | 'income';
   category: string;
-  detail: string;
+  detail?: string;
   cost: number;
 };
 
