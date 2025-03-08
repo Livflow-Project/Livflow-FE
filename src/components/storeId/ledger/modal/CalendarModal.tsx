@@ -79,7 +79,7 @@ const CalendarModal = ({
     }
 
     if (!transaction.category || transaction.cost === 0) {
-      showWarnToast('빈칸 없이 모두 입력해주세요.');
+      showWarnToast('필수 입력 정보를 모두 입력해 주세요.');
       return;
     }
 
@@ -195,7 +195,6 @@ const CalendarModal = ({
         <li className='flex items-center justify-between'>
           <div className='relative flex items-center gap-2'>
             <label className='input_label'>상세정보</label>
-            {/* <span className='absolute -right-1.5 -top-2 text-red'>*</span> */}
           </div>
           <input
             type='text'
