@@ -2,14 +2,14 @@ import {
   useDeleteRecipeMutation,
   useGetAllRecipes,
 } from '@/api/storeId/costCalculator/costCalculator.hooks';
-import { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { useStore } from '@/contexts/StoreContext';
 
 export const useRecipeManagement = () => {
   const [showCostCalculator, setShowCostCalculator] = useState(false);
-  const [isDeleteMode, setIsDeleteMode] = useState(false);
+  const [isDeleteModeInternal, setIsDeleteModeInternal] = useState(false);
 
   const navigate = useNavigate();
   const { storeInfo } = useStore();
@@ -23,6 +23,9 @@ export const useRecipeManagement = () => {
     error,
     refetch,
   } = useGetAllRecipes(storeId || '');
+
+  // 파생 상태: 레시피가 있을 때만 삭제 모드 활성화
+  const isDeleteMode = recipes && recipes.length > 0 && isDeleteModeInternal;
 
   // 레시피 삭제 뮤테이션
   const deleteRecipeMutation = useDeleteRecipeMutation(storeId || '');
@@ -50,7 +53,7 @@ export const useRecipeManagement = () => {
 
   // 삭제 모드 토글
   const handleDeleteMode = () => {
-    setIsDeleteMode((prevMode) => !prevMode);
+    setIsDeleteModeInternal((prevMode) => !prevMode);
   };
 
   // 레시피 삭제
@@ -61,13 +64,6 @@ export const useRecipeManagement = () => {
       },
     });
   };
-
-  // 레시피가 없으면 삭제 모드 비활성화
-  useEffect(() => {
-    if (recipes && recipes.length === 0) {
-      setIsDeleteMode(false);
-    }
-  }, [recipes]);
 
   return {
     recipes,
