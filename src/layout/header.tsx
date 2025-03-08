@@ -12,7 +12,7 @@ type NavItem = {
 // 네비게이션 항목 데이터
 const NAV_ITEMS: NavItem[] = [
   { to: '', label: '서비스 소개' },
-  { to: '', label: '고객 지원' },
+  // { to: '', label: '고객 지원' },
 ];
 
 // 네비게이션 링크 컴포넌트
