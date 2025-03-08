@@ -1,5 +1,12 @@
+import 'swiper/swiper-bundle.css';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+
 import { CostCalculatorListItem } from '@/api/storeId/costCalculator/costCalculator.type';
 import RecipeItem from './RecipeItem';
+import { createSwiperConfig } from './swiper/swiperConfig';
+import { getSwiperStyles } from './swiper/swiperStyles';
+import { useGridRows } from '@/hooks/useGridRows';
 
 type RecipeListProps = {
   recipes: CostCalculatorListItem[];
@@ -14,19 +21,30 @@ const RecipeList = ({
   onDeleteRecipe,
   onEditRecipe,
 }: RecipeListProps) => {
+  // 화면 높이에 따라 그리드 행 수 조정
+  const gridRows = useGridRows();
+
+  // Swiper 설정 생성
+  const swiperConfig = createSwiperConfig(gridRows);
+
   return (
-    <div className='flex items-start justify-center'>
-      <ul className='grid grid-cols-4 gap-x-20 gap-y-10'>
+    <div className='flex h-[calc(100%-105px)] w-full items-start justify-center'>
+      <style>{getSwiperStyles()}</style>
+
+      <Swiper {...swiperConfig}>
         {recipes.map((recipe) => (
-          <RecipeItem
-            key={recipe.recipe_id}
-            recipe={recipe}
-            isDeleteMode={isDeleteMode}
-            onDelete={() => onDeleteRecipe(recipe.recipe_id)}
-            onClick={() => onEditRecipe(recipe.recipe_id)}
-          />
+          <SwiperSlide key={recipe.recipe_id}>
+            <div className='scale-[0.85] transform transition-transform md:scale-90 lg:scale-95 xl:scale-100'>
+              <RecipeItem
+                recipe={recipe}
+                isDeleteMode={isDeleteMode}
+                onDelete={() => onDeleteRecipe(recipe.recipe_id)}
+                onClick={() => onEditRecipe(recipe.recipe_id)}
+              />
+            </div>
+          </SwiperSlide>
         ))}
-      </ul>
+      </Swiper>
     </div>
   );
 };
