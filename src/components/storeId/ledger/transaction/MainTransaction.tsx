@@ -59,9 +59,10 @@ const MainTransaction = ({
       />
 
       <ActionButtons
-        isEditMode={isEditMode}
+        isEditMode={isEditMode && transactions && transactions.length > 0}
         onEditModeToggle={() => setIsEditMode(!isEditMode)}
         onModalOpen={onModalOpen}
+        hasTransactions={transactions && transactions.length > 0}
       />
 
       {isModalOpen && editingTransaction && (
