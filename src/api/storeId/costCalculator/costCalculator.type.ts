@@ -2,7 +2,7 @@ export type CostCalculatorListItem = {
   recipe_id: string; // UUID
   recipe_name: string;
   recipe_cost?: number;
-  recipe_img?: string;
+  recipe_img?: File | string;
   is_favorites: boolean;
 };
 
@@ -15,7 +15,7 @@ export type CostCalculatorDetail = {
   recipe_id: string; // UUID
   recipe_name: string;
   recipe_cost?: number;
-  recipe_img?: string;
+  recipe_img?: File | string;
   is_favorites: boolean;
   ingredients?: RecipeIngredient[];
   total_ingredient_cost?: number;
