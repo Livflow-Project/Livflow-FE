@@ -27,7 +27,29 @@ export const createRecipeAPI = async (
   storeId: string,
   data: CostCalculatorRequest
 ): Promise<CostCalculatorDetail> => {
-  const response = await axiosInstance.post(`/costcalcul/${storeId}/`, data);
+  const formData = new FormData();
+
+  // 일반 데이터 추가
+  formData.append('recipe_name', data.recipe_name || '');
+  formData.append('recipe_cost', data.recipe_cost?.toString() || '0');
+  formData.append(
+    'production_quantity',
+    data.production_quantity?.toString() || '1'
+  );
+  formData.append('is_favorites', data.is_favorites?.toString() || 'false');
+
+  // 배열 데이터는 JSON 문자열로 변환
+  formData.append('ingredients', JSON.stringify(data.ingredients || []));
+
+  // 이미지 파일 추가
+  if (data.recipe_img) {
+    formData.append('recipe_img', data.recipe_img);
+  }
+
+  const response = await axiosInstance.post(
+    `/costcalcul/${storeId}/`,
+    formData
+  );
   return response.data;
 };
 
@@ -36,9 +58,32 @@ export const updateRecipeAPI = async (
   recipeId: string,
   data: CostCalculatorRequest
 ): Promise<CostCalculatorDetail> => {
+  const formData = new FormData();
+
+  // 일반 데이터 추가
+  formData.append('recipe_name', data.recipe_name || '');
+  formData.append('recipe_cost', data.recipe_cost?.toString() || '0');
+  formData.append(
+    'production_quantity',
+    data.production_quantity?.toString() || '1'
+  );
+  formData.append('is_favorites', data.is_favorites?.toString() || 'false');
+
+  // PUT 메서드 에뮬레이션 (Laravel 방식)
+  formData.append('_method', 'put');
+
+  // 배열 데이터는 JSON 문자열로 변환
+  formData.append('ingredients', JSON.stringify(data.ingredients || []));
+
+  // 이미지 파일 추가
+  if (data.recipe_img) {
+    formData.append('recipe_img', data.recipe_img);
+  }
+
+  // POST로 요청하면서 _method 필드로 PUT 에뮬레이션
   const response = await axiosInstance.put(
     `/costcalcul/${storeId}/${recipeId}/`,
-    data
+    formData
   );
   return response.data;
 };
