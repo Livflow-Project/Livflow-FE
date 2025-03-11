@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useContext, useState } from 'react';
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 import { Cookies } from 'react-cookie';
 import LoadingPage from '@/pages/status/loadindPage';
@@ -15,34 +21,34 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 );
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const [isInitialized, setIsInitialized] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [isInitialized, setIsInitialized] = useState(true);
+  // const [isLoggedIn, setIsLoggedIn] = useState(true);
+  // const [isInitialized, setIsInitialized] = useState(true);
 
   const cookies = new Cookies();
 
-  // // 초기 로그인 상태 체크
-  // useEffect(() => {
-  //   const initializeAuth = () => {
-  //     try {
-  //       const accessToken = cookies.get('access_token');
-  //       if (accessToken) {
-  //         setIsLoggedIn(true);
-  //       } else {
-  //         setIsLoggedIn(false);
-  //       }
-  //     } catch (error) {
-  //       console.error('토큰 검증 중 오류 발생:', error);
-  //       setIsLoggedIn(false);
-  //     } finally {
-  //       setIsInitialized(true);
-  //     }
-  //   };
+  // 초기 로그인 상태 체크
+  useEffect(() => {
+    const initializeAuth = () => {
+      try {
+        const accessToken = cookies.get('access_token');
+        if (accessToken) {
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+        }
+      } catch (error) {
+        console.error('토큰 검증 중 오류 발생:', error);
+        setIsLoggedIn(false);
+      } finally {
+        setIsInitialized(true);
+      }
+    };
 
-  //   initializeAuth();
-  // }, []);
+    initializeAuth();
+  }, []);
 
   const login = () => {
     const accessToken = cookies.get('access_token');
