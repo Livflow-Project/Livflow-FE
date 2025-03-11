@@ -30,7 +30,7 @@ export const useRecipeForm = (recipeData?: CostCalculatorDetail) => {
       recipe_name: recipeData?.recipe_name || '',
       recipe_cost: recipeData?.recipe_cost || null,
       is_favorites: recipeData?.is_favorites || false,
-      recipe_img: recipeData?.recipe_img || null,
+      recipe_img: recipeData?.recipe_img?.toString() || null,
       production_quantity: recipeData?.production_quantity || null,
       ingredients_usage: originalUsage,
       total_ingredient_cost: 0,
