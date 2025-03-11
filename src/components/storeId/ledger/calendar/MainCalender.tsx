@@ -5,12 +5,11 @@ import MainTransaction from '../transaction/MainTransaction';
 import MonthlyOverview from './components/MonthlyOverview';
 import { toast } from 'react-toastify';
 import { useGetLedgerCalendar } from '@/api/storeId/ledger/calendar/calendar.hooks';
+import { useOutletContext } from 'react-router-dom';
 import { useState } from 'react';
-import { useStore } from '@/contexts/StoreContext';
 
 const MainCalendar = () => {
-  const { storeInfo } = useStore();
-  const storeId = storeInfo?.id || '';
+  const { storeId } = useOutletContext<{ storeId: string }>();
 
   const today = new Date();
 

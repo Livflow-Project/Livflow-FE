@@ -77,7 +77,7 @@ const StoreId = () => {
 
         <div className='h-[calc(100%-55px)] w-full rounded-bl-lg rounded-br-lg rounded-tr-lg bg-background'>
           <Suspense fallback={<ContentLoadingIndicator />}>
-            <Outlet />
+            <Outlet context={{ storeId: id }} />
           </Suspense>
         </div>
       </div>
