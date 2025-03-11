@@ -11,7 +11,7 @@ const ImageUploader = () => {
   const { watch, setValue } = useFormContext();
 
   // 이미지 미리보기 상태 감시
-  const imagePreview = watch('recipe_img');
+  const imagePreview = watch('recipe_img_preview');
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
@@ -21,20 +21,27 @@ const ImageUploader = () => {
     const files = e.target.files;
     if (files && files.length > 0) {
       const file = files[0];
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        if (event.target && typeof event.target.result === 'string') {
-          setValue('recipe_img', event.target.result);
-        }
-      };
-      reader.readAsDataURL(file);
+
+      // Base64로 변환하는 대신 File 객체 자체를 저장
+      setValue('recipe_img', file);
+
+      // 미리보기용 URL 생성 (UI 표시 목적)
+      const previewUrl = URL.createObjectURL(file);
+      // 미리보기용 URL을 별도 상태로 관리 (예: recipe_img_preview)
+      setValue('recipe_img_preview', previewUrl);
     }
   };
 
   const handleRemoveImage = () => {
     setValue('recipe_img', null);
+    setValue('recipe_img_preview', null);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
+    }
+
+    // 미리보기 URL이 있다면 해제
+    if (imagePreview) {
+      URL.revokeObjectURL(imagePreview);
     }
   };
 
