@@ -5,7 +5,7 @@ import { twMerge } from 'tailwind-merge';
 
 type RecipeItemProps = {
   recipe: CostCalculatorListItem;
-  isDeleteMode: boolean;
+  isDeleteMode?: boolean;
   onDelete: () => void;
   onClick: () => void;
 };
@@ -46,7 +46,7 @@ const RecipeItem = ({
         <div className='flex flex-grow items-center justify-center overflow-hidden'>
           {recipe.recipe_img ? (
             <img
-              src={recipe.recipe_img}
+              src={recipe.recipe_img.toString()}
               alt={recipe.recipe_name}
               className={twMerge(
                 'max-h-full max-w-full rounded object-contain transition-all duration-200',

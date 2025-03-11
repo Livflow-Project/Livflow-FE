@@ -10,7 +10,7 @@ import { useGridRows } from '@/hooks/useGridRows';
 
 type RecipeListProps = {
   recipes: CostCalculatorListItem[];
-  isDeleteMode: boolean;
+  isDeleteMode?: boolean;
   onDeleteRecipe: (recipeId: string) => void;
   onEditRecipe: (recipeId: string) => void;
 };
