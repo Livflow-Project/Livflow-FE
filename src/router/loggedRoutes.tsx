@@ -1,6 +1,8 @@
 import { Suspense, lazy } from 'react';
 
 import LoadingPage from '@/pages/status/loadindPage';
+import PrivacyPolicy from '@/pages/policies/privacyPolicy';
+import Terms from '@/pages/policies/terms';
 import UserHeader from '@/layout/userHeader';
 
 const Home = lazy(() => import('@/pages/home'));
@@ -30,6 +32,22 @@ export const loggedRoutes = [
         element: (
           <Suspense fallback={<LoadingPage />}>
             <Home />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/privacy',
+        element: (
+          <Suspense fallback={<LoadingPage />}>
+            <PrivacyPolicy />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/terms',
+        element: (
+          <Suspense fallback={<LoadingPage />}>
+            <Terms />
           </Suspense>
         ),
       },
