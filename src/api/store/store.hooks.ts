@@ -19,10 +19,16 @@ export const useStoreQuery = () => {
   };
 
   // 특정 스토어 정보 조회
-  const useGetStore = (storeId: string) => {
+  const useGetStore = (
+    storeId: string,
+    options?: {
+      enabled?: boolean;
+    }
+  ) => {
     return useQuery({
       queryKey: ['store', storeId],
       queryFn: () => storeAPI.getStoreAPI(storeId),
+      ...options,
     });
   };
 
