@@ -1,11 +1,43 @@
+import { useEffect, useState } from 'react';
+
 import { Link } from 'react-router-dom';
 import { rightArrow } from '@/assets/assets';
+import { twMerge } from 'tailwind-merge';
 
 const StartBtn = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // 히어로 섹션의 높이를 계산 (75px는 헤더 높이)
+      const heroSectionHeight = window.innerHeight - 75;
+
+      // 현재 스크롤 위치가 히어로 섹션을 넘어갔는지 확인
+      if (window.scrollY > heroSectionHeight * 0.2) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    // 스크롤 이벤트 리스너 등록
+    window.addEventListener('scroll', handleScroll);
+
+    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <div className='pointer-events-none fixed bottom-5 flex w-[100%] justify-center'>
+    <div
+      className={twMerge(
+        'pointer-events-none fixed bottom-9 z-50 flex w-[100%] justify-center transition-all duration-300',
+        isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+      )}
+    >
       <Link to='/login' className='pointer-events-auto'>
-        <button className='relative h-[62px] w-[274px] rounded-[96px] bg-button text-xl text-white shadow-md hover:bg-button_hover'>
+        <button className='relative h-[62px] w-[274px] rounded-[96px] bg-button text-xl text-white shadow-md transition-all hover:bg-button_hover'>
           Livflow 시작하기
           <img
             src={rightArrow}
