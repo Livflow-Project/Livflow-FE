@@ -29,7 +29,7 @@ const NavigationLinks = ({ items }: { items: NavItem[] }) => (
 const Header = () => {
   return (
     <>
-      <header className='fixed left-0 top-0 h-[75px] w-full bg-white px-20 shadow-sm'>
+      <header className='fixed left-0 top-0 z-50 h-[75px] w-full bg-white px-20 shadow-sm'>
         <nav className='flex h-full items-center justify-between'>
           {/* 왼쪽 영역: 로고 + 네비게이션 */}
           <div className='flex items-center'>
