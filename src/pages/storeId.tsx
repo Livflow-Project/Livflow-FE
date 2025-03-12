@@ -1,8 +1,9 @@
 import { NavLink, Outlet, useParams } from 'react-router-dom';
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 
 import ContentLoadingIndicator from '@/components/common/ContentLoadingIndicator';
 import ErrorPage from './status/errorPage';
+import LoadingPage from './status/loadindPage';
 import StoreInfo from '@/components/storeId/storeIdInfo/StoreInfo';
 import { twMerge } from 'tailwind-merge';
 import { useStore } from '@/contexts/StoreContext';
@@ -17,26 +18,43 @@ const NAV_ITEMS = [
 
 const StoreId = () => {
   const { id } = useParams<{ id: string }>();
-
-  // 스토어 관련 훅
+  const [prevId, setPrevId] = useState(id);
   const { storeInfo, setStoreInfo } = useStore();
   const { useGetStore } = useStoreQuery();
 
-  const { data, isError, error, refetch } = useGetStore(id || '0');
+  // 쿼리 실행 조건 계산
+  const shouldFetch = useMemo(
+    () => !storeInfo || storeInfo.id !== id || prevId !== id,
+    [storeInfo, id, prevId]
+  );
+
+  const { data, isError, error, isLoading, refetch } = useGetStore(id || '0', {
+    // shouldFetch가 true일 때만 쿼리 실행
+    enabled: shouldFetch,
+  });
+
+  // ID 변경 감지
+  useEffect(() => {
+    if (id !== prevId) {
+      setPrevId(id);
+    }
+  }, [id, prevId]);
 
   // 스토어 정보 설정
   useEffect(() => {
-    if (data) {
-      // 현재 ID와 새 데이터의 ID가 다를 때만 업데이트
-      if (!storeInfo || storeInfo.id !== id) {
-        setStoreInfo({
-          id: id,
-          name: data.name,
-          address: data.address,
-        });
-      }
+    if (data && shouldFetch) {
+      const newStoreInfo = {
+        id,
+        name: data.name,
+        address: data.address,
+      };
+      setStoreInfo(newStoreInfo);
     }
-  }, [data, storeInfo, setStoreInfo, id]);
+  }, [data, id, setStoreInfo, shouldFetch]);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
   if (isError) {
     return <ErrorPage error={error as Error} resetError={() => refetch()} />;
@@ -44,7 +62,9 @@ const StoreId = () => {
 
   return (
     <div className='flex h-[calc(100vh-75px)] flex-col justify-between p-[45px]'>
-      <StoreInfo />
+      <ul className='flex h-[70px] flex-col items-end justify-between'>
+        <StoreInfo />
+      </ul>
 
       <div className='h-[calc(100%-70px)]'>
         <div className='flex items-center justify-start gap-3'>
