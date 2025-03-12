@@ -8,9 +8,9 @@ import Header from './components/costCalculator/Header';
 import ImageUploader from './components/costCalculator/ImageUploader';
 import SummaryInfo from './components/costCalculator/SummaryInfo';
 import { useGetInventoryItems } from '@/api/storeId/inventory/inventory.hooks';
+import { useOutletContext } from 'react-router-dom';
 import { useRecipeForm } from '@/hooks/useRecipeForm';
 import { useRecipeSubmit } from '@/hooks/useRecipeSubmit';
-import { useStore } from '@/contexts/StoreContext';
 
 type MainCostCalculatorProps = {
   onSave: () => void;
@@ -24,8 +24,7 @@ const MainCostCalculator = ({
   recipeData,
   editOnly = false,
 }: MainCostCalculatorProps) => {
-  const { storeInfo } = useStore();
-  const storeId = storeInfo?.id || '';
+  const { storeId } = useOutletContext<{ storeId: string }>();
 
   const {
     methods,

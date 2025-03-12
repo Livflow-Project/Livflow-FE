@@ -1,11 +1,13 @@
 import Button from '@/components/common/Button';
+import ContentLoadingIndicator from '@/components/common/ContentLoadingIndicator';
+import ErrorPage from '@/pages/status/errorPage';
 import IngredientHeader from './components/IngredientHeader';
 import IngredientList from './components/IngredientList';
 import { IngredientResponse } from '@/api/storeId/ingredients/ingredients.type';
 import IngredientsModal from './modal/IngredientsModal';
 import { useIngredientsQuery } from '@/api/storeId/ingredients/ingredients.hooks';
+import { useOutletContext } from 'react-router-dom';
 import { useState } from 'react';
-import { useStore } from '@/contexts/StoreContext';
 
 const MainIngredient = () => {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -15,13 +17,14 @@ const MainIngredient = () => {
 
   const { useGetAllIngredients, useDeleteIngredient } = useIngredientsQuery();
 
-  const { storeInfo } = useStore();
-  const storeId = storeInfo?.id || '';
+  const { storeId } = useOutletContext<{ storeId: string }>();
 
   const {
     data: ingredients,
     isLoading,
     isError,
+    error,
+    refetch,
   } = useGetAllIngredients(storeId);
   const deleteMutation = useDeleteIngredient();
 
@@ -47,12 +50,12 @@ const MainIngredient = () => {
 
   // 로딩 상태 처리
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <ContentLoadingIndicator />;
   }
 
   // 에러 상태 처리
   if (isError) {
-    return <div>Error loading ingredients</div>;
+    return <ErrorPage error={error as Error} resetError={() => refetch()} />;
   }
 
   return (

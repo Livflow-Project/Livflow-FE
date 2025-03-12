@@ -1,16 +1,14 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 
 import ContentLoadingIndicator from '@/components/common/ContentLoadingIndicator';
 import ErrorPage from '@/pages/status/errorPage';
 import MainCostCalculator from '../../MainCostCalculator';
 import { useGetRecipe } from '@/api/storeId/costCalculator/costCalculator.hooks';
-import { useStore } from '@/contexts/StoreContext';
 
 const RecipeDetail = () => {
   const navigate = useNavigate();
   const { recipeId } = useParams<{ recipeId: string }>();
-  const { storeInfo } = useStore();
-  const storeId = storeInfo?.id || '';
+  const { storeId } = useOutletContext<{ storeId: string }>();
 
   const {
     data: recipeDetail,

@@ -2,18 +2,17 @@ import {
   useDeleteRecipeMutation,
   useGetAllRecipes,
 } from '@/api/storeId/costCalculator/costCalculator.hooks';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useStore } from '@/contexts/StoreContext';
 
 export const useRecipeManagement = () => {
   const [showCostCalculator, setShowCostCalculator] = useState(false);
   const [isDeleteModeInternal, setIsDeleteModeInternal] = useState(false);
 
   const navigate = useNavigate();
-  const { storeInfo } = useStore();
-  const storeId = storeInfo?.id || '';
+
+  const { storeId } = useOutletContext<{ storeId: string }>();
 
   // 레시피 목록 조회
   const {
