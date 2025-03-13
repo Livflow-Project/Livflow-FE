@@ -69,7 +69,7 @@ const IngredientsModal = ({
       ingredient.ingredient_cost === 0 ||
       ingredient.capacity === 0
     ) {
-      showWarnToast('빈칸 없이 모두 입력해주세요.');
+      showWarnToast('필수 정보를 모두 입력해주세요.');
       return;
     }
 
