@@ -70,25 +70,17 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
         onSuccess: () => {
           if (type === 'name') setIsEditingName(false);
           if (type === 'address') setIsEditingAddress(false);
-
-          toast.dismiss();
         },
       }
     );
   };
 
   const handleDelete = () => {
-    deleteStoreMutation.mutate(storeInfo.store_id, {
-      onSuccess: () => {
-        toast.success('스토어가 삭제되었습니다');
-      },
-      onError: () => {
-        toast.error('삭제 중 오류가 발생했습니다');
-      },
-    });
+    deleteStoreMutation.mutate(storeInfo.store_id);
   };
 
   const handleSelect = () => {
+    toast.dismiss();
     navigate(`/store/${storeInfo.store_id}/ledger`);
   };
 

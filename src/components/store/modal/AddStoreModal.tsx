@@ -1,8 +1,7 @@
 import { mapIcon, storeIcon } from '@/assets/assets';
-import { showErrorToast, showWarnToast } from '@/utils/toast';
 
 import Modal from '@/components/common/Modal';
-import { toast } from 'react-toastify';
+import { showWarnToast } from '@/utils/toast';
 import { useState } from 'react';
 import { useStoreQuery } from '@/api/store/store.hooks';
 
@@ -25,19 +24,14 @@ const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
       return;
     }
 
-    try {
-      await createStoreMutation.mutateAsync({
-        name,
-        address,
-      });
+    await createStoreMutation.mutateAsync({
+      name,
+      address,
+    });
 
-      setName('');
-      setAddress('');
-      onClose();
-      toast.dismiss();
-    } catch (error) {
-      showErrorToast('스토어 생성에 실패했습니다.');
-    }
+    setName('');
+    setAddress('');
+    onClose();
   };
 
   return (
