@@ -3,6 +3,7 @@ import CalendarModal from '../modal/CalendarModal';
 import TransactionHeader from './components/TransactionHeader';
 import TransactionList from './components/TransactionList';
 import { TransactionResponse } from '@/api/storeId/ledger/transactions/transactions.type';
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { useTransactionsQuery } from '@/api/storeId/ledger/transactions/transactions.hooks';
 
@@ -47,6 +48,11 @@ const MainTransaction = ({
     });
   };
 
+  const handleEditModeToggle = () => {
+    toast.dismiss();
+    setIsEditMode(!isEditMode);
+  };
+
   return (
     <>
       <TransactionHeader />
@@ -60,7 +66,7 @@ const MainTransaction = ({
 
       <ActionButtons
         isEditMode={isEditMode && transactions && transactions.length > 0}
-        onEditModeToggle={() => setIsEditMode(!isEditMode)}
+        onEditModeToggle={handleEditModeToggle}
         onModalOpen={onModalOpen}
         hasTransactions={transactions && transactions.length > 0}
       />

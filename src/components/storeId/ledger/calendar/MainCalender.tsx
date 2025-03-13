@@ -23,6 +23,11 @@ const MainCalendar = () => {
     month: currentMonth,
   });
 
+  const handleModalOpen = () => {
+    toast.dismiss();
+    setIsModalOpen(true);
+  };
+
   // 데이터 로딩 상태 처리
   if (isLoading || !calendarData) {
     return <ContentLoadingIndicator />;
@@ -47,7 +52,7 @@ const MainCalendar = () => {
           <MainTransaction
             selectedDate={selectedDate}
             storeId={storeId}
-            onModalOpen={() => setIsModalOpen(true)}
+            onModalOpen={handleModalOpen}
           />
         )}
       </div>
