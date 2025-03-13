@@ -6,6 +6,8 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { TransactionsAPI } from './transactionsAPI';
+import { showErrorToast } from '@/utils/toast';
+import { toast } from 'react-toastify';
 
 export const useTransactionsQuery = () => {
   const queryClient = useQueryClient();
@@ -51,6 +53,11 @@ export const useTransactionsQuery = () => {
             variables.data.date.month,
           ],
         });
+        toast.success('수입 / 지출이 추가 되었습니다');
+      },
+      onError: (error) => {
+        console.error('수입 / 지출 저장 실패:', error);
+        showErrorToast('수입 / 지출 저장에 실패했습니다.');
       },
     });
   };
@@ -70,6 +77,11 @@ export const useTransactionsQuery = () => {
         queryClient.invalidateQueries({
           queryKey: ['store', variables.storeId, 'detail'],
         });
+        toast.success('수입 / 지출이 수정 되었습니다');
+      },
+      onError: (error) => {
+        console.error('수입 / 지출 수정 실패:', error);
+        showErrorToast('수입 / 지출 수정에 실패했습니다.');
       },
     });
   };
@@ -87,6 +99,11 @@ export const useTransactionsQuery = () => {
         queryClient.invalidateQueries({
           queryKey: ['store', variables.storeId, 'detail'],
         });
+        toast.success('수입 / 지출이 삭제 되었습니다');
+      },
+      onError: (error) => {
+        console.error('수입 / 지출 삭제 실패:', error);
+        showErrorToast('수입 / 지출 삭제에 실패했습니다.');
       },
     });
   };
