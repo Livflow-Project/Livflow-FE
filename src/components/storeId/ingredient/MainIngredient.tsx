@@ -5,6 +5,8 @@ import IngredientHeader from './components/IngredientHeader';
 import IngredientList from './components/IngredientList';
 import { IngredientResponse } from '@/api/storeId/ingredients/ingredients.type';
 import IngredientsModal from './modal/IngredientsModal';
+import { toast } from 'react-toastify';
+import { twMerge } from 'tailwind-merge';
 import { useIngredientsQuery } from '@/api/storeId/ingredients/ingredients.hooks';
 import { useOutletContext } from 'react-router-dom';
 import { useState } from 'react';
@@ -34,17 +36,28 @@ const MainIngredient = () => {
   };
 
   const handleDelete = (ingredient: IngredientResponse) => {
-    deleteMutation.mutate({
-      storeId: storeId,
-      ingredientId: ingredient.ingredient_id,
-    });
+    deleteMutation.mutate(
+      {
+        storeId: storeId,
+        ingredientId: ingredient.ingredient_id,
+      },
+      {
+        onSuccess: () => {
+          if (ingredients.length === 1) {
+            setIsEditMode(false);
+          }
+        },
+      }
+    );
   };
 
   const handleModalOpen = () => {
+    toast.dismiss();
     setIsModalOpen(true);
   };
 
   const toggleEditMode = () => {
+    toast.dismiss();
     setIsEditMode(!isEditMode);
   };
 
@@ -58,6 +71,9 @@ const MainIngredient = () => {
     return <ErrorPage error={error as Error} resetError={() => refetch()} />;
   }
 
+  // 재료가 있는지 확인
+  const hasIngredients = ingredients && ingredients.length > 0;
+
   return (
     <>
       <div className='flex h-full flex-col items-center justify-between px-[35px] py-[30px]'>
@@ -67,7 +83,7 @@ const MainIngredient = () => {
               <span>{`총 등록된 재료 : ${ingredients?.length ?? 0}개`}</span>
               <div className='h-[40px] w-[1px] bg-caption'></div>
               <span>{`총 비용 : ${
-                ingredients.length > 0
+                hasIngredients
                   ? ingredients.reduce(
                       (sum: number, ingredient: IngredientResponse) =>
                         sum + ingredient.ingredient_cost,
@@ -79,14 +95,16 @@ const MainIngredient = () => {
           </div>
 
           <div className='flex items-center'>
-            {!isEditMode && (
+            {(!hasIngredients || !isEditMode) && (
               <Button onClick={handleModalOpen}>재료 추가하기</Button>
             )}
-            <div className={`${isEditMode ? '' : 'ml-5'} flex gap-5`}>
-              <Button onClick={toggleEditMode}>
-                {isEditMode ? '완료하기' : '수정 / 삭제하기'}
-              </Button>
-            </div>
+            {hasIngredients && (
+              <div className={twMerge('flex gap-5', !isEditMode && 'ml-5')}>
+                <Button onClick={toggleEditMode}>
+                  {isEditMode ? '완료하기' : '수정 / 삭제하기'}
+                </Button>
+              </div>
+            )}
           </div>
         </header>
 
