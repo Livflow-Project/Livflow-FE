@@ -2,6 +2,7 @@ import { CostCalculatorListItem } from '@/api/storeId/costCalculator/costCalcula
 import DeleteButton from '@/components/common/DeleteButton';
 import { favoritesIcon } from '@/assets/assets';
 import { twMerge } from 'tailwind-merge';
+import { useState } from 'react';
 
 type RecipeItemProps = {
   recipe: CostCalculatorListItem;
@@ -16,6 +17,8 @@ const RecipeItem = ({
   onDelete,
   onClick,
 }: RecipeItemProps) => {
+  const [hasImageError, setHasImageError] = useState(false);
+
   const handleClick = () => {
     if (!isDeleteMode) {
       onClick();
@@ -44,7 +47,7 @@ const RecipeItem = ({
 
       <div className='flex h-full w-full flex-col items-center'>
         <div className='flex flex-grow items-center justify-center overflow-hidden'>
-          {recipe.recipe_img ? (
+          {recipe.recipe_img && !hasImageError ? (
             <img
               src={recipe.recipe_img.toString()}
               alt={recipe.recipe_name}
@@ -52,10 +55,13 @@ const RecipeItem = ({
                 'max-h-full max-w-full rounded object-contain transition-all duration-200',
                 isDeleteMode && 'opacity-60 grayscale'
               )}
+              onError={() => setHasImageError(true)}
             />
           ) : (
             <div className='flex h-36 w-36 items-center justify-center rounded-lg bg-gray-200'>
-              <span className='text-gray-400'>이미지 없음</span>
+              <span className='text-gray-400'>
+                {recipe.recipe_img ? '이미지 오류' : '이미지 없음'}
+              </span>
             </div>
           )}
         </div>
