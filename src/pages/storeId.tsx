@@ -5,6 +5,7 @@ import ContentLoadingIndicator from '@/components/common/ContentLoadingIndicator
 import ErrorPage from './status/errorPage';
 import LoadingPage from './status/loadindPage';
 import StoreInfo from '@/components/storeId/storeIdInfo/StoreInfo';
+import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 import { useStore } from '@/contexts/StoreContext';
 import { useStoreQuery } from '@/api/store/store.hooks';
@@ -72,6 +73,7 @@ const StoreId = () => {
             <NavLink
               key={item.path}
               to={`/store/${id}/${item.path}`}
+              onClick={() => toast.dismiss()}
               className={({ isActive }) =>
                 twMerge(
                   'group flex h-[55px] w-[135px] cursor-pointer items-center justify-center rounded-tl-[10px] rounded-tr-[10px]',
