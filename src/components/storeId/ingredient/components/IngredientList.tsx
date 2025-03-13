@@ -2,7 +2,7 @@ import IngredientItem from './IngredientItem';
 import { IngredientResponse } from '@/api/storeId/ingredients/ingredients.type';
 
 type IngredientListProps = {
-  ingredients: IngredientResponse[] | null;
+  ingredients: IngredientResponse[];
   isEditMode: boolean;
   onEdit: (ingredient: IngredientResponse) => void;
   onDelete: (ingredient: IngredientResponse) => void;
@@ -13,10 +13,18 @@ const IngredientList = ({
   isEditMode,
   onEdit,
   onDelete,
-}: IngredientListProps) => (
-  <div className='flex h-[calc(100%-65px)] w-full flex-col overflow-y-auto'>
-    {ingredients && ingredients.length > 0 ? (
-      ingredients.map((ingredient, index) => (
+}: IngredientListProps) => {
+  if (!ingredients || !Array.isArray(ingredients) || ingredients.length === 0) {
+    return (
+      <div className='flex h-[calc(100%-65px)] w-full items-center justify-center text-2xl text-main'>
+        등록된 재료가 없습니다.
+      </div>
+    );
+  }
+
+  return (
+    <div className='flex h-[calc(100%-65px)] w-full flex-col overflow-y-auto'>
+      {ingredients.map((ingredient, index) => (
         <IngredientItem
           key={ingredient.ingredient_id}
           index={index}
@@ -26,13 +34,9 @@ const IngredientList = ({
           onEdit={onEdit}
           onDelete={onDelete}
         />
-      ))
-    ) : (
-      <div className='my-auto w-full text-center text-2xl text-main'>
-        입력된 재료가 없습니다.
-      </div>
-    )}
-  </div>
-);
+      ))}
+    </div>
+  );
+};
 
 export default IngredientList;
