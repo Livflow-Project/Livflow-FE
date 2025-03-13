@@ -17,14 +17,13 @@ const Store = () => {
   const handleToggleModal = () => {
     setIsModalOpen((prev) => !prev);
     if (!isModalOpen) {
+      toast.dismiss();
       setIsDeleteMode(false);
     }
-    toast.dismiss();
   };
 
   const handleDeleteModeToggle = () => {
     setIsDeleteMode((prev) => !prev);
-    toast.dismiss();
   };
 
   if (isLoading) {
