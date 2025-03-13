@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { showErrorToast } from '@/utils/toast';
 import { storeAPI } from './storeAPI';
+import { toast } from 'react-toastify';
 
 type StoreRequestParams = {
   name: string;
@@ -39,6 +41,11 @@ export const useStoreQuery = () => {
         storeAPI.postStoreAPI(newStoreData),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['stores'] });
+        toast.success('스토어가 생성 되었습니다');
+      },
+      onError: (error) => {
+        console.error('스토어 생성 실패:', error);
+        showErrorToast('스토어 생성에 실패했습니다.');
       },
     });
   };
@@ -58,6 +65,11 @@ export const useStoreQuery = () => {
         queryClient.invalidateQueries({
           queryKey: ['store', variables.storeId],
         });
+        toast.success('스토어 정보가 수정 되었습니다');
+      },
+      onError: (error) => {
+        console.error('스토어 정보 수정 실패:', error);
+        showErrorToast('스토어 정보 수정에 실패했습니다.');
       },
     });
   };
@@ -68,6 +80,11 @@ export const useStoreQuery = () => {
       mutationFn: (storeId: string) => storeAPI.deleteStoreAPI(storeId),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['stores'] });
+        toast.success('스토어가 삭제 되었습니다');
+      },
+      onError: (error) => {
+        console.error('스토어 삭제 실패:', error);
+        showErrorToast('스토어 삭제에 실패했습니다.');
       },
     });
   };
