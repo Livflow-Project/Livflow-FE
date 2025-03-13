@@ -116,22 +116,17 @@ export const useRecipeSubmit = (
       production_quantity: data.production_quantity || undefined,
     };
 
-    try {
-      if (editOnly && recipeData) {
-        await handleRecipeUpdate(
-          recipeData,
-          recipeDataToSave,
-          data.ingredients_usage
-        );
-      } else {
-        await handleRecipeCreate(recipeDataToSave, usedIngredients);
-      }
-
-      onSave();
-    } catch (error) {
-      console.log(error);
-      showErrorToast('메뉴 저장 중 오류가 발생했습니다');
+    if (editOnly && recipeData) {
+      await handleRecipeUpdate(
+        recipeData,
+        recipeDataToSave,
+        data.ingredients_usage
+      );
+    } else {
+      await handleRecipeCreate(recipeDataToSave, usedIngredients);
     }
+
+    onSave();
   };
 
   // 레시피 업데이트 처리
