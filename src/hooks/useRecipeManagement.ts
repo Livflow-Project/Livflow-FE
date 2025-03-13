@@ -4,6 +4,7 @@ import {
 } from '@/api/storeId/costCalculator/costCalculator.hooks';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 
 export const useRecipeManagement = () => {
@@ -31,11 +32,13 @@ export const useRecipeManagement = () => {
 
   // 메뉴 추가 모드 전환
   const handleAddMenu = () => {
+    toast.dismiss();
     setShowCostCalculator(true);
   };
 
   // 메뉴 편집 페이지로 이동
   const handleEditRecipe = (recipeId: string) => {
+    toast.dismiss();
     navigate(`/store/${storeId}/recipe/${recipeId}`);
   };
 
@@ -47,11 +50,13 @@ export const useRecipeManagement = () => {
 
   // 메뉴 추가 취소
   const handleCancelMenu = () => {
+    toast.dismiss();
     setShowCostCalculator(false);
   };
 
   // 삭제 모드 토글
   const handleDeleteMode = () => {
+    toast.dismiss();
     setIsDeleteModeInternal((prevMode) => !prevMode);
   };
 
