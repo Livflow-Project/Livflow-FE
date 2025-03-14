@@ -54,9 +54,23 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
   };
 
   const handleUpdate = (type: 'name' | 'address') => {
-    if (type === 'name' && !name.trim()) {
-      showWarnToast('스토어 이름은 필수 입력 요소입니다.');
-      return;
+    if (type === 'name') {
+      if (!name.trim()) {
+        showWarnToast('스토어 이름은 필수 입력 요소입니다.');
+        return;
+      }
+
+      // 이름이 변경되지 않았다면 편집 모드만 종료
+      if (name === storeInfo.name) {
+        setIsEditingName(false);
+        return;
+      }
+    } else if (type === 'address') {
+      // 주소가 변경되지 않았다면 편집 모드만 종료
+      if (address === storeInfo.address) {
+        setIsEditingAddress(false);
+        return;
+      }
     }
 
     const updates: StoreRequestParams = {
@@ -65,7 +79,11 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
     };
 
     updateStoreMutation.mutate(
-      { storeId: storeInfo.store_id, storeInfo: updates },
+      {
+        storeId: storeInfo.store_id,
+        storeInfo: updates,
+        updateType: type,
+      },
       {
         onSuccess: () => {
           if (type === 'name') setIsEditingName(false);
