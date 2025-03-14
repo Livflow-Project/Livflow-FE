@@ -13,107 +13,86 @@ type StoreListProps = {
   isDeleteMode: boolean;
 };
 
-type StoreSlide = {
-  stores: StoreDetailResponse[];
-  isDeleteMode: boolean;
-  showAddStore?: boolean;
-  onOpenModal: () => void;
-};
-
-const STORES_PER_PAGE = {
-  FIRST_PAGE: 2,
-  OTHER_PAGES: 3,
-};
-
-const swiperConfig = {
-  modules: [Navigation, Pagination],
-  navigation: true,
-  pagination: { clickable: true },
-  className: 'h-[650px]',
-};
-
-// 슬라이드 컴포넌트 분리
-const StoreSlide = ({
-  stores,
-  isDeleteMode,
-  showAddStore = false,
-  onOpenModal,
-}: StoreSlide) => (
-  <div className='flex items-start justify-start gap-[30px]'>
-    {showAddStore && <AddStore onOpenModal={onOpenModal} />}
-    {stores.map((store) => (
-      <MyStore
-        key={store.store_id}
-        storeInfo={store}
-        isDeleteMode={isDeleteMode}
-      />
-    ))}
-  </div>
-);
-
 const StoreList = ({
   stores = [],
   onToggleModal,
   isDeleteMode,
 }: StoreListProps) => {
-  if (!stores || !Array.isArray(stores) || stores.length === 0) {
-    return (
-      <Swiper {...swiperConfig}>
-        <SwiperSlide className='h-full px-[60px]'>
-          <StoreSlide
-            stores={[]}
-            isDeleteMode={isDeleteMode}
-            showAddStore={true}
-            onOpenModal={onToggleModal}
-          />
-        </SwiperSlide>
-      </Swiper>
-    );
-  }
-
-  // 첫 페이지 스토어 계산
-  const firstPageStores = stores.slice(0, STORES_PER_PAGE.FIRST_PAGE);
-
-  // 나머지 페이지 스토어 계산
-  const calculateRemainingPages = () => {
-    const remainingStores = stores.slice(STORES_PER_PAGE.FIRST_PAGE);
-    const pages = [];
-
-    for (
-      let i = 0;
-      i < remainingStores.length;
-      i += STORES_PER_PAGE.OTHER_PAGES
-    ) {
-      pages.push(remainingStores.slice(i, i + STORES_PER_PAGE.OTHER_PAGES));
-    }
-
-    return pages;
+  const swiperConfig = {
+    modules: [Navigation, Pagination],
+    navigation: true,
+    pagination: { clickable: true },
+    slidesPerView: 1,
+    slidesPerGroup: 1,
+    spaceBetween: 30,
+    className: 'h-[650px]',
   };
 
-  const hasRemainingPages = stores.length > STORES_PER_PAGE.FIRST_PAGE;
+  const renderStores = () => {
+    const slides = [];
+    // 페이지당 2개의 스토어로 변경
+    for (let i = 0; i < stores.length; i += 2) {
+      slides.push(
+        <SwiperSlide
+          key={i}
+          className='flex items-start justify-start gap-[30px]'
+        >
+          <div className='flex w-full items-start justify-start gap-[30px]'>
+            {stores.slice(i, i + 2).map((store) => (
+              <MyStore
+                key={store.store_id}
+                storeInfo={store}
+                isDeleteMode={isDeleteMode}
+              />
+            ))}
+          </div>
+        </SwiperSlide>
+      );
+    }
+    return slides;
+  };
 
   return (
-    <Swiper {...swiperConfig}>
-      <SwiperSlide className='h-full px-[60px]'>
-        <StoreSlide
-          stores={firstPageStores}
-          isDeleteMode={isDeleteMode}
-          showAddStore={true}
-          onOpenModal={onToggleModal}
-        />
-      </SwiperSlide>
+    <div className='relative flex max-w-[1200px]'>
+      <AddStore onOpenModal={onToggleModal} />
 
-      {hasRemainingPages &&
-        calculateRemainingPages().map((pageStores, index) => (
-          <SwiperSlide key={`page-${index}`} className='h-full px-[60px]'>
-            <StoreSlide
-              stores={pageStores}
-              isDeleteMode={isDeleteMode}
-              onOpenModal={onToggleModal}
-            />
-          </SwiperSlide>
-        ))}
-    </Swiper>
+      <style>
+        {`
+            .swiper-container {
+              position: relative;
+              z-index: 1;
+            }
+            .swiper {
+              width: 100% !important;
+              max-width: 860px !important;
+              overflow: hidden !important;
+              position: relative;
+            }
+            .swiper-slide {
+              height: auto !important;
+              width: 100% !important;
+              max-width: 860px !important;
+              padding: 0 0 0 75px;
+            }
+            .swiper-button-prev,
+            .swiper-button-next {
+              color: #000;
+              opacity: 1;
+              z-index: 20;
+            }
+            .swiper-button-prev {
+              left: 30px !important;
+            }
+            .swiper-button-next {
+              right: 30px;
+            }
+            .swiper-wrapper {
+              align-items: flex-start;
+            }
+          `}
+      </style>
+      <Swiper {...swiperConfig}>{stores.length > 0 && renderStores()}</Swiper>
+    </div>
   );
 };
 
