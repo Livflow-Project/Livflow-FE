@@ -1,9 +1,8 @@
+import { showErrorToast, showSuccessToast } from '@/utils/toast';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { IngredientRequest } from './ingredients.type';
 import { IngredientsAPI } from './ingredientsAPI';
-import { showErrorToast } from '@/utils/toast';
-import { toast } from 'react-toastify';
 
 export const useIngredientsQuery = () => {
   const queryClient = useQueryClient();
@@ -37,7 +36,7 @@ export const useIngredientsQuery = () => {
         queryClient.invalidateQueries({
           queryKey: ['store', variables.storeId],
         });
-        toast.success('재료가 추가 되었습니다');
+        showSuccessToast('재료가 추가 되었습니다');
       },
       onError: (error) => {
         console.error('재료 추가 실패:', error);
@@ -61,7 +60,7 @@ export const useIngredientsQuery = () => {
         queryClient.invalidateQueries({
           queryKey: ['store', variables.storeId],
         });
-        toast.success('재료가 수정 되었습니다');
+        showSuccessToast('재료가 수정 되었습니다');
       },
       onError: (error) => {
         console.error('재료 수정 실패:', error);
@@ -83,7 +82,7 @@ export const useIngredientsQuery = () => {
         queryClient.invalidateQueries({
           queryKey: ['store', variables.storeId],
         });
-        toast.success('재료가 삭제 되었습니다');
+        showSuccessToast('재료가 삭제 되었습니다');
       },
       onError: (error) => {
         console.error('재료 삭제 실패:', error);

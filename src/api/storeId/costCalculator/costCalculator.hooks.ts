@@ -5,11 +5,10 @@ import {
   getRecipeAPI,
   updateRecipeAPI,
 } from './costCalculatorAPI';
+import { showErrorToast, showSuccessToast } from '@/utils/toast';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { CostCalculatorRequest } from './costCalculator.type';
-import { showErrorToast } from '@/utils/toast';
-import { toast } from 'react-toastify';
 
 const RECIPES_QUERY_KEY = 'recipes';
 const RECIPE_DETAIL_QUERY_KEY = 'recipeDetail';
@@ -39,7 +38,7 @@ export const useCreateRecipeMutation = (storeId: string) => {
       queryClient.invalidateQueries({
         queryKey: [RECIPES_QUERY_KEY, storeId],
       });
-      toast.success('메뉴가 추가 되었습니다');
+      showSuccessToast('메뉴가 추가 되었습니다');
     },
     onError: (error) => {
       console.error('메뉴 추가 실패:', error);
@@ -66,7 +65,7 @@ export const useUpdateRecipeMutation = (storeId: string) => {
       queryClient.invalidateQueries({
         queryKey: [RECIPE_DETAIL_QUERY_KEY, storeId, variables.recipeId],
       });
-      toast.success('메뉴가 수정 되었습니다');
+      showSuccessToast('메뉴가 수정 되었습니다');
     },
     onError: (error) => {
       console.error('메뉴 수정 실패:', error);
@@ -87,7 +86,7 @@ export const useDeleteRecipeMutation = (storeId: string) => {
       queryClient.invalidateQueries({
         queryKey: [RECIPE_DETAIL_QUERY_KEY, storeId, recipeId],
       });
-      toast.success('메뉴가 삭제 되었습니다');
+      showSuccessToast('메뉴가 삭제 되었습니다');
     },
     onError: (error) => {
       console.error('메뉴 삭제 실패:', error);
