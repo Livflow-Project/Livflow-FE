@@ -3,15 +3,21 @@ import { logoText, logoWhale } from '@/assets/assets';
 import Footer from '@/layout/footer';
 import MainLanding from '@/layout/mainLanding';
 import StartBtn from '@/components/home/StartBtn';
+import ingredientMp4 from '@/assets/home/ingredientMp4.mp4';
+import ledgerMp4 from '@/assets/home/ledgerMp4.mp4';
 import { motion } from 'framer-motion';
+import storeManagementMp4 from '@/assets/home/storeManagementMp4.mp4';
+import { useRef } from 'react';
 
 const Home = () => {
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
   return (
     <>
       {/* 히어로 섹션 */}
       <div className='relative flex h-[calc(100dvh-75px)] w-full flex-col items-center justify-center bg-gradient-to-b from-white to-main/5'>
         <motion.h1
-          className='mb-6 text-center text-[40px] font-bold text-main'
+          className='mb-2 text-center text-[40px] font-bold text-main'
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -111,44 +117,52 @@ const Home = () => {
           확인하세요
         </motion.p>
 
-        <div className='mx-auto grid grid-cols-1 gap-8 md:grid-cols-2'>
+        <div className='mx-auto grid grid-cols-1 gap-14 md:grid-cols-2'>
           {[
             {
               title: '가게 통합 관리',
               description:
                 '여러 지점을 한 번에 관리하고 성과를 한눈에 파악하세요',
-              image: '/path-to-store-management.gif',
+              videoSrc: storeManagementMp4,
               alt: '가게 통합 관리 데모',
             },
             {
               title: '스마트 가계부',
               description:
                 '수입과 지출을 자동으로 분류하고 분석하여 재무 상태를 명확히 파악하세요',
-              image: '/path-to-ledger.gif',
+              videoSrc: ledgerMp4,
               alt: '스마트 가계부 데모',
             },
             {
               title: '재료 관리 시스템',
               description:
                 '재고 현황을 실시간으로 추적하고 발주 시점을 놓치지 마세요',
-              image: '/path-to-inventory.gif',
+              videoSrc: ingredientMp4,
               alt: '재료 관리 시스템 데모',
             },
             {
               title: '원가 계산기',
               description:
                 '정확한 원가 계산으로 최적의 가격 설정과 수익성 분석이 가능합니다',
-              image: '/path-to-cost-calculator.gif',
+              videoSrc: '/path-to-cost-calculator.gif',
               alt: '원가 계산기 데모',
             },
           ].map((item, index) => (
             <motion.div
               key={index}
-              className='group overflow-hidden rounded-xl shadow-lg transition-all hover:shadow-xl'
+              className='group transform overflow-hidden rounded-xl border border-underline/20 shadow-lg transition-transform duration-700 hover:scale-110 hover:shadow-xl'
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 * index }}
+              onMouseEnter={() => videoRefs.current[index]?.play()}
+              onMouseLeave={() => {
+                const video = videoRefs.current[index];
+                if (video) {
+                  video.pause();
+                  video.currentTime = 0;
+                }
+              }}
             >
               <div className='bg-gray-50 p-4 text-left'>
                 <h3 className='text-xl font-semibold text-main'>
@@ -156,12 +170,27 @@ const Home = () => {
                 </h3>
                 <p className='mt-1 text-sm text-gray-600'>{item.description}</p>
               </div>
-              <div className='overflow-hidden'>
-                <img
-                  src={item.image}
-                  alt={item.alt}
-                  className='h-[400px] w-full transition-transform duration-700 group-hover:scale-105'
+              <div className='relative overflow-hidden'>
+                <video
+                  ref={(el) => (videoRefs.current[index] = el)}
+                  src={item.videoSrc}
+                  muted
+                  loop
+                  playsInline
+                  preload='metadata'
+                  className='h-[350px] w-full scale-105 transform-gpu object-center'
                 />
+                <div className='absolute inset-0 flex items-center justify-center bg-caption/30 transition-opacity duration-300 group-hover:opacity-0'>
+                  <div className='rounded-full bg-white p-3 transition-transform group-hover:scale-110'>
+                    <svg
+                      className='h-8 w-8 text-main'
+                      viewBox='0 0 24 24'
+                      fill='currentColor'
+                    >
+                      <path d='M8 5v14l11-7z' />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </motion.div>
           ))}
