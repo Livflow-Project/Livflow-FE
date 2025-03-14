@@ -105,7 +105,7 @@ const IngredientsModal = ({
             onChange={(e) =>
               setIngredient({ ...ingredient, ingredient_name: e.target.value })
             }
-            placeholder='품목명울 입력해 주세요.'
+            placeholder='품목명을 입력해 주세요.'
             className='input_box'
           />
         </li>
