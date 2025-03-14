@@ -23,6 +23,7 @@ const Store = () => {
   };
 
   const handleDeleteModeToggle = () => {
+    toast.dismiss();
     setIsDeleteMode((prev) => !prev);
   };
 

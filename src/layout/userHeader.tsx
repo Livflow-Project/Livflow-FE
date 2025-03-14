@@ -2,6 +2,7 @@ import { Link, Outlet } from 'react-router-dom';
 
 import { logo } from '../assets/assets';
 import { showErrorToast } from '@/utils/toast';
+import { toast } from 'react-toastify';
 import { useAuth } from '@/contexts/AuthContextProvider';
 
 // 네비게이션 항목 타입 정의
@@ -18,7 +19,7 @@ const NAV_ITEMS: NavItem[] = [{ to: '/store', label: '내 스토어' }];
 const NavigationLinks = ({ items }: { items: NavItem[] }) => (
   <div className='flex items-center gap-20'>
     {items.map((item) => (
-      <Link key={item.label} to={item.to}>
+      <Link key={item.label} to={item.to} onClick={() => toast.dismiss()}>
         <span className={`text-[25px] text-main`}>{item.label}</span>
       </Link>
     ))}
@@ -30,6 +31,7 @@ const UserHeader = () => {
 
   const handleLogout = async () => {
     try {
+      toast.dismiss();
       await logout();
     } catch (error) {
       showErrorToast('로그아웃에 실패했습니다.');
@@ -42,7 +44,7 @@ const UserHeader = () => {
         <nav className='flex h-full items-center justify-between'>
           {/* 왼쪽 영역: 로고 + 네비게이션 */}
           <div className='flex items-center'>
-            <Link to='/' className='mr-28'>
+            <Link to='/' onClick={() => toast.dismiss()} className='mr-28'>
               <img src={logo} alt='Livflow 로고' className='h-[70px]' />
             </Link>
 
