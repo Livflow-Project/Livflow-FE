@@ -1,6 +1,6 @@
+import { showErrorToast, showSuccessToast } from '@/utils/toast';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { showErrorToast } from '@/utils/toast';
 import { storeAPI } from './storeAPI';
 import { toast } from 'react-toastify';
 
@@ -41,7 +41,7 @@ export const useStoreQuery = () => {
         storeAPI.postStoreAPI(newStoreData),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['stores'] });
-        toast.success('스토어가 생성 되었습니다');
+        showSuccessToast('스토어가 생성 되었습니다');
       },
       onError: (error) => {
         console.error('스토어 생성 실패:', error);
@@ -59,17 +59,50 @@ export const useStoreQuery = () => {
       }: {
         storeId: string;
         storeInfo: StoreRequestParams;
+        updateType: 'name' | 'address';
       }) => storeAPI.putStoreAPI(storeId, storeInfo),
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({ queryKey: ['stores'] });
         queryClient.invalidateQueries({
           queryKey: ['store', variables.storeId],
         });
-        toast.success('스토어 정보가 수정 되었습니다');
+
+        const message =
+          variables.updateType === 'name'
+            ? '스토어 이름이 수정 되었습니다'
+            : '스토어 주소가 수정 되었습니다';
+
+        // 이미 표시 중인 성공 토스트가 있으면 업데이트, 없으면 새로 생성
+        if (toast.isActive(`store-update-${variables.updateType}`)) {
+          toast.update(`store-update-${variables.updateType}`, {
+            render: message,
+            autoClose: 3000,
+          });
+        } else {
+          showSuccessToast(message, {
+            toastId: `store-update-${variables.updateType}`,
+          });
+        }
       },
-      onError: (error) => {
+      onError: (error, variables) => {
         console.error('스토어 정보 수정 실패:', error);
-        showErrorToast('스토어 정보 수정에 실패했습니다.');
+
+        const errorMessage =
+          variables.updateType === 'name'
+            ? '스토어 이름 수정에 실패했습니다'
+            : '스토어 주소 수정에 실패했습니다';
+
+        // 이미 표시 중인 에러 토스트가 있으면 업데이트, 없으면 새로 생성
+        if (toast.isActive(`store-update-error-${variables.updateType}`)) {
+          toast.update(`store-update-error-${variables.updateType}`, {
+            render: errorMessage,
+            autoClose: 3000,
+          });
+        } else {
+          showErrorToast(errorMessage, {
+            toastId: `store-update-error-${variables.updateType}`,
+          });
+        }
       },
     });
   };
@@ -80,7 +113,7 @@ export const useStoreQuery = () => {
       mutationFn: (storeId: string) => storeAPI.deleteStoreAPI(storeId),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['stores'] });
-        toast.success('스토어가 삭제 되었습니다');
+        showSuccessToast('스토어가 삭제 되었습니다');
       },
       onError: (error) => {
         console.error('스토어 삭제 실패:', error);
