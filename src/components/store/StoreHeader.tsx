@@ -10,7 +10,7 @@ const StoreHeader = ({
   onDeleteModeToggle,
 }: StoreHeaderProps) => {
   return (
-    <header className='mb-10 flex w-[400px] items-end justify-between pl-[60px]'>
+    <header className='mb-10 flex w-[340px] items-end justify-between'>
       <h1 className='text-3xl font-semibold text-caption'>
         전체 스토어 ({storeCount})
       </h1>
