@@ -2,7 +2,6 @@ import {
   CostCalculatorDetail,
   CostCalculatorRequest,
 } from '@/api/storeId/costCalculator/costCalculator.type';
-import { showErrorToast, showWarnToast } from '@/utils/toast';
 import {
   useCreateRecipeMutation,
   useUpdateRecipeMutation,
@@ -13,6 +12,7 @@ import {
 } from '@/api/storeId/inventory/inventory.hooks';
 
 import { RecipeFormData } from './useRecipeForm';
+import { showWarnToast } from '@/utils/toast';
 import { toast } from 'react-toastify';
 import { useStore } from '@/contexts/StoreContext';
 
