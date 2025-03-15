@@ -27,28 +27,45 @@ export const createRecipeAPI = async (
   storeId: string,
   data: CostCalculatorRequest
 ): Promise<CostCalculatorDetail> => {
-  const formData = new FormData();
+  // FormData 대신 일반 객체 사용
+  const requestData = {
+    recipe_name: data.recipe_name || '',
+    recipe_cost: data.recipe_cost || 0,
+    production_quantity: data.production_quantity || 0,
+    is_favorites: data.is_favorites || false,
+    ingredients: data.ingredients || [],
+  };
 
-  // 일반 데이터 추가
-  formData.append('recipe_name', data.recipe_name || '');
-  formData.append('recipe_cost', data.recipe_cost?.toString() || '0');
-  formData.append(
-    'production_quantity',
-    data.production_quantity?.toString() || '1'
-  );
-  formData.append('is_favorites', data.is_favorites?.toString() || 'false');
-
-  // 배열 데이터는 JSON 문자열로 변환
-  formData.append('ingredients', JSON.stringify(data.ingredients || []));
-
-  // 이미지 파일 추가
+  // 이미지가 있는 경우에만 FormData 사용
   if (data.recipe_img) {
+    const formData = new FormData();
+
+    // 일반 데이터 추가
+    formData.append('recipe_name', data.recipe_name || '');
+    formData.append('recipe_cost', data.recipe_cost?.toString() || '0');
+    formData.append(
+      'production_quantity',
+      data.production_quantity?.toString() || '1'
+    );
+    formData.append('is_favorites', data.is_favorites?.toString() || 'false');
+
+    // 배열 데이터 추가
+    formData.append('ingredients', JSON.stringify(data.ingredients || []));
+
+    // 이미지 파일 추가
     formData.append('recipe_img', data.recipe_img);
+
+    const response = await axiosInstance.post(
+      `/costcalcul/${storeId}/`,
+      formData
+    );
+    return response.data;
   }
 
+  // 이미지가 없는 경우 JSON으로 전송
   const response = await axiosInstance.post(
     `/costcalcul/${storeId}/`,
-    formData
+    requestData
   );
   return response.data;
 };
@@ -58,32 +75,44 @@ export const updateRecipeAPI = async (
   recipeId: string,
   data: CostCalculatorRequest
 ): Promise<CostCalculatorDetail> => {
-  const formData = new FormData();
-
-  // 일반 데이터 추가
-  formData.append('recipe_name', data.recipe_name || '');
-  formData.append('recipe_cost', data.recipe_cost?.toString() || '0');
-  formData.append(
-    'production_quantity',
-    data.production_quantity?.toString() || '1'
-  );
-  formData.append('is_favorites', data.is_favorites?.toString() || 'false');
-
-  // PUT 메서드 에뮬레이션 (Laravel 방식)
-  formData.append('_method', 'put');
-
-  // 배열 데이터는 JSON 문자열로 변환
-  formData.append('ingredients', JSON.stringify(data.ingredients || []));
-
-  // 이미지 파일 추가
+  // 이미지가 있는 경우에만 FormData 사용
   if (data.recipe_img) {
+    const formData = new FormData();
+
+    // 일반 데이터 추가
+    formData.append('recipe_name', data.recipe_name || '');
+    formData.append('recipe_cost', data.recipe_cost?.toString() || '0');
+    formData.append(
+      'production_quantity',
+      data.production_quantity?.toString() || '1'
+    );
+    formData.append('is_favorites', data.is_favorites?.toString() || 'false');
+
+    // 배열 데이터를 JSON 문자열로 변환하지 않고 추가
+    formData.append('ingredients', JSON.stringify(data.ingredients || []));
+
+    // 이미지 파일 추가
     formData.append('recipe_img', data.recipe_img);
+
+    const response = await axiosInstance.put(
+      `/costcalcul/${storeId}/${recipeId}/`,
+      formData
+    );
+    return response.data;
   }
 
-  // POST로 요청하면서 _method 필드로 PUT 에뮬레이션
+  // 이미지가 없는 경우 JSON으로 전송
+  const requestData = {
+    recipe_name: data.recipe_name || '',
+    recipe_cost: data.recipe_cost || 0,
+    production_quantity: data.production_quantity || 0,
+    is_favorites: data.is_favorites || false,
+    ingredients: data.ingredients || [],
+  };
+
   const response = await axiosInstance.put(
     `/costcalcul/${storeId}/${recipeId}/`,
-    formData
+    requestData
   );
   return response.data;
 };
