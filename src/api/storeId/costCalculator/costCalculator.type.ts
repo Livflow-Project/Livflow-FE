@@ -18,7 +18,6 @@ export type CostCalculatorDetail = {
   recipe_img?: File | string;
   is_favorites: boolean;
   ingredients?: RecipeIngredient[];
-  total_ingredient_cost?: number;
   production_quantity?: number;
 };
 
