@@ -33,7 +33,6 @@ export const useRecipeForm = (recipeData?: CostCalculatorDetail) => {
       recipe_img: recipeData?.recipe_img?.toString() || null,
       production_quantity: recipeData?.production_quantity || null,
       ingredients_usage: originalUsage,
-      total_ingredient_cost: 0,
     },
   });
 
