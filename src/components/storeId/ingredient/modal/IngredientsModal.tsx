@@ -61,6 +61,34 @@ const IngredientsModal = ({
     return '';
   });
 
+  const getChangedFields = (
+    currentData: IngredientRequest,
+    initialData: IngredientResponse
+  ): Partial<IngredientRequest> => {
+    const changedFields: Partial<IngredientRequest> = {};
+
+    if (currentData.ingredient_name !== initialData.ingredient_name) {
+      changedFields.ingredient_name = currentData.ingredient_name;
+    }
+    if (currentData.ingredient_cost !== initialData.ingredient_cost) {
+      changedFields.ingredient_cost = currentData.ingredient_cost;
+    }
+    if (currentData.capacity !== initialData.capacity) {
+      changedFields.capacity = currentData.capacity;
+    }
+    if (currentData.unit !== initialData.unit) {
+      changedFields.unit = currentData.unit;
+    }
+    if (currentData.shop !== initialData.shop) {
+      changedFields.shop = currentData.shop;
+    }
+    if (currentData.ingredient_detail !== initialData.ingredient_detail) {
+      changedFields.ingredient_detail = currentData.ingredient_detail;
+    }
+
+    return changedFields;
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -74,12 +102,18 @@ const IngredientsModal = ({
     }
 
     if (isEditMode && initialData) {
+      const changedFields = getChangedFields(ingredient, initialData);
+
+      // 변경된 필드가 없으면 서버에 요청하지 않고 모달만 닫기
+      if (Object.keys(changedFields).length === 0) {
+        onClose();
+        return;
+      }
+
       updateIngredient({
         storeId: storeId,
         ingredientId: initialData.ingredient_id,
-        data: {
-          ...ingredient,
-        },
+        data: changedFields as IngredientRequest,
       });
     } else {
       const addIngredientData: IngredientRequest = {
