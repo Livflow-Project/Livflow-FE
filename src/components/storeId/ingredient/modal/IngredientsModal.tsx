@@ -2,11 +2,11 @@ import {
   IngredientRequest,
   IngredientResponse,
 } from '@/api/storeId/ingredients/ingredients.type';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import Modal from '@/components/common/Modal';
 import { showWarnToast } from '@/utils/toast';
 import { useIngredientsQuery } from '@/api/storeId/ingredients/ingredients.hooks';
-import { useState } from 'react';
 
 type IngredientsModalProps = {
   onClose: () => void;
@@ -26,39 +26,25 @@ const IngredientsModal = ({
   const { mutate: addIngredient } = useAddIngredient();
   const { mutate: updateIngredient } = useUpdateIngredient();
 
-  const [ingredient, setIngredient] = useState<IngredientRequest>(() => {
-    if (isEditMode && initialData) {
-      return {
-        ingredient_name: initialData.ingredient_name,
-        ingredient_cost: initialData.ingredient_cost,
-        capacity: initialData.capacity,
-        unit: initialData.unit,
-        shop: initialData.shop,
-        ingredient_detail: initialData.ingredient_detail,
-      };
-    }
-    return {
-      ingredient_name: '',
-      ingredient_cost: 0,
-      capacity: 0,
-      unit: 'ml',
-      shop: '',
-      ingredient_detail: '',
-    };
-  });
-
-  const [costInput, setCostInput] = useState(() => {
-    if (isEditMode && initialData) {
-      return initialData.ingredient_cost.toString();
-    }
-    return '';
-  });
-
-  const [capacityInput, setCapacityInput] = useState(() => {
-    if (isEditMode && initialData) {
-      return initialData.capacity.toString();
-    }
-    return '';
+  const { register, handleSubmit } = useForm<IngredientRequest>({
+    defaultValues:
+      isEditMode && initialData
+        ? {
+            ingredient_name: initialData.ingredient_name,
+            ingredient_cost: initialData.ingredient_cost,
+            capacity: initialData.capacity,
+            unit: initialData.unit,
+            shop: initialData.shop,
+            ingredient_detail: initialData.ingredient_detail,
+          }
+        : {
+            ingredient_name: '',
+            ingredient_cost: undefined,
+            capacity: undefined,
+            unit: 'ml',
+            shop: '',
+            ingredient_detail: '',
+          },
   });
 
   const getChangedFields = (
@@ -89,20 +75,18 @@ const IngredientsModal = ({
     return changedFields;
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const onSubmit: SubmitHandler<IngredientRequest> = (data) => {
     if (
-      ingredient.ingredient_name.trim() === '' ||
-      ingredient.ingredient_cost === 0 ||
-      ingredient.capacity === 0
+      data.ingredient_name.trim() === '' ||
+      data.ingredient_cost === 0 ||
+      data.capacity === 0
     ) {
       showWarnToast('필수 정보를 모두 입력해주세요.');
       return;
     }
 
     if (isEditMode && initialData) {
-      const changedFields = getChangedFields(ingredient, initialData);
+      const changedFields = getChangedFields(data, initialData);
 
       // 변경된 필드가 없으면 서버에 요청하지 않고 모달만 닫기
       if (Object.keys(changedFields).length === 0) {
@@ -116,17 +100,14 @@ const IngredientsModal = ({
         data: changedFields as IngredientRequest,
       });
     } else {
-      const addIngredientData: IngredientRequest = {
-        ...ingredient,
-      };
-      addIngredient({ storeId: storeId, data: addIngredientData });
+      addIngredient({ storeId: storeId, data });
     }
 
     onClose();
   };
 
   return (
-    <Modal onClose={onClose} onSubmit={handleSubmit}>
+    <Modal onClose={onClose} onSubmit={handleSubmit(onSubmit)}>
       <ul className='flex flex-col gap-4'>
         <li className='flex items-center justify-between'>
           <div className='relative flex items-center gap-2'>
@@ -135,10 +116,7 @@ const IngredientsModal = ({
           </div>
           <input
             type='text'
-            value={ingredient.ingredient_name}
-            onChange={(e) =>
-              setIngredient({ ...ingredient, ingredient_name: e.target.value })
-            }
+            {...register('ingredient_name', { required: true })}
             placeholder='품목명을 입력해 주세요.'
             className='input_box'
           />
@@ -151,15 +129,11 @@ const IngredientsModal = ({
           </div>
           <input
             type='number'
-            value={costInput}
-            onChange={(e) => {
-              const value = e.target.value;
-              setCostInput(value);
-              setIngredient({
-                ...ingredient,
-                ingredient_cost: value ? Number(value) : 0,
-              });
-            }}
+            {...register('ingredient_cost', {
+              required: true,
+              valueAsNumber: true,
+              min: 0,
+            })}
             placeholder='구매가를 입력해 주세요.'
             className='input_box number_input'
           />
@@ -172,15 +146,11 @@ const IngredientsModal = ({
           </div>
           <input
             type='number'
-            value={capacityInput}
-            onChange={(e) => {
-              const value = e.target.value;
-              setCapacityInput(value);
-              setIngredient({
-                ...ingredient,
-                capacity: value ? Number(value) : 0,
-              });
-            }}
+            {...register('capacity', {
+              required: true,
+              valueAsNumber: true,
+              min: 0,
+            })}
             placeholder='숫자만 입력해 주세요.'
             className='input_box number_input'
           />
@@ -195,15 +165,8 @@ const IngredientsModal = ({
             <label className='flex items-center'>
               <input
                 type='radio'
-                name='ingredientType'
                 value='ml'
-                checked={ingredient.unit === 'ml'}
-                onChange={(e) =>
-                  setIngredient({
-                    ...ingredient,
-                    unit: e.target.value as 'ml' | 'g' | 'ea',
-                  })
-                }
+                {...register('unit')}
                 className='h-5 w-5'
               />
               <span className='ml-2 text-lg text-main'>ml</span>
@@ -211,15 +174,8 @@ const IngredientsModal = ({
             <label className='flex items-center'>
               <input
                 type='radio'
-                name='ingredientType'
                 value='g'
-                checked={ingredient.unit === 'g'}
-                onChange={(e) =>
-                  setIngredient({
-                    ...ingredient,
-                    unit: e.target.value as 'ml' | 'g' | 'ea',
-                  })
-                }
+                {...register('unit')}
                 className='h-5 w-5'
               />
               <span className='ml-2 text-lg text-main'>g</span>
@@ -227,15 +183,8 @@ const IngredientsModal = ({
             <label className='flex items-center'>
               <input
                 type='radio'
-                name='ingredientType'
                 value='ea'
-                checked={ingredient.unit === 'ea'}
-                onChange={(e) =>
-                  setIngredient({
-                    ...ingredient,
-                    unit: e.target.value as 'ml' | 'g' | 'ea',
-                  })
-                }
+                {...register('unit')}
                 className='h-5 w-5'
               />
               <span className='ml-2 text-lg text-main'>ea</span>
@@ -249,10 +198,7 @@ const IngredientsModal = ({
           </div>
           <input
             type='text'
-            value={ingredient.shop}
-            onChange={(e) =>
-              setIngredient({ ...ingredient, shop: e.target.value })
-            }
+            {...register('shop')}
             placeholder='판매처를 입력해 주세요.'
             className='input_box'
           />
@@ -264,13 +210,7 @@ const IngredientsModal = ({
           </div>
           <input
             type='text'
-            value={ingredient.ingredient_detail}
-            onChange={(e) =>
-              setIngredient({
-                ...ingredient,
-                ingredient_detail: e.target.value,
-              })
-            }
+            {...register('ingredient_detail')}
             placeholder='비고를 입력해 주세요.'
             className='input_box'
           />
