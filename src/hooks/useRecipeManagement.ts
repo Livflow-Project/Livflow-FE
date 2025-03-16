@@ -62,8 +62,15 @@ export const useRecipeManagement = () => {
 
   // 레시피 삭제
   const handleDeleteRecipe = (recipeId: string) => {
+    // 현재 레시피가 마지막 하나인지 확인
+    const isLastRecipe = recipes && recipes.length === 1;
+
     deleteRecipeMutation.mutate(recipeId, {
       onSuccess: () => {
+        // 마지막 레시피였다면 삭제 모드 비활성화
+        if (isLastRecipe) {
+          setIsDeleteModeInternal(false);
+        }
         refetch();
       },
     });
