@@ -91,11 +91,20 @@ export const useIngredientsQuery = () => {
     });
   };
 
+  const useGetIngredientUsages = (storeId: string, ingredientId: string) => {
+    return useQuery({
+      queryKey: ['store', storeId, 'ingredient', ingredientId, 'usages'],
+      queryFn: () =>
+        IngredientsAPI.getIngredientUsagesAPI(storeId, ingredientId),
+    });
+  };
+
   return {
     useGetAllIngredients,
     useGetIngredient,
     useAddIngredient,
     useUpdateIngredient,
     useDeleteIngredient,
+    useGetIngredientUsages,
   };
 };
