@@ -5,6 +5,7 @@ import IngredientHeader from './components/IngredientHeader';
 import IngredientList from './components/IngredientList';
 import { IngredientResponse } from '@/api/storeId/ingredients/ingredients.type';
 import IngredientsModal from './modal/IngredientsModal';
+import IngredientsUsagesModal from './modal/IngredientsUsagesModal';
 import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 import { useIngredientsQuery } from '@/api/storeId/ingredients/ingredients.hooks';
@@ -16,6 +17,13 @@ const MainIngredient = () => {
   const [editingIngredient, setEditingIngredient] =
     useState<IngredientResponse | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteConfirmModal, setDeleteConfirmModal] = useState<{
+    isOpen: boolean;
+    ingredient: IngredientResponse | null;
+  }>({
+    isOpen: false,
+    ingredient: null,
+  });
 
   const { useGetAllIngredients, useDeleteIngredient } = useIngredientsQuery();
 
@@ -33,6 +41,13 @@ const MainIngredient = () => {
   const handleEdit = (ingredient: IngredientResponse) => {
     setEditingIngredient(ingredient);
     setIsModalOpen(true);
+  };
+
+  const handleDeleteClick = (ingredient: IngredientResponse) => {
+    setDeleteConfirmModal({
+      isOpen: true,
+      ingredient,
+    });
   };
 
   const handleDelete = (ingredient: IngredientResponse) => {
@@ -115,7 +130,7 @@ const MainIngredient = () => {
             ingredients={ingredients}
             isEditMode={isEditMode}
             onEdit={handleEdit}
-            onDelete={handleDelete}
+            onDelete={handleDeleteClick}
           />
         </div>
       </div>
@@ -129,6 +144,17 @@ const MainIngredient = () => {
           storeId={storeId}
           isEditMode={!!editingIngredient}
           initialData={editingIngredient || undefined}
+        />
+      )}
+
+      {deleteConfirmModal.isOpen && deleteConfirmModal.ingredient && (
+        <IngredientsUsagesModal
+          storeId={storeId}
+          ingredient={deleteConfirmModal.ingredient}
+          onClose={() =>
+            setDeleteConfirmModal({ isOpen: false, ingredient: null })
+          }
+          onConfirmDelete={handleDelete}
         />
       )}
     </>
