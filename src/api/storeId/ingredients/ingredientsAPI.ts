@@ -37,4 +37,11 @@ export const IngredientsAPI = {
     );
     return response.data;
   },
+
+  getIngredientUsagesAPI: async (storeId: string, ingredientId: string) => {
+    const response = await axiosInstance.get(
+      `/ingredients/${storeId}/${ingredientId}/usages`
+    );
+    return response.data;
+  },
 };
