@@ -51,6 +51,25 @@ export const useRecipeSubmit = (
       return;
     }
 
+    // 인벤토리에 더 이상 존재하지 않는 재료 필터링
+    if (inventoryItems) {
+      const validIngredientIds = inventoryItems.map(
+        (item) => item.ingredient_id
+      );
+      const filteredUsage = Object.entries(data.ingredients_usage)
+        .filter(([id, _]) => validIngredientIds.includes(id))
+        .reduce(
+          (acc, [id, value]) => {
+            acc[id] = value;
+            return acc;
+          },
+          {} as Record<string, number>
+        );
+
+      // 필터링된 사용량으로 업데이트
+      data.ingredients_usage = filteredUsage;
+    }
+
     // 재고 초과 검증
     if (inventoryItems) {
       const invalidItems = [];
