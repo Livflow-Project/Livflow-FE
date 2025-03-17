@@ -1,77 +1,86 @@
-import { mapIcon, storeIcon } from '@/assets/assets';
-
+import FormField from '@/components/common/FormField';
 import Modal from '@/components/common/Modal';
 import { showWarnToast } from '@/utils/toast';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { useStoreQuery } from '@/api/store/store.hooks';
 
 type AddStoreModalProps = {
   onClose: () => void;
 };
 
-const AddStoreModal: React.FC<AddStoreModalProps> = ({ onClose }) => {
-  const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
+type StoreFormData = {
+  name: string;
+  address: string;
+};
+
+const AddStoreModal = ({ onClose }: AddStoreModalProps) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setFocus,
+    setError,
+    formState: { errors },
+  } = useForm<StoreFormData>({
+    defaultValues: {
+      name: '',
+      address: '',
+    },
+    mode: 'onSubmit',
+  });
 
   const { useCreateStore } = useStoreQuery();
   const createStoreMutation = useCreateStore();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // 모달이 열릴 때 이름 필드에 포커스
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFocus('name');
+    }, 100);
 
-    if (name.trim() === '') {
-      showWarnToast('스토어 이름은 필수 입력 요소입니다.');
+    return () => clearTimeout(timer);
+  }, [setFocus]);
+
+  const onSubmit = async (data: StoreFormData) => {
+    if (!data.name.trim()) {
+      setError('name', {
+        type: 'required',
+        message: '스토어 이름은 필수 입니다.',
+      });
+      showWarnToast('스토어 이름은 필수 입니다.');
+
+      // 스토어 이름 인풋에 포커스
+      setTimeout(() => {
+        setFocus('name');
+      }, 100);
       return;
     }
 
     await createStoreMutation.mutateAsync({
-      name,
-      address,
+      name: data.name,
+      address: data.address,
     });
 
-    setName('');
-    setAddress('');
+    reset();
     onClose();
   };
 
   return (
-    <Modal onClose={onClose} onSubmit={handleSubmit}>
-      <ul className='flex flex-col gap-4'>
-        <li className='flex items-center justify-between'>
-          <div className='relative flex items-center gap-2'>
-            <img src={storeIcon} alt='상점 이미지' />
-            <label htmlFor='store_name' className='input_label'>
-              스토어 이름
-            </label>
-            <span className='absolute -right-1.5 -top-1 text-red'>*</span>
-          </div>
-          <input
-            id='store_name'
-            type='text'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder='이름을 입력해 주세요.'
-            className='input_box'
-          />
-        </li>
+    <Modal onClose={onClose} onSubmit={handleSubmit(onSubmit)}>
+      <FormField
+        label='스토어 이름'
+        register={register('name')}
+        placeholder='이름을 입력해 주세요.'
+        required={true}
+        className={errors.name && 'animate-blinkingBorder'}
+      />
 
-        <li className='flex items-center justify-between'>
-          <div className='flex items-center gap-2'>
-            <img src={mapIcon} alt='주소 이미지' />
-            <label htmlFor='store_address' className='input_label'>
-              주소
-            </label>
-          </div>
-          <input
-            id='store_address'
-            type='text'
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            placeholder='주소를 입력해 주세요.'
-            className='input_box'
-          />
-        </li>
-      </ul>
+      <FormField
+        label='주소'
+        register={register('address')}
+        placeholder='주소를 입력해 주세요.'
+      />
     </Modal>
   );
 };
