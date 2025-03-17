@@ -70,7 +70,7 @@ body {
   }
 
   .input_box {
-    @apply h-[42px] w-[60%] rounded-lg border px-3 py-2;
+    @apply h-[42px] w-[60%] rounded-lg border bg-transparent px-3 py-2 focus:border-b focus:border-caption focus:outline-none focus:ring-0;
   }
 
   .input_underlined {
