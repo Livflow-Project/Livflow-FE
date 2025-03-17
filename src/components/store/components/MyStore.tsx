@@ -1,16 +1,12 @@
-import {
-  StoreDetailResponse,
-  StoreRequestParams,
-} from '@/api/store/store.type';
 import { mapIcon, storeIcon } from '@/assets/assets';
-import { useRef, useState } from 'react';
 
 import ChartView from './chart/ChartView';
 import EditableInput from './EditableInput';
-import { showWarnToast } from '@/utils/toast';
+import { StoreDetailResponse } from '@/api/store/store.type';
 import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 import { useNavigate } from 'react-router-dom';
+import { useStoreForm } from '@/hooks/useStoreForm';
 import { useStoreQuery } from '@/api/store/store.hooks';
 
 type MyStoreProps = {
@@ -19,84 +15,31 @@ type MyStoreProps = {
 };
 
 const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
-  const [name, setName] = useState(storeInfo.name);
-  const [address, setAddress] = useState(storeInfo.address || '');
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [isEditingAddress, setIsEditingAddress] = useState(false);
-
   const navigate = useNavigate();
 
-  // React Query 훅 사용
-  const { useUpdateStore, useDeleteStore } = useStoreQuery();
-  const updateStoreMutation = useUpdateStore();
+  const {
+    name,
+    address,
+    isEditingName,
+    isEditingAddress,
+    nameInputRef,
+    addressInputRef,
+    handleEditButtonClick,
+    handleChange,
+    handleUpdate,
+    handleKeyDown,
+  } = useStoreForm(storeInfo);
+
+  // 삭제 뮤테이션
+  const { useDeleteStore } = useStoreQuery();
   const deleteStoreMutation = useDeleteStore();
 
-  const nameInputRef = useRef<HTMLInputElement>(null);
-  const addressInputRef = useRef<HTMLInputElement>(null);
-
-  const handleEditButtonClick = (type: 'name' | 'address') => {
-    if (type === 'name') {
-      setIsEditingName(true);
-      requestAnimationFrame(() => nameInputRef.current?.focus());
-    } else if (type === 'address') {
-      setIsEditingAddress(true);
-      requestAnimationFrame(() => addressInputRef.current?.focus());
-    }
-  };
-
-  const handleKeyDown = (
-    e: React.KeyboardEvent<HTMLInputElement>,
-    type: 'name' | 'address'
-  ) => {
-    if (e.key === 'Enter') {
-      handleUpdate(type);
-    }
-  };
-
-  const handleUpdate = (type: 'name' | 'address') => {
-    if (type === 'name') {
-      if (!name.trim()) {
-        showWarnToast('스토어 이름은 필수 입력 요소입니다.');
-        return;
-      }
-
-      // 이름이 변경되지 않았다면 편집 모드만 종료
-      if (name === storeInfo.name) {
-        setIsEditingName(false);
-        return;
-      }
-    } else if (type === 'address') {
-      // 주소가 변경되지 않았다면 편집 모드만 종료
-      if (address === storeInfo.address) {
-        setIsEditingAddress(false);
-        return;
-      }
-    }
-
-    const updates: StoreRequestParams = {
-      name: type === 'name' ? name : storeInfo.name,
-      address: type === 'address' ? address : storeInfo.address,
-    };
-
-    updateStoreMutation.mutate(
-      {
-        storeId: storeInfo.store_id,
-        storeInfo: updates,
-        updateType: type,
-      },
-      {
-        onSuccess: () => {
-          if (type === 'name') setIsEditingName(false);
-          if (type === 'address') setIsEditingAddress(false);
-        },
-      }
-    );
-  };
-
+  // 스토어 삭제 핸들러
   const handleDelete = () => {
     deleteStoreMutation.mutate(storeInfo.store_id);
   };
 
+  // 스토어 선택 핸들러
   const handleSelect = () => {
     toast.dismiss();
     navigate(`/store/${storeInfo.store_id}/ledger`);
@@ -111,34 +54,30 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
             isDeleteMode && 'pointer-events-none'
           )}
         >
-          <li className='flex items-center justify-between'>
-            <EditableInput
-              isEditing={isEditingName}
-              value={name}
-              onChange={setName}
-              onKeyDown={(e) => handleKeyDown(e, 'name')}
-              onEditClick={() => handleEditButtonClick('name')}
-              onUpdate={() => handleUpdate('name')}
-              inputRef={nameInputRef}
-              icon={storeIcon}
-              iconAlt='상점 아이콘'
-              isRequired={true}
-            />
-          </li>
+          <EditableInput
+            isEditing={isEditingName}
+            value={name}
+            onChange={(value) => handleChange(value, 'name')}
+            onKeyDown={(e) => handleKeyDown(e, 'name')}
+            onEditClick={() => handleEditButtonClick('name')}
+            onUpdate={() => handleUpdate('name')}
+            inputRef={nameInputRef}
+            icon={storeIcon}
+            iconAlt='상점 아이콘'
+            isRequired={true}
+          />
 
-          <li className='flex items-center justify-between'>
-            <EditableInput
-              isEditing={isEditingAddress}
-              value={address}
-              onChange={setAddress}
-              onKeyDown={(e) => handleKeyDown(e, 'address')}
-              onEditClick={() => handleEditButtonClick('address')}
-              onUpdate={() => handleUpdate('address')}
-              inputRef={addressInputRef}
-              icon={mapIcon}
-              iconAlt='주소 아이콘'
-            />
-          </li>
+          <EditableInput
+            isEditing={isEditingAddress}
+            value={address}
+            onChange={(value) => handleChange(value, 'address')}
+            onKeyDown={(e) => handleKeyDown(e, 'address')}
+            onEditClick={() => handleEditButtonClick('address')}
+            onUpdate={() => handleUpdate('address')}
+            inputRef={addressInputRef}
+            icon={mapIcon}
+            iconAlt='주소 아이콘'
+          />
         </ul>
       </div>
 
