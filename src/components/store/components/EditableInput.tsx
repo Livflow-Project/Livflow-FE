@@ -24,7 +24,7 @@ const EditableInput = ({
   isRequired = false,
 }: EditableInputProps) => {
   return (
-    <>
+    <li className='flex items-center justify-between'>
       <img src={icon} alt={iconAlt} className='w-[30px]' />
       {isEditing ? (
         <input
@@ -33,11 +33,11 @@ const EditableInput = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={onKeyDown}
-          className='h-full w-[200px] border-0 border-b border-gray-300 bg-transparent p-0 text-center text-[17px] font-semibold text-main focus:border-b focus:border-gray-300 focus:outline-none focus:ring-0'
+          className='input_underlined h-full w-[200px] font-semibold text-main'
           required={isRequired}
         />
       ) : (
-        <span className='w-[200px] truncate text-center text-[17px] font-semibold text-main'>
+        <span className='w-[200px] truncate text-center text-lg font-semibold text-main'>
           {value}
         </span>
       )}
@@ -48,7 +48,7 @@ const EditableInput = ({
       >
         {isEditing ? '완료' : '수정'}
       </button>
-    </>
+    </li>
   );
 };
 
