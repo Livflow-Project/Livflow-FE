@@ -160,7 +160,7 @@ export const useRecipeSubmit = (
       data: recipeDataToSave,
     });
 
-    // 2. 재고 조정 (사용량 차이만큼)
+    // 2. 재고 조정 (새로운 사용량으로 직접 설정)
     const updatePromises = Object.entries(ingredientsUsage)
       .filter(([itemId, amount]) => {
         // 원래 사용량과 다른 경우만 처리
@@ -168,12 +168,9 @@ export const useRecipeSubmit = (
         return amount !== originalAmount;
       })
       .map(([itemId, amount]) => {
-        const originalAmount = originalUsage[itemId] || 0;
-        const difference = originalAmount - amount; // 양수: 재고 증가, 음수: 재고 감소
-
         return InventoryItemMutation.mutateAsync({
           ingredientId: itemId,
-          data: { used_stock: -difference }, // 차이의 반대값을 사용
+          data: { used_stock: amount }, // 차이가 아닌 실제 입력된 사용량 값 사용
         });
       });
 
