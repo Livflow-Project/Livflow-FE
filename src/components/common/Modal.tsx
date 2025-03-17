@@ -23,7 +23,7 @@ const Modal = ({ onClose, onSubmit, children }: ModalProps) => {
         onSubmit={onSubmit}
         className='modal_div flex w-[520px] flex-col gap-7'
       >
-        {children}
+        <ul className='flex flex-col gap-4'>{children}</ul>
         <div className='button_gap'>
           <button
             type='button'

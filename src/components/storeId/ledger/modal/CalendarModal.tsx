@@ -164,107 +164,105 @@ const CalendarModal = ({
 
   return (
     <Modal onClose={onClose} onSubmit={handleSubmit}>
-      <ul className='flex flex-col gap-4'>
-        <li className='flex items-center justify-between'>
-          <div className='relative flex items-center gap-2'>
-            <label className='input_label'>카테고리</label>
-            <span className='absolute -right-1.5 -top-2 text-red'>*</span>
-          </div>
-          <select
-            value={transaction.category}
-            onChange={(e) =>
-              setTransaction({ ...transaction, category: e.target.value })
-            }
-            className='input_box'
-          >
-            <option value='' disabled className='text-center text-caption'>
-              카테고리 선택
+      <li className='flex items-center justify-between'>
+        <div className='relative flex items-center gap-2'>
+          <label className='input_label'>카테고리</label>
+          <span className='absolute -right-1.5 -top-2 text-red'>*</span>
+        </div>
+        <select
+          value={transaction.category}
+          onChange={(e) =>
+            setTransaction({ ...transaction, category: e.target.value })
+          }
+          className='input_box'
+        >
+          <option value='' disabled className='text-center text-caption'>
+            카테고리 선택
+          </option>
+          {TRANSACTION_CATEGORIES.map(({ value, label }) => (
+            <option key={value} value={value}>
+              {label}
             </option>
-            {TRANSACTION_CATEGORIES.map(({ value, label }) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-        </li>
+          ))}
+        </select>
+      </li>
 
-        <li className='flex items-center justify-between'>
-          <div className='relative flex items-center gap-2'>
-            <span className='input_label'>지출 / 수입</span>
-            <span className='absolute -right-1.5 -top-2 text-red'>*</span>
-          </div>
-          <div className='flex h-[42px] w-[60%] items-center justify-around'>
-            <label className='flex items-center'>
-              <input
-                type='radio'
-                name='transactionType'
-                value='expense'
-                checked={transaction.type === 'expense'}
-                onChange={(e) =>
-                  setTransaction({
-                    ...transaction,
-                    type: e.target.value as 'expense' | 'income',
-                  })
-                }
-                className='h-5 w-5'
-              />
-              <span className='ml-2 text-lg text-main'>지출</span>
-            </label>
-            <label className='flex items-center'>
-              <input
-                type='radio'
-                name='transactionType'
-                value='income'
-                checked={transaction.type === 'income'}
-                onChange={(e) =>
-                  setTransaction({
-                    ...transaction,
-                    type: e.target.value as 'expense' | 'income',
-                  })
-                }
-                className='h-5 w-5'
-              />
-              <span className='ml-2 text-lg text-main'>수입</span>
-            </label>
-          </div>
-        </li>
+      <li className='flex items-center justify-between'>
+        <div className='relative flex items-center gap-2'>
+          <span className='input_label'>지출 / 수입</span>
+          <span className='absolute -right-1.5 -top-2 text-red'>*</span>
+        </div>
+        <div className='flex h-[42px] w-[60%] items-center justify-around'>
+          <label className='flex items-center'>
+            <input
+              type='radio'
+              name='transactionType'
+              value='expense'
+              checked={transaction.type === 'expense'}
+              onChange={(e) =>
+                setTransaction({
+                  ...transaction,
+                  type: e.target.value as 'expense' | 'income',
+                })
+              }
+              className='h-5 w-5'
+            />
+            <span className='ml-2 text-lg text-main'>지출</span>
+          </label>
+          <label className='flex items-center'>
+            <input
+              type='radio'
+              name='transactionType'
+              value='income'
+              checked={transaction.type === 'income'}
+              onChange={(e) =>
+                setTransaction({
+                  ...transaction,
+                  type: e.target.value as 'expense' | 'income',
+                })
+              }
+              className='h-5 w-5'
+            />
+            <span className='ml-2 text-lg text-main'>수입</span>
+          </label>
+        </div>
+      </li>
 
-        <li className='flex items-center justify-between'>
-          <div className='relative flex items-center gap-2'>
-            <label className='input_label'>금액</label>
-            <span className='absolute -right-1.5 -top-2 text-red'>*</span>
-          </div>
-          <input
-            type='number'
-            value={costInput}
-            onChange={(e) => {
-              const value = e.target.value;
-              setCostInput(value);
-              setTransaction({
-                ...transaction,
-                cost: value ? Number(value) : 0,
-              });
-            }}
-            placeholder='숫자만 입력해 주세요.'
-            className='input_box number_input'
-          />
-        </li>
+      <li className='flex items-center justify-between'>
+        <div className='relative flex items-center gap-2'>
+          <label className='input_label'>금액</label>
+          <span className='absolute -right-1.5 -top-2 text-red'>*</span>
+        </div>
+        <input
+          type='number'
+          value={costInput}
+          onChange={(e) => {
+            const value = e.target.value;
+            setCostInput(value);
+            setTransaction({
+              ...transaction,
+              cost: value ? Number(value) : 0,
+            });
+          }}
+          placeholder='숫자만 입력해 주세요.'
+          className='input_box number_input'
+        />
+      </li>
 
-        <li className='flex items-center justify-between'>
-          <div className='relative flex items-center gap-2'>
-            <label className='input_label'>상세정보</label>
-          </div>
-          <input
-            type='text'
-            value={transaction.detail}
-            onChange={(e) =>
-              setTransaction({ ...transaction, detail: e.target.value })
-            }
-            placeholder='상세 정보를 입력해 주세요.'
-            className='input_box'
-          />
-        </li>
-      </ul>
+      <li className='flex items-center justify-between'>
+        <div className='relative flex items-center gap-2'>
+          <label className='input_label'>상세정보</label>
+        </div>
+        <input
+          type='text'
+          value={transaction.detail}
+          onChange={(e) =>
+            setTransaction({ ...transaction, detail: e.target.value })
+          }
+          placeholder='상세 정보를 입력해 주세요.'
+          className='input_box'
+        />
+      </li>
     </Modal>
   );
 };
