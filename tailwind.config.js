@@ -29,7 +29,7 @@ export default {
         },
         blinkingBorder: {
           '0%, 100%': { borderColor: '#D10000' },
-          '50%': { borderColor: 'transparent' },
+          '50%': { borderColor: '#333333' },
         },
       },
       fontFamily: {
