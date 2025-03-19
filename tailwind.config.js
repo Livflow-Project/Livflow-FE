@@ -14,6 +14,7 @@ export default {
         underline: '#333333',
         input_line: '#666666',
         input_line_focus: '#4D4D4D',
+        white: '#F8F8F8',
         red: '#D10000',
         green: '#00C016',
         background: '#E4F0FF'
