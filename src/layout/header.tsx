@@ -49,7 +49,7 @@ const Header = () => {
         </nav>
       </header>
 
-      <main className='mt-[75px]'>
+      <main className='mt-[75px] bg-white'>
         <Outlet />
       </main>
     </>
