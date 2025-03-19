@@ -70,11 +70,11 @@ body {
   }
 
   .input_box {
-    @apply h-[42px] w-[60%] rounded-lg border bg-transparent px-3 py-2 focus:border-b focus:border-caption focus:outline-none focus:ring-0;
+    @apply h-[42px] w-[60%] rounded-lg border bg-transparent px-3 py-2 focus:border-2 focus:border-caption focus:outline-none focus:ring-0;
   }
 
   .input_underlined {
-    @apply min-w-0 border-0 border-b border-gray-300 bg-transparent p-0 text-center text-lg focus:border-b focus:border-gray-300 focus:outline-none focus:ring-0;
+    @apply min-w-0 border-0 border-b border-caption bg-transparent p-0 text-center text-lg focus:border-b-2 focus:border-caption focus:outline-none focus:ring-0;
   }
 }
 
@@ -107,5 +107,9 @@ body {
   .no_hover {
     pointer-events: none;
     @apply text-gray-400/50;
+  }
+
+  .error-input {
+    @apply animate-blinkingBorder border-b-2 border-red focus:border-b-2 focus:border-red focus:outline-none;
   }
 }
