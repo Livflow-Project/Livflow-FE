@@ -42,7 +42,7 @@ body {
 /* 기본 컴포넌트 스타일 - 재사용 가능한 UI 컴포넌트 */
 @layer components {
   .store_box {
-    @apply h-[560px] w-[340px] rounded-lg border border-underline border-opacity-20 bg-white shadow-xl;
+    @apply h-[560px] w-[340px] flex-shrink-0 rounded-lg border border-underline border-opacity-20 bg-white shadow-xl;
   }
 
   .recipe_box {
