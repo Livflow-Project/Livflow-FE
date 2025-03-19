@@ -41,7 +41,7 @@ const StoreList = ({
   };
 
   return (
-    <div className='flex items-start'>
+    <div className='flex w-full items-start'>
       <AddStore onOpenModal={onToggleModal} />
 
       <style>{storeListSwiperStyles}</style>
