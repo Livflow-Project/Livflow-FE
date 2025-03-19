@@ -1,3 +1,5 @@
+import { twMerge } from 'tailwind-merge';
+
 type EditableInputProps = {
   isEditing: boolean;
   value: string;
@@ -9,6 +11,7 @@ type EditableInputProps = {
   icon: string;
   iconAlt: string;
   isRequired?: boolean;
+  error?: boolean;
 };
 
 const EditableInput = ({
@@ -22,6 +25,7 @@ const EditableInput = ({
   icon,
   iconAlt,
   isRequired = false,
+  error,
 }: EditableInputProps) => {
   return (
     <li className='flex items-center justify-between'>
@@ -33,7 +37,10 @@ const EditableInput = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={onKeyDown}
-          className='input_underlined h-full w-[200px] font-semibold text-main'
+          className={twMerge(
+            'input_underlined h-full w-[200px] font-semibold text-main',
+            error && 'error-input'
+          )}
           required={isRequired}
         />
       ) : (
