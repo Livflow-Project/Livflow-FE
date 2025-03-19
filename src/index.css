@@ -70,11 +70,11 @@ body {
   }
 
   .input_box {
-    @apply h-[42px] w-[60%] rounded-lg border bg-transparent px-3 py-2 focus:border-2 focus:border-caption focus:outline-none focus:ring-0;
+    @apply focus:border-input_line_focus border-input_line h-[42px] w-[60%] rounded-lg border bg-transparent px-3 py-2 text-center text-lg focus:border-2 focus:outline-none focus:ring-0;
   }
 
   .input_underlined {
-    @apply min-w-0 border-0 border-b border-caption bg-transparent p-0 text-center text-lg focus:border-b-2 focus:border-caption focus:outline-none focus:ring-0;
+    @apply focus:border-input_line_focus border-input_line min-w-0 border-0 border-b bg-transparent p-0 text-center text-lg focus:border-b-2 focus:outline-none focus:ring-0;
   }
 }
 
