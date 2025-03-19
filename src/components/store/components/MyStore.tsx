@@ -83,7 +83,7 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
         </ul>
       </div>
 
-      <div className='flex h-[calc(100%-128px)] flex-col items-center justify-between p-[20px]'>
+      <div className='flex h-[calc(100%-125px)] flex-col items-center justify-between p-[20px]'>
         <ChartView isDeleteMode={isDeleteMode} chartInfo={storeInfo.chart} />
 
         <button

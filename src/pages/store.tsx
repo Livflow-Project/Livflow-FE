@@ -36,8 +36,8 @@ const Store = () => {
   }
 
   return (
-    <div className='flex h-[calc(100vh-75px)] flex-col items-center justify-center bg-white'>
-      <div className='w-full max-w-[1200px]'>
+    <div className='flex h-[calc(100vh-75px)] flex-col items-center justify-center'>
+      <div className='mx-[30px] flex max-w-[1200px] flex-col gap-10'>
         <StoreHeader
           storeCount={data.stores.length || 0}
           isDeleteMode={isDeleteMode}

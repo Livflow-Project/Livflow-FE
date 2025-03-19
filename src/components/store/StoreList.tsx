@@ -24,11 +24,8 @@ const StoreList = ({
     // 페이지당 2개의 스토어로 변경
     for (let i = 0; i < stores.length; i += 2) {
       slides.push(
-        <SwiperSlide
-          key={i}
-          className='flex items-start justify-start gap-[30px]'
-        >
-          <div className='flex w-full items-start justify-start gap-[30px]'>
+        <SwiperSlide key={i} className='flex items-start justify-start'>
+          <div className='flex items-start justify-start gap-[30px]'>
             {stores.slice(i, i + 2).map((store) => (
               <MyStore
                 key={store.store_id}
@@ -44,7 +41,7 @@ const StoreList = ({
   };
 
   return (
-    <div className='relative flex max-w-[1200px]'>
+    <div className='flex items-start'>
       <AddStore onOpenModal={onToggleModal} />
 
       <style>{storeListSwiperStyles}</style>
