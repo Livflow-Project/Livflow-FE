@@ -1,4 +1,4 @@
-import '../css/calendar.css';
+import './css/calendar.css';
 
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
