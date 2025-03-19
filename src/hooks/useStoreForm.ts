@@ -16,7 +16,13 @@ type StoreFormData = {
 
 export const useStoreForm = (storeInfo: StoreDetailResponse) => {
   // React Hook Form 설정
-  const { watch, setValue } = useForm<StoreFormData>({
+  const {
+    watch,
+    setValue,
+    formState: { errors },
+    setError,
+    clearErrors,
+  } = useForm<StoreFormData>({
     defaultValues: {
       name: storeInfo.name,
       address: storeInfo.address || '',
@@ -57,6 +63,11 @@ export const useStoreForm = (storeInfo: StoreDetailResponse) => {
    */
   const handleChange = (value: string, field: keyof StoreFormData) => {
     setValue(field, value, { shouldDirty: true });
+
+    // 이름 필드에 값이 입력되면 오류 초기화
+    if (field === 'name' && value.trim()) {
+      clearErrors('name');
+    }
   };
 
   /**
@@ -66,7 +77,11 @@ export const useStoreForm = (storeInfo: StoreDetailResponse) => {
     // 이름 필드 유효성 검사
     if (type === 'name') {
       if (!name.trim()) {
-        showWarnToast('스토어 이름은 필수 입력 요소입니다.');
+        showWarnToast('스토어 이름은 필수 입니다.');
+        setError('name', {
+          type: 'required',
+          message: '스토어 이름은 필수 입니다.',
+        });
         return;
       }
 
@@ -143,6 +158,7 @@ export const useStoreForm = (storeInfo: StoreDetailResponse) => {
     isEditingAddress,
     nameInputRef,
     addressInputRef,
+    nameError: !!errors.name,
     handleEditButtonClick,
     handleChange,
     handleUpdate,
