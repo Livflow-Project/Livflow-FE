@@ -9,9 +9,7 @@ const Home = lazy(() => import('@/pages/home'));
 const Store = lazy(() => import('@/pages/store'));
 const StoreId = lazy(() => import('@/pages/storeId'));
 
-const MainCalender = lazy(
-  () => import('@/components/storeId/ledger/calendar/MainCalender')
-);
+const MainLedger = lazy(() => import('@/components/storeId/ledger/MainLedger'));
 const MainIngredient = lazy(
   () => import('@/components/storeId/ingredient/MainIngredient')
 );
@@ -69,11 +67,11 @@ export const loggedRoutes = [
         children: [
           {
             index: true,
-            element: <MainCalender />,
+            element: <MainLedger />,
           },
           {
             path: 'ledger',
-            element: <MainCalender />,
+            element: <MainLedger />,
           },
           {
             path: 'ingredient',
