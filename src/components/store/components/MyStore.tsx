@@ -24,6 +24,7 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
     isEditingAddress,
     nameInputRef,
     addressInputRef,
+    nameError,
     handleEditButtonClick,
     handleChange,
     handleUpdate,
@@ -65,6 +66,7 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
             icon={storeIcon}
             iconAlt='상점 아이콘'
             isRequired={true}
+            error={nameError}
           />
 
           <EditableInput
