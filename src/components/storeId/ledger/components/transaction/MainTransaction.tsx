@@ -1,7 +1,7 @@
-import ActionButtons from './components/button/ActionButtons';
-import CalendarModal from '../modal/CalendarModal';
-import TransactionHeader from './components/TransactionHeader';
-import TransactionList from './components/TransactionList';
+import ActionButtons from './transactionTable/button/ActionButtons';
+import LedgerModal from '../../modal/LedgerModal';
+import TransactionHeader from './transactionTable/TransactionHeader';
+import TransactionList from './transactionTable/TransactionList';
 import { TransactionResponse } from '@/api/storeId/ledger/transactions/transactions.type';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
@@ -83,7 +83,7 @@ const MainTransaction = ({
       />
 
       {isModalOpen && editingTransaction && (
-        <CalendarModal
+        <LedgerModal
           onClose={() => {
             setIsModalOpen(false);
             setEditingTransaction(null);
