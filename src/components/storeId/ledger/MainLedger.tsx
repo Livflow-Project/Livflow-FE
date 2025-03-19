@@ -1,14 +1,14 @@
-import CalendarModal from '../modal/CalendarModal';
-import CalendarView from './components/CalendarView';
+import CalendarView from './components/CalendarView/CalendarView';
 import ContentLoadingIndicator from '@/components/common/ContentLoadingIndicator';
-import MainTransaction from '../transaction/MainTransaction';
-import MonthlyOverview from './components/MonthlyOverview';
+import LedgerModal from './modal/LedgerModal';
+import MainTransaction from './components/transaction/MainTransaction';
+import MonthlyOverview from './components/monthlyOverview/index';
 import { toast } from 'react-toastify';
 import { useGetLedgerCalendar } from '@/api/storeId/ledger/calendar/calendar.hooks';
 import { useOutletContext } from 'react-router-dom';
 import { useState } from 'react';
 
-const MainCalendar = () => {
+const MainLedger = () => {
   const { storeId } = useOutletContext<{ storeId: string }>();
 
   const today = new Date();
@@ -58,7 +58,7 @@ const MainCalendar = () => {
       </div>
 
       {isModalOpen && (
-        <CalendarModal
+        <LedgerModal
           onClose={() => {
             setIsModalOpen(false);
             toast.dismiss();
@@ -71,4 +71,4 @@ const MainCalendar = () => {
   );
 };
 
-export default MainCalendar;
+export default MainLedger;

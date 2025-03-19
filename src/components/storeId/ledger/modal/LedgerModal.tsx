@@ -9,7 +9,7 @@ import { showWarnToast } from '@/utils/toast';
 import { useState } from 'react';
 import { useTransactionsQuery } from '@/api/storeId/ledger/transactions/transactions.hooks';
 
-type CalendarModalProps = {
+type LedgerModalProps = {
   onClose: () => void;
   storeId: string;
   selectedDate: string | null;
@@ -93,13 +93,13 @@ const TRANSACTION_CATEGORIES = [
   { value: '기타', label: '기타' },
 ];
 
-const CalendarModal = ({
+const LedgerModal = ({
   onClose,
   selectedDate,
   storeId,
   isEditMode = false,
   initialData,
-}: CalendarModalProps) => {
+}: LedgerModalProps) => {
   const { useAddTransaction, useUpdateTransaction } = useTransactionsQuery();
   const { mutate: addTransaction } = useAddTransaction();
   const { mutate: updateTransaction } = useUpdateTransaction();
@@ -267,4 +267,4 @@ const CalendarModal = ({
   );
 };
 
-export default CalendarModal;
+export default LedgerModal;
