@@ -17,7 +17,7 @@ const IngredientList = ({
   if (!ingredients || !Array.isArray(ingredients) || ingredients.length === 0) {
     return (
       <div className='flex h-[calc(100%-65px)] w-full items-center justify-center text-2xl text-main'>
-        등록된 재료가 없습니다.
+        추가된 재료가 없습니다.
       </div>
     );
   }

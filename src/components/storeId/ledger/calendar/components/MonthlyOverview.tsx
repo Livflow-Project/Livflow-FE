@@ -30,7 +30,7 @@ const CategorySection = ({
   if (filteredCategories.length === 0) {
     return (
       <p className='text-sx text-caption'>
-        입력된 {isIncome ? '수입' : '지출'}이 없습니다.
+        추가된 {isIncome ? '수입' : '지출'}이 없습니다.
       </p>
     );
   }
@@ -105,7 +105,7 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
   if (categories.length === 0) {
     return (
       <div className='my-auto w-full text-center text-2xl text-main'>
-        입력된 지출 / 수입이 없습니다.
+        추가된 지출 / 수입이 없습니다.
       </div>
     );
   }

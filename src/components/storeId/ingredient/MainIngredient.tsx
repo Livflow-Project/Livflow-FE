@@ -95,7 +95,7 @@ const MainIngredient = () => {
         <header className='flex w-full items-center justify-between gap-5'>
           <div className='h-[60px] w-[30%] min-w-[350px] rounded-lg bg-white/50'>
             <div className='flex h-full w-full items-center justify-evenly text-xl'>
-              <span>{`총 등록된 재료 : ${ingredients?.length ?? 0}개`}</span>
+              <span>{`총 재료 개수 : ${ingredients?.length ?? 0}개`}</span>
               <div className='h-[40px] w-[1px] bg-caption'></div>
               <span>{`총 비용 : ${
                 hasIngredients

@@ -30,7 +30,7 @@ const ChartView = ({ isDeleteMode, chartInfo }: ChartViewProps) => {
         <PieChart categories={filteredCategories} />
       ) : (
         <div className='text-center'>
-          {`입력된 ${CHART_LABELS[selectedType]}이 없습니다.`}
+          {`추가된 ${CHART_LABELS[selectedType]}이 없습니다.`}
         </div>
       ),
     [filteredCategories, selectedType]
