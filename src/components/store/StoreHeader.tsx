@@ -10,7 +10,7 @@ const StoreHeader = ({
   onDeleteModeToggle,
 }: StoreHeaderProps) => {
   return (
-    <header className='mb-10 flex w-[340px] items-end justify-between'>
+    <header className='flex w-[340px] items-end justify-between'>
       <h1 className='text-3xl font-semibold text-caption'>
         전체 스토어 ({storeCount})
       </h1>
@@ -20,7 +20,7 @@ const StoreHeader = ({
           className='text-lg text-red hover:font-semibold'
           onClick={onDeleteModeToggle}
         >
-          {isDeleteMode ? '취소하기' : '삭제하기'}
+          {isDeleteMode ? '완료하기' : '삭제하기'}
         </button>
       )}
     </header>
