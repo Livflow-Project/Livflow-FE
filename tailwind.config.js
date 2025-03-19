@@ -12,6 +12,8 @@ export default {
         button_hover: '#004aad',
         m_background: '#d9d9d9',
         underline: '#333333',
+        input_line: '#666666',
+        input_line_focus: '#4D4D4D',
         red: '#D10000',
         green: '#00C016',
         background: '#E4F0FF'
