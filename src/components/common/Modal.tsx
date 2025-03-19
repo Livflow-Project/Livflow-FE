@@ -21,6 +21,7 @@ const Modal = ({ onClose, onSubmit, children }: ModalProps) => {
     >
       <form
         onSubmit={onSubmit}
+        autoComplete='off'
         className='modal_div flex w-[520px] flex-col gap-7'
       >
         <ul className='flex flex-col gap-4'>{children}</ul>
