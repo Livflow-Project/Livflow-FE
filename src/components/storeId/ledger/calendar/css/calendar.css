@@ -1,10 +1,11 @@
 /* 캘린더 전체 크기 설정 */
 .fc {
   height: calc(100% - 25px);
+  background: #f8f8f8;
 }
 
 /* 캘린더 상단 월, 화살표 폰트 설정 */
-.fc .fc-toolbar.fc-header-toolbar {
+.fc .fc-toolbar .fc-header-toolbar {
   font-size: 15px;
   font-weight: 600;
 }
@@ -25,12 +26,6 @@
 .fc-daygrid-day-frame {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-/* 몇일 자리 중앙 정렬 */
-.fc-daygrid-day-top {
   justify-content: center;
   align-items: center;
 }
@@ -58,33 +53,64 @@
 }
 
 .fc .fc-daygrid-day.fc-day-today {
-  background: white;
+  background-color: #f8f8f8 !important;
 }
 
 .fc-h-event {
   border: none;
-  background-color: white !important;
+  background-color: #f8f8f8 !important;
 }
 
-.selected-date {
+/* 몇일 자리 중앙 정렬 */
+.fc-daygrid-day-top {
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+.fc-daygrid-day-top:hover {
   background-color: #336ebd;
+  opacity: 30%;
   border-radius: 50%;
-  color: white;
+  color: #f8f8f8;
+}
+
+/* 선택된 날짜 스타일 - 더 높은 우선순위로 설정 */
+.fc-daygrid-day-top.selected-date,
+.fc-daygrid-day-top.selected-date:hover {
+  background-color: #336ebd;
+  opacity: 100%;
+  border-radius: 50%;
+  color: #f8f8f8;
+  font-weight: bold;
 }
 
 /* 좌우 화살표 */
 .fc .fc-button {
-  background-color: white !important;
-  color: #121212;
+  background-color: #f8f8f8 !important;
+  color: #333333;
   opacity: 0.8;
-  font-size: 25px;
+  font-size: 30px;
   border: none;
-  padding: 0px;
+  padding: 0;
+  padding-bottom: 6px !important;
+
+  transition:
+    transform 0.2s ease-in-out,
+    color 0.2s;
+  transform-origin: center center;
+}
+
+.fc .fc-button:hover .fc-icon {
+  transform: scale(1.5);
+  display: inline-block;
 }
 
 /* 좌우 화살표 호버 시 */
 .fc .fc-button:hover {
   color: #121212 !important;
+  transform: scale(1.5);
 }
 
 /* 좌우 화살표 포커스된 상태 테두리 없앰 */
