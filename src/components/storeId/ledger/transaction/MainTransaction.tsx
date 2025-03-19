@@ -42,16 +42,27 @@ const MainTransaction = ({
   };
 
   const handleDelete = (transaction: TransactionResponse) => {
-    deleteMutation.mutate({
-      storeId: storeId,
-      transactionId: transaction.transaction_id,
-    });
+    deleteMutation.mutate(
+      {
+        storeId: storeId,
+        transactionId: transaction.transaction_id,
+      },
+      {
+        onSuccess: () => {
+          if (transactions && transactions.length === 1) {
+            setIsEditMode(false);
+          }
+        },
+      }
+    );
   };
 
   const handleEditModeToggle = () => {
     toast.dismiss();
     setIsEditMode(!isEditMode);
   };
+
+  const hasTransactions = transactions && transactions.length > 0;
 
   return (
     <>
@@ -65,10 +76,10 @@ const MainTransaction = ({
       />
 
       <ActionButtons
-        isEditMode={isEditMode && transactions && transactions.length > 0}
+        isEditMode={isEditMode && hasTransactions}
         onEditModeToggle={handleEditModeToggle}
         onModalOpen={onModalOpen}
-        hasTransactions={transactions && transactions.length > 0}
+        hasTransactions={hasTransactions}
       />
 
       {isModalOpen && editingTransaction && (
