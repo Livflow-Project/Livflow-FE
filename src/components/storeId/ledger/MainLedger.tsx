@@ -28,7 +28,6 @@ const MainLedger = () => {
     setIsModalOpen(true);
   };
 
-  // 데이터 로딩 상태 처리
   if (isLoading || !calendarData) {
     return <ContentLoadingIndicator />;
   }
