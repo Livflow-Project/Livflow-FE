@@ -26,7 +26,7 @@ const TransactionList = ({
         />
       ))
     ) : (
-      <div className='my-auto w-full text-center text-2xl text-main'>
+      <div className='my-auto w-full text-center text-2xl text-caption'>
         추가된 지출 / 수입이 없습니다.
       </div>
     )}

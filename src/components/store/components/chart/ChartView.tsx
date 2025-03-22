@@ -29,7 +29,7 @@ const ChartView = ({ isDeleteMode, chartInfo }: ChartViewProps) => {
       filteredCategories && filteredCategories.length > 0 ? (
         <PieChart categories={filteredCategories} />
       ) : (
-        <div className='text-center'>
+        <div className='text-center text-lg text-caption'>
           {`추가된 ${CHART_LABELS[selectedType]}이 없습니다.`}
         </div>
       ),
