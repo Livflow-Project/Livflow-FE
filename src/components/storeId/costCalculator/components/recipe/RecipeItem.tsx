@@ -17,6 +17,8 @@ const RecipeItem = ({
   onDelete,
   onClick,
 }: RecipeItemProps) => {
+  const { VITE_IMAGE_REQUEST_URL } = import.meta.env;
+
   const [hasImageError, setHasImageError] = useState(false);
 
   const handleClick = () => {
@@ -49,7 +51,7 @@ const RecipeItem = ({
         <div className='flex flex-grow items-center justify-center overflow-hidden'>
           {recipe.recipe_img && !hasImageError ? (
             <img
-              src={recipe.recipe_img.toString()}
+              src={`${VITE_IMAGE_REQUEST_URL}${recipe.recipe_img}`}
               alt={recipe.recipe_name}
               className={twMerge(
                 'max-h-full max-w-full rounded object-contain transition-all duration-200',
