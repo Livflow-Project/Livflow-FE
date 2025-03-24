@@ -1,10 +1,11 @@
+import { useCallback, useMemo, useState } from 'react';
+
 import ActionButtons from './transactionTable/button/ActionButtons';
 import LedgerModal from '../../modal/LedgerModal';
 import TransactionHeader from './transactionTable/TransactionHeader';
 import TransactionList from './transactionTable/TransactionList';
 import { TransactionResponse } from '@/api/storeId/ledger/transactions/transactions.type';
 import { toast } from 'react-toastify';
-import { useState } from 'react';
 import { useTransactionsQuery } from '@/api/storeId/ledger/transactions/transactions.hooks';
 
 type MainTransactionProps = {
@@ -23,18 +24,24 @@ const MainTransaction = ({
     useState<TransactionResponse | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // selectedDate에서 년,월,일 추출
-  const [year, month, day] = selectedDate.split('-').map(Number);
+  // 날짜 파싱
+  const dateParts = useMemo(() => {
+    return selectedDate.split('-').map(Number) as [number, number, number];
+  }, [selectedDate]);
 
-  const { useGetAllTransactions } = useTransactionsQuery();
+  const [year, month, day] = dateParts;
+
+  const { useGetAllTransactions, useDeleteTransaction } =
+    useTransactionsQuery();
   const { data: transactions } = useGetAllTransactions(storeId, {
     year,
     month,
     day,
   });
-
-  const { useDeleteTransaction } = useTransactionsQuery();
   const deleteMutation = useDeleteTransaction();
+
+  // 트랜잭션 존재 여부
+  const hasTransactions = Boolean(transactions?.length);
 
   const handleEdit = (transaction: TransactionResponse) => {
     setEditingTransaction(transaction);
@@ -49,6 +56,7 @@ const MainTransaction = ({
       },
       {
         onSuccess: () => {
+          // 마지막 트랜잭션이 삭제되면 편집 모드 종료
           if (transactions && transactions.length === 1) {
             setIsEditMode(false);
           }
@@ -62,7 +70,10 @@ const MainTransaction = ({
     setIsEditMode(!isEditMode);
   };
 
-  const hasTransactions = transactions && transactions.length > 0;
+  const handleModalClose = useCallback(() => {
+    setIsModalOpen(false);
+    setEditingTransaction(null);
+  }, []);
 
   return (
     <>
@@ -84,10 +95,7 @@ const MainTransaction = ({
 
       {isModalOpen && editingTransaction && (
         <LedgerModal
-          onClose={() => {
-            setIsModalOpen(false);
-            setEditingTransaction(null);
-          }}
+          onClose={handleModalClose}
           storeId={storeId}
           selectedDate={selectedDate}
           isEditMode={true}
