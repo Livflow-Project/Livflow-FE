@@ -110,6 +110,6 @@ body {
   }
 
   .error-input {
-    @apply animate-blinkingBorder border-b-2 border-red focus:border-b-2 focus:border-red focus:outline-none;
+    @apply animate-blinkingBorder border-2 border-red focus:border-b-2 focus:border-red focus:outline-none;
   }
 }
