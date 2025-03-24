@@ -73,7 +73,7 @@ const AddStoreModal = ({ onClose }: AddStoreModalProps) => {
         register={register('name')}
         placeholder='이름을 입력해 주세요.'
         required={true}
-        className={errors.name && 'animate-blinkingBorder'}
+        className={errors.name && 'error-input'}
       />
 
       <FormField
