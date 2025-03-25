@@ -1,6 +1,7 @@
 import DeleteButton from '@/components/common/DeleteButton';
 import EditButton from '@/components/common//EditButton';
 import { TransactionResponse } from '@/api/storeId/ledger/transactions/transactions.type';
+import { twMerge } from 'tailwind-merge';
 
 type TransactionItemProps = {
   transaction: TransactionResponse;
@@ -21,9 +22,10 @@ const TransactionItem = ({
     <li className='w-[40%] text-lg font-normal'>{transaction.detail}</li>
 
     <li
-      className={`w-[30%] text-lg font-normal ${
+      className={twMerge(
+        'w-[30%] text-lg font-normal',
         transaction.type === 'expense' ? 'text-red' : 'text-green'
-      }`}
+      )}
     >
       {transaction.type === 'expense' ? '- ' : '+ '}
       {transaction.cost.toLocaleString()}원
