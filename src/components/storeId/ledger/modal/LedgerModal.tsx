@@ -38,6 +38,7 @@ const LedgerModal = ({
     handleSubmit,
     control,
     setError,
+    setFocus,
     formState: { errors },
   } = useForm<TransactionRequest>({
     defaultValues: getDefaultValues(isEditMode, initialData),
@@ -68,6 +69,11 @@ const LedgerModal = ({
         message: '금액을 입력해주세요.',
       });
       showWarnToast('금액을 입력해주세요.');
+
+      // 금액 인풋에 포커스
+      setTimeout(() => {
+        setFocus('cost');
+      }, 100);
       return;
     }
 
@@ -125,7 +131,7 @@ const LedgerModal = ({
           <span className='absolute -right-1.5 -top-2 text-red'>*</span>
         </div>
         <select
-          {...register('category', { required: true })}
+          {...register('category')}
           className={twMerge('input_box', errors.category && 'error-input')}
         >
           <option value='' disabled className='text-center text-caption'>
@@ -179,7 +185,6 @@ const LedgerModal = ({
       <FormField
         label='금액'
         register={register('cost', {
-          required: true,
           valueAsNumber: true,
           min: 0,
         })}
