@@ -12,6 +12,8 @@
 
 /* 제목과 화살표 사이의 간격 설정 */
 .fc-toolbar {
+  color: #121212;
+
   gap: 30px;
   justify-content: center !important;
 }
@@ -32,6 +34,7 @@
 
 /* 월~일 텍스트 설정 */
 .fc-col-header-cell-cushion {
+  color: #121212;
   font-size: 22px;
   font-weight: 600;
 }
@@ -42,6 +45,7 @@
   align-items: center;
   justify-content: center;
 
+  color: #121212;
   font-size: 22px;
   font-weight: 400;
   width: 54px;
@@ -70,19 +74,17 @@
 }
 
 .fc-daygrid-day-top:hover {
-  background-color: #336ebd;
+  background-color: #ffe138;
   opacity: 30%;
   border-radius: 50%;
-  color: #f8f8f8;
 }
 
 /* 선택된 날짜 스타일 - 더 높은 우선순위로 설정 */
 .fc-daygrid-day-top.selected-date,
 .fc-daygrid-day-top.selected-date:hover {
-  background-color: #336ebd;
+  background-color: #ffe138;
   opacity: 100%;
   border-radius: 50%;
-  color: #f8f8f8;
   font-weight: bold;
 }
 
