@@ -74,15 +74,26 @@
 }
 
 .fc-daygrid-day-top:hover {
-  background-color: #ffe138;
+  background-color: #0046a3;
   opacity: 30%;
   border-radius: 50%;
+}
+
+/* 날짜 숫자 호버 시 텍스트 색상 변경 */
+.fc-daygrid-day-top:hover .fc-daygrid-day-number {
+  color: #f8f8f8 !important;
+}
+
+/* 선택된 날짜의 텍스트 색상 */
+.fc-daygrid-day-top.selected-date .fc-daygrid-day-number,
+.fc-daygrid-day-top.selected-date:hover .fc-daygrid-day-number {
+  color: #f8f8f8 !important;
 }
 
 /* 선택된 날짜 스타일 - 더 높은 우선순위로 설정 */
 .fc-daygrid-day-top.selected-date,
 .fc-daygrid-day-top.selected-date:hover {
-  background-color: #ffe138;
+  background-color: #0046a3;
   opacity: 100%;
   border-radius: 50%;
   font-weight: bold;
