@@ -30,6 +30,7 @@
     "react-hook-form": "^7.54.2",
     "react-images-uploading": "^3.1.7",
     "react-router-dom": "^6.28.0",
+    "react-select": "^5.10.1",
     "react-toastify": "^10.0.6",
     "swiper": "^11.1.14",
     "tailwind-merge": "^2.5.5",
