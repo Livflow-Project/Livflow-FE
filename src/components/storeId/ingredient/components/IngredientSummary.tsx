@@ -1,0 +1,31 @@
+import { IngredientResponse } from '@/api/storeId/ingredients/ingredients.type';
+import { useMemo } from 'react';
+
+type IngredientSummaryProps = {
+  ingredients: IngredientResponse[] | undefined;
+};
+
+const IngredientSummary: React.FC<IngredientSummaryProps> = ({
+  ingredients,
+}) => {
+  const totalCost = useMemo(() => {
+    if (!ingredients?.length) return 0;
+
+    return ingredients.reduce(
+      (sum, ingredient) => sum + ingredient.ingredient_cost,
+      0
+    );
+  }, [ingredients]);
+
+  return (
+    <div className='h-[60px] w-[30%] min-w-[350px] rounded-lg bg-white/50'>
+      <div className='flex h-full w-full items-center justify-evenly text-xl'>
+        <span>{`총 재료 개수 : ${ingredients?.length ?? 0}개`}</span>
+        <div className='h-[40px] w-[1px] bg-caption'></div>
+        <span>{`총 비용 : ${totalCost}원`}</span>
+      </div>
+    </div>
+  );
+};
+
+export default IngredientSummary;
