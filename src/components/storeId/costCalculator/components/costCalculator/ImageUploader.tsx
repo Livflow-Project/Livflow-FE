@@ -14,6 +14,7 @@ const ImageUploader = () => {
 
   // 이미지 미리보기 상태 감시
   const recipeImg = watch('recipe_img');
+  const imagePreview = watch('recipe_img_preview');
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
@@ -26,11 +27,21 @@ const ImageUploader = () => {
 
       // Base64로 변환하는 대신 File 객체 자체를 저장
       setValue('recipe_img', file);
+
+      // 미리보기용 URL 생성
+      const previewUrl = URL.createObjectURL(file);
+      setValue('recipe_img_preview', previewUrl);
     }
   };
 
   const handleRemoveImage = () => {
+    // 미리보기 URL이 있으면 메모리에서 해제
+    if (imagePreview) {
+      URL.revokeObjectURL(imagePreview);
+    }
+
     setValue('recipe_img', null);
+    setValue('recipe_img_preview', null);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -38,16 +49,20 @@ const ImageUploader = () => {
 
   return (
     <article className='h-[58%] w-full rounded-xl bg-white/50'>
-      <ul className='flex h-full flex-col items-start justify-between gap-5 p-5 text-xl font-semibold text-main'>
+      <ul className='flex flex-col items-start justify-between h-full gap-5 p-5 text-xl font-semibold text-main'>
         <li>메뉴 이미지 등록</li>
-        <li className='flex h-full w-full items-center justify-center'>
+        <li className='flex items-center justify-center w-full h-full'>
           <div className='flex h-[330px] w-[356px] items-center justify-center overflow-hidden'>
             {recipeImg ? (
-              <div className='relative max-h-full max-w-full'>
+              <div className='relative max-w-full max-h-full'>
                 <img
-                  src={`${VITE_IMAGE_REQUEST_URL}${recipeImg}`}
+                  src={
+                    typeof recipeImg === 'string'
+                      ? `${VITE_IMAGE_REQUEST_URL}${recipeImg}`
+                      : imagePreview
+                  }
                   alt='업로드된 이미지'
-                  className='max-h-full max-w-full cursor-pointer rounded-xl object-contain'
+                  className='object-contain max-w-full max-h-full cursor-pointer rounded-xl'
                   onClick={handleImageClick}
                   onError={(e) =>
                     console.error('이미지 로드 실패:', e.currentTarget.src)
