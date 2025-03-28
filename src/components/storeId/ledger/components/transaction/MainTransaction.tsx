@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import ActionButtons from './transactionTable/button/ActionButtons';
+import ActionButtons from './button/ActionButtons';
 import LedgerModal from '../../modal/LedgerModal';
 import TransactionHeader from './transactionTable/TransactionHeader';
 import TransactionList from './transactionTable/TransactionList';
@@ -24,7 +24,6 @@ const MainTransaction = ({
     useState<TransactionResponse | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 날짜 파싱
   const dateParts = useMemo(() => {
     return selectedDate.split('-').map(Number) as [number, number, number];
   }, [selectedDate]);
@@ -39,9 +38,6 @@ const MainTransaction = ({
     day,
   });
   const deleteMutation = useDeleteTransaction();
-
-  // 트랜잭션 존재 여부
-  const hasTransactions = Boolean(transactions?.length);
 
   const handleEdit = (transaction: TransactionResponse) => {
     setEditingTransaction(transaction);
@@ -87,10 +83,10 @@ const MainTransaction = ({
       />
 
       <ActionButtons
-        isEditMode={isEditMode && hasTransactions}
+        isEditMode={isEditMode && !!transactions?.length}
         onEditModeToggle={handleEditModeToggle}
         onModalOpen={onModalOpen}
-        hasTransactions={hasTransactions}
+        hasTransactions={!!transactions?.length}
       />
 
       {isModalOpen && editingTransaction && (
