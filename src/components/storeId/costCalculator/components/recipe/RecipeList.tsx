@@ -24,7 +24,6 @@ const RecipeList = ({
   // 화면 높이에 따라 그리드 행 수 조정
   const gridRows = useGridRows();
 
-  // Swiper 설정 생성
   const swiperConfig = createSwiperConfig(gridRows);
 
   if (!recipes || recipes.length === 0) {
