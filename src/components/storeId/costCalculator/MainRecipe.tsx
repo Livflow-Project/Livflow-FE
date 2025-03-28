@@ -1,66 +1,118 @@
-import Button from '@/components/common/Button';
+import {
+  useDeleteRecipeMutation,
+  useGetAllRecipes,
+} from '@/api/storeId/costCalculator/costCalculator.hooks';
+import { useNavigate, useOutletContext } from 'react-router-dom';
+
+import ActionButtons from './components/costCalculator/button/ActionButtons';
 import ContentLoadingIndicator from '@/components/common/ContentLoadingIndicator';
 import ErrorPage from '@/pages/status/errorPage';
 import MainCostCalculator from './MainCostCalculator';
 import RecipeList from './components/recipe/RecipeList';
-import { useRecipeManagement } from '@/hooks/useRecipeManagement';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
+
+type ViewMode = 'list' | 'calculator' | 'delete';
 
 const MainRecipe = () => {
+  const [viewMode, setViewMode] = useState<ViewMode>('list');
+
+  const navigate = useNavigate();
+
+  const { storeId } = useOutletContext<{ storeId: string }>();
+
+  if (!storeId) {
+    return (
+      <ErrorPage
+        error={new Error('스토어 아이디가 없습니다.')}
+        resetError={() => {}}
+      />
+    );
+  }
+
   const {
-    recipes,
+    data: recipes,
     isLoading,
     isError,
     error,
     refetch,
-    showCostCalculator,
-    isDeleteMode,
-    handleAddMenu,
-    handleEditRecipe,
-    handleSaveMenu,
-    handleCancelMenu,
-    handleDeleteMode,
-    handleDeleteRecipe,
-  } = useRecipeManagement();
+  } = useGetAllRecipes(storeId);
+
+  const deleteRecipeMutation = useDeleteRecipeMutation(storeId);
+
+  const handleAddRecipe = () => {
+    toast.dismiss();
+    setViewMode('calculator');
+  };
+
+  const handleEditRecipe = (recipeId: string) => {
+    toast.dismiss();
+    navigate(`/store/${storeId}/recipe/${recipeId}`);
+  };
+
+  const handleDeleteRecipe = (recipeId: string) => {
+    toast.dismiss();
+
+    deleteRecipeMutation.mutate(recipeId, {
+      onSuccess: () => {
+        // 마지막 레시피였다면 삭제 모드 비활성화
+        if (recipes?.length === 1) {
+          setViewMode('list');
+        }
+        refetch();
+      },
+    });
+  };
+
+  const handleSaveRecipe = () => {
+    setViewMode('list');
+    refetch();
+  };
+
+  const handleCancelRecipe = () => {
+    toast.dismiss();
+    setViewMode('list');
+  };
+
+  const handleToggleDeleteMode = () => {
+    toast.dismiss();
+    setViewMode(viewMode === 'delete' ? 'list' : 'delete');
+  };
 
   if (isLoading || !recipes) {
     return <ContentLoadingIndicator />;
   }
 
   if (isError) {
-    return <ErrorPage error={error as Error} resetError={() => refetch()} />;
+    return <ErrorPage error={error as Error} resetError={refetch} />;
+  }
+
+  // 원가계산 모드일 때 렌더링
+  if (viewMode === 'calculator') {
+    return (
+      <MainCostCalculator
+        onSave={handleSaveRecipe}
+        onCancel={handleCancelRecipe}
+        editOnly={false}
+      />
+    );
   }
 
   return (
     <div className='flex h-full flex-col'>
-      {showCostCalculator ? (
-        <MainCostCalculator
-          onSave={handleSaveMenu}
-          onCancel={handleCancelMenu}
-          editOnly={false}
-        />
-      ) : (
-        <>
-          <div className='flex items-center justify-center gap-20 py-[30px]'>
-            {isDeleteMode ? (
-              <Button onClick={handleDeleteMode}>완료하기</Button>
-            ) : (
-              <>
-                <Button onClick={handleAddMenu}>메뉴 추가하기</Button>
-                {recipes && recipes.length > 0 && (
-                  <Button onClick={handleDeleteMode}>메뉴 삭제하기</Button>
-                )}
-              </>
-            )}
-          </div>
+      <ActionButtons
+        viewMode={viewMode}
+        hasRecipes={!!recipes?.length}
+        onToggleDeleteMode={handleToggleDeleteMode}
+        onAddRecipe={handleAddRecipe}
+      />
 
-          <RecipeList
-            recipes={recipes}
-            isDeleteMode={isDeleteMode}
-            onDeleteRecipe={handleDeleteRecipe}
-            onEditRecipe={handleEditRecipe}
-          />
-        </>
-      )}
+      <RecipeList
+        recipes={recipes}
+        isDeleteMode={viewMode === 'delete'}
+        onDeleteRecipe={handleDeleteRecipe}
+        onEditRecipe={handleEditRecipe}
+      />
     </div>
   );
 };
