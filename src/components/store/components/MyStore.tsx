@@ -36,12 +36,12 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
   const deleteStoreMutation = useDeleteStore();
 
   // 스토어 삭제 핸들러
-  const handleDelete = () => {
+  const handleDeleteStore = () => {
     deleteStoreMutation.mutate(storeInfo.store_id);
   };
 
   // 스토어 선택 핸들러
-  const handleSelect = () => {
+  const handleSelectStore = () => {
     toast.dismiss();
     navigate(`/store/${storeInfo.store_id}/ledger`);
   };
@@ -88,7 +88,7 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
 
         <button
           className={twMerge(isDeleteMode ? 'delete_button' : 'choice_button')}
-          onClick={isDeleteMode ? handleDelete : handleSelect}
+          onClick={isDeleteMode ? handleDeleteStore : handleSelectStore}
         >
           {isDeleteMode ? '삭제' : '선택'}
         </button>

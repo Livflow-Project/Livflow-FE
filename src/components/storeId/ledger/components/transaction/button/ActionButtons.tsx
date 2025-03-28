@@ -3,14 +3,14 @@ import { twMerge } from 'tailwind-merge';
 
 type ActionButtonsProps = {
   isEditMode: boolean;
-  onEditModeToggle: () => void;
+  onToggleEditMode: () => void;
   onModalOpen: () => void;
   hasTransactions?: boolean;
 };
 
 const ActionButtons = ({
   isEditMode,
-  onEditModeToggle,
+  onToggleEditMode,
   onModalOpen,
   hasTransactions = false,
 }: ActionButtonsProps) => {
@@ -22,7 +22,7 @@ const ActionButtons = ({
           hasTransactions ? 'py-[20px]' : 'pb-[20px]'
         )}
       >
-        <Button onClick={onEditModeToggle}>완료하기</Button>
+        <Button onClick={onToggleEditMode}>완료하기</Button>
       </div>
     );
   }
@@ -36,7 +36,7 @@ const ActionButtons = ({
     >
       <Button onClick={onModalOpen}>지출 / 수입 추가하기</Button>
       {hasTransactions && (
-        <Button onClick={onEditModeToggle}>수정 / 삭제 하기</Button>
+        <Button onClick={onToggleEditMode}>수정 / 삭제 하기</Button>
       )}
     </div>
   );

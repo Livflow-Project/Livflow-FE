@@ -61,7 +61,7 @@ const MainTransaction = ({
     );
   };
 
-  const handleEditModeToggle = () => {
+  const handleToggleEditMode = () => {
     toast.dismiss();
     setIsEditMode(!isEditMode);
   };
@@ -84,7 +84,7 @@ const MainTransaction = ({
 
       <ActionButtons
         isEditMode={isEditMode && !!transactions?.length}
-        onEditModeToggle={handleEditModeToggle}
+        onToggleEditMode={handleToggleEditMode}
         onModalOpen={onModalOpen}
         hasTransactions={!!transactions?.length}
       />

@@ -1,30 +1,30 @@
 import Button from '@/components/common/Button';
 import { twMerge } from 'tailwind-merge';
 
-interface ActionButtonsProps {
+type ActionButtonsProps = {
   hasIngredients: boolean;
   isEditMode: boolean;
-  onAddClick: () => void;
-  onEditModeToggle: () => void;
-}
+  onAddIngredient: () => void;
+  onToggleEditMode: () => void;
+};
 
-const ActionButtons: React.FC<ActionButtonsProps> = ({
+const ActionButtons = ({
   hasIngredients,
   isEditMode,
-  onAddClick,
-  onEditModeToggle,
-}) => {
+  onAddIngredient,
+  onToggleEditMode,
+}: ActionButtonsProps) => {
   return (
     <div className='flex items-center'>
       {(!hasIngredients || !isEditMode) && (
-        <Button onClick={onAddClick} aria-label='재료 추가하기'>
+        <Button onClick={onAddIngredient} aria-label='재료 추가하기'>
           재료 추가하기
         </Button>
       )}
       {hasIngredients && (
         <div className={twMerge('flex gap-5', !isEditMode && 'ml-5')}>
           <Button
-            onClick={onEditModeToggle}
+            onClick={onToggleEditMode}
             aria-pressed={isEditMode}
             aria-label={isEditMode ? '수정 모드 종료' : '수정 모드 시작'}
           >

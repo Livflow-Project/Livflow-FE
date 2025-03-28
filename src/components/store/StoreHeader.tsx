@@ -1,13 +1,13 @@
 type StoreHeaderProps = {
   storeCount: number;
   isDeleteMode: boolean;
-  onDeleteModeToggle: () => void;
+  onToggleDeleteMode: () => void;
 };
 
 const StoreHeader = ({
   storeCount,
   isDeleteMode,
-  onDeleteModeToggle,
+  onToggleDeleteMode,
 }: StoreHeaderProps) => {
   return (
     <header className='flex w-[340px] items-end justify-between'>
@@ -18,7 +18,7 @@ const StoreHeader = ({
         <button
           type='button'
           className='text-lg text-red hover:font-semibold'
-          onClick={onDeleteModeToggle}
+          onClick={onToggleDeleteMode}
         >
           {isDeleteMode ? '완료하기' : '삭제하기'}
         </button>

@@ -92,20 +92,20 @@ const IngredientsModal = ({
     }
 
     if (isEditMode && initialData) {
-      handleUpdate(data, initialData);
+      handleUpdateIngredient(data, initialData);
     } else {
-      handleAdd(data);
+      handleAddIngredient(data);
     }
 
     reset();
     onClose();
   };
 
-  const handleAdd = (data: IngredientRequest) => {
+  const handleAddIngredient = (data: IngredientRequest) => {
     addIngredient({ storeId, data });
   };
 
-  const handleUpdate = (
+  const handleUpdateIngredient = (
     data: IngredientRequest,
     initialData: IngredientResponse
   ) => {

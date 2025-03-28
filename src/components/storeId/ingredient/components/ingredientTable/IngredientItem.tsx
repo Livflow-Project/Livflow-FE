@@ -8,7 +8,7 @@ type IngredientItemProps = {
   ingredient: IngredientResponse;
   isLastItem: boolean;
   isEditMode: boolean;
-  onEdit: (transaction: IngredientResponse) => void;
+  onEditIngredient: (transaction: IngredientResponse) => void;
   onDelete: (transaction: IngredientResponse) => void;
 };
 
@@ -17,7 +17,7 @@ const IngredientItem = ({
   ingredient,
   isLastItem,
   isEditMode,
-  onEdit,
+  onEditIngredient,
   onDelete,
 }: IngredientItemProps) => (
   <ul
@@ -51,7 +51,7 @@ const IngredientItem = ({
     {isEditMode && (
       <li className='absolute inset-0 flex items-center bg-white/50'>
         <nav className='flex w-[8%] min-w-20 items-center justify-center gap-1'>
-          <EditButton onClick={() => onEdit(ingredient)} />
+          <EditButton onClick={() => onEditIngredient(ingredient)} />
           <DeleteButton onClick={() => onDelete(ingredient)} />
         </nav>
       </li>

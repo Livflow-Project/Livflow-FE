@@ -39,7 +39,7 @@ const MainIngredient = () => {
   } = useGetAllIngredients(storeId);
   const deleteMutation = useDeleteIngredient();
 
-  const handleEdit = useCallback((ingredient: IngredientResponse) => {
+  const handleEditIngredient = useCallback((ingredient: IngredientResponse) => {
     setModalState({ type: 'edit', data: ingredient });
   }, []);
 
@@ -47,7 +47,7 @@ const MainIngredient = () => {
     setModalState({ type: 'delete', data: ingredient });
   }, []);
 
-  const handleDelete = () => {
+  const handleDeleteIngredient = () => {
     if (modalState.type !== 'delete' || !modalState.data) return;
 
     deleteMutation.mutate(
@@ -70,7 +70,7 @@ const MainIngredient = () => {
     setModalState({ type: null, data: null });
   };
 
-  const toggleEditMode = useCallback(() => {
+  const handleToggleEditMode = useCallback(() => {
     toast.dismiss();
     setIsEditMode((prev) => !prev);
   }, []);
@@ -104,7 +104,7 @@ const MainIngredient = () => {
             storeId={storeId}
             ingredient={modalState.data}
             onClose={handleCloseModal}
-            onConfirmDelete={handleDelete}
+            onConfirmDelete={handleDeleteIngredient}
           />
         );
       default:
@@ -121,8 +121,8 @@ const MainIngredient = () => {
           <ActionButtons
             hasIngredients={!!ingredients?.length}
             isEditMode={isEditMode}
-            onAddClick={() => handleModalOpen()}
-            onEditModeToggle={toggleEditMode}
+            onAddIngredient={() => handleModalOpen()}
+            onToggleEditMode={handleToggleEditMode}
           />
         </header>
 
@@ -132,7 +132,7 @@ const MainIngredient = () => {
           <IngredientList
             ingredients={ingredients}
             isEditMode={isEditMode}
-            onEdit={handleEdit}
+            onEditIngredient={handleEditIngredient}
             onDelete={handleDeleteClick}
           />
         </div>

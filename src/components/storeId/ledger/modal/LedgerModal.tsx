@@ -73,15 +73,18 @@ const LedgerModal = ({
     }
 
     if (isEditMode && initialData) {
-      handleUpdate(data, initialData);
+      handleUpdateTransaction(data, initialData);
     } else {
-      handleAdd(data, selectedDate);
+      handleAddTransaction(data, selectedDate);
     }
 
     onClose();
   };
 
-  const handleAdd = (data: TransactionRequest, selectedDate: string) => {
+  const handleAddTransaction = (
+    data: TransactionRequest,
+    selectedDate: string
+  ) => {
     const [year, month, day] = selectedDate.split('-').map(Number);
     const addTransactionData: AddTransactionParams = {
       date: { year, month, day },
@@ -90,7 +93,7 @@ const LedgerModal = ({
     addTransaction({ storeId: storeId, data: addTransactionData });
   };
 
-  const handleUpdate = (
+  const handleUpdateTransaction = (
     data: TransactionRequest,
     initialData: TransactionResponse
   ) => {

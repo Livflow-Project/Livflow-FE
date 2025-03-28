@@ -22,7 +22,7 @@ const Store = () => {
     }
   };
 
-  const handleDeleteModeToggle = () => {
+  const handleToggleDeleteMode = () => {
     toast.dismiss();
     setIsDeleteMode((prev) => !prev);
   };
@@ -41,7 +41,7 @@ const Store = () => {
         <StoreHeader
           storeCount={data.stores.length || 0}
           isDeleteMode={isDeleteMode}
-          onDeleteModeToggle={handleDeleteModeToggle}
+          onToggleDeleteMode={handleToggleDeleteMode}
         />
 
         <StoreList
