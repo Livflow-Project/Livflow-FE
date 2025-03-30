@@ -33,7 +33,7 @@ const MainCostCalculator = ({
     handleTotalCostChange,
   } = useRecipeForm(recipeData);
 
-  const { onSubmit, isPending } = useRecipeSubmit(
+  const { onSubmit, handleKeyDown, isPending } = useRecipeSubmit(
     onSave,
     recipeData,
     editOnly,
@@ -56,6 +56,7 @@ const MainCostCalculator = ({
     <FormProvider {...methods}>
       <form
         onSubmit={methods.handleSubmit((data) => onSubmit(data, methods))}
+        onKeyDown={handleKeyDown}
         className='flex h-full justify-between px-[35px] py-[30px]'
       >
         <div className='flex h-full w-[70%] flex-col justify-between'>
