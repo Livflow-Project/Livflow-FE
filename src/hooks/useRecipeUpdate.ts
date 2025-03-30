@@ -6,6 +6,7 @@ import { showErrorToast, showSuccessToast } from '@/utils/toast';
 
 import { getChangedFields } from '@/utils/formUtils';
 import { isArraysEqual } from '@fullcalendar/core/internal';
+import { toast } from 'react-toastify';
 import { useInventoryItemMutation } from '@/api/storeId/inventory/inventory.hooks';
 import { useUpdateRecipeMutation } from '@/api/storeId/costCalculator/costCalculator.hooks';
 
@@ -107,6 +108,7 @@ export const useRecipeUpdate = (storeId: string) => {
         Object.keys(changedFields).length === 0 &&
         inventoryChanges.length === 0
       ) {
+        toast.dismiss();
         showSuccessToast('변경된 내용이 없습니다');
         return true;
       }
@@ -118,6 +120,7 @@ export const useRecipeUpdate = (storeId: string) => {
           recipeId: recipeData.recipe_id,
           data: changedFields as CostCalculatorRequest,
         });
+        toast.dismiss();
         showSuccessToast('메뉴가 수정 되었습니다.');
       }
 
@@ -136,6 +139,7 @@ export const useRecipeUpdate = (storeId: string) => {
         // 재고 업데이트가 있는 경우에만 처리
         if (updatePromises.length > 0) {
           await Promise.all(updatePromises);
+          toast.dismiss();
           showSuccessToast('메뉴가 수정 되었습니다.');
         }
 
@@ -151,6 +155,7 @@ export const useRecipeUpdate = (storeId: string) => {
         throw inventoryError;
       }
     } catch (recipeError) {
+      toast.dismiss();
       showErrorToast('메뉴 수정에 실패했습니다.');
       console.error('메뉴 수정 오류:', recipeError);
       throw recipeError;
