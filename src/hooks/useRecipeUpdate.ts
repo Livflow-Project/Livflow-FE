@@ -115,7 +115,6 @@ export const useRecipeUpdate = (storeId: string) => {
 
       // 2. 변경된 필드가 있을 때만 레시피 수정 시도
       if (Object.keys(changedFields).length > 0) {
-        console.log('PUT 요청 보내기 직전:', changedFields);
         await updateRecipeMutation.mutateAsync({
           recipeId: recipeData.recipe_id,
           data: changedFields as CostCalculatorRequest,
