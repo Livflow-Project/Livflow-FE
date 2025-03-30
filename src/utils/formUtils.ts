@@ -17,11 +17,12 @@ export const getChangedFields = <
       const initialValue = initialData[field as keyof U];
       const currentValue = currentData[field];
 
-      // 타입 안전을 위해 any 타입으로 변환하여 비교
-      if (
-        (initialValue as any) !== (currentValue as any) &&
-        currentValue !== undefined
-      ) {
+      // undefined를 특별히 처리
+      if (currentValue === undefined) {
+        if (initialValue !== null && initialValue !== 0) {
+          changedFields[field] = currentValue;
+        }
+      } else if (initialValue !== currentValue) {
         changedFields[field] = currentValue;
       }
     }
