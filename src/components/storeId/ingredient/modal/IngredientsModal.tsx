@@ -65,7 +65,11 @@ const IngredientsModal = ({
       return;
     }
 
-    if (!data.ingredient_cost || data.ingredient_cost < 0) {
+    if (
+      data.ingredient_cost === undefined ||
+      data.ingredient_cost === null ||
+      data.ingredient_cost < 0
+    ) {
       setError('ingredient_cost', {
         type: 'required',
         message: '구매가를 입력해주세요.',
@@ -78,7 +82,7 @@ const IngredientsModal = ({
       return;
     }
 
-    if (!data.capacity || data.capacity <= 0) {
+    if (!data.capacity || data.capacity < 0) {
       setError('capacity', {
         type: 'required',
         message: '용량을 입력해주세요.',
