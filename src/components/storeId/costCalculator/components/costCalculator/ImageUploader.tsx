@@ -1,10 +1,13 @@
-import { ChangeEvent, useRef } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 
 import DeleteButton from '@/components/common/DeleteButton';
 import { imageIcon } from '@/assets/assets';
+import { showErrorToast } from '@/utils/toast';
 import { useFormContext } from 'react-hook-form';
 
 const ImageUploader = () => {
+  const [imageLoadError, setImageLoadError] = useState(false);
+
   const { VITE_IMAGE_REQUEST_URL } = import.meta.env;
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -31,6 +34,7 @@ const ImageUploader = () => {
       // 미리보기용 URL 생성
       const previewUrl = URL.createObjectURL(file);
       setValue('recipe_img_preview', previewUrl);
+      setImageLoadError(false);
     }
   };
 
@@ -45,16 +49,24 @@ const ImageUploader = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+    setImageLoadError(false);
+  };
+
+  const handleImageError = () => {
+    console.error('이미지 로드 실패');
+    showErrorToast('이미지 오류가 발생하였습니다.');
+    setImageLoadError(true);
   };
 
   return (
     <article className='h-[58%] w-full rounded-xl bg-white/50'>
       <ul className='flex flex-col items-start justify-between h-full gap-5 p-5 text-xl font-semibold text-main'>
         <li>메뉴 이미지 등록</li>
-        <li className='flex items-center justify-center w-full h-full'>
-          <div className='flex h-[330px] w-[356px] items-center justify-center overflow-hidden'>
-            {recipeImg ? (
-              <div className='relative max-w-full max-h-full'>
+
+        <li className='flex h-[calc(100%-48px)] w-full items-center justify-center'>
+          <div className='flex items-center justify-center w-full h-full overflow-hidden'>
+            {recipeImg && !imageLoadError ? (
+              <div className='relative flex items-center justify-center flex-grow max-w-full max-h-full overflow-hidden rounded-xl'>
                 <img
                   src={
                     typeof recipeImg === 'string'
@@ -62,13 +74,10 @@ const ImageUploader = () => {
                       : imagePreview
                   }
                   alt='업로드된 이미지'
-                  className='object-contain max-w-full max-h-full cursor-pointer rounded-xl'
-                  onClick={handleImageClick}
-                  onError={(e) =>
-                    console.error('이미지 로드 실패:', e.currentTarget.src)
-                  }
+                  className='block object-contain max-w-full max-h-full rounded-xl'
+                  onError={handleImageError}
                 />
-                <div className='absolute right-[5px] top-[5px]'>
+                <div className='absolute z-10 right-2 top-2'>
                   <DeleteButton onClick={handleRemoveImage} />
                 </div>
               </div>
