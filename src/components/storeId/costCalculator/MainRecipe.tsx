@@ -51,8 +51,6 @@ const MainRecipe = () => {
   };
 
   const handleDeleteRecipe = (recipeId: string) => {
-    toast.dismiss();
-
     deleteRecipeMutation.mutate(recipeId, {
       onSuccess: () => {
         // 마지막 레시피였다면 삭제 모드 비활성화
