@@ -1,8 +1,9 @@
 import VideoFeatureCard from './VideoFeatureCard';
-import ingredientMp4 from '@/assets/home/ingredientMp4.mp4';
-import ledgerMp4 from '@/assets/home/ledgerMp4.mp4';
+import costCalculatorMp4 from '@/assets/home/mp4/costCalculatorMp4.mp4';
+import ingredientMp4 from '@/assets/home/mp4/ingredientMp4.mp4';
+import ledgerMp4 from '@/assets/home/mp4/ledgerMp4.mp4';
 import { motion } from 'framer-motion';
-import storeManagementMp4 from '@/assets/home/storeManagementMp4.mp4';
+import storeManagementMp4 from '@/assets/home/mp4/storeManagementMp4.mp4';
 import { useRef } from 'react';
 
 const featuresData = [
@@ -10,27 +11,27 @@ const featuresData = [
     title: '가게 통합 관리',
     description: '여러 지점을 한 번에 관리하고 성과를 한눈에 파악하세요',
     videoSrc: storeManagementMp4,
-    alt: '가게 통합 관리 데모',
+    alt: '가게 통합 관리',
   },
   {
     title: '스마트 가계부',
     description:
       '수입과 지출을 자동으로 분류하고 분석하여 재무 상태를 명확히 파악하세요',
     videoSrc: ledgerMp4,
-    alt: '스마트 가계부 데모',
+    alt: '스마트 가계부',
   },
   {
     title: '재료 관리 시스템',
     description: '재고 현황을 실시간으로 추적하고 발주 시점을 놓치지 마세요',
     videoSrc: ingredientMp4,
-    alt: '재료 관리 시스템 데모',
+    alt: '재료 관리 시스템',
   },
   {
     title: '원가 계산기',
     description:
       '정확한 원가 계산으로 최적의 가격 설정과 수익성 분석이 가능합니다',
-    videoSrc: '/path-to-cost-calculator.gif',
-    alt: '원가 계산기 데모',
+    videoSrc: costCalculatorMp4,
+    alt: '원가 계산기',
   },
 ];
 
@@ -38,9 +39,9 @@ const VideoFeaturesSection = () => {
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   return (
-    <div id='features' className='container mx-auto px-4 py-20'>
+    <div id='features' className='container px-4 py-20 mx-auto'>
       <motion.h2
-        className='mb-6 text-center text-3xl font-bold text-main'
+        className='mb-6 text-3xl font-bold text-center text-main'
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -50,7 +51,7 @@ const VideoFeaturesSection = () => {
       </motion.h2>
 
       <motion.p
-        className='mx-auto mb-16 max-w-2xl text-center text-base text-gray-600 md:text-lg'
+        className='max-w-2xl mx-auto mb-16 text-base text-center text-gray-600 md:text-lg'
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -60,7 +61,7 @@ const VideoFeaturesSection = () => {
         확인하세요
       </motion.p>
 
-      <div className='mx-auto grid grid-cols-1 gap-14 md:grid-cols-2'>
+      <div className='grid grid-cols-1 mx-auto gap-14 md:grid-cols-2'>
         {featuresData.map((item, index) => (
           <VideoFeatureCard
             key={index}
