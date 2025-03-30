@@ -23,11 +23,7 @@ const ActionButtons = ({
       )}
       {hasIngredients && (
         <div className={twMerge('flex gap-5', !isEditMode && 'ml-5')}>
-          <Button
-            onClick={onToggleEditMode}
-            aria-pressed={isEditMode}
-            aria-label={isEditMode ? '수정 모드 종료' : '수정 모드 시작'}
-          >
+          <Button onClick={onToggleEditMode}>
             {isEditMode ? '완료하기' : '수정 / 삭제하기'}
           </Button>
         </div>
