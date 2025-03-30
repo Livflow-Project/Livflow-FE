@@ -1,4 +1,5 @@
 import { CostCalculatorDetail } from '@/api/storeId/costCalculator/costCalculator.type';
+import { KeyboardEventHandler } from 'react';
 import { RecipeFormData } from './useRecipeForm';
 import { useGetInventoryItems } from '@/api/storeId/inventory/inventory.hooks';
 import { useRecipeCreate } from './useRecipeCreate';
@@ -29,6 +30,16 @@ export const useRecipeSubmit = (
 
   // 레시피 업데이트 로직
   const { updateRecipe, isUpdating } = useRecipeUpdate(storeId);
+
+  // 엔터 키 이벤트 핸들러
+  const handleKeyDown: KeyboardEventHandler<HTMLFormElement> = (e) => {
+    if (e.key === 'Enter' && e.target instanceof HTMLInputElement) {
+      // 버튼이나 제출 버튼이 아닌 경우 엔터 키 기본 동작 방지
+      if (e.target.type !== 'submit' && e.target.type !== 'button') {
+        e.preventDefault();
+      }
+    }
+  };
 
   // 메뉴 저장 핸들러
   const onSubmit = async (data: RecipeFormData, formMethods: any) => {
@@ -66,6 +77,7 @@ export const useRecipeSubmit = (
 
   return {
     onSubmit,
+    handleKeyDown,
     isPending,
   };
 };
