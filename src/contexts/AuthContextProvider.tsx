@@ -6,8 +6,9 @@ import {
   useState,
 } from 'react';
 
-import { Cookies } from 'react-cookie';
 import LoadingPage from '@/pages/status/loadindPage';
+import axiosInstance from '@/api/axiosInstance';
+import { showErrorToast } from '@/utils/toast';
 
 type AuthContextType = {
   isLoggedIn: boolean;
@@ -24,22 +25,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // const [isLoggedIn, setIsLoggedIn] = useState(true);
-  // const [isInitialized, setIsInitialized] = useState(true);
-
-  const cookies = new Cookies();
-
   // 초기 로그인 상태 체크
   useEffect(() => {
-    const initializeAuth = () => {
+    const initializeAuth = async () => {
       try {
-        const accessToken = cookies.get('access_token');
-        if (accessToken) {
+        const response = await axiosInstance.post('/users/token/verify/');
+        if (response.status === 200) {
           setIsLoggedIn(true);
         } else {
           setIsLoggedIn(false);
         }
       } catch (error) {
+        showErrorToast('서버 내부 오류가 발생하였습니다.');
         console.error('토큰 검증 중 오류 발생:', error);
         setIsLoggedIn(false);
       } finally {
@@ -50,24 +47,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     initializeAuth();
   }, []);
 
-  const login = () => {
-    const accessToken = cookies.get('access_token');
-    if (accessToken) {
-      setIsLoggedIn(true);
+  const login = async () => {
+    try {
+      const response = await axiosInstance.post('/users/token/verify/');
+      if (response.status === 200) {
+        setIsLoggedIn(true);
+        window.location.href = '/store';
+      }
+    } catch (error) {
+      showErrorToast('로그인 중 오류가 발생하였습니다.');
+      console.error('로그인 중 오류 발생:', error);
+      throw error;
     }
   };
 
   const logout = async () => {
     try {
-      cookies.remove('access_token', {
-        path: '/',
-        domain: window.location.hostname,
-        secure: true,
-        sameSite: 'strict',
-      });
-      setIsLoggedIn(false);
-      window.location.href = '/';
+      const response = await axiosInstance.post('/users/logout/');
+      if (response.status === 200) {
+        // 쿠키에서 액세스 토큰 삭제
+        document.cookie =
+          'access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+
+        setIsLoggedIn(false);
+        window.location.href = '/';
+      }
     } catch (error) {
+      showErrorToast('로그아웃에 실패하였습니다.');
       console.error('로그아웃 중 오류 발생:', error);
       throw error;
     }
