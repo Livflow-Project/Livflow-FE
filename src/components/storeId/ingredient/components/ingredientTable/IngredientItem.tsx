@@ -40,7 +40,9 @@ const IngredientItem = ({
 
     <li className='w-[6%] text-lg font-normal'>{ingredient.unit}</li>
 
-    <li className='w-[9%] text-lg font-normal'>{ingredient.unit_cost} 원</li>
+    <li className='w-[9%] text-lg font-normal'>
+      {Math.round(ingredient.unit_cost * 10) / 10} 원
+    </li>
 
     <li className='w-[15%] text-lg font-normal'>{ingredient.shop}</li>
 

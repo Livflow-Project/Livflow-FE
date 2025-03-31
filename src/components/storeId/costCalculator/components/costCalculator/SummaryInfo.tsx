@@ -29,16 +29,16 @@ const SummaryInfo = () => {
 
   return (
     <article className='h-[30%] w-full rounded-xl bg-white/50'>
-      <ul className='flex h-full flex-col items-start justify-evenly px-5 text-xl'>
-        <li className='flex w-full items-center'>
+      <ul className='flex flex-col items-start h-full px-5 text-xl justify-evenly'>
+        <li className='flex items-center w-full'>
           <span className='input_label'>총 재료 원가 :</span>
           <span className='flex-1 text-center'>
-            {totalIngredientCost.toLocaleString()} 원
+            {Math.round(totalIngredientCost * 10) / 10} 원
           </span>
         </li>
 
-        <li className='flex w-full items-center'>
-          <label htmlFor='production_quantity' className='input_label mr-2'>
+        <li className='flex items-center w-full'>
+          <label htmlFor='production_quantity' className='mr-2 input_label'>
             생산 수량 :
           </label>
           <input
@@ -47,14 +47,14 @@ const SummaryInfo = () => {
             value={productionQuantity === null ? '' : productionQuantity}
             onChange={handleQuantityChange}
             min='1'
-            className='input_underlined number_input flex-1 text-center text-xl'
+            className='flex-1 text-xl text-center input_underlined number_input'
           />
         </li>
 
-        <li className='flex w-full items-center'>
+        <li className='flex items-center w-full'>
           <span className='input_label'>생산 단가 :</span>
           <span className='flex-1 text-center'>
-            {unitCost.toLocaleString()} 원
+            {Math.round(unitCost * 10) / 10} 원
           </span>
         </li>
       </ul>

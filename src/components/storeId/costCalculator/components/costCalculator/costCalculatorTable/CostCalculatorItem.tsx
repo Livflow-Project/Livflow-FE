@@ -92,7 +92,7 @@ const CostCalculatorItem = ({
 
       <li className='w-[10%]'>{inventoryItem.unit}</li>
 
-      <li className='w-[20%]'>{calculatedCost.toLocaleString()} 원</li>
+      <li className='w-[20%]'>{Math.round(calculatedCost * 10) / 10} 원</li>
 
       <li className='w-[15%]'>{costRatio}%</li>
     </ul>
