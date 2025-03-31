@@ -19,22 +19,6 @@ type CustomErrorResponse = {
 // 환경변수에서 API 기본 URL 가져오기
 const { VITE_BASE_REQUEST_URL } = import.meta.env;
 
-// 토큰 갱신을 위한 별도의 axios 인스턴스 생성
-// withCredentials: true로 설정하여 쿠키 자동 전송
-const refreshTokenInstance = axios.create({
-  baseURL: VITE_BASE_REQUEST_URL,
-  withCredentials: true,
-});
-
-// 액세스 토큰 갱신 함수
-const refreshAccessToken = async () => {
-  try {
-    await refreshTokenInstance.post('/auth/token/refresh/');
-  } catch (error) {
-    throw error;
-  }
-};
-
 // axios 인스턴스에 인터셉터를 추가하는 함수
 export const createAxiosInterceptor = (axiosInstance: AxiosInstance) => {
   // 요청 인터셉터 설정
@@ -56,29 +40,6 @@ export const createAxiosInterceptor = (axiosInstance: AxiosInstance) => {
   axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
-      const originalRequest = error.config;
-
-      // _retry 플래그가 없으면 추가
-      if (!originalRequest._retry) {
-        originalRequest._retry = false;
-      }
-
-      // 401 에러이고 아직 재시도하지 않은 경우
-      if (error.response?.status === 401 && originalRequest._retry === false) {
-        originalRequest._retry = true;
-
-        try {
-          // 토큰 갱신 시도
-          await refreshAccessToken();
-          // 원래 요청 재시도
-          return axiosInstance(originalRequest);
-        } catch (refreshError) {
-          console.log('토큰 갱신 오류 :', refreshError);
-
-          return Promise.reject(refreshError);
-        }
-      }
-
       // HTTP 상태 코드별 에러 처리 함수
       const handleError = (
         status: number,
