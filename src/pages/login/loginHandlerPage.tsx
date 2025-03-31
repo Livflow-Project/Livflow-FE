@@ -35,8 +35,6 @@ const LoginHandlerPage = () => {
         {
           onSuccess: () => {
             login();
-
-            navigate('/store');
           },
           onError: (error) => {
             showErrorToast('로그인 중 오류가 발생하였습니다.');
