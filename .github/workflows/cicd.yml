@@ -106,6 +106,7 @@ jobs:
           else
             echo "status=failure" >> $GITHUB_ENV
             exit 1
+          fi
 
       # Nginx 서비스 재시작 (frontend 컨테이너에서 실행)
       - name: Restart Nginx
