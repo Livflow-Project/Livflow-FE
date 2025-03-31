@@ -25,12 +25,23 @@ export const createAxiosInterceptor = (axiosInstance: AxiosInstance) => {
   axiosInstance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
       // FormData인 경우 multipart/form-data로 설정
-      // 그 외에는 application/json으로 설정
       if (config.data instanceof FormData) {
         config.headers['Content-Type'] = 'multipart/form-data';
       } else {
         config.headers['Content-Type'] = 'application/json';
       }
+      // 쿠키에서 토큰 추출
+      const cookies = document.cookie.split(';');
+      const tokenCookie = cookies.find((cookie) =>
+        cookie.trim().startsWith('access_token=')
+      );
+
+      if (tokenCookie) {
+        const token = tokenCookie.split('=')[1].trim();
+        // Authorization 헤더에 Bearer 토큰 추가
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+
       return config;
     },
     (error: AxiosError) => Promise.reject(error)
