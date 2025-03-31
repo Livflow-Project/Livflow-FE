@@ -68,6 +68,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         document.cookie =
           'access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 
+        // axios 인터셉터의 인증 헤더 제거
+        delete axiosInstance.defaults.headers.common['Authorization'];
+
         setIsLoggedIn(false);
         window.location.href = '/';
       }
