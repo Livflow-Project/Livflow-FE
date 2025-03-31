@@ -36,7 +36,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setIsLoggedIn(false);
         }
       } catch (error) {
-        showErrorToast('서버 내부 오류가 발생하였습니다.');
         console.error('토큰 검증 중 오류 발생:', error);
         setIsLoggedIn(false);
       } finally {
