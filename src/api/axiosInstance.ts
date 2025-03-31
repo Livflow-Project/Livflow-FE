@@ -1,11 +1,8 @@
 import axios, {
   AxiosError,
   AxiosInstance,
-  AxiosRequestConfig,
   InternalAxiosRequestConfig,
 } from 'axios';
-
-import { showErrorToast } from '@/utils/toast';
 
 // 서버로부터 받는 에러 응답의 타입 정의
 type ErrorResponse = {
@@ -58,14 +55,16 @@ export const createAxiosInterceptor = (axiosInstance: AxiosInstance) => {
   // 응답 인터셉터 설정
   axiosInstance.interceptors.response.use(
     (response) => response,
-    async (error: AxiosError<ErrorResponse>) => {
-      // 원본 요청 설정을 가져오고 재시도 플래그 추가
-      const originalRequest = error.config as AxiosRequestConfig & {
-        _retry?: boolean;
-      };
+    async (error) => {
+      const originalRequest = error.config;
+
+      // _retry 플래그가 없으면 추가
+      if (!originalRequest._retry) {
+        originalRequest._retry = false;
+      }
 
       // 401 에러이고 아직 재시도하지 않은 경우
-      if (error.response?.status === 401 && !originalRequest?._retry) {
+      if (error.response?.status === 401 && originalRequest._retry === false) {
         originalRequest._retry = true;
 
         try {
@@ -74,11 +73,8 @@ export const createAxiosInterceptor = (axiosInstance: AxiosInstance) => {
           // 원래 요청 재시도
           return axiosInstance(originalRequest);
         } catch (refreshError) {
-          // 토큰 갱신 실패 시 로그인 페이지로 리다이렉트
-          showErrorToast('서버 내부 오류가 발생하였습니다.');
           console.log('토큰 갱신 오류 :', refreshError);
 
-          window.location.href = '/login';
           return Promise.reject(refreshError);
         }
       }
