@@ -1,17 +1,16 @@
-import { UseMutationOptions, useMutation } from '@tanstack/react-query';
-
-import { GetSocialLoginResponse } from './login.type';
 import { socialLoginAPI } from './loginAPI';
+import { useMutation } from '@tanstack/react-query';
 
-export const useSocialLoginCallbackMutation = (
-  options?: UseMutationOptions<
-    GetSocialLoginResponse, // 성공 시 반환 타입
-    Error, // 에러 타입
-    { provider: string; code: string } // 요청 데이터 타입
-  >
-) => {
+export const useSocialLoginCallbackMutation = () => {
   return useMutation({
-    mutationFn: socialLoginAPI.postSocialLoginCallBack,
-    ...options,
+    mutationFn: ({
+      provider,
+      code,
+      state,
+    }: {
+      provider: string;
+      code: string;
+      state?: string;
+    }) => socialLoginAPI.postSocialLoginCallBack({ provider, code, state }),
   });
 };
