@@ -97,17 +97,6 @@ jobs:
               cp /usr/share/nginx/html/*.svg /usr/share/nginx/html/public/ 2>/dev/null || true
             "
 
-      # 배포 성공 여부 확인
-      - name: Check deployment status
-        id: check_status
-        run: |
-          if echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker ps | grep -q frontend-container; then
-            echo "status=success" >> $GITHUB_ENV
-          else
-            echo "status=failure" >> $GITHUB_ENV
-            exit 1
-          fi
-
       # Nginx 서비스 재시작 (frontend 컨테이너에서 실행)
       - name: Restart Nginx
         uses: appleboy/ssh-action@v1.0.3
@@ -123,7 +112,7 @@ jobs:
 
         # 배포 실패 시 롤백
       - name: Rollback on failure
-        if: ${{ env.status == 'failure' }}
+        if: failure()
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -155,11 +144,9 @@ jobs:
             fi
 
       # 배포 결과 알림
-      - name: Notify deployment status
+      - name: Send deployment status to Discord
+        uses: nebularg/actions-discord-webhook@v1
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          status: ${{ job.status }}
         if: always()
-        run: |
-          if [ "${{ env.status }}" == "success" ]; then
-            echo "✅ Deployment completed successfully!"
-          else
-            echo "❌ Deployment failed. Check logs for details."
-          fi
