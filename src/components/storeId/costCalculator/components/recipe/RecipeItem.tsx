@@ -17,7 +17,7 @@ const RecipeItem = ({
   onDelete,
   onClick,
 }: RecipeItemProps) => {
-  const { VITE_IMAGE_REQUEST_URL } = import.meta.env;
+  // const { VITE_IMAGE_REQUEST_URL } = import.meta.env;
 
   const [hasImageError, setHasImageError] = useState(false);
 
@@ -36,7 +36,7 @@ const RecipeItem = ({
       onClick={handleClick}
     >
       {recipe.is_favorites && (
-        <div className='absolute -left-3 -top-3 flex items-center justify-center rounded-full'>
+        <div className='absolute flex items-center justify-center rounded-full -left-3 -top-3'>
           <img
             src={favoritesIcon}
             className={twMerge(
@@ -47,11 +47,12 @@ const RecipeItem = ({
         </div>
       )}
 
-      <div className='flex h-full w-full flex-col items-center'>
-        <div className='flex flex-grow items-center justify-center overflow-hidden'>
+      <div className='flex flex-col items-center w-full h-full'>
+        <div className='flex items-center justify-center flex-grow overflow-hidden'>
           {recipe.recipe_img && !hasImageError ? (
             <img
-              src={`${VITE_IMAGE_REQUEST_URL}${recipe.recipe_img}`}
+              // src={`${VITE_IMAGE_REQUEST_URL}${recipe.recipe_img}`}
+              src={`https://api.livflow.co.kr:8443${recipe.recipe_img}`}
               alt={recipe.recipe_name}
               className={twMerge(
                 'max-h-full max-w-full rounded object-contain transition-all duration-200',
@@ -60,7 +61,7 @@ const RecipeItem = ({
               onError={() => setHasImageError(true)}
             />
           ) : (
-            <div className='flex h-36 w-36 items-center justify-center rounded-lg bg-gray-200'>
+            <div className='flex items-center justify-center bg-gray-200 rounded-lg h-36 w-36'>
               <span className='text-gray-400'>
                 {recipe.recipe_img ? '이미지 오류' : '이미지 없음'}
               </span>
@@ -68,8 +69,8 @@ const RecipeItem = ({
           )}
         </div>
 
-        <div className='mt-auto flex flex-col items-center justify-center py-2'>
-          <h1 className='line-clamp-1 text-xl font-bold'>
+        <div className='flex flex-col items-center justify-center py-2 mt-auto'>
+          <h1 className='text-xl font-bold line-clamp-1'>
             {recipe.recipe_name}
           </h1>
           {recipe.recipe_cost && (
@@ -79,7 +80,7 @@ const RecipeItem = ({
       </div>
 
       {isDeleteMode && (
-        <div className='absolute right-2 top-2 flex items-center justify-center rounded-full text-3xl text-red'>
+        <div className='absolute flex items-center justify-center text-3xl rounded-full right-2 top-2 text-red'>
           <DeleteButton onClick={onDelete} />
         </div>
       )}

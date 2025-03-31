@@ -8,7 +8,7 @@ import { useFormContext } from 'react-hook-form';
 const ImageUploader = () => {
   const [imageLoadError, setImageLoadError] = useState(false);
 
-  const { VITE_IMAGE_REQUEST_URL } = import.meta.env;
+  // const { VITE_IMAGE_REQUEST_URL } = import.meta.env;
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -70,7 +70,8 @@ const ImageUploader = () => {
                 <img
                   src={
                     typeof recipeImg === 'string'
-                      ? `${VITE_IMAGE_REQUEST_URL}${recipeImg}`
+                      ? // ? `${VITE_IMAGE_REQUEST_URL}${recipeImg}`
+                        `https://api.livflow.co.kr:8443${recipeImg}`
                       : imagePreview
                   }
                   alt='업로드된 이미지'
