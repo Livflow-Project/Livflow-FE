@@ -36,7 +36,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Pretendard','Roboto', 'sans-serif'],
+        sans: ['Pretendard Variable', 'Pretendard', 'sans-serif'],
       },
     },
   },
