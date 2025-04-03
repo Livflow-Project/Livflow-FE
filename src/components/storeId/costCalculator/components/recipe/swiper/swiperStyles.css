@@ -1,0 +1,37 @@
+.swiper {
+  width: 100%;
+  height: 100%;
+  margin: 0 !important;
+  padding: 0 50px 40px 50px !important;
+}
+
+.swiper-wrapper {
+  margin-top: 10px !important;
+}
+
+.swiper-slide {
+  height: 250px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.swiper-pagination {
+  position: absolute !important;
+  bottom: 0px !important;
+}
+
+.swiper-grid .swiper-wrapper {
+  flex-wrap: wrap;
+}
+
+@media (max-height: 998px) {
+  .swiper-wrapper {
+    align-items: center !important;
+  }
+}
+
+@media (min-height: 999px) {
+  .swiper-wrapper {
+    align-items: start !important;
+  }
+}
