@@ -1,4 +1,5 @@
 import 'swiper/swiper-bundle.css';
+import './swiper/swiperStyles.css';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -6,7 +7,6 @@ import AddStore from './components/AddStore';
 import MyStore from './components/MyStore';
 import { StoreDetailResponse } from '@/api/store/store.type';
 import { storeListSwiperConfig } from './swiper/swiperConfig';
-import { storeListSwiperStyles } from './swiper/swiperStyles';
 
 type StoreListProps = {
   stores: StoreDetailResponse[];
@@ -41,10 +41,9 @@ const StoreList = ({
   };
 
   return (
-    <div className='flex w-full items-start'>
+    <div className='flex items-start w-full'>
       <AddStore onOpenModal={onToggleModal} />
 
-      <style>{storeListSwiperStyles}</style>
       <Swiper {...storeListSwiperConfig}>
         {stores.length > 0 && renderStores()}
       </Swiper>
