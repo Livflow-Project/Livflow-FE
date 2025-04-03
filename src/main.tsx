@@ -7,20 +7,18 @@ import { createRoot } from 'react-dom/client';
 
 const queryClient = new QueryClient();
 
-// async function enableMocking() {
-//   if (process.env.NODE_ENV === 'development') {
-//     const { worker } = await import('./mocks/browser');
-//     return worker.start({
-//       onUnhandledRequest: 'bypass', // 처리되지 않은 요청 무시
-//     });
-//   }
-// }
-
-// MSW 초기화 후 앱 렌더링
-// enableMocking().then(() => {
 createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
     <App />
   </QueryClientProvider>
 );
-// });
+
+// 폰트 로딩 처리
+document.addEventListener('DOMContentLoaded', function () {
+  const fontLink = document.getElementById(
+    'pretendard-font'
+  ) as HTMLLinkElement;
+  if (fontLink) {
+    fontLink.rel = 'stylesheet';
+  }
+});
