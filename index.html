@@ -2,26 +2,50 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/logo_Icon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="canonical" href="https://www.livflow.co.kr" />
     <link
-      rel="stylesheet"
+      rel="preload"
+      as="style"
+      id="pretendard-font"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css"
+      />
+    </noscript>
 
+    <meta http-equiv="content-language" content="ko-KR" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="viewport" content="width=1265, initial-scale=1" />
     <meta name="robots" content="index, follow" />
     <meta name="googlebot" content="index, follow" />
     <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; 
+          script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; 
+          style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; 
+          img-src 'self' https://www.livflow.co.kr data:; 
+          font-src 'self' https://cdn.jsdelivr.net; 
+          connect-src 'self' https://api.livflow.co.kr:8443 https://api.livflow.co.kr:8443/api;"
+    />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta
+      name="naver-site-verification"
+      content="902b43cc6b0365a33212f63b89928d01b5bb42e3"
+    />
+    <meta
       name="description"
-      content="효율적인 비즈니스 관리를 위한 올인원 웹 서비스. 복잡한 엑셀 작업은 이제 그만! 간편하고 직관적인 인터페이스로 사업 관리의 번거로움을 줄여드립니다."
+      content="직관적인 가계부 관리, 실시간 재고 관리, 자동 원가 계산까지 한 번에! Livflow로 복잡한 엑셀 작업 없이 간편하게 비즈니스를 관리하세요. 소상공인과 자영업자를 위한 올인원 솔루션."
     />
     <meta name="author" content="Livflow 팀" />
     <meta
       name="keywords"
-      content="비즈니스 관리, 경영, 웹 서비스, Livflow, 엑셀 대체, 효율성"
+      content="효율성, 비즈니스 관리, 경영, 올인원, 웹 서비스, Livflow, 엑셀, 엑셀 대체, 직관적, 차트, 가계부, 지출 관리, 수입 관리, 상점 관리, 멀티, 재고 관리, 실시간 재고, 단가 계산, 원가 계산"
     />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:site_name" content="Livflow" />
@@ -31,7 +55,7 @@
     />
     <meta
       property="og:description"
-      content="복잡한 엑셀 작업은 이제 그만! 간편하고 직관적인 인터페이스로 사업 관리의 번거로움을 줄여드립니다."
+      content="직관적인 가계부 관리, 실시간 재고 관리, 자동 원가 계산까지 한 번에! Livflow로 복잡한 엑셀 작업 없이 간편하게 비즈니스를 관리하세요. 소상공인과 자영업자를 위한 올인원 솔루션."
     />
     <meta property="og:url" content="https://www.livflow.co.kr" />
     <meta property="og:type" content="website" />
@@ -45,7 +69,7 @@
     />
     <meta
       name="twitter:description"
-      content="복잡한 엑셀 작업은 이제 그만! 간편하고 직관적인 인터페이스로 사업 관리의 번거로움을 줄여드립니다."
+      content="직관적인 가계부 관리, 실시간 재고 관리, 자동 원가 계산까지 한 번에! Livflow로 복잡한 엑셀 작업 없이 간편하게 비즈니스를 관리하세요. 소상공인과 자영업자를 위한 올인원 솔루션."
     />
     <meta name="twitter:image" content="/twitter-image.png" />
     <meta name="twitter:site" content="@LivflowOfficial" />
@@ -57,7 +81,10 @@
       content="black-translucent"
     />
 
-    <title>Livflow</title>
+    <title>
+      Livflow - 직관적인 가계부 & 실시간 재고 관리 & 자동 원가 계산 올인원
+      솔루션
+    </title>
   </head>
   <body>
     <div id="root"></div>
