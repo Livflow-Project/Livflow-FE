@@ -1,11 +1,11 @@
 import 'swiper/swiper-bundle.css';
+import './swiper/swiperStyles';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { CostCalculatorListItem } from '@/api/storeId/costCalculator/costCalculator.type';
 import RecipeItem from './RecipeItem';
 import { createSwiperConfig } from './swiper/swiperConfig';
-import { getSwiperStyles } from './swiper/swiperStyles';
 import { useGridRows } from '@/hooks/useGridRows';
 
 type RecipeListProps = {
@@ -36,8 +36,6 @@ const RecipeList = ({
 
   return (
     <div className='flex h-[calc(100%-105px)] w-full items-start justify-center'>
-      <style>{getSwiperStyles()}</style>
-
       <Swiper {...swiperConfig}>
         {recipes.map((recipe) => (
           <SwiperSlide key={recipe.recipe_id}>
