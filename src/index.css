@@ -1,15 +1,15 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
 @font-face {
   font-family: 'Pretendard Variable';
   font-weight: 45 920;
   font-style: normal;
   font-display: swap;
-  src: url('/public/fonts/PretendardVariable.woff2') format('woff2-variations');
+  src: url('/fonts/PretendardVariable.woff2') format('woff2-variations');
 }
 
 :root,
@@ -72,7 +72,7 @@ body {
   }
 
   .input_box {
-    @apply h-[42px] w-[60%] rounded-lg border border-input_line bg-transparent px-3 py-2 text-center text-lg focus:border-2 focus:border-input_line_focus focus:outline-none focus:ring-0;
+    @apply h-[42px] w-[60%] rounded-lg border border-input_line px-3 py-2 text-center text-lg focus:border-2 focus:border-input_line_focus focus:outline-none focus:ring-0;
   }
 
   .input_underlined {
