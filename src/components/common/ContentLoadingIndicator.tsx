@@ -13,12 +13,11 @@ const ContentLoadingIndicator = () => {
   };
 
   return (
-    <div className='flex h-full w-full flex-col items-center justify-center'>
+    <div className='flex flex-col items-center justify-center w-full h-full'>
       <motion.div
-        className='relative h-20 w-20'
+        className='relative w-20 h-20 origin-center'
         variants={containerVariants}
         animate='animate'
-        style={{ transformOrigin: 'center' }}
       >
         {[...Array(6)].map((_, i) => {
           const angle = i * 60 * (Math.PI / 180);
@@ -26,15 +25,10 @@ const ContentLoadingIndicator = () => {
           const y = Math.sin(angle) * 30;
 
           return (
-            <div
+            <motion.div
               key={i}
-              className='absolute h-4 w-4 rounded-full bg-primary'
-              style={{
-                left: 'calc(50% - 8px)',
-                top: 'calc(50% - 8px)',
-                transform: `translate(${x}px, ${y}px)`,
-                transformOrigin: 'center',
-              }}
+              className='absolute left-[calc(50%-8px)] top-[calc(50%-8px)] h-4 w-4 origin-center rounded-full bg-primary'
+              animate={{ x, y }}
             />
           );
         })}
