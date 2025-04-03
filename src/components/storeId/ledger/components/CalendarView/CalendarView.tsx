@@ -89,10 +89,7 @@ const CalendarView = ({
     const { hasIncome, hasExpense } = arg.event.extendedProps;
 
     return (
-      <div
-        className='flex items-center gap-1'
-        style={{ pointerEvents: 'none' }}
-      >
+      <div className='flex items-center gap-1 pointer-events-none'>
         {hasExpense && <span className='text-red'>●</span>}
         {hasIncome && <span className='text-green'>●</span>}
       </div>
