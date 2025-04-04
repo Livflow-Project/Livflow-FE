@@ -1,12 +1,8 @@
 import { Control, Controller, FieldErrors } from 'react-hook-form';
-import {
-  TRANSACTION_CATEGORIES,
-  TRANSACTION_CATEGORIES_GROUPED,
-} from './categories';
 
-import Select from 'react-select';
+import CustomSelect from './CustomSelect';
+import { TRANSACTION_CATEGORIES } from './categories';
 import { TransactionRequest } from '@/api/storeId/ledger/transactions/transactions.type';
-import { selectStyles } from './selectStyles';
 
 type CategoryFieldProps = {
   control: Control<TransactionRequest>;
@@ -25,20 +21,12 @@ const CategoryField = ({ control, errors }: CategoryFieldProps) => {
         name='category'
         control={control}
         render={({ field }) => (
-          <Select
-            {...field}
-            options={TRANSACTION_CATEGORIES_GROUPED.map((group) => ({
-              label: group.group,
-              options: group.items,
-            }))}
-            placeholder='카테고리 입력 또는 선택'
-            styles={selectStyles(!!errors.category)}
-            classNamePrefix='select'
-            isSearchable={true}
-            onChange={(option) => field.onChange(option?.value)}
+          <CustomSelect
             value={TRANSACTION_CATEGORIES.find(
               (cat) => cat.value === field.value
             )}
+            onChange={(option) => field.onChange(option.value)}
+            hasError={!!errors.category}
           />
         )}
       />
