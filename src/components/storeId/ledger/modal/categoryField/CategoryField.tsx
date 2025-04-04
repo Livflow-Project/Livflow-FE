@@ -1,6 +1,6 @@
 import { Control, Controller, FieldErrors } from 'react-hook-form';
 
-import CustomSelect from './CustomSelect';
+import CategorySelect from './CategorySelect';
 import { TRANSACTION_CATEGORIES } from './categories';
 import { TransactionRequest } from '@/api/storeId/ledger/transactions/transactions.type';
 
@@ -21,7 +21,7 @@ const CategoryField = ({ control, errors }: CategoryFieldProps) => {
         name='category'
         control={control}
         render={({ field }) => (
-          <CustomSelect
+          <CategorySelect
             value={TRANSACTION_CATEGORIES.find(
               (cat) => cat.value === field.value
             )}

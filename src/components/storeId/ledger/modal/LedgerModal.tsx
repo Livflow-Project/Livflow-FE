@@ -4,10 +4,10 @@ import {
   TransactionResponse,
 } from '@/api/storeId/ledger/transactions/transactions.type';
 
-import CategoryField from './CategoryField';
+import CategoryField from './categoryField/CategoryField';
 import FormField from '@/components/common/FormField';
 import Modal from '@/components/common/Modal';
-import TransactionTypeField from './TransactionTypeField';
+import TransactionTypeField from './transactionTypeField/TransactionTypeField';
 import { getChangedFields } from '@/utils/formUtils';
 import { showWarnToast } from '@/utils/toast';
 import { twMerge } from 'tailwind-merge';
