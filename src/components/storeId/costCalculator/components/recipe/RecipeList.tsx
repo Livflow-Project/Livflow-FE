@@ -1,5 +1,5 @@
 import 'swiper/swiper-bundle.css';
-import './swiper/swiperStyles';
+import './swiper/swiperStyles.css';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
