@@ -22,40 +22,30 @@ const IngredientItem = ({
 }: IngredientItemProps) => (
   <ul
     className={twMerge(
-      'relative flex h-[45px] w-full flex-shrink-0 items-center text-center',
+      'table_list',
       !isLastItem && 'border-b border-underline/30'
     )}
   >
-    <li className='w-[8%] min-w-20 text-lg font-normal'>{index + 1}</li>
+    <li className='w-[8%] min-w-20 font-medium'>{index + 1}</li>
 
-    <li className='w-[16%] text-lg font-normal'>
-      {ingredient.ingredient_name}
-    </li>
+    <li className='w-[16%]'>{ingredient.ingredient_name}</li>
 
-    <li className='w-[16%] text-lg font-normal'>
-      {ingredient.ingredient_cost}
-    </li>
+    <li className='w-[16%]'>{ingredient.ingredient_cost}</li>
 
-    <li className='w-[16%] text-lg font-normal'>{ingredient.capacity}</li>
+    <li className='w-[16%]'>{ingredient.capacity}</li>
 
-    <li className='w-[6%] text-lg font-normal'>{ingredient.unit}</li>
+    <li className='w-[6%]'>{ingredient.unit}</li>
 
-    <li className='w-[9%] text-lg font-normal'>
-      {Math.round(ingredient.unit_cost * 10) / 10} 원
-    </li>
+    <li className='w-[9%]'>{Math.round(ingredient.unit_cost * 10) / 10}원</li>
 
-    <li className='w-[15%] text-lg font-normal'>{ingredient.shop}</li>
+    <li className='w-[15%]'>{ingredient.shop}</li>
 
-    <li className='w-[14%] text-lg font-normal'>
-      {ingredient.ingredient_detail}
-    </li>
+    <li className='w-[14%]'>{ingredient.ingredient_detail}</li>
 
     {isEditMode && (
-      <li className='absolute inset-0 flex items-center bg-white/50'>
-        <nav className='flex w-[8%] min-w-20 items-center justify-center gap-1'>
-          <EditButton onClick={() => onEditIngredient(ingredient)} />
-          <DeleteButton onClick={() => onDelete(ingredient)} />
-        </nav>
+      <li className='table_list_action'>
+        <EditButton onClick={() => onEditIngredient(ingredient)} />
+        <DeleteButton onClick={() => onDelete(ingredient)} />
       </li>
     )}
   </ul>

@@ -6,7 +6,7 @@ type ButtonProps = {
 
 const Button = ({ children, type, onClick }: ButtonProps) => {
   return (
-    <button type={type} className='soft_BcolorSet px-[25px]' onClick={onClick}>
+    <button type={type} className='button' onClick={onClick}>
       {children}
     </button>
   );

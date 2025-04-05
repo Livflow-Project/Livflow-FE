@@ -17,12 +17,12 @@ const ChartTypeButton = ({
 }: ChartTypeButtonProps) => (
   <button
     className={twMerge(
-      'text-xl font-semibold',
+      'text-lg font-semibold',
       isDeleteMode
         ? 'no_hover'
         : type === selectedType
           ? 'text-primary'
-          : 'soft_TcolorSet'
+          : 'text_button'
     )}
     onClick={onClick}
     disabled={isDeleteMode}

@@ -8,7 +8,6 @@ type FormValues = {
 };
 
 const Header = () => {
-  // React Hook Form 컨텍스트 사용
   const {
     register,
     watch,
@@ -30,16 +29,19 @@ const Header = () => {
   };
 
   return (
-    <header className='flex h-[60px] w-full items-center justify-evenly rounded-lg bg-white text-xl'>
+    <header className='flex h-[60px] w-full items-center justify-evenly rounded-lg bg-white'>
       <div className='flex w-[40%] items-center justify-center'>
-        <label htmlFor='menu_name' className='input_label mr-2'>
+        <label
+          htmlFor='menu_name '
+          className='costCalculator_label min-w-[28px] shrink-0'
+        >
           메뉴 이름 :
         </label>
         <input
           id='menu_name'
           type='text'
           className={twMerge(
-            'input_underlined h-full',
+            'input_underlined w-[60%] min-w-0',
             nameError ? 'animate-blinkingBorder border-b-2' : ''
           )}
           {...register('recipe_name')}
@@ -49,7 +51,10 @@ const Header = () => {
       <div className='h-[40px] w-[1px] bg-caption'></div>
 
       <div className='flex w-[40%] items-center justify-center'>
-        <label htmlFor='menu_cost' className='input_label mr-2'>
+        <label
+          htmlFor='menu_cost'
+          className='costCalculator_label min-w-[28px] shrink-0'
+        >
           판매 가격 :
         </label>
         <input
@@ -59,7 +64,7 @@ const Header = () => {
           value={recipeCost === null ? '' : recipeCost}
           onChange={handleCostChange}
         />
-        <span className='input_label ml-1'>원</span>
+        <span className='text-lg font-medium text-main'>원</span>
       </div>
 
       <div className='h-[40px] w-[1px] bg-caption'></div>
@@ -67,14 +72,14 @@ const Header = () => {
       <div className='flex w-[15%] items-center justify-center'>
         <label
           htmlFor='favorites_checkbox'
-          className='input_label mr-2 cursor-pointer'
+          className='costCalculator_label min-w-[28px] shrink-0 cursor-pointer'
         >
           즐겨찾기
         </label>
         <input
           id='favorites_checkbox'
           type='checkbox'
-          className='h-6 w-6 cursor-pointer rounded border-gray-300 text-green shadow-sm focus:ring-0 focus:ring-offset-0'
+          className='h-5 w-5 cursor-pointer rounded border-gray-300 text-green shadow-sm focus:ring-0 focus:ring-offset-0'
           checked={isFavorite}
           onChange={(e) => setValue('is_favorites', e.target.checked)}
         />
