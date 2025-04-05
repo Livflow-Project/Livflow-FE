@@ -83,7 +83,10 @@ const CategorySection = ({
           .map((category, index) => (
             <li
               key={`${category.category}-${index}`}
-              className='mb-2 flex w-full justify-between font-normal text-caption last:mb-0'
+              className={twMerge(
+                'mb-2 flex w-full justify-between font-normal text-caption',
+                index === filteredCategories.length - 1 && 'mb-0'
+              )}
             >
               <span className='flex items-center gap-1 text-main'>
                 <div
