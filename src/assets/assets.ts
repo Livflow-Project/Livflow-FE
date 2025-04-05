@@ -1,4 +1,6 @@
 import calculator from './home/calculator.svg';
+import deleteButton from './button/deleteButton.svg';
+import editButton from './button/editButton.svg';
 import favoritesIcon from './store/favoritesIcon.svg';
 import google from './login/google.svg';
 import imageIcon from './store/imageIcon.svg';
@@ -15,21 +17,33 @@ import rightArrow from './home/rightArrow.svg';
 import store from './home/store.svg';
 import storeIcon from './store/storeIcon.svg';
 
-export {
+export const homeIcons = {
   store,
   ledger,
   ingredient,
   calculator,
+
+  logoText,
+  logoWhale,
+};
+
+export const loginIcons = {
   google,
   kakao,
   naver,
   logo,
-  logoText,
-  logoWhale,
+};
+
+export const storeIcons = {
   storeIcon,
   mapIcon,
+
   plusButton,
-  rightArrow,
-  imageIcon,
-  favoritesIcon,
 };
+
+export const buttonIcons = {
+  deleteButton,
+  editButton,
+};
+
+export { logo, logoWhale, rightArrow, imageIcon, favoritesIcon };
