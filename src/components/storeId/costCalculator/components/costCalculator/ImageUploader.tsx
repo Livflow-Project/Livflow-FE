@@ -8,14 +8,12 @@ import { useFormContext } from 'react-hook-form';
 const ImageUploader = () => {
   const [imageLoadError, setImageLoadError] = useState(false);
 
-  // const { VITE_IMAGE_REQUEST_URL } = import.meta.env;
+  const VITE_IMAGE_REQUEST_URL = 'https://api.livflow.co.kr:8443';
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // React Hook Form 컨텍스트 사용
   const { watch, setValue } = useFormContext();
 
-  // 이미지 미리보기 상태 감시
   const recipeImg = watch('recipe_img');
   const imagePreview = watch('recipe_img_preview');
 
@@ -60,25 +58,24 @@ const ImageUploader = () => {
 
   return (
     <article className='h-[58%] w-full rounded-xl bg-white/50'>
-      <ul className='flex flex-col items-start justify-between h-full gap-5 p-5 text-xl font-semibold text-main'>
-        <li>메뉴 이미지 등록</li>
+      <ul className='flex h-full flex-col items-start justify-between gap-4 p-5'>
+        <li className='costCalculator_label font-semibold'>메뉴 이미지 등록</li>
 
         <li className='flex h-[calc(100%-48px)] w-full items-center justify-center'>
-          <div className='flex items-center justify-center w-full h-full overflow-hidden'>
+          <div className='flex h-full w-full items-center justify-center overflow-hidden'>
             {recipeImg && !imageLoadError ? (
-              <div className='relative flex items-center justify-center flex-grow max-w-full max-h-full overflow-hidden rounded-xl'>
+              <div className='relative flex max-h-full max-w-full flex-grow items-center justify-center overflow-hidden rounded-xl'>
                 <img
                   src={
                     typeof recipeImg === 'string'
-                      ? // ? `${VITE_IMAGE_REQUEST_URL}${recipeImg}`
-                        `https://api.livflow.co.kr:8443${recipeImg}`
+                      ? `${VITE_IMAGE_REQUEST_URL}${recipeImg}`
                       : imagePreview
                   }
                   alt='업로드된 이미지'
-                  className='block object-contain max-w-full max-h-full rounded-xl'
+                  className='block max-h-full max-w-full rounded-xl object-contain'
                   onError={handleImageError}
                 />
-                <div className='absolute z-10 right-2 top-2'>
+                <div className='absolute right-2 top-2 z-10'>
                   <DeleteButton onClick={handleRemoveImage} />
                 </div>
               </div>

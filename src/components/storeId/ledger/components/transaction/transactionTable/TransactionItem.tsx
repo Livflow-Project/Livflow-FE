@@ -5,6 +5,7 @@ import { twMerge } from 'tailwind-merge';
 
 type TransactionItemProps = {
   transaction: TransactionResponse;
+  isLastItem: boolean;
   isEditMode: boolean;
   onEdit: (transaction: TransactionResponse) => void;
   onDelete: (transaction: TransactionResponse) => void;
@@ -12,18 +13,24 @@ type TransactionItemProps = {
 
 const TransactionItem = ({
   transaction,
+  isLastItem,
   isEditMode,
   onEdit,
   onDelete,
 }: TransactionItemProps) => (
-  <ul className='relative flex h-[45px] w-full flex-shrink-0 items-center border-b border-underline/30 text-center'>
-    <li className='w-[30%] text-lg font-normal'>{transaction.category}</li>
+  <ul
+    className={twMerge(
+      'table_list',
+      !isLastItem && 'border-b border-underline/30'
+    )}
+  >
+    <li className='w-[30%]'>{transaction.category}</li>
 
-    <li className='w-[40%] text-lg font-normal'>{transaction.detail}</li>
+    <li className='w-[40%]'>{transaction.detail}</li>
 
     <li
       className={twMerge(
-        'w-[30%] text-lg font-normal',
+        'w-[30%]',
         transaction.type === 'expense' ? 'text-red' : 'text-green'
       )}
     >
@@ -32,7 +39,7 @@ const TransactionItem = ({
     </li>
 
     {isEditMode && (
-      <li className='absolute inset-0 flex items-center justify-center gap-4 bg-white/50'>
+      <li className='table_list_action'>
         <EditButton onClick={() => onEdit(transaction)} />
         <DeleteButton onClick={() => onDelete(transaction)} />
       </li>

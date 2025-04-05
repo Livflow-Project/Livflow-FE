@@ -54,7 +54,7 @@ const CostCalculatorItem = ({
   return (
     <ul
       className={twMerge(
-        'relative flex h-[45px] w-full flex-shrink-0 items-center text-center text-lg font-normal',
+        'table_list h-10',
         !isLastItem && 'border-b border-underline/30'
       )}
     >
@@ -81,9 +81,12 @@ const CostCalculatorItem = ({
                 }
               }}
               min='0'
+              placeholder='사용량 입력'
               className={twMerge(
-                'number_input h-full w-[70%] rounded-full bg-background text-center',
-                fieldError ? 'animate-blinkingBorder border-2' : 'border-none'
+                'number_input h-[30px] w-[70%] rounded-full bg-blue-300/50 text-center shadow-sm outline-none focus:outline-none focus:ring-0',
+                fieldError
+                  ? 'border-red-500 animate-blinkingBorder border-2'
+                  : 'border-none focus:border-none'
               )}
             />
           )}

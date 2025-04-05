@@ -31,8 +31,8 @@ body {
 .swiper-pagination-bullet {
   background: #004aad !important;
   opacity: 0.5 !important;
-  width: 18px !important;
-  height: 18px !important;
+  width: 16px !important;
+  height: 16px !important;
 }
 
 /* 활성화된 페이지네이션 색상 */
@@ -44,31 +44,47 @@ body {
 /* 기본 컴포넌트 스타일 - 재사용 가능한 UI 컴포넌트 */
 @layer components {
   .store_box {
-    @apply h-[560px] w-[340px] flex-shrink-0 rounded-lg border border-underline border-opacity-20 bg-white shadow-xl;
+    @apply h-[500px] w-[300px] flex-shrink-0 rounded-lg border border-underline border-opacity-20 bg-white shadow-xl;
   }
 
   .recipe_box {
-    @apply relative h-[250px] w-[200px] cursor-pointer rounded-lg border border-underline border-opacity-20 bg-white p-3 shadow-xl transition-all duration-200;
+    @apply relative h-[200px] w-[150px] cursor-pointer rounded-lg border border-input_line/20 bg-white p-3 shadow-xl transition-all duration-200;
   }
 
   .modal_div {
     @apply rounded-xl bg-white p-[40px] text-center shadow-lg;
   }
 
-  .social_button {
-    @apply h-[60px] w-[620px] text-xl font-medium;
+  .button {
+    @apply h-[40px] rounded-3xl bg-button/70 px-[25px] font-semibold text-white transition-colors duration-200 hover:bg-button_hover hover:font-bold;
   }
 
   .choice_button {
-    @apply h-[34px] w-[96px] self-center rounded-2xl bg-button text-xl text-white hover:bg-button_hover;
+    @apply h-[30px] w-[80px] self-center rounded-2xl bg-button text-white transition-colors duration-200 hover:bg-button_hover hover:font-semibold;
+  }
+
+  .cancel_button {
+    @apply h-[30px] w-[80px] self-center rounded-2xl bg-gray-300 text-gray-700 transition-colors duration-200 hover:bg-gray-400;
   }
 
   .delete_button {
-    @apply h-[34px] w-[96px] self-center rounded-2xl bg-red/70 text-xl text-white hover:bg-red;
+    @apply h-[30px] w-[80px] self-center rounded-2xl bg-red/70 text-white transition-colors duration-200 hover:bg-red hover:font-semibold;
   }
 
-  .input_label {
-    @apply text-xl font-medium text-main;
+  .modal_choice_button {
+    @apply h-[35px] w-[100px] self-center rounded-3xl bg-button text-white transition-colors duration-200 hover:bg-button_hover hover:font-semibold;
+  }
+
+  .modal_cancel_button {
+    @apply h-[35px] w-[100px] self-center rounded-2xl bg-gray-300 text-gray-700 transition-colors duration-200 hover:bg-gray-400;
+  }
+
+  .modal_delete_button {
+    @apply h-[35px] w-[100px] self-center rounded-2xl bg-red/70 text-white transition-colors duration-200 hover:bg-red hover:font-semibold;
+  }
+
+  .costCalculator_label {
+    @apply mr-2 text-lg font-medium text-main;
   }
 
   .input_box {
@@ -76,39 +92,47 @@ body {
   }
 
   .input_underlined {
-    @apply min-w-0 border-0 border-b border-input_line bg-transparent p-0 text-center text-lg focus:border-b-2 focus:border-input_line_focus focus:outline-none focus:ring-0;
+    @apply min-w-0 border-0 border-b border-input_line bg-transparent p-0 text-center focus:border-b-2 focus:border-input_line_focus focus:outline-none focus:ring-0;
+  }
+
+  .table_header {
+    @apply flex h-[45px] w-full items-center border-b border-underline text-center text-lg font-semibold text-main;
+  }
+
+  .table_list {
+    @apply relative flex h-[35px] w-full flex-shrink-0 items-center text-center;
+  }
+
+  .table_list_action {
+    @apply absolute inset-0 flex items-center justify-center gap-2 bg-gray-300/40;
   }
 }
 
 /* 유틸리티 스타일 - 작은 단위의 스타일 */
 @layer utilities {
+  .social_button {
+    @apply h-[60px] w-[620px] text-xl font-medium;
+  }
+
   .button_gap {
     @apply flex items-center justify-center gap-28;
   }
 
-  .soft_TcolorSet {
-    @apply text-primary/50 hover:text-primary_hover;
-  }
-
-  .deep_TcolorSet {
-    @apply text-primary hover:text-primary_hover;
-  }
-
-  .soft_BcolorSet {
-    @apply h-[45px] rounded-3xl bg-button/70 text-[18px] font-semibold text-white hover:bg-button_hover;
-  }
-
-  .deep_BcolorSet {
-    @apply bg-button hover:bg-button_hover;
-  }
-
-  .number_input {
-    @apply [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none;
+  .text_button {
+    @apply text-primary/50 transition-colors duration-200 hover:text-primary_hover;
   }
 
   .no_hover {
     pointer-events: none;
     @apply text-gray-400/50;
+  }
+
+  .input_label {
+    @apply text-xl font-medium text-main;
+  }
+
+  .number_input {
+    @apply [-moz-appearance:_textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none;
   }
 
   .error-input {

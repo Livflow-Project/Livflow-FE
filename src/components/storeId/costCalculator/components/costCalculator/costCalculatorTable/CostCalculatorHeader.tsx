@@ -1,6 +1,6 @@
 const CostCalculatorHeader = () => {
   return (
-    <ul className='flex h-[65px] w-full items-center border-b border-underline text-center text-xl font-semibold text-main'>
+    <ul className='table_header'>
       <li className='w-[20%] min-w-20'>사용 재료</li>
 
       <li className='w-[15%]'>재고</li>
