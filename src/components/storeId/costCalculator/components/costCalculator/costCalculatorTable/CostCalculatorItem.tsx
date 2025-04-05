@@ -48,7 +48,7 @@ const CostCalculatorItem = ({
   return (
     <ul
       className={twMerge(
-        'table_list h-10',
+        'table_list',
         !isLastItem && 'border-b border-underline/30'
       )}
     >

@@ -100,7 +100,7 @@ body {
   }
 
   .table_list {
-    @apply relative flex h-[35px] w-full flex-shrink-0 items-center text-center;
+    @apply relative flex h-10 w-full flex-shrink-0 items-center text-center;
   }
 
   .table_list_action {
