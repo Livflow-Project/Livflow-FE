@@ -89,16 +89,16 @@ const CalendarView = ({
     const { hasIncome, hasExpense } = arg.event.extendedProps;
 
     return (
-      <div className='flex items-center gap-1 pointer-events-none'>
-        {hasExpense && <span className='text-red'>●</span>}
-        {hasIncome && <span className='text-green'>●</span>}
+      <div className='pointer-events-none flex items-center gap-1'>
+        {hasExpense && <span className='text-sm text-red'>●</span>}
+        {hasIncome && <span className='text-sm text-green'>●</span>}
       </div>
     );
   };
 
   return (
     <div className='relative h-full w-[49%] overflow-hidden rounded-xl bg-white p-5'>
-      <div className='absolute right-5 top-[25px] flex items-center justify-end gap-6'>
+      <div className='absolute right-5 top-[25px] z-10 flex items-center justify-end gap-6'>
         <LegendItem color='red' label='지출' />
         <LegendItem color='green' label='수입' />
       </div>

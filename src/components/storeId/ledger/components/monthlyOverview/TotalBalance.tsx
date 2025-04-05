@@ -11,14 +11,9 @@ const TotalBalance = ({
   const isPositive = balance >= 0;
 
   return (
-    <div className='flex w-full items-center justify-center border-t-2 border-underline/30 py-6'>
-      <p className='text-[26px] font-semibold'>총 합계 &nbsp;&nbsp;</p>
-      <p
-        className={twMerge(
-          'text-[26px] font-semibold',
-          isPositive ? 'text-green' : 'text-red'
-        )}
-      >
+    <div className='flex w-full items-center justify-center border-t border-dashed border-underline/30 bg-white/50 py-4 text-xl font-semibold'>
+      <p className='text-xl'>총 합계 &nbsp;&nbsp;</p>
+      <p className={twMerge(isPositive ? 'text-green' : 'text-red')}>
         {isPositive ? '+' : '-'}
         {Math.abs(balance).toLocaleString()}원
       </p>

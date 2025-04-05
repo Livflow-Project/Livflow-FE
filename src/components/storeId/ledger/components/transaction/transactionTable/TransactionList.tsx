@@ -14,19 +14,20 @@ const TransactionList = ({
   onEdit,
   onDelete,
 }: TransactionListProps) => (
-  <div className='flex h-[calc(100%-150px)] w-full flex-col overflow-y-auto'>
+  <div className='flex h-[calc(100%-125px)] w-full flex-col overflow-y-auto'>
     {transactions && transactions.length > 0 ? (
-      transactions.map((transaction) => (
+      transactions.map((transaction, index) => (
         <TransactionItem
           key={transaction.transaction_id}
           transaction={transaction}
+          isLastItem={index === transactions.length - 1}
           isEditMode={isEditMode}
           onEdit={onEdit}
           onDelete={onDelete}
         />
       ))
     ) : (
-      <div className='my-auto w-full text-center text-2xl text-caption'>
+      <div className='my-auto w-full pt-[35px] text-center text-lg text-caption'>
         추가된 지출 / 수입이 없습니다.
       </div>
     )}

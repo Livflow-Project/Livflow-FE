@@ -73,7 +73,7 @@ const CostCalculatorList = ({
         ))
       ) : (
         <div className='flex h-[calc(100%-65px)] w-full items-center justify-center'>
-          <p className='text-2xl text-main'>저장된 재료가 없습니다.</p>
+          <p className='text-lg text-caption'>저장된 재료가 없습니다.</p>
         </div>
       )}
     </>

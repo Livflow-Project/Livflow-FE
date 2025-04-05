@@ -114,8 +114,8 @@ const MainIngredient = () => {
 
   return (
     <>
-      <div className='flex h-full flex-col items-center justify-between px-[35px] py-[30px]'>
-        <header className='flex w-full items-center justify-between gap-5'>
+      <div className='flex h-full flex-col items-center justify-between px-[30px] py-[25px]'>
+        <header className='flex h-[50px] w-full items-center justify-between'>
           <IngredientSummary ingredients={ingredients} />
 
           <ActionButtons
@@ -126,7 +126,7 @@ const MainIngredient = () => {
           />
         </header>
 
-        <div className='h-[calc(100%-80px)] w-full overflow-hidden rounded-xl bg-white'>
+        <div className='h-[calc(100%-65px)] w-full overflow-hidden rounded-xl bg-white'>
           <IngredientHeader />
 
           <IngredientList

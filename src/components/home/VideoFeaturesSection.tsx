@@ -39,9 +39,9 @@ const VideoFeaturesSection = () => {
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   return (
-    <div id='features' className='container px-4 py-20 mx-auto'>
+    <div id='features' className='container mx-auto px-4 py-20'>
       <motion.h2
-        className='mb-6 text-3xl font-bold text-center text-main'
+        className='mb-6 text-center text-3xl font-bold text-main'
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -51,7 +51,7 @@ const VideoFeaturesSection = () => {
       </motion.h2>
 
       <motion.p
-        className='max-w-2xl mx-auto mb-16 text-base text-center text-gray-600 md:text-lg'
+        className='mx-auto mb-16 max-w-2xl text-center text-base text-gray-600 md:text-lg'
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -61,13 +61,15 @@ const VideoFeaturesSection = () => {
         확인하세요
       </motion.p>
 
-      <div className='grid grid-cols-1 mx-auto gap-14 md:grid-cols-2'>
+      <div className='mx-auto grid grid-cols-1 gap-14 md:grid-cols-2'>
         {featuresData.map((item, index) => (
           <VideoFeatureCard
             key={index}
             {...item}
             index={index}
-            ref={(el) => (videoRefs.current[index] = el)}
+            ref={(el) => {
+              videoRefs.current[index] = el;
+            }}
             onMouseEnter={() => videoRefs.current[index]?.play()}
             onMouseLeave={() => {
               const video = videoRefs.current[index];

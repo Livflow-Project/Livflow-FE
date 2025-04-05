@@ -11,7 +11,7 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
 
   if (categories.length === 0) {
     return (
-      <div className='my-auto w-full text-center text-2xl text-caption'>
+      <div className='my-auto w-full text-center text-lg text-caption'>
         추가된 지출 / 수입이 없습니다.
       </div>
     );
@@ -19,7 +19,7 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
 
   return (
     <>
-      <div className='flex h-[calc(100%-80px)] w-full items-center justify-evenly py-11'>
+      <div className='flex h-[calc(100%-62px)] w-full items-center justify-evenly py-7'>
         <CategorySection
           title='총 지출'
           categories={categories}

@@ -18,13 +18,11 @@ const IngredientSummary: React.FC<IngredientSummaryProps> = ({
   }, [ingredients]);
 
   return (
-    <div className='h-[60px] w-[30%] min-w-[350px] rounded-lg bg-white/50'>
-      <div className='flex h-full w-full items-center justify-evenly text-xl'>
-        <span>{`총 재료 개수 : ${ingredients?.length ?? 0}개`}</span>
-        <div className='h-[40px] w-[1px] bg-caption'></div>
-        <span>{`총 비용 : ${totalCost}원`}</span>
-      </div>
-    </div>
+    <ul className='flex h-full w-fit items-center rounded-lg bg-white/50 text-lg text-main'>
+      <li className='px-6'>{`총 재료 개수 : ${ingredients?.length ?? 0}개`}</li>
+      <div className='h-[40px] w-[1px] bg-caption'></div>
+      <li className='px-6'>{`총 비용 : ${totalCost}원`}</li>
+    </ul>
   );
 };
 
