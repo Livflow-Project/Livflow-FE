@@ -49,7 +49,7 @@ const MainLedger = () => {
         setSelectedDate={setSelectedDate}
       />
 
-      <div className='flex h-full w-[49%] flex-col items-center justify-between overflow-hidden rounded-xl bg-white/50'>
+      <div className='h-full w-[49%] overflow-hidden rounded-xl bg-white/50'>
         {!selectedDate ? (
           <motion.div
             key={`${currentYear}-${currentMonth}-overview`}
@@ -57,7 +57,7 @@ const MainLedger = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className='h-full w-full'
+            className='flex h-full w-full flex-col items-center justify-center'
           >
             <MonthlyOverview calendarData={calendarData} />
           </motion.div>

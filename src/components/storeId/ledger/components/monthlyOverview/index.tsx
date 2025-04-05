@@ -11,7 +11,7 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
 
   if (categories.length === 0) {
     return (
-      <div className='my-auto w-full text-center text-lg text-caption'>
+      <div className='my-auto text-lg text-caption'>
         추가된 지출 / 수입이 없습니다.
       </div>
     );
