@@ -9,7 +9,6 @@ export const createSwiperConfig = (gridRows: number) => ({
   modules: [Navigation, Pagination, Grid],
   navigation: true,
   pagination: { clickable: true },
-  className: 'w-full h-[calc(100%-105px)]',
   grid: {
     rows: gridRows,
     fill: 'row' as const,
