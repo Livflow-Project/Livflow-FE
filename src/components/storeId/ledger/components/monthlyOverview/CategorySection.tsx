@@ -83,7 +83,7 @@ const CategorySection = ({
           .map((category, index) => (
             <li
               key={`${category.category}-${index}`}
-              className='flex w-full justify-between font-normal text-caption'
+              className='mb-2 flex w-full justify-between font-normal text-caption last:mb-0'
             >
               <span className='flex items-center gap-1 text-main'>
                 <div
