@@ -110,8 +110,8 @@ const getColorForCategory = (category: string) => {
 };
 
 const PieChart = memo(({ categories }: PieChartProps) => {
-  const chartRef = useRef<HTMLCanvasElement | null>(null);
-  const chartInstanceRef = useRef<Chart<'pie', number[], string> | null>(null);
+  const chartRef = useRef<HTMLCanvasElement>(null);
+  const chartInstanceRef = useRef<Chart<'pie', number[], string>>(null);
 
   const chartData = useMemo(() => {
     const data = {

@@ -8,7 +8,7 @@ export const useCalendarNavigation = (
   setCurrentMonth: (month: number) => void,
   setSelectedDate: (date: string | null) => void
 ) => {
-  const calendarRef = useRef<FullCalendar | null>(null);
+  const calendarRef = useRef<FullCalendar>(null);
 
   const handleDateChange = useCallback(
     (newDate: Date) => {

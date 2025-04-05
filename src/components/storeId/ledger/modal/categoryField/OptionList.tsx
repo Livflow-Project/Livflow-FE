@@ -10,7 +10,7 @@ type OptionListProps = {
   filteredOptions: typeof TRANSACTION_CATEGORIES_GROUPED;
   value?: Option;
   onOptionSelect: (option: Option) => void;
-  scrollTargetRef?: React.RefObject<HTMLLIElement>;
+  scrollTargetRef?: React.RefObject<HTMLLIElement | null> | null;
 };
 
 const OptionList = ({
