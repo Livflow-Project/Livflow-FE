@@ -31,7 +31,6 @@ export const createRecipeAPI = async (
 ): Promise<CostCalculatorDetail> => {
   const formData = new FormData();
 
-  // 일반 데이터 추가
   formData.append('recipe_name', data.recipe_name || '');
   formData.append('recipe_cost', data.recipe_cost?.toString() || '0');
   formData.append(
@@ -40,10 +39,8 @@ export const createRecipeAPI = async (
   );
   formData.append('is_favorites', data.is_favorites?.toString() || 'false');
 
-  // 배열 데이터 추가
   formData.append('ingredients', JSON.stringify(data.ingredients || []));
 
-  // 이미지 처리
   if (data.recipe_img instanceof File) {
     formData.append('recipe_img', data.recipe_img);
   } else {
@@ -65,7 +62,6 @@ export const updateRecipeAPI = async (
 ): Promise<CostCalculatorDetail> => {
   const formData = new FormData();
 
-  // 변경된 필드만 FormData에 추가
   if ('recipe_name' in data) {
     formData.append('recipe_name', data.recipe_name || '');
   }
@@ -82,7 +78,6 @@ export const updateRecipeAPI = async (
     formData.append('is_favorites', data.is_favorites?.toString() || 'false');
   }
 
-  // ingredients 배열이 변경된 경우에만 추가
   if (
     'ingredients' in data &&
     data.ingredients &&
@@ -91,7 +86,6 @@ export const updateRecipeAPI = async (
     formData.append('ingredients', JSON.stringify(data.ingredients));
   }
 
-  // 이미지가 변경된 경우에만 처리
   if ('recipe_img' in data) {
     if (data.recipe_img instanceof File) {
       formData.append('recipe_img', data.recipe_img);

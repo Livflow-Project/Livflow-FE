@@ -17,7 +17,6 @@ const LoginHandlerPage = () => {
 
   const navigate = useNavigate();
 
-  // code가 없는 경우 404 페이지 렌더링
   if (!code) {
     return <NotfoundPage />;
   }

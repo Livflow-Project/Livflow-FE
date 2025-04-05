@@ -12,7 +12,6 @@ type StoreRequestParams = {
 export const useStoreQuery = () => {
   const queryClient = useQueryClient();
 
-  // 모든 스토어 조회
   const useGetAllStores = () => {
     return useQuery({
       queryKey: ['stores'],
@@ -20,7 +19,6 @@ export const useStoreQuery = () => {
     });
   };
 
-  // 특정 스토어 정보 조회
   const useGetStore = (
     storeId: string,
     options?: {
@@ -34,7 +32,6 @@ export const useStoreQuery = () => {
     });
   };
 
-  // 새 스토어 생성
   const useCreateStore = () => {
     return useMutation({
       mutationFn: (newStoreData: StoreRequestParams) =>
@@ -50,7 +47,6 @@ export const useStoreQuery = () => {
     });
   };
 
-  // 스토어 수정
   const useUpdateStore = () => {
     return useMutation({
       mutationFn: ({
@@ -72,7 +68,6 @@ export const useStoreQuery = () => {
             ? '스토어 이름이 수정 되었습니다'
             : '스토어 주소가 수정 되었습니다';
 
-        // 이미 표시 중인 성공 토스트가 있으면 업데이트, 없으면 새로 생성
         if (toast.isActive(`store-update-${variables.updateType}`)) {
           toast.update(`store-update-${variables.updateType}`, {
             render: message,
@@ -92,7 +87,6 @@ export const useStoreQuery = () => {
             ? '스토어 이름 수정에 실패했습니다'
             : '스토어 주소 수정에 실패했습니다';
 
-        // 이미 표시 중인 에러 토스트가 있으면 업데이트, 없으면 새로 생성
         if (toast.isActive(`store-update-error-${variables.updateType}`)) {
           toast.update(`store-update-error-${variables.updateType}`, {
             render: errorMessage,
@@ -107,7 +101,6 @@ export const useStoreQuery = () => {
     });
   };
 
-  // 스토어 삭제
   const useDeleteStore = () => {
     return useMutation({
       mutationFn: (storeId: string) => storeAPI.deleteStoreAPI(storeId),

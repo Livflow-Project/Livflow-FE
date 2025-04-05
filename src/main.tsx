@@ -13,7 +13,6 @@ createRoot(document.getElementById('root')!).render(
   </QueryClientProvider>
 );
 
-// 폰트 로딩 처리
 document.addEventListener('DOMContentLoaded', function () {
   const fontLink = document.getElementById(
     'pretendard-font'

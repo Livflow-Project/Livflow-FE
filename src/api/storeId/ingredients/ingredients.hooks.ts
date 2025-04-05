@@ -7,7 +7,6 @@ import { IngredientsAPI } from './ingredientsAPI';
 export const useIngredientsQuery = () => {
   const queryClient = useQueryClient();
 
-  // 모든 재료 조회
   const useGetAllIngredients = (storeId: string) => {
     return useQuery({
       queryKey: ['store', storeId],
@@ -32,7 +31,6 @@ export const useIngredientsQuery = () => {
         data: IngredientRequest;
       }) => IngredientsAPI.addIngredientAPI(storeId, data),
       onSuccess: (_, variables) => {
-        // 성공 시 해당 월의 데이터 무효화
         queryClient.invalidateQueries({
           queryKey: ['store', variables.storeId],
         });

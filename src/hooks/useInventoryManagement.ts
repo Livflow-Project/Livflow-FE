@@ -3,7 +3,6 @@ import { useInventoryItemMutation } from '@/api/storeId/inventory/inventory.hook
 export const useInventoryManagement = (storeId: string) => {
   const InventoryItemMutation = useInventoryItemMutation(storeId);
 
-  // 재고 사용량 업데이트
   const updateInventoryUsage = async (
     ingredientId: string,
     usedAmount: number
@@ -14,7 +13,6 @@ export const useInventoryManagement = (storeId: string) => {
     });
   };
 
-  // 재고 사용량 차이 업데이트 (수정 시)
   const updateInventoryDiff = async (
     ingredientId: string,
     newAmount: number,
@@ -26,7 +24,6 @@ export const useInventoryManagement = (storeId: string) => {
     return updateInventoryUsage(ingredientId, diffAmount);
   };
 
-  // 여러 재고 항목 업데이트
   const updateMultipleInventoryItems = async (usageMap: {
     [ingredientId: string]: number;
   }) => {

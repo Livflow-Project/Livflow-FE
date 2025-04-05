@@ -114,7 +114,6 @@ export const TRANSACTION_CATEGORIES_GROUPED = [
   },
 ];
 
-// 기존 플랫 배열도 유지 (호환성을 위해)
 export const TRANSACTION_CATEGORIES = TRANSACTION_CATEGORIES_GROUPED.flatMap(
   (group) =>
     group.items.map((item) => ({

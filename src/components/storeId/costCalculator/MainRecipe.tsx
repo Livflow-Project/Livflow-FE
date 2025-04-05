@@ -53,7 +53,6 @@ const MainRecipe = () => {
   const handleDeleteRecipe = (recipeId: string) => {
     deleteRecipeMutation.mutate(recipeId, {
       onSuccess: () => {
-        // 마지막 레시피였다면 삭제 모드 비활성화
         if (recipes?.length === 1) {
           setViewMode('list');
         }
@@ -85,7 +84,6 @@ const MainRecipe = () => {
     return <ErrorPage error={error as Error} resetError={refetch} />;
   }
 
-  // 원가계산 모드일 때 렌더링
   if (viewMode === 'calculator') {
     return (
       <MainCostCalculator

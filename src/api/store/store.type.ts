@@ -3,7 +3,7 @@ export type StoresResponse = {
 };
 
 export type StoreDetailResponse = {
-  store_id: string; // UUID
+  store_id: string;
   name: string;
   address?: string;
   chart: Category[];

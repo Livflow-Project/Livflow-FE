@@ -21,7 +21,6 @@ const StoreList = ({
 }: StoreListProps) => {
   const renderStores = () => {
     const slides = [];
-    // 페이지당 2개의 스토어로 변경
     for (let i = 0; i < stores.length; i += 2) {
       slides.push(
         <SwiperSlide key={i} className='flex items-start justify-start'>

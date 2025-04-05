@@ -15,14 +15,11 @@ const Header = () => {
     formState: { errors },
   } = useFormContext<FormValues>();
 
-  // 오류 확인
   const nameError = errors.recipe_name;
 
-  // 즐겨찾기 상태 감시
   const isFavorite = watch('is_favorites');
   const recipeCost = watch('recipe_cost');
 
-  // 판매 가격 변경 핸들러
   const handleCostChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value === '' ? null : parseInt(e.target.value);
     setValue('recipe_cost', value);

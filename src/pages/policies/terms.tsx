@@ -4,7 +4,6 @@ const Terms = () => {
       <h1 className='mb-6 text-3xl font-bold'>이용약관</h1>
       <p className='mb-8 text-gray-600'>최종 업데이트: 2025년 3월 12일</p>
 
-      {/* 목차 */}
       <div className='mb-8 rounded-lg bg-gray-50 p-4'>
         <h2 className='mb-2 text-xl font-semibold'>목차</h2>
         <ul className='list-disc pl-5'>

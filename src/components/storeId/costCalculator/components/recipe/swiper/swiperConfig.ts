@@ -1,10 +1,5 @@
 import { Grid, Navigation, Pagination } from 'swiper/modules';
 
-/**
- * Swiper 설정을 생성하는 함수
- * @param gridRows 그리드 행 수
- * @returns Swiper 설정 객체
- */
 export const createSwiperConfig = (gridRows: number) => ({
   modules: [Navigation, Pagination, Grid],
   navigation: true,

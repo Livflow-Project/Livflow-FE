@@ -25,7 +25,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // 초기 로그인 상태 체크
   useEffect(() => {
     const initializeAuth = async () => {
       try {
@@ -64,11 +63,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const response = await axiosInstance.post('/users/logout/');
       if (response.status === 200) {
-        // 쿠키에서 액세스 토큰 삭제
         document.cookie =
           'access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 
-        // axios 인터셉터의 인증 헤더 제거
         delete axiosInstance.defaults.headers.common['Authorization'];
 
         setIsLoggedIn(false);

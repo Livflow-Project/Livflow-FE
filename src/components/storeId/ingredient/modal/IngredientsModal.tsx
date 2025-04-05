@@ -42,7 +42,6 @@ const IngredientsModal = ({
     defaultValues: getDefaultValues(isEditMode, initialData),
   });
 
-  // 모달이 열릴 때 품목명 필드에 포커스
   useEffect(() => {
     const timer = setTimeout(() => {
       setFocus('ingredient_name');
@@ -115,7 +114,6 @@ const IngredientsModal = ({
   ) => {
     const changedFields = getChangedFields(data, initialData);
 
-    // 변경된 필드가 없으면 서버에 요청하지 않고 모달만 닫기
     if (Object.keys(changedFields).length === 0) {
       return;
     }
@@ -181,7 +179,6 @@ const IngredientsModal = ({
   );
 };
 
-// 폼 기본값 설정
 const getDefaultValues = (
   isEditMode: boolean,
   initialData?: IngredientResponse

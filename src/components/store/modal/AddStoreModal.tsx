@@ -33,7 +33,6 @@ const AddStoreModal = ({ onClose }: AddStoreModalProps) => {
   const { useCreateStore } = useStoreQuery();
   const createStoreMutation = useCreateStore();
 
-  // 모달이 열릴 때 이름 필드에 포커스
   useEffect(() => {
     const timer = setTimeout(() => {
       setFocus('name');
@@ -50,7 +49,6 @@ const AddStoreModal = ({ onClose }: AddStoreModalProps) => {
       });
       showWarnToast('스토어 이름은 필수 입니다.');
 
-      // 스토어 이름 인풋에 포커스
       setTimeout(() => {
         setFocus('name');
       }, 100);

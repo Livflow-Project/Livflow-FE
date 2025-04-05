@@ -5,7 +5,7 @@ export type IngredientsResponse = {
 };
 
 export type IngredientResponse = {
-  ingredient_id: string; // UUID
+  ingredient_id: string;
   ingredient_name: string;
   ingredient_cost: number;
   capacity: number;

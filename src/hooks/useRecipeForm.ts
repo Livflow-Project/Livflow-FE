@@ -2,7 +2,6 @@ import { CostCalculatorDetail } from '@/api/storeId/costCalculator/costCalculato
 import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
-// 폼 데이터 타입 정의
 export type RecipeFormData = {
   recipe_name: string;
   recipe_cost: number | null;
@@ -14,7 +13,6 @@ export type RecipeFormData = {
 };
 
 export const useRecipeForm = (recipeData?: CostCalculatorDetail) => {
-  // 원래 레시피의 재료 사용량 계산
   const originalUsage =
     recipeData?.ingredients?.reduce(
       (acc, ingredient) => {
@@ -24,7 +22,6 @@ export const useRecipeForm = (recipeData?: CostCalculatorDetail) => {
       {} as { [key: string]: number }
     ) || {};
 
-  // React Hook Form 설정
   const methods = useForm<RecipeFormData>({
     defaultValues: {
       recipe_name: recipeData?.recipe_name || '',
@@ -38,7 +35,6 @@ export const useRecipeForm = (recipeData?: CostCalculatorDetail) => {
 
   const { setValue } = methods;
 
-  // 재료 사용량 업데이트 핸들러
   const handleItemUsageChange = useCallback(
     (itemId: string, amount: number) => {
       setValue(`ingredients_usage.${itemId}`, amount, { shouldDirty: true });
@@ -46,7 +42,6 @@ export const useRecipeForm = (recipeData?: CostCalculatorDetail) => {
     [setValue]
   );
 
-  // 총 원가 업데이트 핸들러
   const handleTotalCostChange = useCallback(
     (totalCost: number) => {
       setValue('total_ingredient_cost', totalCost);

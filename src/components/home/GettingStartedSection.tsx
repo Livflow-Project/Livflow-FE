@@ -45,7 +45,6 @@ const GettingStartedSection = () => {
           몇 가지 간단한 단계만으로 비즈니스 관리의 혁신을 경험하세요
         </motion.p>
 
-        {/* 시작하기 단계 내용 */}
         <div className='relative mx-auto max-w-[1300px]'>
           <div className='grid grid-cols-1 gap-8 md:grid-cols-3'>
             {steps.map((item, index) => (

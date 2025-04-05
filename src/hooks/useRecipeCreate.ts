@@ -14,12 +14,10 @@ export const useRecipeCreate = (storeId: string) => {
     usedIngredients: { ingredient_id: string; required_amount: number }[]
   ) => {
     try {
-      // 1. 먼저 레시피 저장 시도
       const createRecipe =
         await createRecipeMutation.mutateAsync(recipeDataToSave);
 
       try {
-        // 2. 레시피 저장 성공 후 재고 감소 처리
         const updatePromises = usedIngredients.map(
           ({ ingredient_id, required_amount }) =>
             InventoryItemMutation.mutateAsync({
@@ -32,7 +30,6 @@ export const useRecipeCreate = (storeId: string) => {
           await Promise.all(updatePromises);
         }
 
-        // 모든 작업이 성공적으로 완료되면 성공 토스트 표시
         showSuccessToast('메뉴가 추가 되었습니다');
 
         return createRecipe;

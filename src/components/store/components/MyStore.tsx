@@ -1,8 +1,7 @@
-import { storeIcons } from '@/assets/assets';
-
 import ChartView from './chart/ChartView';
 import EditableInput from './EditableInput';
 import { StoreDetailResponse } from '@/api/store/store.type';
+import { storeIcons } from '@/assets/assets';
 import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 import { useNavigate } from 'react-router-dom';
@@ -31,16 +30,13 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
     handleKeyDown,
   } = useStoreForm(storeInfo);
 
-  // 삭제 뮤테이션
   const { useDeleteStore } = useStoreQuery();
   const deleteStoreMutation = useDeleteStore();
 
-  // 스토어 삭제 핸들러
   const handleDeleteStore = () => {
     deleteStoreMutation.mutate(storeInfo.store_id);
   };
 
-  // 스토어 선택 핸들러
   const handleSelectStore = () => {
     toast.dismiss();
     navigate(`/store/${storeInfo.store_id}/ledger`);

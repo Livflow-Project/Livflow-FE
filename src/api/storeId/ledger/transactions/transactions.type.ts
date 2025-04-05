@@ -1,12 +1,11 @@
 export type TransactionResponse = {
-  transaction_id: string; // UUID
+  transaction_id: string;
   type: 'expense' | 'income';
   category: string;
   detail?: string;
   cost: number;
 };
 
-// id를 제외한 DayDetailTransaction 타입
 export type TransactionRequest = Omit<TransactionResponse, 'transaction_id'>;
 
 export type AddTransactionParams = {

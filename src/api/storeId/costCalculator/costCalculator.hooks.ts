@@ -38,7 +38,6 @@ export const useCreateRecipeMutation = (storeId: string) => {
       queryClient.invalidateQueries({
         queryKey: [RECIPES_QUERY_KEY, storeId],
       });
-      // showSuccessToast('메뉴가 추가 되었습니다');
     },
     onError: (error) => {
       console.error('메뉴 추가 실패:', error);
@@ -65,7 +64,6 @@ export const useUpdateRecipeMutation = (storeId: string) => {
       queryClient.invalidateQueries({
         queryKey: [RECIPE_DETAIL_QUERY_KEY, storeId, variables.recipeId],
       });
-      // showSuccessToast('메뉴가 수정 되었습니다');
     },
     onError: (error) => {
       console.error('메뉴 수정 실패:', error);

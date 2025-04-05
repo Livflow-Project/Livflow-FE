@@ -83,7 +83,6 @@ const MainIngredient = () => {
     return <ErrorPage error={error as Error} resetError={() => refetch()} />;
   }
 
-  // 모달 상태에 따라 적절한 모달 컴포넌트 렌더링
   const renderModal = () => {
     switch (modalState.type) {
       case 'add':

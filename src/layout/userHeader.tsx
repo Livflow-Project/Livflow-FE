@@ -16,7 +16,6 @@ const NAV_ITEMS: NavItem[] = [
   // { to: '/store', label: '예약 관리' },
 ];
 
-// 네비게이션 링크 컴포넌트
 const NavigationLinks = ({ items }: { items: NavItem[] }) => (
   <div className='flex items-center gap-20'>
     {items.map((item) => (
@@ -43,7 +42,6 @@ const UserHeader = () => {
     <>
       <header className='fixed left-0 top-0 z-50 h-[65px] w-full bg-white px-20 shadow-sm'>
         <nav className='flex h-full items-center justify-between'>
-          {/* 왼쪽 영역: 로고 + 네비게이션 */}
           <div className='flex items-center'>
             <Link to='/' onClick={() => toast.dismiss()} className='mr-28'>
               <img src={logo} alt='Livflow 로고' className='h-[60px]' />
@@ -52,7 +50,6 @@ const UserHeader = () => {
             <NavigationLinks items={NAV_ITEMS} />
           </div>
 
-          {/* 오른쪽 영역: 로그아웃 버튼 */}
           <span
             onClick={handleLogout}
             className='cursor-pointer text-xl font-semibold text-primary transition-all hover:font-bold hover:text-primary_hover'

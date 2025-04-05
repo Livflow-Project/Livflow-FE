@@ -1,6 +1,5 @@
-import { loginIcons } from '@/assets/assets';
-
 import { Link } from 'react-router-dom';
+import { loginIcons } from '@/assets/assets';
 
 const {
   VITE_KAKAO_CLIENT_ID,
@@ -19,7 +18,6 @@ const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=
 
 const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${VITE_NAVER_CLIENT_ID}&state=${VITE_NAVER_CLIENT_SECRET}&redirect_uri=${VITE_NAVER_REDIRECT_URI}`;
 
-//소셜로그인 버튼
 const socialButtons = [
   { name: 'google', src: loginIcons.google, url: GOOGLE_AUTH_URL },
   { name: 'kakao', src: loginIcons.kakao, url: KAKAO_AUTH_URL },
