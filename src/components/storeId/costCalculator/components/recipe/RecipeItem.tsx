@@ -1,9 +1,8 @@
 import { CostCalculatorListItem } from '@/api/storeId/costCalculator/costCalculator.type';
-
+import IconButton from '@/components/common/IconButton';
 import { favoritesIcon } from '@/assets/assets';
 import { twMerge } from 'tailwind-merge';
 import { useState } from 'react';
-import IconButton from '@/components/common/IconButton';
 
 type RecipeItemProps = {
   recipe: CostCalculatorListItem;
@@ -49,7 +48,7 @@ const RecipeItem = ({
       )}
 
       <div className='flex h-full w-full flex-col items-center gap-2'>
-        <div className='flex h-[calc(100%-63px)] flex-grow items-center justify-center rounded-lg'>
+        <div className='flex h-[calc(100%-63px)] w-full flex-grow items-center justify-center rounded-lg'>
           {recipe.recipe_img && !hasImageError ? (
             <img
               src={VITE_IMAGE_REQUEST_URL + recipe.recipe_img}
