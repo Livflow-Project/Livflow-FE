@@ -6,8 +6,6 @@ type ConfirmModalProps = {
   title: string;
   children: React.ReactNode;
   confirmText?: string;
-  cancelText?: string;
-  isDanger?: boolean;
 };
 
 const ConfirmModal = ({
@@ -15,9 +13,6 @@ const ConfirmModal = ({
   onConfirm,
   title,
   children,
-  confirmText = '확인',
-  cancelText = '취소',
-  isDanger = false,
 }: ConfirmModalProps) => {
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -47,16 +42,16 @@ const ConfirmModal = ({
               onClose();
               toast.dismiss();
             }}
-            className='choice_button opacity-70'
+            className='modal_cancel_button'
           >
-            {cancelText}
+            취소
           </button>
           <button
             type='button'
             onClick={handleConfirm}
-            className={`choice_button ${isDanger ? 'bg-red/70 hover:bg-red' : ''}`}
+            className='modal_delete_button'
           >
-            {confirmText}
+            삭제
           </button>
         </div>
       </div>
