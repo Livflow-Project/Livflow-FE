@@ -1,4 +1,4 @@
-import { mapIcon, storeIcon } from '@/assets/assets';
+import { storeIcons } from '@/assets/assets';
 
 import ChartView from './chart/ChartView';
 import EditableInput from './EditableInput';
@@ -63,7 +63,7 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
             onEditClick={() => handleEditButtonClick('name')}
             onUpdate={() => handleUpdate('name')}
             inputRef={nameInputRef}
-            icon={storeIcon}
+            icon={storeIcons.storeIcon}
             iconAlt='상점 아이콘'
             isRequired={true}
             error={nameError}
@@ -77,13 +77,13 @@ const MyStore = ({ storeInfo, isDeleteMode }: MyStoreProps) => {
             onEditClick={() => handleEditButtonClick('address')}
             onUpdate={() => handleUpdate('address')}
             inputRef={addressInputRef}
-            icon={mapIcon}
+            icon={storeIcons.mapIcon}
             iconAlt='주소 아이콘'
           />
         </ul>
       </div>
 
-      <div className='flex h-[calc(100%-125px)] flex-col items-center justify-between p-[20px]'>
+      <div className='flex h-[calc(100%-115px)] flex-col items-center justify-between p-[20px]'>
         <ChartView isDeleteMode={isDeleteMode} chartInfo={storeInfo.chart} />
 
         <button
