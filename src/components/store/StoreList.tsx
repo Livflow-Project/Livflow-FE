@@ -41,8 +41,8 @@ const StoreList = ({
   };
 
   return (
-    <div className='flex items-start w-full'>
-      <AddStore onOpenModal={onToggleModal} />
+    <div className='flex w-full items-start'>
+      <AddStore onOpenModal={onToggleModal} isDeleteMode={isDeleteMode} />
 
       <Swiper {...storeListSwiperConfig}>
         {stores.length > 0 && renderStores()}
