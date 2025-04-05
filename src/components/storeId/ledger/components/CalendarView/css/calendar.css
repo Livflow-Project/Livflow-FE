@@ -1,21 +1,16 @@
 /* 캘린더 전체 크기 설정 */
 .fc {
-  height: calc(100% - 25px);
+  height: 100%;
   background: #f8f8f8;
-}
-
-/* 캘린더 상단 월, 화살표 폰트 설정 */
-.fc .fc-toolbar .fc-header-toolbar {
-  font-size: 15px;
-  font-weight: 600;
 }
 
 /* 제목과 화살표 사이의 간격 설정 */
 .fc-toolbar {
   color: #121212;
 
-  gap: 30px;
+  gap: 25px;
   justify-content: center !important;
+  margin-bottom: 15px !important;
 }
 
 /* 캘린더 테두리 설정 */
@@ -32,11 +27,35 @@
   align-items: center;
 }
 
+.fc-toolbar-title {
+  font-size: 20px !important;
+}
+
 /* 월~일 텍스트 설정 */
 .fc-col-header-cell-cushion {
   color: #121212;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 600;
+}
+
+.fc-daygrid-day-events {
+  height: 30px !important;
+  overflow: hidden !important;
+  flex-shrink: 1 !important;
+  min-height: 0 !important;
+}
+
+.fc-event {
+  font-size: 12px !important;
+  height: 16px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+}
+
+.fc-daygrid-day-bottom {
+  width: 0px !important;
+  height: 0px !important;
 }
 
 /* 몇일 텍스트 설정 */
@@ -46,14 +65,10 @@
   justify-content: center;
 
   color: #121212;
-  font-size: 22px;
+  font-size: 16px;
   font-weight: 400;
-  width: 54px;
-  height: 54px;
-}
-
-.fc-daygrid-day {
-  height: 90px;
+  width: 42px;
+  height: 42px;
 }
 
 .fc .fc-daygrid-day.fc-day-today {
@@ -71,11 +86,16 @@
   align-items: center;
 
   cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-radius 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .fc-daygrid-day-top:hover {
   background-color: #0046a3;
-  opacity: 30%;
+  opacity: 0.3;
   border-radius: 50%;
 }
 
@@ -86,8 +106,9 @@
 
 /* 선택된 날짜의 텍스트 색상 */
 .fc-daygrid-day-top.selected-date .fc-daygrid-day-number,
-.fc-daygrid-day-top.selected-date:hover .fc-daygrid-day-number {
+.fc-daygrid-day-top.selected-date:hover {
   color: #f8f8f8 !important;
+  font-weight: 500;
 }
 
 /* 선택된 날짜 스타일 - 더 높은 우선순위로 설정 */
@@ -104,10 +125,10 @@
   background-color: #f8f8f8 !important;
   color: #333333;
   opacity: 0.8;
-  font-size: 30px;
+  font-size: 20px;
   border: none;
   padding: 0;
-  padding-bottom: 6px !important;
+  padding-bottom: 3px !important;
 
   transition:
     transform 0.2s ease-in-out,
