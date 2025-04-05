@@ -97,7 +97,7 @@ const MainRecipe = () => {
   }
 
   return (
-    <div className='flex flex-col h-full'>
+    <>
       <ActionButtons
         viewMode={viewMode}
         hasRecipes={!!recipes?.length}
@@ -111,7 +111,7 @@ const MainRecipe = () => {
         onDeleteRecipe={handleDeleteRecipe}
         onEditRecipe={handleEditRecipe}
       />
-    </div>
+    </>
   );
 };
 
