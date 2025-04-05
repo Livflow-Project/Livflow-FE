@@ -4,6 +4,7 @@ import { memo, useMemo, useState } from 'react';
 import { Category } from '@/api/store/store.type';
 import ChartTypeButton from './ChartTypeButton';
 import PieChart from '@/components/common/PieChart';
+import { twMerge } from 'tailwind-merge';
 
 type ChartViewProps = {
   chartInfo: Category[];
@@ -54,7 +55,9 @@ const ChartView = ({ isDeleteMode, chartInfo }: ChartViewProps) => {
         />
       </div>
 
-      <div className={isDeleteMode ? 'opacity-50' : ''}>{chartContent}</div>
+      <div className={twMerge('w-[250px]', isDeleteMode && 'opacity-50')}>
+        {chartContent}
+      </div>
     </>
   );
 };
