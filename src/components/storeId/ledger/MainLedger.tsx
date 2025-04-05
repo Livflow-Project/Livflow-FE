@@ -1,8 +1,8 @@
 import CalendarView from './components/CalendarView/CalendarView';
-import ContentLoadingIndicator from '@/components/common/ContentLoadingIndicator';
 import LedgerModal from './modal/LedgerModal';
 import MainTransaction from './components/transaction/MainTransaction';
 import MonthlyOverview from './components/monthlyOverview/index';
+import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { useGetLedgerCalendar } from '@/api/storeId/ledger/calendar/calendar.hooks';
 import { useOutletContext } from 'react-router-dom';
@@ -29,11 +29,16 @@ const MainLedger = () => {
   };
 
   if (isLoading || !calendarData) {
-    return <ContentLoadingIndicator />;
+    return (
+      <div className='flex h-full w-full items-center justify-between px-[30px] py-[25px]'>
+        <div className='relative h-full w-[49%] overflow-hidden rounded-xl bg-white p-5' />
+        <div className='flex h-full w-[49%] flex-col items-center justify-between overflow-hidden rounded-xl bg-white/50' />
+      </div>
+    );
   }
 
   return (
-    <div className='flex h-full items-center justify-between px-[35px] py-[30px]'>
+    <div className='animate-in animate-out flex h-full items-center justify-between px-[30px] py-[25px]'>
       <CalendarView
         currentYear={currentYear}
         currentMonth={currentMonth}
@@ -44,15 +49,33 @@ const MainLedger = () => {
         setSelectedDate={setSelectedDate}
       />
 
-      <div className='flex h-full w-[49%] flex-col items-center justify-between rounded-xl bg-white/50'>
+      <div className='flex h-full w-[49%] flex-col items-center justify-between overflow-hidden rounded-xl bg-white/50'>
         {!selectedDate ? (
-          <MonthlyOverview calendarData={calendarData} />
+          <motion.div
+            key={`${currentYear}-${currentMonth}-overview`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className='h-full w-full'
+          >
+            <MonthlyOverview calendarData={calendarData} />
+          </motion.div>
         ) : (
-          <MainTransaction
-            selectedDate={selectedDate}
-            storeId={storeId}
-            onModalOpen={handleModalOpen}
-          />
+          <motion.div
+            key={`${selectedDate}-transaction`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className='h-full w-full'
+          >
+            <MainTransaction
+              selectedDate={selectedDate}
+              storeId={storeId}
+              onModalOpen={handleModalOpen}
+            />
+          </motion.div>
         )}
       </div>
 
