@@ -16,14 +16,14 @@ const IngredientList = ({
 }: IngredientListProps) => {
   if (!ingredients || !Array.isArray(ingredients) || ingredients.length === 0) {
     return (
-      <div className='flex h-[calc(100%-65px)] w-full items-center justify-center text-2xl text-caption'>
+      <div className='flex h-[calc(100%-45px)] w-full items-center justify-center text-lg text-caption'>
         추가된 재료가 없습니다.
       </div>
     );
   }
 
   return (
-    <div className='flex h-[calc(100%-65px)] w-full flex-col overflow-y-auto'>
+    <div className='flex h-[calc(100%-45px)] w-full flex-col overflow-y-auto'>
       {ingredients.map((ingredient, index) => (
         <IngredientItem
           key={ingredient.ingredient_id}

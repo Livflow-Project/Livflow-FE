@@ -7,12 +7,12 @@ const StoreInfo = () => {
   if (!storeInfo) return <ErrorPage />;
 
   return (
-    <>
-      <li className='text-2xl font-semibold text-main'>{storeInfo.name}</li>
-      <li className='text-[15px] font-medium text-caption'>
+    <ul className='flex flex-col items-end justify-between gap-4'>
+      <li className='text-xl font-semibold text-main'>{storeInfo.name}</li>
+      <li className='font-medium text-caption'>
         {storeInfo.address || '주소 정보 없음'}
       </li>
-    </>
+    </ul>
   );
 };
 

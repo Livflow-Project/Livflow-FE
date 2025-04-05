@@ -14,7 +14,7 @@ const ActionButtons = ({
   onToggleDeleteMode,
 }: ActionButtonsProps) => {
   return (
-    <div className='flex items-center justify-center gap-20 py-[30px]'>
+    <div className='flex items-center justify-center gap-20 py-[25px]'>
       {viewMode === 'delete' ? (
         <Button onClick={onToggleDeleteMode}>완료하기</Button>
       ) : (

@@ -6,7 +6,7 @@ type LegendItemProps = {
 const LegendItem = ({ color, label }: LegendItemProps) => (
   <div className='flex items-center gap-2'>
     <span className={`text-${color}`}>●</span>
-    <span className='text-lg font-medium text-main'>{label}</span>
+    <span className='text-sm font-medium text-main'>{label}</span>
   </div>
 );
 

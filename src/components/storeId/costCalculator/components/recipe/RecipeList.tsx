@@ -28,14 +28,14 @@ const RecipeList = ({
 
   if (!recipes || recipes.length === 0) {
     return (
-      <div className='flex h-[calc(100%-105px)] w-full items-center justify-center text-2xl text-caption'>
+      <div className='flex h-[calc(100%-90px)] w-full items-center justify-center text-2xl text-caption'>
         추가된 메뉴가 없습니다.
       </div>
     );
   }
 
   return (
-    <div className='flex h-[calc(100%-105px)] w-full items-start justify-center'>
+    <div className='flex h-[calc(100%-90px)] w-full items-start justify-center'>
       <Swiper {...swiperConfig}>
         {recipes.map((recipe) => (
           <SwiperSlide key={recipe.recipe_id}>

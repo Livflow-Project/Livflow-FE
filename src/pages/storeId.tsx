@@ -62,10 +62,8 @@ const StoreId = () => {
   }
 
   return (
-    <div className='flex h-[calc(100vh-75px)] flex-col justify-between p-[45px]'>
-      <ul className='flex h-[70px] flex-col items-end justify-between'>
-        <StoreInfo />
-      </ul>
+    <div className='flex h-[calc(100vh-65px)] flex-col justify-between p-10 pt-6'>
+      <StoreInfo />
 
       <div className='h-[calc(100%-70px)]'>
         <div className='flex items-center justify-start gap-3'>
@@ -76,7 +74,7 @@ const StoreId = () => {
               onClick={() => toast.dismiss()}
               className={({ isActive }) =>
                 twMerge(
-                  'group flex h-[55px] w-[135px] cursor-pointer items-center justify-center rounded-tl-[10px] rounded-tr-[10px]',
+                  'group flex h-[45px] w-[120px] cursor-pointer items-center justify-center rounded-tl-[10px] rounded-tr-[10px]',
                   isActive
                     ? 'bg-background'
                     : 'bg-background/50 hover:bg-background'
@@ -86,7 +84,7 @@ const StoreId = () => {
               {({ isActive }) => (
                 <span
                   className={twMerge(
-                    'text-[22px] font-normal group-hover:font-semibold',
+                    'text-lg font-normal group-hover:font-semibold',
                     isActive ? 'font-semibold text-main' : 'text-main/50'
                   )}
                 >
@@ -97,7 +95,7 @@ const StoreId = () => {
           ))}
         </div>
 
-        <div className='h-[calc(100%-55px)] w-full rounded-bl-lg rounded-br-lg rounded-tr-lg bg-background'>
+        <div className='h-[calc(100%-45px)] w-full rounded-bl-lg rounded-br-lg rounded-tr-lg bg-background'>
           <Suspense fallback={<ContentLoadingIndicator />}>
             <Outlet context={{ storeId: id }} />
           </Suspense>

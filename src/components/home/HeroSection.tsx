@@ -1,10 +1,10 @@
-import { logoText, logoWhale } from '@/assets/assets';
+import { homeIcons } from '@/assets/assets';
 
 import { motion } from 'framer-motion';
 
 const HeroSection = () => {
   return (
-    <div className='relative flex h-[calc(100dvh-75px)] w-full flex-col items-center justify-center bg-gradient-to-b from-white to-main/5'>
+    <div className='relative flex h-[calc(100dvh-65px)] w-full flex-col items-center justify-center bg-gradient-to-b from-white to-main/5'>
       <motion.h1
         className='mb-2 text-center text-[40px] font-bold text-main'
         initial={{ opacity: 0, y: 20 }}
@@ -31,7 +31,7 @@ const HeroSection = () => {
         transition={{ duration: 0.8, delay: 0.8 }}
       >
         <motion.img
-          src={logoWhale}
+          src={homeIcons.logoWhale}
           alt='메인 로고'
           className='h-[260px] drop-shadow-xl filter'
           initial={{ opacity: 0, scale: 0.9 }}
@@ -42,7 +42,7 @@ const HeroSection = () => {
           }}
         />
         <motion.img
-          src={logoText}
+          src={homeIcons.logoText}
           alt='메인 로고'
           className='h-[70px]'
           initial={{ opacity: 0, x: -20 }}

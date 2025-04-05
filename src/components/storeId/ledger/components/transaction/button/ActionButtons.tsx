@@ -16,12 +16,7 @@ const ActionButtons = ({
 }: ActionButtonsProps) => {
   if (isEditMode) {
     return (
-      <div
-        className={twMerge(
-          'flex w-full items-center justify-end px-[25px]',
-          hasTransactions ? 'py-[20px]' : 'pb-[20px]'
-        )}
-      >
+      <div className={'flex w-full items-center justify-end p-5'}>
         <Button onClick={onToggleEditMode}>완료하기</Button>
       </div>
     );
@@ -30,8 +25,8 @@ const ActionButtons = ({
   return (
     <div
       className={twMerge(
-        'flex w-full items-center px-[25px]',
-        hasTransactions ? 'justify-between py-[20px]' : 'justify-end pb-[20px]'
+        'flex w-full items-center p-5',
+        hasTransactions ? 'justify-between' : 'justify-end'
       )}
     >
       <Button onClick={onModalOpen}>지출 / 수입 추가하기</Button>

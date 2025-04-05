@@ -7,7 +7,7 @@ type EditableInputProps = {
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onEditClick: () => void;
   onUpdate: () => void;
-  inputRef: React.RefObject<HTMLInputElement>;
+  inputRef: React.RefObject<HTMLInputElement | null>;
   icon: string;
   iconAlt: string;
   isRequired?: boolean;
@@ -29,7 +29,7 @@ const EditableInput = ({
 }: EditableInputProps) => {
   return (
     <li className='flex items-center justify-between'>
-      <img src={icon} alt={iconAlt} className='w-[30px]' />
+      <img src={icon} alt={iconAlt} className='w-[25px]' />
       {isEditing ? (
         <input
           ref={inputRef}
@@ -38,19 +38,19 @@ const EditableInput = ({
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={onKeyDown}
           className={twMerge(
-            'input_underlined h-full w-[200px] font-semibold text-main',
+            'input_underlined h-full w-[180px] font-semibold text-main',
             error && 'error-input'
           )}
           required={isRequired}
         />
       ) : (
-        <span className='w-[200px] truncate text-center text-lg font-semibold text-main'>
+        <span className='w-[180px] truncate text-center font-semibold text-main'>
           {value}
         </span>
       )}
       <button
         type='button'
-        className='soft_TcolorSet text-[13px] outline-none hover:font-bold'
+        className='text_button text-[13px] outline-none hover:font-bold'
         onClick={isEditing ? onUpdate : onEditClick}
       >
         {isEditing ? '완료' : '수정'}
