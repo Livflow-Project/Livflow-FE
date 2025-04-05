@@ -10,7 +10,7 @@ export const useGridRows = (): number => {
   useEffect(() => {
     const handleResize = () => {
       const height = window.innerHeight;
-      if (height < 1000) {
+      if (height < 845) {
         setGridRows(1); // 화면 높이가 작을 때 1줄만 표시
       } else {
         setGridRows(2); // 큰 화면에서 2줄 표시
