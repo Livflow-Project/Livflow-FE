@@ -28,9 +28,9 @@ const CategorySelect = ({ value, onChange, hasError }: CategorySelectProps) => {
   const [inputLabel, setInputLabel] = useState(value?.label ?? '');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
-  const scrollTargetRef = useRef<HTMLLIElement | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const scrollTargetRef = useRef<HTMLLIElement>(null);
 
   useClickOutside(dropdownRef, () => {
     closeDropdown();

@@ -1,6 +1,6 @@
 type DropdownProps = {
   children: React.ReactNode;
-  dropdownRef: React.RefObject<HTMLDivElement>;
+  dropdownRef: React.RefObject<HTMLDivElement | null> | null;
 };
 
 const Dropdown = ({ children, dropdownRef }: DropdownProps) => (
