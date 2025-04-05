@@ -14,7 +14,7 @@ const IconButton = ({ onClick, type }: IconButtonProps) => {
 
   const buttonClasses = twMerge(baseClasses, typeClasses);
 
-  const icon =
+  const iconSrc =
     type === 'delete' ? buttonIcons.deleteButton : buttonIcons.editButton;
 
   return (
@@ -24,7 +24,7 @@ const IconButton = ({ onClick, type }: IconButtonProps) => {
       transition={{ type: 'spring', stiffness: 300, damping: 15 }}
       className={buttonClasses}
     >
-      {icon}
+      <img src={iconSrc} alt={`${type} icon`} className='h-5 w-5' />
     </motion.button>
   );
 };
