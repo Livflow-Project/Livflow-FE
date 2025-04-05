@@ -1,4 +1,4 @@
-import { google, kakao, logo, naver } from '@/assets/assets';
+import { loginIcons } from '@/assets/assets';
 
 import { Link } from 'react-router-dom';
 
@@ -21,16 +21,20 @@ const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=c
 
 //소셜로그인 버튼
 const socialButtons = [
-  { name: 'google', src: google, url: GOOGLE_AUTH_URL },
-  { name: 'kakao', src: kakao, url: KAKAO_AUTH_URL },
-  { name: 'naver', src: naver, url: NAVER_AUTH_URL },
+  { name: 'google', src: loginIcons.google, url: GOOGLE_AUTH_URL },
+  { name: 'kakao', src: loginIcons.kakao, url: KAKAO_AUTH_URL },
+  { name: 'naver', src: loginIcons.naver, url: NAVER_AUTH_URL },
 ];
 
 const Login = () => {
   return (
     <div className='flex h-svh w-[100%] flex-col items-center justify-center gap-[55px]'>
       <Link to='/'>
-        <img src={logo} alt='Livflow 로고 이미지' className='w-[500px]' />
+        <img
+          src={loginIcons.logo}
+          alt='Livflow 로고 이미지'
+          className='w-[500px]'
+        />
       </Link>
 
       <div className='flex flex-col items-center justify-center gap-5'>
