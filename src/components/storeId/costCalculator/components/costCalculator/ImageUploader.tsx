@@ -1,9 +1,9 @@
 import { ChangeEvent, useRef, useState } from 'react';
 
-import DeleteButton from '@/components/common/DeleteButton';
 import { imageIcon } from '@/assets/assets';
 import { showErrorToast } from '@/utils/toast';
 import { useFormContext } from 'react-hook-form';
+import IconButton from '@/components/common/IconButton';
 
 const ImageUploader = () => {
   const [imageLoadError, setImageLoadError] = useState(false);
@@ -68,7 +68,7 @@ const ImageUploader = () => {
                 <img
                   src={
                     typeof recipeImg === 'string'
-                      ? `${VITE_IMAGE_REQUEST_URL}${recipeImg}`
+                      ? VITE_IMAGE_REQUEST_URL + recipeImg
                       : imagePreview
                   }
                   alt='업로드된 이미지'
@@ -76,7 +76,7 @@ const ImageUploader = () => {
                   onError={handleImageError}
                 />
                 <div className='absolute right-2 top-2 z-10'>
-                  <DeleteButton onClick={handleRemoveImage} />
+                  <IconButton type='delete' onClick={handleRemoveImage} />
                 </div>
               </div>
             ) : (
