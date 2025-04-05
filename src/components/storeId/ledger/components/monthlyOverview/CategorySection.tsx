@@ -26,7 +26,6 @@ const CategorySection = ({
   const getCategoryClass = (name: string) =>
     `bg-category-${name.replace(/\s/g, '-').replace(/\./g, '')}`;
 
-  // Resize observer로 높이 측정
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;

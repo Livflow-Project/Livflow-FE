@@ -1,9 +1,9 @@
 import { ChangeEvent, useRef, useState } from 'react';
 
+import IconButton from '@/components/common/IconButton';
 import { imageIcon } from '@/assets/assets';
 import { showErrorToast } from '@/utils/toast';
 import { useFormContext } from 'react-hook-form';
-import IconButton from '@/components/common/IconButton';
 
 const ImageUploader = () => {
   const [imageLoadError, setImageLoadError] = useState(false);
@@ -26,10 +26,8 @@ const ImageUploader = () => {
     if (files && files.length > 0) {
       const file = files[0];
 
-      // Base64로 변환하는 대신 File 객체 자체를 저장
       setValue('recipe_img', file);
 
-      // 미리보기용 URL 생성
       const previewUrl = URL.createObjectURL(file);
       setValue('recipe_img_preview', previewUrl);
       setImageLoadError(false);
@@ -37,7 +35,6 @@ const ImageUploader = () => {
   };
 
   const handleRemoveImage = () => {
-    // 미리보기 URL이 있으면 메모리에서 해제
     if (imagePreview) {
       URL.revokeObjectURL(imagePreview);
     }

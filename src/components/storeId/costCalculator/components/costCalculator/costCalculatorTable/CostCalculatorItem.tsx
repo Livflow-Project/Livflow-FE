@@ -25,28 +25,22 @@ const CostCalculatorItem = ({
   initialAmount = 0,
   onCostChange,
 }: CostCalculatorItemProps) => {
-  // 폼 컨텍스트 사용
   const {
     control,
     watch,
     formState: { errors },
   } = useFormContext<FormValues>();
 
-  // 현재 필드의 오류 확인 (타입 단언 사용)
   const fieldError = errors?.ingredients_usage?.[inventoryItem.ingredient_id];
 
-  // 현재 입력값 감시 (전체 폼 컨텍스트에서)
   const usedAmount =
     watch(`ingredients_usage.${inventoryItem.ingredient_id}`) || 0;
 
-  // 재료 원가 계산
   const calculatedCost = usedAmount * (inventoryItem.unit_cost || 0);
 
-  // 원가 비율 계산
   const costRatio =
     totalCost > 0 ? Math.round((calculatedCost / totalCost) * 100) : 0;
 
-  // 원가가 변경될 때마다 상위 컴포넌트에 알림
   useEffect(() => {
     onCostChange(calculatedCost, usedAmount);
   }, [calculatedCost, usedAmount]);

@@ -4,7 +4,6 @@ const PrivacyPolicy = () => {
       <h1 className='mb-6 text-3xl font-bold'>개인정보 처리방침</h1>
       <p className='mb-8 text-gray-600'>최종 업데이트: 2025년 3월 12일</p>
 
-      {/* 목차 (선택사항) */}
       <div className='mb-8 rounded-lg bg-gray-50 p-4'>
         <h2 className='mb-2 text-xl font-semibold'>목차</h2>
         <ul className='list-disc pl-5'>
@@ -51,7 +50,6 @@ const PrivacyPolicy = () => {
         </ul>
       </div>
 
-      {/* 본문 섹션 */}
       <section id='collection' className='mb-8'>
         <h2 className='mb-4 text-2xl font-semibold'>1. 수집하는 개인정보</h2>
         <p className='mb-4'>Livflow는 다음과 같은 개인정보를 수집합니다:</p>

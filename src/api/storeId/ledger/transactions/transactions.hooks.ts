@@ -42,7 +42,6 @@ export const useTransactionsQuery = () => {
         data: AddTransactionParams;
       }) => TransactionsAPI.addTransactionAPI(storeId, data),
       onSuccess: (_, variables) => {
-        // 성공 시 해당 월의 데이터 무효화
         queryClient.invalidateQueries({
           queryKey: [
             'store',

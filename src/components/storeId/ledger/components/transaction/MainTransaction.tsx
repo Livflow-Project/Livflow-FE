@@ -52,7 +52,6 @@ const MainTransaction = ({
       },
       {
         onSuccess: () => {
-          // 마지막 트랜잭션이 삭제되면 편집 모드 종료
           if (transactions && transactions.length === 1) {
             setIsEditMode(false);
           }

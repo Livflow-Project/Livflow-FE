@@ -1,14 +1,11 @@
 import { useFormContext } from 'react-hook-form';
 
 const SummaryInfo = () => {
-  // React Hook Form 컨텍스트 사용
   const { watch, setValue } = useFormContext();
 
-  // 총 원가와 생산량 감시
   const totalIngredientCost = watch('total_ingredient_cost') || 0;
   const productionQuantity = watch('production_quantity');
 
-  // 생산량 변경 핸들러
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (value === '') {
@@ -21,7 +18,6 @@ const SummaryInfo = () => {
     }
   };
 
-  // 개당 원가 계산
   const unitCost =
     productionQuantity && productionQuantity > 0
       ? Math.round(totalIngredientCost / productionQuantity)

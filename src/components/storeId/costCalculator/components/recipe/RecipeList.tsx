@@ -21,7 +21,6 @@ const RecipeList = ({
   onDeleteRecipe,
   onEditRecipe,
 }: RecipeListProps) => {
-  // 화면 높이에 따라 그리드 행 수 조정
   const gridRows = useGridRows();
 
   const swiperConfig = createSwiperConfig(gridRows);

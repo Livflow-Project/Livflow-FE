@@ -1,5 +1,5 @@
 export type CostCalculatorListItem = {
-  recipe_id: string; // UUID
+  recipe_id: string;
   recipe_name: string;
   recipe_cost?: number;
   recipe_img?: File | string;
@@ -7,12 +7,12 @@ export type CostCalculatorListItem = {
 };
 
 export type RecipeIngredient = {
-  ingredient_id: string; // UUID
+  ingredient_id: string;
   required_amount: number;
 };
 
 export type CostCalculatorDetail = {
-  recipe_id: string; // UUID
+  recipe_id: string;
   recipe_name: string;
   recipe_cost?: number;
   recipe_img?: File | string;

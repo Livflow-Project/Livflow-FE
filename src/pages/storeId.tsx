@@ -10,7 +10,6 @@ import { twMerge } from 'tailwind-merge';
 import { useStore } from '@/contexts/StoreContext';
 import { useStoreQuery } from '@/api/store/store.hooks';
 
-// 네비게이션 아이템 정의
 const NAV_ITEMS = [
   { title: '가계부', path: 'ledger' },
   { title: '재료', path: 'ingredient' },
@@ -23,25 +22,21 @@ const StoreId = () => {
   const { storeInfo, setStoreInfo } = useStore();
   const { useGetStore } = useStoreQuery();
 
-  // 쿼리 실행 조건 계산
   const shouldFetch = useMemo(
     () => !storeInfo || storeInfo.id !== id || prevId !== id,
     [storeInfo, id, prevId]
   );
 
   const { data, isError, error, isLoading, refetch } = useGetStore(id || '0', {
-    // shouldFetch가 true일 때만 쿼리 실행
     enabled: shouldFetch,
   });
 
-  // ID 변경 감지
   useEffect(() => {
     if (id !== prevId) {
       setPrevId(id);
     }
   }, [id, prevId]);
 
-  // 스토어 정보 설정
   useEffect(() => {
     if (data && shouldFetch) {
       const newStoreInfo = {

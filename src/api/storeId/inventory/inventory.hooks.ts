@@ -2,8 +2,6 @@ import { InventoryItem, UseInventoryItemRequest } from './inventory.type';
 import { getInventoryItemsAPI, useInventoryItemAPI } from './inventoryAPI';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-// import { showErrorToast } from '@/utils/toast';
-
 const INVENTORY_QUERY_KEY = 'inventory';
 
 export const useGetInventoryItems = (storeId: string) => {
@@ -29,9 +27,5 @@ export const useInventoryItemMutation = (storeId: string) => {
         queryKey: [INVENTORY_QUERY_KEY, storeId],
       });
     },
-    // onError: (error) => {
-    //   console.error('재고 사용 실패:', error);
-    //   showErrorToast('재고 사용에 실패했습니다.');
-    // },
   });
 };

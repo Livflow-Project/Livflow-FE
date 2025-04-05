@@ -8,7 +8,6 @@ export const useRecipeValidation = (
   originalUsage: { [key: string]: number } = {}
 ) => {
   const validateRecipeForm = (data: RecipeFormData, formMethods: any) => {
-    // 필수 입력값 검증
     if (!data.recipe_name) {
       showWarnToast('메뉴 이름을 입력해주세요.');
       formMethods.setError('recipe_name', {
@@ -18,7 +17,6 @@ export const useRecipeValidation = (
       return { isValid: false };
     }
 
-    // 인벤토리에 더 이상 존재하지 않는 재료 필터링
     let filteredUsage = { ...data.ingredients_usage };
     if (inventoryItems) {
       const validIngredientIds = inventoryItems.map(
@@ -35,7 +33,6 @@ export const useRecipeValidation = (
         );
     }
 
-    // 재고 초과 검증
     if (inventoryItems) {
       const invalidItems = [];
 
@@ -77,7 +74,6 @@ export const useRecipeValidation = (
       }
     }
 
-    // 사용된 재료만 필터링
     const usedIngredients = Object.entries(filteredUsage)
       .filter(([_, amount]) => amount > 0)
       .map(([ingredientId, required_amount]) => ({
@@ -85,7 +81,6 @@ export const useRecipeValidation = (
         required_amount,
       }));
 
-    // 레시피 데이터 생성
     const recipeDataToSave: CostCalculatorRequest = {
       recipe_name: data.recipe_name,
       recipe_cost: data.recipe_cost || undefined,

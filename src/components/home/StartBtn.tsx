@@ -9,10 +9,8 @@ const StartBtn = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // 히어로 섹션의 높이를 계산 (65px는 헤더 높이)
       const heroSectionHeight = window.innerHeight - 65;
 
-      // 현재 스크롤 위치가 히어로 섹션을 넘어갔는지 확인
       if (window.scrollY > heroSectionHeight * 0.2) {
         setIsVisible(true);
       } else {
@@ -20,10 +18,8 @@ const StartBtn = () => {
       }
     };
 
-    // 스크롤 이벤트 리스너 등록
     window.addEventListener('scroll', handleScroll);
 
-    // 컴포넌트 언마운트 시 이벤트 리스너 제거
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };

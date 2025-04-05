@@ -15,7 +15,6 @@ type StoreFormData = {
 };
 
 export const useStoreForm = (storeInfo: StoreDetailResponse) => {
-  // React Hook Form 설정
   const {
     watch,
     setValue,
@@ -29,25 +28,18 @@ export const useStoreForm = (storeInfo: StoreDetailResponse) => {
     },
   });
 
-  // 현재 폼 값 가져오기
   const name = watch('name');
   const address = watch('address');
 
-  // 편집 상태 관리
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
 
-  // React Query 훅 사용
   const { useUpdateStore } = useStoreQuery();
   const updateStoreMutation = useUpdateStore();
 
-  // 입력 필드 참조
   const nameInputRef = useRef<HTMLInputElement>(null);
   const addressInputRef = useRef<HTMLInputElement>(null);
 
-  /**
-   * 편집 버튼 클릭 핸들러
-   */
   const handleEditButtonClick = (type: 'name' | 'address') => {
     if (type === 'name') {
       setIsEditingName(true);
@@ -58,23 +50,15 @@ export const useStoreForm = (storeInfo: StoreDetailResponse) => {
     }
   };
 
-  /**
-   * 폼 값 변경 핸들러
-   */
   const handleChange = (value: string, field: keyof StoreFormData) => {
     setValue(field, value, { shouldDirty: true });
 
-    // 이름 필드에 값이 입력되면 오류 초기화
     if (field === 'name' && value.trim()) {
       clearErrors('name');
     }
   };
 
-  /**
-   * 스토어 정보 업데이트 핸들러
-   */
   const handleUpdate = (type: 'name' | 'address') => {
-    // 이름 필드 유효성 검사
     if (type === 'name') {
       if (!name.trim()) {
         showWarnToast('스토어 이름은 필수 입니다.');
@@ -85,45 +69,37 @@ export const useStoreForm = (storeInfo: StoreDetailResponse) => {
         return;
       }
 
-      // 변경사항이 없으면 편집 모드만 종료
       if (name === storeInfo.name) {
         setIsEditingName(false);
         return;
       }
     } else if (type === 'address') {
-      // 변경사항이 없으면 편집 모드만 종료
       if (address === storeInfo.address) {
         setIsEditingAddress(false);
         return;
       }
     }
 
-    // 현재 폼 데이터
     const formData = { name, address };
 
-    // 초기 데이터
     const initialData = {
       name: storeInfo.name,
       address: storeInfo.address || '',
     };
 
-    // 변경된 필드만 추출
     const changedFields = getChangedFields(formData, initialData);
 
-    // 변경된 필드가 없으면 편집 모드만 종료
     if (Object.keys(changedFields).length === 0) {
       if (type === 'name') setIsEditingName(false);
       if (type === 'address') setIsEditingAddress(false);
       return;
     }
 
-    // 업데이트할 데이터 준비
     const updates: StoreRequestParams = {
       name: type === 'name' ? name : storeInfo.name,
       address: type === 'address' ? address : storeInfo.address,
     };
 
-    // 서버에 업데이트 요청
     updateStoreMutation.mutate(
       {
         storeId: storeInfo.store_id,
@@ -139,9 +115,6 @@ export const useStoreForm = (storeInfo: StoreDetailResponse) => {
     );
   };
 
-  /**
-   * 키 입력 이벤트 핸들러
-   */
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     type: 'name' | 'address'
