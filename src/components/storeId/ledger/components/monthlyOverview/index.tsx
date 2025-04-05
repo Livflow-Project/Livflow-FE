@@ -19,7 +19,7 @@ const MonthlyOverview = ({ calendarData }: MonthlyOverviewProps) => {
 
   return (
     <>
-      <div className='flex h-[calc(100%-62px)] w-full items-center justify-evenly py-7'>
+      <div className='flex h-[calc(100%-61px)] w-full items-center justify-evenly py-4'>
         <CategorySection
           title='총 지출'
           categories={categories}
