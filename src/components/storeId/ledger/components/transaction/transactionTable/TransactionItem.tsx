@@ -1,7 +1,6 @@
-import DeleteButton from '@/components/common/DeleteButton';
-import EditButton from '@/components/common//EditButton';
 import { TransactionResponse } from '@/api/storeId/ledger/transactions/transactions.type';
 import { twMerge } from 'tailwind-merge';
+import IconButton from '@/components/common/IconButton';
 
 type TransactionItemProps = {
   transaction: TransactionResponse;
@@ -40,8 +39,8 @@ const TransactionItem = ({
 
     {isEditMode && (
       <li className='table_list_action'>
-        <EditButton onClick={() => onEdit(transaction)} />
-        <DeleteButton onClick={() => onDelete(transaction)} />
+        <IconButton type='edit' onClick={() => onEdit(transaction)} />
+        <IconButton type='delete' onClick={() => onDelete(transaction)} />
       </li>
     )}
   </ul>

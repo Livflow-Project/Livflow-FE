@@ -1,7 +1,6 @@
-import DeleteButton from '@/components/common/DeleteButton';
-import EditButton from '@/components/common/EditButton';
 import { IngredientResponse } from '@/api/storeId/ingredients/ingredients.type';
 import { twMerge } from 'tailwind-merge';
+import IconButton from '@/components/common/IconButton';
 
 type IngredientItemProps = {
   index: number;
@@ -44,8 +43,8 @@ const IngredientItem = ({
 
     {isEditMode && (
       <li className='table_list_action'>
-        <EditButton onClick={() => onEditIngredient(ingredient)} />
-        <DeleteButton onClick={() => onDelete(ingredient)} />
+        <IconButton type='edit' onClick={() => onEditIngredient(ingredient)} />
+        <IconButton type='delete' onClick={() => onDelete(ingredient)} />
       </li>
     )}
   </ul>
