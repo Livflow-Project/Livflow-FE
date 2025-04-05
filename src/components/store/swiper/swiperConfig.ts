@@ -7,5 +7,5 @@ export const storeListSwiperConfig = {
   slidesPerView: 1,
   slidesPerGroup: 1,
   spaceBetween: 30,
-  className: 'h-[630px]',
+  className: 'h-[560px]',
 };
