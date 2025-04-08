@@ -1,32 +1,35 @@
 ## 🐳 Livflow
 
-<p>가계부 정리부터 메뉴 원가 계산까지,</br>효율적인 비즈니스 관리를 위한 올인원 웹 서비스</h3>
+<p>가계부 정리부터 메뉴 원가 계산까지,<br />효율적인 비즈니스 관리를 위한 올인원 웹 서비스</h3>
 
 ![Livflow 로고](https://raw.githubusercontent.com/glory-coffee-project/Livflow-FE/main/public/og-image.png)
-</br> </br>
+
+<br />
 
 ## 📑 목차 (클릭하면 해당 섹션으로 이동)
 
-- [📽 서비스 소개](#서비스-소개)
-- [📋 주요 기능](#주요-기능)
-- [🚀 바로 사용해보기](#바로-사용해보기)
-- [🗂 프로젝트 구조](#프로젝트-구조)
-- [🔍️ 기술 스택](#기술-스택)
-- [🧑‍💻 팀원 소개](#팀원-소개)
-- [🛠 문의 및 이슈 제보](#문의-및-이슈-제보)
-- [📜 라이선스](#라이선스)
-- [🌱 커밋 컨벤션](#커밋-컨벤션)
+- [📽 서비스 소개](#-서비스-소개)
+- [📋 주요 기능](#-주요-기능)
+- [🚀 바로 사용해보기](#-바로-사용해보기)
+- [🗂 프로젝트 구조](#-프로젝트-구조)
+- [🔍️ 기술 스택](#-기술-스택)
+- [🧑‍💻 팀원 소개](#-팀원-소개)
+- [🛠 문의 및 이슈 제보](#-문의-및-이슈-제보)
+- [📜 라이선스](#-라이선스)
+- [🌱 커밋 컨벤션](#-커밋-컨벤션)
 
-</br>
+<br />
 
 ## 📽 서비스 소개
 
-<p><strong>Livflow</strong>는 <strong>개인 사업자와 소상공인</strong>을 위한 종합 비즈니스 관리 솔루션입니다.</br>
+<p><strong>Livflow</strong>는 <strong>개인 사업자와 소상공인</strong>을 위한 종합 비즈니스 관리 솔루션입니다.<br />
 복잡한 엑셀 작업은 이제 그만! <strong>간편하고 직관적인 인터페이스</strong>로 사업 관리의 번거로움을 줄여드립니다.</h3>
 
 ![Livflow 데모](https://raw.githubusercontent.com/glory-coffee-project/Livflow-FE/main/src/assets/livflow_demo.gif)
 
-</br>
+<p align="center"><i>Livflow의 실제 사용 화면입니다 – 간편한 가게 관리의 모든 기능을 담았습니다.</i></p>
+
+<br />
 
 ## 📋 주요 기능
 
@@ -35,7 +38,7 @@
 - **재료 관리 시스템** - 모든 재료를 한눈에 관리
 - **원가 계산기** - 정확한 가격 책정으로 수익성을 최적화
 
-</br>
+<br />
 
 ## 🚀 바로 사용해보기
 
@@ -49,7 +52,7 @@
 <p>2. 소셜 회원가입 후 로그인</p>
 <p>3. 가게 등록 후 가계부 및 재고 관리, 원가 계산 기능 활용</p>
 
-</br>
+<br />
 
 ## 🗂 프로젝트 구조
 
@@ -68,7 +71,7 @@ src/
 └── utils/            # 유틸리티 함수
 ```
 
-</br>
+<br />
 
 ## 🔍️ 기술 스택
 
@@ -88,7 +91,7 @@ src/
   <img src="https://img.shields.io/badge/eslint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/>
 </div>
 
-</br>
+<br />
 
 ## 🧑‍💻 팀원 소개
 
@@ -111,7 +114,7 @@ src/
   </tr>
 </table>
 
-</br>
+<br />
 
 ## 🛠 문의 및 이슈 제보
 
@@ -119,13 +122,13 @@ src/
 아래 링크에서 이슈를 등록해 주세요! 😊 <br/> 또는 이메일로 문의하실 수 있습니다(guswwn1925@gmail.com)</p>
 <p><a href="https://github.com/glory-coffee-project/Livflow-FE/issues" target="_blank">🔗 이슈 제보하기</a></p>
 
-</br>
+<br />
 
 ## 📜 라이선스
 
 <p>이 프로젝트는 MIT 라이선스에 따라 배포됩니다. 자세한 내용은 <a href="LICENSE">LICENSE 파일</a>을 참조하세요.</p>
 
-</br>
+<br />
 
 ## 🌱 커밋 컨벤션
 
