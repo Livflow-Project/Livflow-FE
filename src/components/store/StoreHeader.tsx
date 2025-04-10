@@ -11,9 +11,9 @@ const StoreHeader = ({
 }: StoreHeaderProps) => {
   return (
     <header className='flex w-[300px] items-end justify-between'>
-      <h1 className='text-2xl font-semibold text-caption'>
+      <h2 className='text-2xl font-semibold text-caption'>
         전체 스토어 ({storeCount})
-      </h1>
+      </h2>
       {storeCount > 0 && (
         <button
           type='button'

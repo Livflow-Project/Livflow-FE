@@ -69,9 +69,9 @@ const RecipeItem = ({
         </div>
 
         <div className='flex h-[55px] flex-col items-center justify-center text-center'>
-          <h1 className='line-clamp-1 text-lg font-bold'>
+          <h2 className='line-clamp-1 text-lg font-bold'>
             {recipe.recipe_name}
-          </h1>
+          </h2>
           {recipe.recipe_cost && (
             <p className='line-clamp-1 text-caption'>
               {recipe.recipe_cost.toLocaleString()}원

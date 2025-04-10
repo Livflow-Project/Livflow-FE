@@ -61,7 +61,7 @@ const StoreId = () => {
       <StoreInfo />
 
       <div className='h-[calc(100%-70px)]'>
-        <div className='flex items-center justify-start gap-3'>
+        <nav className='flex items-center justify-start gap-3'>
           {NAV_ITEMS.map((item) => (
             <NavLink
               key={item.path}
@@ -77,18 +77,18 @@ const StoreId = () => {
               }
             >
               {({ isActive }) => (
-                <span
+                <h2
                   className={twMerge(
                     'text-lg font-normal group-hover:font-semibold',
                     isActive ? 'font-semibold text-main' : 'text-main/50'
                   )}
                 >
                   {item.title}
-                </span>
+                </h2>
               )}
             </NavLink>
           ))}
-        </div>
+        </nav>
 
         <div className='h-[calc(100%-45px)] w-full rounded-bl-lg rounded-br-lg rounded-tr-lg bg-background'>
           <Suspense fallback={<ContentLoadingIndicator />}>
