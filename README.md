@@ -14,6 +14,7 @@
 - [🗂 프로젝트 구조](#-프로젝트-구조)
 - [🔍️ 기술 스택](#-기술-스택)
 - [🧑‍💻 팀원 소개](#-팀원-소개)
+- [🎨 피그마 디자인](#-피그마-디자인)
 - [🛠 문의 및 이슈 제보](#-문의-및-이슈-제보)
 - [📜 라이선스](#-라이선스)
 - [🌱 커밋 컨벤션](#-커밋-컨벤션)
@@ -113,6 +114,14 @@ src/
     </td>
   </tr>
 </table>
+
+<br />
+
+## 🎨 피그마 디자인
+
+<p>Livflow의 전체 UI/UX는 아래 피그마 링크에서 확인하실 수 있습니다.</p>
+<p><a href="https://www.figma.com/design/hqydyRgnA3aTIoLjmpTIF1/%EC%BB%A4%ED%94%BC-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8?node-id=0-1&t=lEMLCo7uYYwRIGzd-1" target="_blank">
+    🔗 Livflow 피그마 디자인 바로가기</a></p>
 
 <br />
 
