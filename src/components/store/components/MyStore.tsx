@@ -5,7 +5,7 @@ import { storeIcons } from '@/assets/assets';
 import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 import { useNavigate } from 'react-router-dom';
-import { useStoreForm } from '@/hooks/useStoreForm';
+import { useStoreForm } from '../hooks/useStoreForm';
 import { useStoreQuery } from '@/api/store/store.hooks';
 
 type MyStoreProps = {

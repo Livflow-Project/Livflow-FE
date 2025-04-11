@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { CostCalculatorListItem } from '@/api/storeId/costCalculator/costCalculator.type';
 import RecipeItem from './RecipeItem';
 import { createSwiperConfig } from './swiper/swiperConfig';
-import { useGridRows } from '@/hooks/useGridRows';
+import { useGridRows } from '../../hooks/useGridRows';
 
 type RecipeListProps = {
   recipes: CostCalculatorListItem[];

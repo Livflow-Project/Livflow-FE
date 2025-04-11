@@ -9,8 +9,8 @@ import ImageUploader from './components/costCalculator/ImageUploader';
 import SummaryInfo from './components/costCalculator/SummaryInfo';
 import { useGetInventoryItems } from '@/api/storeId/inventory/inventory.hooks';
 import { useOutletContext } from 'react-router-dom';
-import { useRecipeForm } from '@/hooks/useRecipeForm';
-import { useRecipeSubmit } from '@/hooks/useRecipeSubmit';
+import { useRecipeForm } from './hooks/useRecipeForm';
+import { useRecipeSubmit } from './hooks/useRecipeSubmit';
 
 type MainCostCalculatorProps = {
   onSave: () => void;
