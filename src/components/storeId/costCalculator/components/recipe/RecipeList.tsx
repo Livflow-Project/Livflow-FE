@@ -27,7 +27,7 @@ const RecipeList = ({
 
   if (!recipes || recipes.length === 0) {
     return (
-      <div className='flex h-[calc(100%-90px)] w-full items-center justify-center text-2xl text-caption'>
+      <div className='flex h-[calc(100%-90px)] w-full items-center justify-center text-lg text-caption'>
         추가된 메뉴가 없습니다.
       </div>
     );
